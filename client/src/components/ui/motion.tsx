@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useSpring, useInView, Variants } from "framer-motion";
+import { motion, useSpring, useInView, Variants } from "framer-motion";
 import { useRef, ReactNode } from "react";
 
 const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
@@ -315,20 +315,15 @@ export function Parallax({
   speed = 0.5,
   direction = "up"
 }: ParallaxProps) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-  
   const factor = direction === "up" ? -1 : 1;
-  const y = useTransform(scrollYProgress, [0, 1], [100 * speed * factor, -100 * speed * factor]);
-  const smoothY = useSpring(y, springConfig);
+  const distance = 10 * speed;
   
   return (
     <motion.div
-      ref={ref}
-      style={{ y: smoothY, position: "relative" }}
+      initial={{ y: distance * factor }}
+      whileInView={{ y: 0 }}
+      viewport={{ once: false, margin: "-100px" }}
+      transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
       className={className}
     >
       {children}
@@ -378,7 +373,7 @@ export function Float({
 }
 
 interface GlowPulseProps {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   color?: string;
 }
