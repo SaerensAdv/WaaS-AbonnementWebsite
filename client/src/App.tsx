@@ -11,6 +11,12 @@ import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/home";
 import PricingPage from "@/pages/pricing";
 import AboutPage from "@/pages/about";
+import TemplatesPage from "@/pages/templates";
+import ContactPage from "@/pages/contact";
+import SpecialistsPage from "@/pages/specialists";
+import PrivacyPage from "@/pages/privacy";
+import TermsPage from "@/pages/terms";
+import CookiesPage from "@/pages/cookies";
 import LoginPage from "@/pages/auth/login";
 import SignupPage from "@/pages/auth/signup";
 import ForgotPasswordPage from "@/pages/auth/forgot-password";
@@ -75,6 +81,12 @@ function Router() {
       <Route path="/" component={HomePage} />
       <Route path="/pricing" component={PricingPage} />
       <Route path="/about" component={AboutPage} />
+      <Route path="/templates" component={TemplatesPage} />
+      <Route path="/contact" component={ContactPage} />
+      <Route path="/specialists" component={SpecialistsPage} />
+      <Route path="/privacy" component={PrivacyPage} />
+      <Route path="/terms" component={TermsPage} />
+      <Route path="/cookies" component={CookiesPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/signup" component={SignupPage} />
       <Route path="/forgot-password" component={ForgotPasswordPage} />
