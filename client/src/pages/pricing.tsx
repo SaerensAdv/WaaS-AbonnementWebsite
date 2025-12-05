@@ -1,0 +1,324 @@
+import { Link } from "wouter";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Check,
+  X,
+  Globe,
+  Megaphone,
+  Search,
+  FileText,
+  MapPin,
+  TrendingUp,
+  ArrowRight,
+  Info,
+} from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import type { Plan, AddOn } from "@shared/schema";
+
+const planIcons = {
+  LOW: "text-chart-2",
+  MEDIUM: "text-primary",
+  HIGH: "text-chart-3",
+};
+
+const addOnIcons: Record<string, any> = {
+  "google-ads": Megaphone,
+  "meta-ads": Megaphone,
+  "seo": Search,
+  "content": FileText,
+  "local-seo": MapPin,
+};
+
+function formatPrice(cents: number): string {
+  return new Intl.NumberFormat("nl-NL", {
+    style: "currency",
+    currency: "EUR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(cents / 100);
+}
+
+function PlanCard({ plan, featured = false }: { plan: Plan; featured?: boolean }) {
+  const features = plan.features || [];
+
+  return (
+    <Card className={`relative flex flex-col ${featured ? "border-2 border-primary" : "border"}`}>
+      {featured && (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+          <Badge>Populair</Badge>
+        </div>
+      )}
+      <CardHeader className="pb-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Badge variant="outline" className={planIcons[plan.tier as keyof typeof planIcons]}>
+            {plan.tier}
+          </Badge>
+        </div>
+        <CardTitle className="text-xl">{plan.name}</CardTitle>
+        <div className="mt-2">
+          {plan.tier === "HIGH" ? (
+            <div className="text-3xl font-semibold">Op maat</div>
+          ) : (
+            <div className="text-3xl font-semibold">
+              {formatPrice(plan.monthlyPriceCents)}
+              <span className="text-base font-normal text-muted-foreground">/maand</span>
+            </div>
+          )}
+        </div>
+      </CardHeader>
+      <CardContent className="flex-1">
+        <div className="space-y-3">
+          <div className="text-sm text-muted-foreground border-b pb-3 mb-3">
+            {plan.tier === "LOW" && `Keuze uit ${plan.includedTemplatesMax} templates`}
+            {plan.tier === "MEDIUM" && `Keuze uit ${plan.includedTemplatesMax} templates`}
+            {plan.tier === "HIGH" && "Volledig op maat ontwerp"}
+          </div>
+          {features.map((feature, index) => (
+            <div key={index} className="flex items-start gap-2 text-sm">
+              <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+              <span>{feature}</span>
+            </div>
+          ))}
+          <div className="flex items-start gap-2 text-sm">
+            <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+            <span>{plan.includedPages} pagina's inbegrepen</span>
+          </div>
+          <div className="flex items-start gap-2 text-sm">
+            <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+            <span>{plan.includedCredits} credits/wijzigingen per maand</span>
+          </div>
+          {plan.slaText && (
+            <div className="flex items-start gap-2 text-sm text-muted-foreground pt-2 border-t mt-4">
+              <Info className="h-4 w-4 mt-0.5 shrink-0" />
+              <span>{plan.slaText}</span>
+            </div>
+          )}
+        </div>
+      </CardContent>
+      <CardFooter className="pt-4">
+        <Link href="/signup" className="w-full">
+          <Button className="w-full gap-2" variant={featured ? "default" : "outline"} data-testid={`button-select-${plan.tier.toLowerCase()}`}>
+            {plan.tier === "HIGH" ? "Neem contact op" : "Selecteer plan"}
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </Link>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function AddOnCard({ addOn }: { addOn: AddOn }) {
+  const IconComponent = addOnIcons[addOn.slug] || TrendingUp;
+
+  return (
+    <Card className="border">
+      <CardContent className="p-6">
+        <div className="flex items-start gap-4">
+          <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center shrink-0">
+            <IconComponent className="h-5 w-5 text-primary" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="font-medium">{addOn.name}</h3>
+              {addOn.requiresBudget && (
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Badge variant="secondary" className="text-xs">Budget</Badge>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Deze add-on vereist een maandelijks advertentiebudget</p>
+                  </TooltipContent>
+                </Tooltip>
+              )}
+            </div>
+            <p className="text-sm text-muted-foreground mb-3">{addOn.description}</p>
+            {addOn.baseFeeCents && addOn.baseFeeCents > 0 && (
+              <div className="text-sm">
+                <span className="font-medium">Vanaf {formatPrice(addOn.baseFeeCents)}</span>
+                <span className="text-muted-foreground">/maand</span>
+              </div>
+            )}
+            {addOn.requiresBudget && (
+              <div className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                <Info className="h-3 w-3" />
+                Media/beheer split: {addOn.mediaPercentageDefault}% / {100 - (addOn.mediaPercentageDefault || 85)}%
+              </div>
+            )}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function PlansSkeleton() {
+  return (
+    <div className="grid md:grid-cols-3 gap-6">
+      {[1, 2, 3].map((i) => (
+        <Card key={i} className="border">
+          <CardHeader>
+            <Skeleton className="h-6 w-20 mb-2" />
+            <Skeleton className="h-8 w-32" />
+            <Skeleton className="h-10 w-24 mt-2" />
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {[1, 2, 3, 4, 5].map((j) => (
+                <Skeleton key={j} className="h-4 w-full" />
+              ))}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Skeleton className="h-10 w-full" />
+          </CardFooter>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+export default function PricingPage() {
+  const { data: plans, isLoading: plansLoading } = useQuery<Plan[]>({
+    queryKey: ["/api/plans"],
+  });
+
+  const { data: addOns, isLoading: addOnsLoading } = useQuery<AddOn[]>({
+    queryKey: ["/api/addons"],
+  });
+
+  const sortedPlans = plans?.sort((a, b) => {
+    const order = { LOW: 0, MEDIUM: 1, HIGH: 2 };
+    return (order[a.tier as keyof typeof order] || 0) - (order[b.tier as keyof typeof order] || 0);
+  });
+
+  return (
+    <MarketingLayout>
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <Badge variant="secondary" className="mb-4">Prijzen</Badge>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-4" data-testid="text-pricing-title">
+              Transparante prijzen,
+              <span className="text-primary"> geen verrassingen</span>
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Kies het plan dat past bij uw bedrijf. Alle plannen inclusief hosting, SSL, en basis ondersteuning.
+            </p>
+          </div>
+
+          {plansLoading ? (
+            <PlansSkeleton />
+          ) : sortedPlans && sortedPlans.length > 0 ? (
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {sortedPlans.map((plan, index) => (
+                <PlanCard
+                  key={plan.id}
+                  plan={plan}
+                  featured={plan.tier === "MEDIUM"}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Plannen worden binnenkort beschikbaar.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section id="addons" className="py-16 md:py-24 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <Badge variant="secondary" className="mb-4">Add-ons</Badge>
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+              Boost uw groei
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Voeg extra diensten toe om uw online aanwezigheid te versterken. Van advertenties tot SEO.
+            </p>
+          </div>
+
+          {addOnsLoading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Card key={i} className="border">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <Skeleton className="h-10 w-10 rounded-md" />
+                      <div className="flex-1">
+                        <Skeleton className="h-5 w-32 mb-2" />
+                        <Skeleton className="h-4 w-full mb-1" />
+                        <Skeleton className="h-4 w-3/4" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : addOns && addOns.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {addOns.map((addOn) => (
+                <AddOnCard key={addOn.id} addOn={addOn} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Add-ons worden binnenkort beschikbaar.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-center">
+              Veelgestelde vragen
+            </h2>
+            <div className="space-y-6">
+              <div className="border-b pb-6">
+                <h3 className="font-medium mb-2">Wat zit er allemaal in mijn abonnement?</h3>
+                <p className="text-muted-foreground text-sm">
+                  Elk abonnement bevat een professionele website, beheerde hosting met SSL, regelmatige updates en backups, 
+                  basis SEO optimalisatie, en ondersteuning via e-mail. Afhankelijk van uw plan krijgt u ook toegang tot 
+                  meer templates en maandelijkse credits voor wijzigingen.
+                </p>
+              </div>
+              <div className="border-b pb-6">
+                <h3 className="font-medium mb-2">Hoe werkt de budgetsplit voor advertenties?</h3>
+                <p className="text-muted-foreground text-sm">
+                  Bij onze advertentie add-ons (Google Ads, Meta Ads) splitsen we uw maandbudget automatisch op. 
+                  Standaard gaat 85% naar mediakosten (de daadwerkelijke advertenties) en 15% naar beheerskosten. 
+                  U ziet deze split altijd transparant voordat u bevestigt.
+                </p>
+              </div>
+              <div className="border-b pb-6">
+                <h3 className="font-medium mb-2">Kan ik later upgraden naar een hoger plan?</h3>
+                <p className="text-muted-foreground text-sm">
+                  Ja, u kunt op elk moment upgraden. Het verschil in kosten wordt pro-rata berekend. 
+                  Uw bestaande website en data blijven volledig behouden bij een upgrade.
+                </p>
+              </div>
+              <div className="border-b pb-6">
+                <h3 className="font-medium mb-2">Wat als ik wil opzeggen?</h3>
+                <p className="text-muted-foreground text-sm">
+                  U kunt maandelijks opzeggen. Na opzegging blijft uw website nog 30 dagen actief. 
+                  Op verzoek kunnen we uw websitebestanden exporteren zodat u ze elders kunt hosten.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </MarketingLayout>
+  );
+}

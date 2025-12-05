@@ -1,16 +1,118 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Redirect, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/lib/theme-provider";
+import { AuthProvider, useAuth } from "@/lib/auth-context";
 import NotFound from "@/pages/not-found";
+
+import HomePage from "@/pages/home";
+import PricingPage from "@/pages/pricing";
+import LoginPage from "@/pages/auth/login";
+import SignupPage from "@/pages/auth/signup";
+
+import CustomerDashboard from "@/pages/dashboard/customer-dashboard";
+import ProjectPage from "@/pages/dashboard/project";
+import AddOnsPage from "@/pages/dashboard/addons";
+import ReportsPage from "@/pages/dashboard/reports";
+import BillingPage from "@/pages/dashboard/billing";
+
+import AdminDashboard from "@/pages/admin/admin-dashboard";
+import AdminCustomersPage from "@/pages/admin/customers";
+import AdminSpecialistsPage from "@/pages/admin/specialists";
+import AdminAssignmentsPage from "@/pages/admin/assignments";
+
+import SpecialistDashboard from "@/pages/specialist/specialist-dashboard";
+import SpecialistAssignmentsPage from "@/pages/specialist/assignments";
+import SpecialistReportsPage from "@/pages/specialist/reports";
+import SpecialistProfilePage from "@/pages/specialist/profile";
+
+function ProtectedRoute({
+  component: Component,
+  roles,
+}: {
+  component: React.ComponentType;
+  roles?: string[];
+}) {
+  const { user, isLoading } = useAuth();
+  const [, setLocation] = useLocation();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Redirect to="/login" />;
+  }
+
+  if (roles && !roles.includes(user.role)) {
+    if (user.role === "ADMIN") {
+      return <Redirect to="/admin" />;
+    } else if (user.role === "SPECIALIST") {
+      return <Redirect to="/specialist" />;
+    } else {
+      return <Redirect to="/app" />;
+    }
+  }
+
+  return <Component />;
+}
 
 function Router() {
   return (
     <Switch>
-      {/* Add pages below */}
-      {/* <Route path="/" component={Home}/> */}
-      {/* Fallback to 404 */}
+      <Route path="/" component={HomePage} />
+      <Route path="/pricing" component={PricingPage} />
+      <Route path="/login" component={LoginPage} />
+      <Route path="/signup" component={SignupPage} />
+
+      <Route path="/app">
+        <ProtectedRoute component={CustomerDashboard} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/app/project">
+        <ProtectedRoute component={ProjectPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/app/addons">
+        <ProtectedRoute component={AddOnsPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/app/reports">
+        <ProtectedRoute component={ReportsPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/app/billing">
+        <ProtectedRoute component={BillingPage} roles={["CUSTOMER"]} />
+      </Route>
+
+      <Route path="/admin">
+        <ProtectedRoute component={AdminDashboard} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/admin/customers">
+        <ProtectedRoute component={AdminCustomersPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/admin/specialists">
+        <ProtectedRoute component={AdminSpecialistsPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/admin/assignments">
+        <ProtectedRoute component={AdminAssignmentsPage} roles={["ADMIN"]} />
+      </Route>
+
+      <Route path="/specialist">
+        <ProtectedRoute component={SpecialistDashboard} roles={["SPECIALIST"]} />
+      </Route>
+      <Route path="/specialist/assignments">
+        <ProtectedRoute component={SpecialistAssignmentsPage} roles={["SPECIALIST"]} />
+      </Route>
+      <Route path="/specialist/reports">
+        <ProtectedRoute component={SpecialistReportsPage} roles={["SPECIALIST"]} />
+      </Route>
+      <Route path="/specialist/profile">
+        <ProtectedRoute component={SpecialistProfilePage} roles={["SPECIALIST"]} />
+      </Route>
+
       <Route component={NotFound} />
     </Switch>
   );
@@ -19,10 +121,14 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
+      <ThemeProvider defaultTheme="light" storageKey="website-abonnementen-theme">
+        <TooltipProvider>
+          <AuthProvider>
+            <Router />
+            <Toaster />
+          </AuthProvider>
+        </TooltipProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
