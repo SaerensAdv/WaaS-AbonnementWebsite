@@ -328,7 +328,7 @@ export function Parallax({
   return (
     <motion.div
       ref={ref}
-      style={{ y: smoothY }}
+      style={{ y: smoothY, position: "relative" }}
       className={className}
     >
       {children}
@@ -351,6 +351,14 @@ export function Float({
   distance = 10,
   delay = 0
 }: FloatProps) {
+  const prefersReducedMotion = typeof window !== 'undefined' 
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+    : false;
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       animate={{
@@ -379,6 +387,14 @@ export function GlowPulse({
   children, 
   className = "",
 }: GlowPulseProps) {
+  const prefersReducedMotion = typeof window !== 'undefined' 
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+    : false;
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       animate={{

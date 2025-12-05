@@ -6,6 +6,19 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { DashboardMockup, TrustLogos, PaymentMethods, PartnerBadge } from "@/components/dashboard-mockup";
 import {
+  FadeInUp,
+  FadeIn,
+  ScaleIn,
+  SlideIn,
+  StaggerChildren,
+  StaggerItem,
+  Parallax,
+  Float,
+  GlowPulse,
+  BlurIn,
+  motion,
+} from "@/components/ui/motion";
+import {
   Globe,
   Zap,
   Shield,
@@ -144,420 +157,518 @@ export default function HomePage() {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),transparent)]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px]" />
+        
+        <GlowPulse className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px]" />
         
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
         
         <div className="container mx-auto px-4 relative z-10 pt-32 pb-20">
           <div className="max-w-5xl mx-auto text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-8">
-              <Sparkles className="h-4 w-4 text-primary" />
-              Wij doen alles, u geniet van de resultaten
-              <ChevronRight className="h-4 w-4" />
-            </div>
+            <BlurIn delay={0}>
+              <motion.div 
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-8"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Sparkles className="h-4 w-4 text-primary" />
+                Wij doen alles, u geniet van de resultaten
+                <ChevronRight className="h-4 w-4" />
+              </motion.div>
+            </BlurIn>
             
-            <h1 
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9] text-white mb-8" 
-              data-testid="text-hero-title"
-            >
-              Uw website
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">zonder zorgen</span>
-            </h1>
+            <BlurIn delay={0.1}>
+              <h1 
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9] text-white mb-8" 
+                data-testid="text-hero-title"
+              >
+                Uw website
+                <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">zonder zorgen</span>
+              </h1>
+            </BlurIn>
             
-            <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-10">
-              Geen technische kennis nodig. Geen gedoe met hosting of updates. 
-              Wij bouwen en beheren uw professionele website terwijl u zich focust op uw bedrijf.
-            </p>
+            <BlurIn delay={0.2}>
+              <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-10">
+                Geen technische kennis nodig. Geen gedoe met hosting of updates. 
+                Wij bouwen en beheren uw professionele website terwijl u zich focust op uw bedrijf.
+              </p>
+            </BlurIn>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Link href="/pricing">
-                <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-view-plans">
-                  Bekijk abonnementen
-                  <ArrowRight className="h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/signup">
-                <Button 
-                  size="lg" 
-                  variant="outline"
-                  className="h-14 px-8 text-lg border-white/20 text-white bg-white/5 backdrop-blur-sm"
-                  data-testid="button-start-trial"
-                >
-                  <Play className="h-4 w-4 mr-2" />
-                  Bekijk voorbeelden
-                </Button>
-              </Link>
-            </div>
+            <FadeInUp delay={0.3}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <Link href="/pricing">
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-view-plans">
+                      Bekijk abonnementen
+                      <ArrowRight className="h-5 w-5" />
+                    </Button>
+                  </motion.div>
+                </Link>
+                <Link href="/signup">
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button 
+                      size="lg" 
+                      variant="outline"
+                      className="h-14 px-8 text-lg border-white/20 text-white bg-white/5 backdrop-blur-sm"
+                      data-testid="button-start-trial"
+                    >
+                      <Play className="h-4 w-4 mr-2" />
+                      Bekijk voorbeelden
+                    </Button>
+                  </motion.div>
+                </Link>
+              </div>
+            </FadeInUp>
             
-            <PartnerBadge className="mb-0" />
+            <FadeIn delay={0.4}>
+              <PartnerBadge className="mb-0" />
+            </FadeIn>
           </div>
           
-          <div className="relative max-w-5xl mx-auto">
-            <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-blue-500/20 to-primary/20 blur-3xl rounded-3xl opacity-50" />
-            <DashboardMockup variant="dashboard" className="relative" />
-            
-            <div className="absolute -bottom-6 -left-6 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl border border-slate-200 dark:border-slate-700 hidden md:block">
-              <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-xl bg-green-500/10 flex items-center justify-center">
-                  <TrendingUp className="h-6 w-6 text-green-500" />
+          <ScaleIn delay={0.3}>
+            <div className="relative max-w-5xl mx-auto">
+              <GlowPulse className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-blue-500/20 to-primary/20 blur-3xl rounded-3xl opacity-50" />
+              <DashboardMockup variant="dashboard" className="relative" />
+              
+              <Float duration={5} distance={8} delay={0}>
+                <div className="absolute -bottom-6 -left-6 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl border border-slate-200 dark:border-slate-700 hidden md:block">
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-xl bg-green-500/10 flex items-center justify-center">
+                      <TrendingUp className="h-6 w-6 text-green-500" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-muted-foreground">Gem. groei klanten</div>
+                      <div className="text-2xl font-bold font-mono">+127%</div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-sm text-muted-foreground">Gem. groei klanten</div>
-                  <div className="text-2xl font-bold font-mono">+127%</div>
+              </Float>
+              
+              <Float duration={5} distance={8} delay={1}>
+                <div className="absolute -top-6 -right-6 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl border border-slate-200 dark:border-slate-700 hidden md:block">
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <Heart className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-muted-foreground">Tevreden klanten</div>
+                      <div className="text-2xl font-bold font-mono">500+</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Float>
             </div>
-            
-            <div className="absolute -top-6 -right-6 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl border border-slate-200 dark:border-slate-700 hidden md:block">
-              <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Heart className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <div className="text-sm text-muted-foreground">Tevreden klanten</div>
-                  <div className="text-2xl font-bold font-mono">500+</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          </ScaleIn>
         </div>
       </section>
 
       <section className="py-16 border-b" data-testid="section-trust">
         <div className="container mx-auto px-4">
-          <p className="text-center text-sm text-muted-foreground mb-8">
-            Vertrouwd door 500+ Nederlandse ondernemers
-          </p>
-          <TrustLogos />
+          <FadeIn>
+            <p className="text-center text-sm text-muted-foreground mb-8">
+              Vertrouwd door 500+ Nederlandse ondernemers
+            </p>
+            <TrustLogos />
+          </FadeIn>
         </div>
       </section>
 
       <section className="py-24 md:py-32" data-testid="section-stats">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          <StaggerChildren className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12" staggerDelay={0.15}>
             {stats.map((stat, index) => (
-              <div 
-                key={stat.label} 
-                className="text-center"
-                data-testid={`stat-${index}`}
-              >
-                <div className="text-5xl sm:text-6xl lg:text-7xl font-bold font-mono tabular-nums bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-lg font-medium mb-1">{stat.label}</div>
-                <div className="text-sm text-muted-foreground">{stat.description}</div>
-              </div>
+              <StaggerItem key={stat.label}>
+                <motion.div 
+                  className="text-center"
+                  data-testid={`stat-${index}`}
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="text-5xl sm:text-6xl lg:text-7xl font-bold font-mono tabular-nums bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent mb-2">
+                    {stat.value}
+                  </div>
+                  <div className="text-lg font-medium mb-1">{stat.label}</div>
+                  <div className="text-sm text-muted-foreground">{stat.description}</div>
+                </motion.div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerChildren>
         </div>
       </section>
 
       <section className="py-24 md:py-32 bg-slate-50 dark:bg-slate-900/50" data-testid="section-value-prop">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <Badge variant="secondary" className="mb-6 no-default-hover-elevate no-default-active-elevate">
-                Geen gedoe, alleen resultaten
-              </Badge>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Wij nemen alles uit handen
-              </h2>
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                U heeft een professionele website nodig, maar geen tijd of zin om u te verdiepen 
-                in technische zaken. Wij begrijpen dat. Daarom doen wij letterlijk alles voor u.
-              </p>
-              
-              <div className="grid sm:grid-cols-2 gap-4 mb-8">
-                {includedServices.map((service) => (
-                  <div key={service} className="flex items-center gap-3">
-                    <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                      <Check className="h-4 w-4 text-primary" />
-                    </div>
-                    <span className="text-sm">{service}</span>
-                  </div>
-                ))}
+            <SlideIn direction="left">
+              <div>
+                <Badge variant="secondary" className="mb-6 no-default-hover-elevate no-default-active-elevate">
+                  Geen gedoe, alleen resultaten
+                </Badge>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                  Wij nemen alles uit handen
+                </h2>
+                <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+                  U heeft een professionele website nodig, maar geen tijd of zin om u te verdiepen 
+                  in technische zaken. Wij begrijpen dat. Daarom doen wij letterlijk alles voor u.
+                </p>
+                
+                <StaggerChildren className="grid sm:grid-cols-2 gap-4 mb-8" staggerDelay={0.05}>
+                  {includedServices.map((service) => (
+                    <StaggerItem key={service}>
+                      <div className="flex items-center gap-3">
+                        <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                          <Check className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="text-sm">{service}</span>
+                      </div>
+                    </StaggerItem>
+                  ))}
+                </StaggerChildren>
+                
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Link href="/pricing">
+                    <Button size="lg" className="gap-2">
+                      Bekijk wat u krijgt
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                </motion.div>
               </div>
-              
-              <Link href="/pricing">
-                <Button size="lg" className="gap-2">
-                  Bekijk wat u krijgt
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
+            </SlideIn>
             
-            <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-blue-500/20 blur-3xl rounded-3xl opacity-50" />
-              <DashboardMockup variant="timeline" className="relative" />
-            </div>
+            <SlideIn direction="right">
+              <Parallax speed={0.2}>
+                <div className="relative">
+                  <GlowPulse className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-blue-500/20 blur-3xl rounded-3xl opacity-50" />
+                  <DashboardMockup variant="timeline" className="relative" />
+                </div>
+              </Parallax>
+            </SlideIn>
           </div>
         </div>
       </section>
 
       <section className="py-24 md:py-32" data-testid="section-how-it-works">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-              Hoe het werkt
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              In 4 simpele stappen online
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              U hoeft alleen te vertellen wat u wilt. De rest doen wij.
-            </p>
-          </div>
+          <FadeInUp>
+            <div className="text-center max-w-3xl mx-auto mb-20">
+              <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
+                Hoe het werkt
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                In 4 simpele stappen online
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                U hoeft alleen te vertellen wat u wilt. De rest doen wij.
+              </p>
+            </div>
+          </FadeInUp>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <StaggerChildren className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" staggerDelay={0.15}>
             {howItWorks.map((item, index) => (
-              <div 
-                key={item.step}
-                className="relative"
-                data-testid={`step-${index}`}
-              >
-                {index < howItWorks.length - 1 && (
-                  <div className="hidden lg:block absolute top-12 left-full w-full h-px bg-gradient-to-r from-border to-transparent z-0" />
-                )}
-                <div className="relative z-10">
-                  <div className="text-6xl font-bold text-primary/10 mb-4 font-mono">
-                    {item.step}
+              <StaggerItem key={item.step}>
+                <motion.div 
+                  className="relative"
+                  data-testid={`step-${index}`}
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {index < howItWorks.length - 1 && (
+                    <div className="hidden lg:block absolute top-12 left-full w-full h-px bg-gradient-to-r from-border to-transparent z-0" />
+                  )}
+                  <div className="relative z-10">
+                    <div className="text-6xl font-bold text-primary/10 mb-4 font-mono">
+                      {item.step}
+                    </div>
+                    <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                      <item.icon className="h-7 w-7 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{item.description}</p>
                   </div>
-                  <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                    <item.icon className="h-7 w-7 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{item.description}</p>
-                </div>
-              </div>
+                </motion.div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerChildren>
         </div>
       </section>
 
       <section className="py-24 md:py-32 bg-slate-900" data-testid="section-results">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="order-2 lg:order-1 relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl rounded-3xl opacity-50" />
-              <DashboardMockup variant="results" className="relative" />
-            </div>
+            <SlideIn direction="left" className="order-2 lg:order-1">
+              <Parallax speed={0.2}>
+                <div className="relative">
+                  <GlowPulse className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl rounded-3xl opacity-50" />
+                  <DashboardMockup variant="results" className="relative" />
+                </div>
+              </Parallax>
+            </SlideIn>
             
-            <div className="order-1 lg:order-2">
-              <Badge variant="secondary" className="mb-6 no-default-hover-elevate no-default-active-elevate">
-                Uw Dashboard
-              </Badge>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-                Alleen resultaten, geen gedoe
-              </h2>
-              <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-                U krijgt toegang tot een helder dashboard waar u in één oogopslag ziet 
-                hoe uw website presteert. Bezoekers, leads, omzet - alles overzichtelijk.
-              </p>
-              
-              <div className="space-y-4 mb-8">
-                {[
-                  { icon: Target, label: "Real-time bezoekersstatistieken" },
-                  { icon: TrendingUp, label: "Groei en conversie tracking" },
-                  { icon: Award, label: "SEO score en ranking" },
-                  { icon: FileCheck, label: "Maandelijkse rapportages" },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center gap-3 text-slate-200">
-                    <div className="h-10 w-10 rounded-lg bg-white/5 flex items-center justify-center">
-                      <item.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <span>{item.label}</span>
-                  </div>
-                ))}
+            <SlideIn direction="right" className="order-1 lg:order-2">
+              <div>
+                <Badge variant="secondary" className="mb-6 no-default-hover-elevate no-default-active-elevate">
+                  Uw Dashboard
+                </Badge>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+                  Alleen resultaten, geen gedoe
+                </h2>
+                <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+                  U krijgt toegang tot een helder dashboard waar u in één oogopslag ziet 
+                  hoe uw website presteert. Bezoekers, leads, omzet - alles overzichtelijk.
+                </p>
+                
+                <StaggerChildren className="space-y-4 mb-8" staggerDelay={0.1}>
+                  {[
+                    { icon: Target, label: "Real-time bezoekersstatistieken" },
+                    { icon: TrendingUp, label: "Groei en conversie tracking" },
+                    { icon: Award, label: "SEO score en ranking" },
+                    { icon: FileCheck, label: "Maandelijkse rapportages" },
+                  ].map((item) => (
+                    <StaggerItem key={item.label}>
+                      <div className="flex items-center gap-3 text-slate-200">
+                        <div className="h-10 w-10 rounded-lg bg-white/5 flex items-center justify-center">
+                          <item.icon className="h-5 w-5 text-primary" />
+                        </div>
+                        <span>{item.label}</span>
+                      </div>
+                    </StaggerItem>
+                  ))}
+                </StaggerChildren>
+                
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Link href="/pricing">
+                    <Button size="lg" className="gap-2">
+                      Start vandaag
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                </motion.div>
               </div>
-              
-              <Link href="/pricing">
-                <Button size="lg" className="gap-2">
-                  Start vandaag
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
+            </SlideIn>
           </div>
         </div>
       </section>
 
       <section className="py-24 md:py-32" data-testid="section-benefits">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-              Voordelen
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Waarom ondernemers voor ons kiezen
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Focus op uw bedrijf terwijl wij uw online aanwezigheid verzorgen
-            </p>
-          </div>
+          <FadeInUp>
+            <div className="text-center max-w-3xl mx-auto mb-20">
+              <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
+                Voordelen
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Waarom ondernemers voor ons kiezen
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                Focus op uw bedrijf terwijl wij uw online aanwezigheid verzorgen
+              </p>
+            </div>
+          </FadeInUp>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto" staggerDelay={0.1}>
             {benefits.map((benefit, index) => (
-              <Card 
-                key={benefit.title} 
-                className="border bg-card group"
-                data-testid={`benefit-card-${index}`}
-              >
-                <CardContent className="p-6">
-                  <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <benefit.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{benefit.description}</p>
-                </CardContent>
-              </Card>
+              <StaggerItem key={benefit.title}>
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Card 
+                    className="border bg-card h-full"
+                    data-testid={`benefit-card-${index}`}
+                  >
+                    <CardContent className="p-6">
+                      <motion.div 
+                        className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4"
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <benefit.icon className="h-6 w-6 text-primary" />
+                      </motion.div>
+                      <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">{benefit.description}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerChildren>
         </div>
       </section>
 
       <section className="py-24 md:py-32 bg-slate-50 dark:bg-slate-900/50" data-testid="section-testimonials">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-              Ervaringen
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Wat onze klanten zeggen
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Ondernemers die net als u geen tijd hebben voor technisch gedoe
-            </p>
-          </div>
+          <FadeInUp>
+            <div className="text-center max-w-3xl mx-auto mb-20">
+              <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
+                Ervaringen
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Wat onze klanten zeggen
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                Ondernemers die net als u geen tijd hebben voor technisch gedoe
+              </p>
+            </div>
+          </FadeInUp>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <StaggerChildren className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto" staggerDelay={0.15}>
             {testimonials.map((testimonial, index) => (
-              <Card 
-                key={testimonial.name}
-                className="border bg-card"
-                data-testid={`testimonial-card-${index}`}
-              >
-                <CardContent className="p-8">
-                  <div className="flex gap-1 mb-6">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-                    ))}
-                  </div>
-                  <p className="text-lg leading-relaxed mb-8">
-                    "{testimonial.text}"
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <Avatar className="h-12 w-12">
-                      <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                        {testimonial.initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <div className="font-semibold">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {testimonial.role} bij {testimonial.company}
+              <StaggerItem key={testimonial.name}>
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Card 
+                    className="border bg-card h-full"
+                    data-testid={`testimonial-card-${index}`}
+                  >
+                    <CardContent className="p-8">
+                      <div className="flex gap-1 mb-6">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.1 * i, duration: 0.2 }}
+                          >
+                            <Star className="h-5 w-5 fill-primary text-primary" />
+                          </motion.div>
+                        ))}
                       </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                      <p className="text-lg leading-relaxed mb-8">
+                        "{testimonial.text}"
+                      </p>
+                      <div className="flex items-center gap-4">
+                        <Avatar className="h-12 w-12">
+                          <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                            {testimonial.initials}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-semibold">{testimonial.name}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {testimonial.role} bij {testimonial.company}
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerChildren>
         </div>
       </section>
 
       <section className="py-16 border-y" data-testid="section-payments">
         <div className="container mx-auto px-4">
-          <p className="text-center text-sm text-muted-foreground mb-6">
-            Veilig en eenvoudig betalen met
-          </p>
-          <PaymentMethods />
+          <FadeIn>
+            <p className="text-center text-sm text-muted-foreground mb-6">
+              Veilig en eenvoudig betalen met
+            </p>
+            <PaymentMethods />
+          </FadeIn>
         </div>
       </section>
 
       <section className="py-24 md:py-32" data-testid="section-pricing-preview">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-              Abonnementen
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Vaste maandprijs, geen verrassingen
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Alles inbegrepen. Geen opstartkosten. Maandelijks opzegbaar.
-            </p>
-          </div>
+          <FadeInUp>
+            <div className="text-center max-w-3xl mx-auto mb-20">
+              <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
+                Abonnementen
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Vaste maandprijs, geen verrassingen
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                Alles inbegrepen. Geen opstartkosten. Maandelijks opzegbaar.
+              </p>
+            </div>
+          </FadeInUp>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="border bg-card" data-testid="pricing-low">
-              <CardContent className="p-8">
-                <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Starter</div>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-5xl font-bold font-mono">99</span>
-                  <span className="text-muted-foreground">/maand</span>
-                </div>
-                <p className="text-muted-foreground text-sm mb-8">Perfect voor starters</p>
-                <ul className="space-y-4 mb-8">
-                  {["Professionele website", "5 pagina's", "SSL & hosting", "Maandelijkse updates", "E-mail support"].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm">
-                      <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <Link href="/pricing">
-                  <Button variant="outline" className="w-full">Selecteer</Button>
-                </Link>
-              </CardContent>
-            </Card>
+          <StaggerChildren className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto" staggerDelay={0.15}>
+            <StaggerItem>
+              <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
+                <Card className="border bg-card h-full" data-testid="pricing-low">
+                  <CardContent className="p-8">
+                    <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Starter</div>
+                    <div className="flex items-baseline gap-1 mb-1">
+                      <span className="text-5xl font-bold font-mono">99</span>
+                      <span className="text-muted-foreground">/maand</span>
+                    </div>
+                    <p className="text-muted-foreground text-sm mb-8">Perfect voor starters</p>
+                    <ul className="space-y-4 mb-8">
+                      {["Professionele website", "5 pagina's", "SSL & hosting", "Maandelijkse updates", "E-mail support"].map((item) => (
+                        <li key={item} className="flex items-center gap-3 text-sm">
+                          <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <Link href="/pricing">
+                      <Button variant="outline" className="w-full">Selecteer</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </StaggerItem>
 
-            <Card className="border-2 border-primary bg-card relative" data-testid="pricing-medium">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <Badge>Meest gekozen</Badge>
-              </div>
-              <CardContent className="p-8">
-                <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Professional</div>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-5xl font-bold font-mono">199</span>
-                  <span className="text-muted-foreground">/maand</span>
-                </div>
-                <p className="text-muted-foreground text-sm mb-8">Voor groeiende bedrijven</p>
-                <ul className="space-y-4 mb-8">
-                  {["Alles uit Starter", "Onbeperkt pagina's", "Persoonlijke specialist", "SEO optimalisatie", "Analytics dashboard", "Priority support"].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm">
-                      <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <Link href="/pricing">
-                  <Button className="w-full">Selecteer</Button>
-                </Link>
-              </CardContent>
-            </Card>
+            <StaggerItem>
+              <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
+                <Card className="border-2 border-primary bg-card relative h-full" data-testid="pricing-medium">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <Badge>Meest gekozen</Badge>
+                  </div>
+                  <CardContent className="p-8">
+                    <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Professional</div>
+                    <div className="flex items-baseline gap-1 mb-1">
+                      <span className="text-5xl font-bold font-mono">199</span>
+                      <span className="text-muted-foreground">/maand</span>
+                    </div>
+                    <p className="text-muted-foreground text-sm mb-8">Voor groeiende bedrijven</p>
+                    <ul className="space-y-4 mb-8">
+                      {["Alles uit Starter", "Onbeperkt pagina's", "Persoonlijke specialist", "SEO optimalisatie", "Analytics dashboard", "Priority support"].map((item) => (
+                        <li key={item} className="flex items-center gap-3 text-sm">
+                          <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <Link href="/pricing">
+                      <Button className="w-full">Selecteer</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </StaggerItem>
 
-            <Card className="border bg-card" data-testid="pricing-high">
-              <CardContent className="p-8">
-                <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Enterprise</div>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-4xl font-bold">Op maat</span>
-                </div>
-                <p className="text-muted-foreground text-sm mb-8">Complete ontzorging</p>
-                <ul className="space-y-4 mb-8">
-                  {["Alles uit Professional", "Custom design", "Google & Meta Ads", "Dedicated account manager", "SLA garantie", "Wekelijkse rapportage"].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm">
-                      <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <Link href="/pricing">
-                  <Button variant="outline" className="w-full">Neem contact op</Button>
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
+            <StaggerItem>
+              <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
+                <Card className="border bg-card h-full" data-testid="pricing-high">
+                  <CardContent className="p-8">
+                    <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Enterprise</div>
+                    <div className="flex items-baseline gap-1 mb-1">
+                      <span className="text-4xl font-bold">Op maat</span>
+                    </div>
+                    <p className="text-muted-foreground text-sm mb-8">Complete ontzorging</p>
+                    <ul className="space-y-4 mb-8">
+                      {["Alles uit Professional", "Custom design", "Google & Meta Ads", "Dedicated account manager", "SLA garantie", "Wekelijkse rapportage"].map((item) => (
+                        <li key={item} className="flex items-center gap-3 text-sm">
+                          <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <Link href="/pricing">
+                      <Button variant="outline" className="w-full">Neem contact op</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </StaggerItem>
+          </StaggerChildren>
         </div>
       </section>
 
@@ -568,50 +679,67 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent" />
         
+        <GlowPulse className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[100px]" />
+        
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-8 text-white">
-            Klaar om zorgeloos online te gaan?
-          </h2>
-          <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Laat de techniek aan ons over. U focust op uw klanten, 
-            wij zorgen voor uw professionele website.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/signup">
-              <Button 
-                size="lg" 
-                className="gap-2 text-lg h-14 px-10" 
-                data-testid="button-cta-signup"
-              >
-                Start vandaag
-                <ArrowRight className="h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="/pricing">
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="bg-white/5 border-white/20 text-white h-14 px-10 text-lg backdrop-blur-sm"
-                data-testid="button-cta-pricing"
-              >
-                Bekijk abonnementen
-              </Button>
-            </Link>
-          </div>
-          <div className="flex items-center justify-center gap-8 mt-16 text-slate-400 flex-wrap">
-            <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5" />
-              <span>SSL Beveiligd</span>
+          <FadeInUp>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-8 text-white">
+              Klaar om zorgeloos online te gaan?
+            </h2>
+          </FadeInUp>
+          
+          <FadeInUp delay={0.1}>
+            <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-2xl mx-auto leading-relaxed">
+              Laat de techniek aan ons over. U focust op uw klanten, 
+              wij zorgen voor uw professionele website.
+            </p>
+          </FadeInUp>
+          
+          <FadeInUp delay={0.2}>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/signup">
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Button 
+                    size="lg" 
+                    className="gap-2 text-lg h-14 px-10" 
+                    data-testid="button-cta-signup"
+                  >
+                    Start vandaag
+                    <ArrowRight className="h-5 w-5" />
+                  </Button>
+                </motion.div>
+              </Link>
+              <Link href="/pricing">
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="bg-white/5 border-white/20 text-white h-14 px-10 text-lg backdrop-blur-sm"
+                    data-testid="button-cta-pricing"
+                  >
+                    Bekijk abonnementen
+                  </Button>
+                </motion.div>
+              </Link>
             </div>
-            <div className="flex items-center gap-2">
-              <Activity className="h-5 w-5" />
-              <span>99.9% Uptime</span>
+          </FadeInUp>
+          
+          <FadeIn delay={0.3}>
+            <div className="flex items-center justify-center gap-8 mt-16 text-slate-400 flex-wrap">
+              <div className="flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                <span>SSL Beveiligd</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                <span>99.9% Uptime</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="h-5 w-5" />
+                <span>Persoonlijke support</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
-              <span>Persoonlijke support</span>
-            </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
     </MarketingLayout>

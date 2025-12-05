@@ -173,14 +173,36 @@
 
 ---
 
-## Interactions
-**Minimal Animations**:
-- Subtle fade-in for page loads (duration-200)
-- Smooth transitions on hover (transition-colors duration-150)
-- Loading spinners for async actions
-- Success checkmarks with brief scale animation
+## Interactions & Animations
+**Premium Smooth Motion System** (Google Chrome-inspired):
 
-**NO complex scroll animations, parallax, or distracting motion**
+**Page Load & Scroll Reveal**:
+- BlurIn for hero text (blur-to-focus entrance)
+- FadeInUp for content sections (opacity + subtle Y movement)
+- StaggerChildren for lists/grids (sequenced entrance, 0.1s delay)
+- All scroll animations use `once: true` for single trigger
+
+**Parallax & Depth Effects**:
+- Subtle parallax on dashboard mockups (speed: 0.2)
+- Float animation on floating stat cards (duration: 5s, distance: 8px)
+- GlowPulse on ambient background glows (subtle pulsing)
+
+**Micro-interactions**:
+- Button hover: scale(1.02) with whileHover
+- Button tap: scale(0.98) with whileTap
+- Card hover: y(-4px) lift effect
+- Icon hover: scale(1.1) + subtle rotate
+
+**Performance & Accessibility**:
+- All animations use Framer Motion with spring physics
+- useInView for lazy animation triggering (better performance)
+- prefers-reduced-motion media query respected
+- Smooth easing: [0.25, 0.1, 0.25, 1]
+
+**Animation Component Library** (`@/components/ui/motion`):
+- FadeIn, FadeInUp, ScaleIn, SlideIn
+- StaggerChildren, StaggerItem
+- Parallax, Float, GlowPulse, BlurIn
 
 ---
 
