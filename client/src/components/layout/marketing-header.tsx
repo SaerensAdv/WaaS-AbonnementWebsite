@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useAuth } from "@/lib/auth-context";
 import { Menu, X } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 import logoGif from "@assets/Untitled_design_1764969853491.gif";
@@ -28,115 +28,122 @@ export function MarketingHeader() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 dark:border-white/5 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
-      <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4">
-        <Link 
-          href="/" 
-          className="flex items-center gap-3 group transition-opacity duration-200 hover:opacity-80" 
-          data-testid="link-logo"
-        >
-          <img 
-            src={showStaticLogo ? logoImage : logoGif} 
-            alt="WebsiteAbonnementen" 
-            className="h-12 w-12 rounded-lg transition-transform duration-200 group-hover:scale-105 object-contain"
-          />
-          <span className="text-xl font-semibold tracking-tight">WebsiteAbonnementen</span>
-        </Link>
+    <div className="sticky top-0 z-50 w-full px-4 pt-4">
+      <header className="mx-auto max-w-5xl rounded-full border border-white/20 dark:border-white/10 bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5 dark:shadow-black/20 ring-1 ring-primary/10">
+        <div className="flex h-14 items-center justify-between gap-4 px-6">
+          <Link 
+            href="/" 
+            className="flex items-center gap-3 group transition-opacity duration-200 hover:opacity-80" 
+            data-testid="link-logo"
+          >
+            <img 
+              src={showStaticLogo ? logoImage : logoGif} 
+              alt="WebsiteAbonnementen" 
+              className="h-10 w-10 rounded-lg transition-transform duration-200 group-hover:scale-105 object-contain"
+            />
+            <span className="text-lg font-semibold tracking-tight hidden sm:inline">WebsiteAbonnementen</span>
+          </Link>
 
-        <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => {
-            const isActive = location === link.href;
-            return (
-              <Link key={link.href} href={link.href}>
-                <Button
-                  variant="ghost"
-                  className={`relative transition-all duration-200 ${
-                    isActive 
-                      ? "text-foreground font-medium" 
-                      : "text-muted-foreground"
-                  }`}
-                  data-testid={`nav-${link.label.toLowerCase()}`}
-                >
-                  {link.label}
-                  {isActive && (
-                    <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />
-                  )}
-                </Button>
-              </Link>
-            );
-          })}
-        </nav>
+          <nav className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => {
+              const isActive = location === link.href;
+              return (
+                <Link key={link.href} href={link.href}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className={`relative transition-all duration-200 ${
+                      isActive 
+                        ? "text-foreground font-medium" 
+                        : "text-muted-foreground"
+                    }`}
+                    data-testid={`nav-${link.label.toLowerCase()}`}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />
+                    )}
+                  </Button>
+                </Link>
+              );
+            })}
+          </nav>
 
-        <div className="hidden md:flex items-center gap-3">
-          <ThemeToggle />
-          {user ? (
-            <Link href="/app">
-              <Button data-testid="button-dashboard">Dashboard</Button>
-            </Link>
-          ) : (
-            <>
-              <Link href="/login">
-                <Button 
-                  variant="ghost" 
-                  className="text-muted-foreground transition-colors duration-200"
-                  data-testid="button-login"
-                >
-                  Inloggen
-                </Button>
+          <div className="hidden md:flex items-center gap-2">
+            <ThemeToggle />
+            {user ? (
+              <Link href="/app">
+                <Button size="sm" data-testid="button-dashboard">Dashboard</Button>
               </Link>
-              <Link href="/signup">
-                <Button 
-                  className="shadow-sm shadow-primary/20 transition-shadow duration-200 hover:shadow-md hover:shadow-primary/30"
-                  data-testid="button-signup"
-                >
-                  Aan de slag
-                </Button>
-              </Link>
-            </>
-          )}
-        </div>
-
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          data-testid="button-mobile-menu"
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {mobileMenuOpen ? (
-              <motion.div
-                key="close"
-                initial={{ opacity: 0, rotate: -90 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={{ opacity: 0, rotate: 90 }}
-                transition={{ duration: 0.15 }}
-              >
-                <X className="h-5 w-5" />
-              </motion.div>
             ) : (
-              <motion.div
-                key="menu"
-                initial={{ opacity: 0, rotate: 90 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={{ opacity: 0, rotate: -90 }}
-                transition={{ duration: 0.15 }}
-              >
-                <Menu className="h-5 w-5" />
-              </motion.div>
+              <>
+                <Link href="/login">
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    className="text-muted-foreground transition-colors duration-200"
+                    data-testid="button-login"
+                  >
+                    Inloggen
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button 
+                    size="sm"
+                    className="shadow-sm shadow-primary/20 transition-shadow duration-200 hover:shadow-md hover:shadow-primary/30"
+                    data-testid="button-signup"
+                  >
+                    Aan de slag
+                  </Button>
+                </Link>
+              </>
             )}
-          </AnimatePresence>
-        </Button>
-      </div>
+          </div>
+
+          <div className="flex md:hidden items-center gap-2">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              data-testid="button-mobile-menu"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {mobileMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ opacity: 0, rotate: -90 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    exit={{ opacity: 0, rotate: 90 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    <X className="h-5 w-5" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ opacity: 0, rotate: 90 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    exit={{ opacity: 0, rotate: -90 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    <Menu className="h-5 w-5" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Button>
+          </div>
+        </div>
+      </header>
 
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="md:hidden overflow-hidden border-t border-white/10 dark:border-white/5 bg-background/95 backdrop-blur-xl"
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="md:hidden mt-2 mx-auto max-w-5xl rounded-2xl border border-white/20 dark:border-white/10 bg-background/80 backdrop-blur-2xl shadow-lg shadow-black/5 dark:shadow-black/20 overflow-hidden"
           >
             <nav className="flex flex-col gap-1 p-4">
               {navLinks.map((link, index) => {
@@ -217,19 +224,10 @@ export function MarketingHeader() {
                   </motion.div>
                 </>
               )}
-              
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.2, delay: 0.3 }}
-                className="flex justify-center pt-3"
-              >
-                <ThemeToggle />
-              </motion.div>
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </div>
   );
 }
