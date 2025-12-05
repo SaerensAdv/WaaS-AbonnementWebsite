@@ -152,7 +152,7 @@ export default function HomePage() {
   return (
     <MarketingLayout>
       <section 
-        className="relative min-h-[100vh] flex items-center overflow-hidden"
+        className="relative min-h-[100vh] flex items-center overflow-hidden pt-[72px]"
         data-testid="section-hero"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
@@ -162,7 +162,7 @@ export default function HomePage() {
         
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
         
-        <div className="container mx-auto px-4 relative z-10 pt-32 pb-20">
+        <div className="container mx-auto px-4 relative z-10 pt-24 pb-20">
           <div className="max-w-5xl mx-auto text-center mb-16">
             <BlurIn delay={0}>
               <motion.div 
