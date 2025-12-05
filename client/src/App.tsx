@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/lib/theme-provider";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
+import { PageLoader } from "@/components/page-loader";
 import NotFound from "@/pages/not-found";
 
 import HomePage from "@/pages/home";
@@ -30,6 +31,8 @@ import SpecialistAssignmentsPage from "@/pages/specialist/assignments";
 import SpecialistReportsPage from "@/pages/specialist/reports";
 import SpecialistProfilePage from "@/pages/specialist/profile";
 
+import loaderGif from "@assets/Untitled_design-loader_icon_1764970117869.gif";
+
 function ProtectedRoute({
   component: Component,
   roles,
@@ -42,8 +45,8 @@ function ProtectedRoute({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <img src={loaderGif} alt="Loading..." className="h-20 w-20 object-contain" />
       </div>
     );
   }
@@ -128,6 +131,7 @@ function App() {
       <ThemeProvider defaultTheme="light" storageKey="website-abonnementen-theme">
         <TooltipProvider>
           <AuthProvider>
+            <PageLoader />
             <Router />
             <Toaster />
           </AuthProvider>
