@@ -143,7 +143,7 @@ export function MarketingHeader() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="md:hidden absolute left-4 right-4 top-[calc(100%+0.5rem)] mx-auto max-w-5xl rounded-2xl border border-white/20 dark:border-white/10 bg-background/95 backdrop-blur-2xl shadow-lg shadow-black/5 dark:shadow-black/20 overflow-hidden"
+            className="md:hidden absolute left-4 right-4 top-[calc(100%+0.5rem)] mx-auto max-w-5xl rounded-2xl border border-white/20 dark:border-white/10 bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5 dark:shadow-black/20 ring-1 ring-primary/10 overflow-hidden"
           >
             <nav className="flex flex-col gap-1 p-4">
               {navLinks.map((link, index) => {
