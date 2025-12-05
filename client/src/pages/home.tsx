@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { ProductMockup } from "@/components/product-mockup";
 import {
   Globe,
   Zap,
@@ -18,10 +19,9 @@ import {
   MousePointer,
   Palette,
   TrendingUp,
-  Lock,
+  Clock,
+  Activity,
 } from "lucide-react";
-import { SiVisa, SiMastercard } from "react-icons/si";
-import heroImage from "@assets/stock_images/professional_team_me_49739f15.jpg";
 
 const features = [
   {
@@ -61,6 +61,12 @@ const stats = [
   { value: "99.9%", label: "Uptime garantie" },
   { value: "24/7", label: "Monitoring" },
   { value: "30+", label: "Expert specialisten" },
+];
+
+const trustIndicators = [
+  { icon: Users, value: "500+", label: "klanten" },
+  { icon: Activity, value: "99.9%", label: "uptime" },
+  { icon: Clock, value: "24/7", label: "support" },
 ];
 
 const howItWorks = [
@@ -115,87 +121,76 @@ export default function HomePage() {
   return (
     <MarketingLayout>
       <section 
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+        className="relative min-h-screen flex items-center overflow-hidden py-20 lg:py-0"
         data-testid="section-hero"
       >
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30" />
-        
-        <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <Badge variant="secondary" className="mb-4 bg-white/10 text-white border-white/20">
-              Nieuw: Specialist Marketplace
-            </Badge>
-            <h1 
-              className="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-white leading-tight" 
-              data-testid="text-hero-title"
-            >
-              Professionele websites
-              <span className="block">zonder zorgen</span>
-            </h1>
-            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-              Alles-in-een website abonnementen met beheerde hosting, SEO, en advertentie-beheer. 
-              Kies uw plan en laat ons de rest regelen.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Link href="/pricing">
-                <Button size="lg" className="gap-2 text-base" data-testid="button-view-plans">
-                  Bekijk plannen
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/about">
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="bg-white/10 border-white/30 text-white backdrop-blur-sm"
-                  data-testid="button-learn-more"
-                >
-                  Meer informatie
-                </Button>
-              </Link>
-            </div>
-            <p className="text-sm text-white/70 pt-4">
-              Vertrouwd door 500+ Nederlandse bedrijven
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-12 bg-muted/50" data-testid="section-trust">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-            <p className="text-sm text-muted-foreground font-medium">
-              Vertrouwd door 500+ Nederlandse bedrijven
-            </p>
-            <div className="flex items-center gap-8 flex-wrap justify-center">
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <SiVisa className="h-8 w-auto" />
+          <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+            <div className="lg:col-span-3 space-y-8">
+              <Badge variant="secondary" className="no-default-hover-elevate no-default-active-elevate">
+                Vertrouwd door 500+ bedrijven
+              </Badge>
+              
+              <h1 
+                className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-none" 
+                data-testid="text-hero-title"
+              >
+                Professionele websites
+                <span className="block text-primary">zonder zorgen</span>
+              </h1>
+              
+              <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
+                Alles-in-een website abonnementen met beheerde hosting, SEO, en advertentie-beheer. 
+                Kies uw plan en laat ons de rest regelen.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link href="/pricing">
+                  <Button size="lg" className="gap-2 text-base" data-testid="button-view-plans">
+                    Bekijk plannen
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button 
+                    size="lg" 
+                    variant="outline"
+                    data-testid="button-learn-more"
+                  >
+                    Start gratis proefperiode
+                  </Button>
+                </Link>
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <SiMastercard className="h-8 w-auto" />
+              
+              <div className="flex items-center gap-8 pt-4 flex-wrap">
+                {trustIndicators.map((indicator, index) => (
+                  <div 
+                    key={indicator.label}
+                    className="flex items-center gap-2"
+                    data-testid={`trust-indicator-${index}`}
+                  >
+                    <indicator.icon className="h-5 w-5 text-primary" />
+                    <span className="font-semibold">{indicator.value}</span>
+                    <span className="text-muted-foreground">{indicator.label}</span>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <div className="flex items-center gap-1.5 text-sm font-medium">
-                  <Lock className="h-4 w-4" />
-                  SSL Secured
-                </div>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <div className="flex items-center gap-1.5 text-sm font-medium">
-                  <Shield className="h-4 w-4" />
-                  GDPR Compliant
-                </div>
+            </div>
+            
+            <div className="lg:col-span-2 relative">
+              <div className="relative">
+                <ProductMockup 
+                  variant="auto" 
+                  className="w-full max-w-xl mx-auto lg:max-w-none"
+                />
+                <div className="absolute -z-10 inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-primary/10 blur-3xl rounded-full scale-150" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 md:py-28" data-testid="section-stats">
+      <section className="py-24 md:py-32" data-testid="section-stats">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             {stats.map((stat, index) => (
@@ -204,10 +199,10 @@ export default function HomePage() {
                 className="text-center"
                 data-testid={`stat-${index}`}
               >
-                <div className="text-5xl md:text-6xl font-semibold text-primary font-mono tabular-nums">
+                <div className="text-6xl md:text-7xl font-bold text-primary font-mono tabular-nums">
                   {stat.value}
                 </div>
-                <div className="text-sm md:text-base text-muted-foreground mt-2">
+                <div className="text-base text-muted-foreground mt-3">
                   {stat.label}
                 </div>
               </div>
@@ -216,36 +211,36 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 bg-muted/30" data-testid="section-how-it-works">
+      <section className="py-24 md:py-32 bg-slate-900 text-white" data-testid="section-how-it-works">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Hoe het werkt
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-xl text-slate-300">
               In drie eenvoudige stappen naar uw professionele online aanwezigheid.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
             {howItWorks.map((item) => (
               <div 
                 key={item.step} 
                 className="text-center"
                 data-testid={`step-${item.step}`}
               >
-                <div className="relative inline-flex items-center justify-center mb-6">
-                  <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-                    <item.icon className="h-8 w-8 text-primary" />
+                <div className="relative inline-flex items-center justify-center mb-8">
+                  <div className="h-20 w-20 rounded-full bg-white/10 flex items-center justify-center">
+                    <item.icon className="h-10 w-10 text-white" />
                   </div>
                   <Badge 
-                    className="absolute -top-2 -right-2 h-7 w-7 rounded-full p-0 flex items-center justify-center"
+                    className="absolute -top-2 -right-2 h-8 w-8 rounded-full p-0 flex items-center justify-center bg-primary text-white border-0"
                   >
                     {item.step}
                   </Badge>
                 </div>
-                <h3 className="text-xl font-medium mb-3">{item.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <h3 className="text-2xl font-semibold mb-4 text-white">{item.title}</h3>
+                <p className="text-slate-300 leading-relaxed text-lg">
                   {item.description}
                 </p>
               </div>
@@ -254,30 +249,30 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28" data-testid="section-features">
+      <section className="py-24 md:py-32" data-testid="section-features">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Alles wat u nodig heeft
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-xl text-muted-foreground">
               Van website tot advertenties, wij bieden een complete oplossing voor uw online aanwezigheid.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {features.map((feature, index) => (
               <Card 
                 key={feature.title} 
                 className="border bg-card"
                 data-testid={`feature-card-${index}`}
               >
-                <CardContent className="p-8">
-                  <div className="h-12 w-12 rounded-md bg-primary/10 flex items-center justify-center mb-6">
-                    <feature.icon className="h-6 w-6 text-primary" />
+                <CardContent className="p-10">
+                  <div className="h-14 w-14 rounded-md bg-primary/10 flex items-center justify-center mb-8">
+                    <feature.icon className="h-7 w-7 text-primary" />
                   </div>
-                  <h3 className="text-xl font-medium mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                  <h3 className="text-2xl font-semibold mb-4">{feature.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed text-lg">{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -285,40 +280,91 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 bg-muted/30" data-testid="section-pricing">
+      <section className="py-24 md:py-32 bg-gradient-to-b from-slate-900 to-slate-800 text-white" data-testid="section-testimonials">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Wat klanten zeggen
+            </h2>
+            <p className="text-xl text-slate-300">
+              Ontdek waarom honderden bedrijven kiezen voor WebsiteAbonnementen.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {testimonials.map((testimonial, index) => (
+              <Card 
+                key={testimonial.name} 
+                className="border-0 bg-white/5 backdrop-blur-sm"
+                data-testid={`testimonial-${index}`}
+              >
+                <CardContent className="p-10">
+                  <Quote className="h-10 w-10 text-primary/40 mb-6" />
+                  <p className="text-white text-lg mb-8 leading-relaxed">
+                    "{testimonial.text}"
+                  </p>
+                  <div className="flex gap-1 mb-8">
+                    {Array.from({ length: testimonial.rating }).map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Avatar className="h-14 w-14">
+                      <AvatarFallback className="bg-primary text-white font-semibold text-lg">
+                        {testimonial.initials}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <div className="font-semibold text-white text-lg">{testimonial.name}</div>
+                      <div className="text-slate-400">
+                        {testimonial.role}
+                      </div>
+                      <div className="text-primary font-medium">
+                        {testimonial.company}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 md:py-32" data-testid="section-pricing">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Drie flexibele plannen
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-xl text-muted-foreground">
               Van starter tot enterprise, er is een plan dat past bij uw behoeften en budget.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <Card 
-              className="border bg-card transition-shadow duration-200 hover:shadow-lg"
+              className="border bg-card"
               data-testid="pricing-low"
             >
-              <CardContent className="p-8">
-                <div className="text-sm font-medium text-muted-foreground mb-2">LOW</div>
-                <div className="text-4xl font-semibold mb-1 font-mono">
+              <CardContent className="p-10">
+                <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Low</div>
+                <div className="text-5xl font-bold mb-1 font-mono tabular-nums">
                   99
                 </div>
-                <div className="text-sm text-muted-foreground mb-6">euro per maand</div>
-                <ul className="space-y-4 mb-8">
-                  <li className="flex items-center gap-3 text-sm">
+                <div className="text-muted-foreground mb-8">euro per maand</div>
+                <ul className="space-y-4 mb-10">
+                  <li className="flex items-center gap-3">
                     <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                    Keuze uit 3 templates
+                    <span>Keuze uit 3 templates</span>
                   </li>
-                  <li className="flex items-center gap-3 text-sm">
+                  <li className="flex items-center gap-3">
                     <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                    5 pagina's inbegrepen
+                    <span>5 pagina's inbegrepen</span>
                   </li>
-                  <li className="flex items-center gap-3 text-sm">
+                  <li className="flex items-center gap-3">
                     <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                    Basis ondersteuning
+                    <span>Basis ondersteuning</span>
                   </li>
                 </ul>
                 <Link href="/pricing">
@@ -328,30 +374,30 @@ export default function HomePage() {
             </Card>
 
             <Card 
-              className="border-2 border-primary bg-card relative transition-shadow duration-200 hover:shadow-lg"
+              className="border-2 border-primary bg-card relative"
               data-testid="pricing-medium"
             >
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                 <Badge>Populair</Badge>
               </div>
-              <CardContent className="p-8">
-                <div className="text-sm font-medium text-muted-foreground mb-2">MEDIUM</div>
-                <div className="text-4xl font-semibold mb-1 font-mono">
+              <CardContent className="p-10">
+                <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Medium</div>
+                <div className="text-5xl font-bold mb-1 font-mono tabular-nums">
                   199
                 </div>
-                <div className="text-sm text-muted-foreground mb-6">euro per maand</div>
-                <ul className="space-y-4 mb-8">
-                  <li className="flex items-center gap-3 text-sm">
+                <div className="text-muted-foreground mb-8">euro per maand</div>
+                <ul className="space-y-4 mb-10">
+                  <li className="flex items-center gap-3">
                     <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                    Keuze uit 10 templates
+                    <span>Keuze uit 10 templates</span>
                   </li>
-                  <li className="flex items-center gap-3 text-sm">
+                  <li className="flex items-center gap-3">
                     <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                    10 pagina's inbegrepen
+                    <span>10 pagina's inbegrepen</span>
                   </li>
-                  <li className="flex items-center gap-3 text-sm">
+                  <li className="flex items-center gap-3">
                     <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                    Priority support
+                    <span>Priority support</span>
                   </li>
                 </ul>
                 <Link href="/pricing">
@@ -361,27 +407,27 @@ export default function HomePage() {
             </Card>
 
             <Card 
-              className="border bg-card transition-shadow duration-200 hover:shadow-lg"
+              className="border bg-card"
               data-testid="pricing-high"
             >
-              <CardContent className="p-8">
-                <div className="text-sm font-medium text-muted-foreground mb-2">HIGH</div>
-                <div className="text-4xl font-semibold mb-1">
+              <CardContent className="p-10">
+                <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">High</div>
+                <div className="text-5xl font-bold mb-1">
                   Op maat
                 </div>
-                <div className="text-sm text-muted-foreground mb-6">neem contact op</div>
-                <ul className="space-y-4 mb-8">
-                  <li className="flex items-center gap-3 text-sm">
+                <div className="text-muted-foreground mb-8">neem contact op</div>
+                <ul className="space-y-4 mb-10">
+                  <li className="flex items-center gap-3">
                     <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                    Custom design
+                    <span>Custom design</span>
                   </li>
-                  <li className="flex items-center gap-3 text-sm">
+                  <li className="flex items-center gap-3">
                     <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                    Onbeperkte pagina's
+                    <span>Onbeperkte pagina's</span>
                   </li>
-                  <li className="flex items-center gap-3 text-sm">
+                  <li className="flex items-center gap-3">
                     <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                    Dedicated support
+                    <span>Dedicated support</span>
                   </li>
                 </ul>
                 <Link href="/pricing">
@@ -393,74 +439,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28" data-testid="section-testimonials">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-semibold mb-4">
-              Wat klanten zeggen
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Ontdek waarom honderden bedrijven kiezen voor WebsiteAbonnementen.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <Card 
-                key={testimonial.name} 
-                className="border bg-card"
-                data-testid={`testimonial-${index}`}
-              >
-                <CardContent className="p-8">
-                  <Quote className="h-8 w-8 text-primary/20 mb-4" />
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    "{testimonial.text}"
-                  </p>
-                  <div className="flex gap-1 mb-6">
-                    {Array.from({ length: testimonial.rating }).map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-primary text-primary" />
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <Avatar className="h-12 w-12">
-                      <AvatarFallback className="bg-primary/10 text-primary font-medium">
-                        {testimonial.initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <div className="font-medium">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {testimonial.role}, {testimonial.company}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section 
-        className="relative py-24 md:py-32 overflow-hidden"
+        className="py-24 md:py-32 bg-primary text-white"
         data-testid="section-cta"
       >
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/80" />
-        
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl font-semibold mb-6 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
             Klaar om te beginnen?
           </h2>
-          <p className="text-lg text-white/80 mb-8 max-w-xl mx-auto leading-relaxed">
+          <p className="text-xl text-white/80 mb-12 max-w-2xl mx-auto leading-relaxed">
             Start vandaag nog met uw professionele website. Geen verplichtingen, transparante prijzen.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/signup">
-              <Button size="lg" className="gap-2 text-base" data-testid="button-cta-signup">
+              <Button 
+                size="lg" 
+                variant="secondary"
+                className="gap-2 text-base" 
+                data-testid="button-cta-signup"
+              >
                 Start nu gratis
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -469,14 +466,14 @@ export default function HomePage() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="bg-white/10 border-white/30 text-white backdrop-blur-sm"
+                className="bg-transparent border-white/30 text-white"
                 data-testid="button-cta-pricing"
               >
                 Bekijk prijzen
               </Button>
             </Link>
           </div>
-          <p className="text-sm text-white/60 mt-8">
+          <p className="text-sm text-white/60 mt-12">
             Vertrouwd door 500+ Nederlandse bedrijven
           </p>
         </div>
