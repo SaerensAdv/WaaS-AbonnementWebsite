@@ -161,12 +161,10 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),transparent)]" />
         
         <AnimatedDotGrid 
-          className="opacity-60"
-          dotSize={1.5}
-          gap={40}
-          baseOpacity={0.2}
-          pulseOpacity={0.8}
-          baseColor="255, 255, 255"
+          className="opacity-80"
+          dotSize={1}
+          gap={35}
+          baseOpacity={0.06}
           accentColor="59, 130, 246"
         />
         
