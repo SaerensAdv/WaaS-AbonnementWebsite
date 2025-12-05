@@ -1,8 +1,9 @@
 import { Link } from "wouter";
-import { Globe, Linkedin, Twitter, Instagram, Mail, ShieldCheck, CreditCard, Lock } from "lucide-react";
+import { Linkedin, Twitter, Instagram, Mail, ShieldCheck, CreditCard, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 
 export function MarketingFooter() {
   const currentYear = new Date().getFullYear();
@@ -21,9 +22,11 @@ export function MarketingFooter() {
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4 space-y-6">
             <Link href="/" className="flex items-center gap-3" data-testid="link-footer-logo">
-              <div className="flex h-11 w-11 items-center justify-center rounded-md bg-primary">
-                <Globe className="h-6 w-6 text-primary-foreground" />
-              </div>
+              <img 
+                src={logoImage} 
+                alt="WebsiteAbonnementen" 
+                className="h-11 w-11 rounded-md object-contain"
+              />
               <span className="text-xl font-semibold">WebsiteAbonnementen</span>
             </Link>
             

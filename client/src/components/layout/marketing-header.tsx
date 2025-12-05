@@ -2,9 +2,10 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useAuth } from "@/lib/auth-context";
-import { Globe, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 
 export function MarketingHeader() {
   const [location] = useLocation();
@@ -25,9 +26,11 @@ export function MarketingHeader() {
           className="flex items-center gap-3 group transition-opacity duration-200 hover:opacity-80" 
           data-testid="link-logo"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary shadow-sm transition-transform duration-200 group-hover:scale-105">
-            <Globe className="h-5 w-5 text-primary-foreground" />
-          </div>
+          <img 
+            src={logoImage} 
+            alt="WebsiteAbonnementen" 
+            className="h-10 w-10 rounded-lg shadow-sm transition-transform duration-200 group-hover:scale-105 object-contain"
+          />
           <span className="text-xl font-semibold tracking-tight">WebsiteAbonnementen</span>
         </Link>
 

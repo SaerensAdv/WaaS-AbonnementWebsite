@@ -9,7 +9,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth-context";
 import { loginSchema, type LoginInput } from "@shared/schema";
-import { Globe, Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft } from "lucide-react";
+import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LoginPage() {
@@ -51,9 +52,11 @@ export default function LoginPage() {
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between h-16 px-4">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary">
-              <Globe className="h-5 w-5 text-primary-foreground" />
-            </div>
+            <img 
+              src={logoImage} 
+              alt="WebsiteAbonnementen" 
+              className="h-9 w-9 rounded-md object-contain"
+            />
             <span className="text-lg font-semibold">WebsiteAbonnementen</span>
           </Link>
           <ThemeToggle />

@@ -34,8 +34,8 @@ import {
   ClipboardList,
   LogOut,
   ChevronUp,
-  Globe,
 } from "lucide-react";
+import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 
 const customerMenuItems = [
   { title: "Dashboard", url: "/app", icon: LayoutDashboard },
@@ -94,9 +94,11 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="border-b p-4">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
-            <Globe className="h-4 w-4 text-primary-foreground" />
-          </div>
+          <img 
+            src={logoImage} 
+            alt="WebsiteAbonnementen" 
+            className="h-8 w-8 rounded-md object-contain"
+          />
           <span className="font-semibold">WebsiteAbonnementen</span>
         </Link>
       </SidebarHeader>
