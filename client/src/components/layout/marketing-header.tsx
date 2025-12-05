@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
-import logoVideo from "@assets/grok-video-e7f737c8-8d16-4589-a26f-6f33e56664b6_1764969458731.mp4";
+import logoVideo from "@assets/grok-video-e7f737c8-8d16-4589-a26f-6f33e56664b6-no-bg_1764969718894.mp4";
 
 export function MarketingHeader() {
   const [location] = useLocation();
@@ -27,14 +27,14 @@ export function MarketingHeader() {
           className="flex items-center gap-3 group transition-opacity duration-200 hover:opacity-80" 
           data-testid="link-logo"
         >
-          <div className="h-12 w-12 rounded-lg overflow-hidden transition-transform duration-200 group-hover:scale-105 bg-background">
+          <div className="h-12 w-12 rounded-lg overflow-hidden transition-transform duration-200 group-hover:scale-105">
             <video 
               src={logoVideo}
               autoPlay
               loop
               muted
               playsInline
-              className="h-full w-full object-cover mix-blend-multiply dark:mix-blend-screen dark:invert"
+              className="h-full w-full object-cover"
             />
           </div>
           <span className="text-xl font-semibold tracking-tight">WebsiteAbonnementen</span>
