@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth-context";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { MobileCarouselSection } from "@/components/mobile-carousel";
 import {
   Check,
   X,
@@ -300,19 +301,36 @@ export default function PricingPage() {
           {plansLoading ? (
             <PlansSkeleton />
           ) : sortedPlans && sortedPlans.length > 0 ? (
-            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {sortedPlans.map((plan, index) => (
-                <PlanCard
-                  key={plan.id}
-                  plan={plan}
-                  featured={plan.tier === "MEDIUM"}
-                  isCustomer={user?.role === "CUSTOMER"}
-                  isLoggedIn={!!user}
-                  onCheckout={(planId) => checkoutMutation.mutate(planId)}
-                  isCheckoutPending={checkoutMutation.isPending}
-                  pendingPlanId={pendingPlanId}
-                />
-              ))}
+            <div className="max-w-5xl mx-auto">
+              <MobileCarouselSection
+                mobileChildren={sortedPlans.map((plan) => (
+                  <PlanCard
+                    key={plan.id}
+                    plan={plan}
+                    featured={plan.tier === "MEDIUM"}
+                    isCustomer={user?.role === "CUSTOMER"}
+                    isLoggedIn={!!user}
+                    onCheckout={(planId) => checkoutMutation.mutate(planId)}
+                    isCheckoutPending={checkoutMutation.isPending}
+                    pendingPlanId={pendingPlanId}
+                  />
+                ))}
+              >
+                <div className="grid md:grid-cols-3 gap-6">
+                  {sortedPlans.map((plan) => (
+                    <PlanCard
+                      key={plan.id}
+                      plan={plan}
+                      featured={plan.tier === "MEDIUM"}
+                      isCustomer={user?.role === "CUSTOMER"}
+                      isLoggedIn={!!user}
+                      onCheckout={(planId) => checkoutMutation.mutate(planId)}
+                      isCheckoutPending={checkoutMutation.isPending}
+                      pendingPlanId={pendingPlanId}
+                    />
+                  ))}
+                </div>
+              </MobileCarouselSection>
             </div>
           ) : (
             <div className="text-center py-12">
