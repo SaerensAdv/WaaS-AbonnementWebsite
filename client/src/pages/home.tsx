@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { DashboardMockup, TrustLogos, PaymentMethods, PartnerBadge } from "@/components/dashboard-mockup";
 import { MobileCarouselSection } from "@/components/mobile-carousel";
+import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
   FadeIn,
@@ -158,6 +159,16 @@ export default function HomePage() {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),transparent)]" />
+        
+        <AnimatedDotGrid 
+          className="opacity-60"
+          dotSize={1.5}
+          gap={40}
+          baseOpacity={0.2}
+          pulseOpacity={0.8}
+          baseColor="255, 255, 255"
+          accentColor="59, 130, 246"
+        />
         
         <GlowPulse className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px]" />
         
