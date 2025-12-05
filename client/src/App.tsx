@@ -10,6 +10,7 @@ import NotFound from "@/pages/not-found";
 
 import HomePage from "@/pages/home";
 import PricingPage from "@/pages/pricing";
+import AboutPage from "@/pages/about";
 import LoginPage from "@/pages/auth/login";
 import SignupPage from "@/pages/auth/signup";
 import ForgotPasswordPage from "@/pages/auth/forgot-password";
@@ -73,6 +74,7 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/pricing" component={PricingPage} />
+      <Route path="/about" component={AboutPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/signup" component={SignupPage} />
       <Route path="/forgot-password" component={ForgotPasswordPage} />
