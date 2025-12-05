@@ -1,0 +1,232 @@
+Replit prompt (kopieer/plak) — bouw een “Website Abonnementen” platform + specialist marketplace (MVP → schaalbaar)
+
+Je bent een senior full-stack engineer + product designer + DevOps. Bouw een productieklare MVP in Replit voor een SaaS-platform “WebsiteAbonnementen” met 3 tiers (Low/Medium/High), add-ons (Google Ads, Meta Ads, SEO, …) en een workflow waarbij bij Google Ads een maandbudget wordt opgegeven en het systeem een interne split berekent (media vs beheer). Later uitbreidbaar naar een marketplace waar specialisten zich aanmelden en accounts krijgen toegewezen. Werk privacy-first (GDPR), schaalbaar en onderhoudbaar.
+
+⸻
+
+1) Tech stack (vereist)
+	•	Frontend: Next.js (App Router) + TypeScript + TailwindCSS + shadcn/ui
+	•	Backend: Next.js Route Handlers (of aparte Express server alleen als nodig)
+	•	DB: PostgreSQL (Neon of Supabase) + Prisma ORM
+	•	Auth: NextAuth (credentials + magic link) of Clerk (kies 1, implementeer volledig)
+	•	Payments: Stripe Subscriptions + add-on line items
+	•	Email: Resend (of Postmark) voor magic links, factuurmails, onboarding
+	•	File storage: S3-compatible (Cloudflare R2 of Supabase Storage) voor logo/images
+	•	Analytics/Logging: server logs + basic audit log in DB
+
+Doel: één repo, clean architecture, duidelijke scheiding: UI / domain / data / integrations.
+
+⸻
+
+2) Kernfeatures (MVP scope)
+
+2.1 Rollen & accounts
+
+Implementeer rollen:
+	•	ADMIN (Axel): beheert templates, plannen, add-ons, klanten, specialisten, toewijzingen
+	•	CUSTOMER (abonnee): kiest plan, template, vult onboarding in, kiest add-ons, ziet rapporten/status
+	•	SPECIALIST (advertiser): kan toegewezen klanten/accounts zien, taken, rapportage-notities, status updates
+
+Auth:
+	•	Signup/login
+	•	E-mail verificatie
+	•	Password reset
+	•	Role-based route protection + API authorization
+
+2.2 Abonnementen (Website-as-a-Service)
+
+3 website tiers:
+	•	LOW: keuze uit 3 templates
+	•	MEDIUM: keuze uit 6–10 templates
+	•	HIGH: op maat (geen template selectie, maar intake + custom scope)
+
+Elke tier heeft standaard opties (configureerbaar in admin):
+	•	aantal pagina’s, credits/wijzigingen per maand, SLA, supportkanaal
+	•	inbegrepen tracking/consent, hosting, updates, rapportering
+
+Customer flow:
+	1.	Kies plan
+	2.	Betaal via Stripe
+	3.	Selecteer template (LOW/MEDIUM) of start “maatwerk intake” (HIGH)
+	4.	Onboarding wizard met stappen (assets, copy, services, doelgroep, contact, domein)
+	5.	Dashboard met status: “Onboarding”, “In productie”, “Live”, “Onderhoud”.
+
+2.3 Add-ons + budget input (Growth layer)
+
+Add-ons catalogus (admin beheert):
+	•	Google Ads
+	•	Meta Ads
+	•	SEO
+	•	Content
+	•	Local SEO/GBP
+… (extensible)
+
+Voor Google Ads add-on:
+	•	customer vult maandbudget in (bv €1500)
+	•	systeem berekent:
+	•	mediaBudget = 0.85 * total (default range 0.80–0.90 configureerbaar)
+	•	managementBudget = total - mediaBudget
+	•	toon dit transparant in UI
+	•	sla op als “AddOnSelection” bij de subscription
+
+Voor andere add-ons:
+	•	configuratievelden per add-on (bijv. SEO: target locaties, keywords; Content: aantal artikelen; Meta: doelgroep/IG/FB)
+
+2.4 Rapportering (MVP)
+	•	Voor elk klantproject: “Rapporten” tab met:
+	•	maandelijkse samenvatting (handmatig door specialist/admin in te vullen)
+	•	upload link naar Looker Studio/GA4/Ads dashboard (URL)
+	•	Standaard rapport-template per add-on: enkel links + korte tekstvelden + KPI velden (optioneel).
+
+2.5 Specialist marketplace (MVP-light)
+	•	Specialist kan zich registreren en profiel invullen:
+	•	niches, skills (Google Ads, Meta, SEO), ervaring, talen, capacity (aantal accounts)
+	•	Admin kan:
+	•	specialisten goedkeuren
+	•	een klant’s add-on “Google Ads” toewijzen aan een specialist
+	•	toewijzing status: proposed/active/paused/ended
+	•	Specialist kan enkel toegewezen klanten zien.
+
+⸻
+
+3) Datamodel (Prisma) — verplicht implementeren
+
+Maak Prisma schema met minstens:
+
+User
+	•	id, email, name, role (ADMIN|CUSTOMER|SPECIALIST), createdAt
+
+CustomerProfile
+	•	userId (FK), companyName, vat, address, phone
+
+SpecialistProfile
+	•	userId (FK), skills (string[]), niches (string[]), languages (string[]), capacityInt, approvedBool
+
+Plan
+	•	id, name (LOW|MEDIUM|HIGH), monthlyPriceCents, includedTemplatesMin/Max, includedCredits, slaText, isActive
+
+Template
+	•	id, name, planEligibility (LOW/MEDIUM), previewImageUrl, isActive
+
+Subscription
+	•	id, userId, stripeCustomerId, stripeSubscriptionId, planId, status, currentPeriodEnd
+
+Project
+	•	id, userId, planId, templateId nullable, status (ONBOARDING|PRODUCTION|LIVE|MAINTENANCE)
+	•	onboardingJson (jsonb)
+	•	domain, notes
+
+AddOn
+	•	id, name, slug, requiresBudgetBool, configSchemaJson (jsonb), baseFeeCents nullable, isActive
+
+AddOnSelection
+	•	id, projectId, addOnId, totalBudgetCents nullable, mediaBudgetCents nullable, managementBudgetCents nullable
+	•	configJson (jsonb), status (REQUESTED|ACTIVE|PAUSED)
+
+Assignment
+	•	id, addOnSelectionId, specialistUserId, status (PROPOSED|ACTIVE|ENDED), createdAt
+
+Report
+	•	id, projectId, month (YYYY-MM), type (WEBSITE|GOOGLE_ADS|META|SEO)
+	•	summaryText, kpiJson, dashboardUrl, createdByUserId
+
+AuditLog
+	•	id, actorUserId, action, entityType, entityId, metadataJson, createdAt
+
+Zorg voor indexes op foreign keys en unieke constraints waar logisch (email uniek, etc.).
+
+⸻
+
+4) API & Pages (vereist)
+
+Frontend routes
+	•	/ marketing page
+	•	/pricing met tiers + add-ons
+	•	/signup, /login
+	•	/app (dashboard)
+	•	/app/project (wizard + status)
+	•	/app/addons (selecteer/add-on config)
+	•	/app/reports
+	•	/app/billing (Stripe portal link)
+	•	/admin (alle admin tools)
+	•	/specialist (toewijzingen, rapporten maken)
+
+Backend endpoints
+	•	POST /api/stripe/checkout (create checkout session)
+	•	POST /api/stripe/webhook (sync subscription status)
+	•	GET/PUT /api/project
+	•	POST /api/addons/select
+	•	POST /api/assignments (admin)
+	•	POST /api/reports (admin/specialist)
+	•	GET /api/me (session + role)
+
+Implementeer server-side authorization per endpoint.
+
+⸻
+
+5) Stripe requirements
+	•	Stripe products/prices voor LOW/MEDIUM/HIGH
+	•	add-ons als afzonderlijke Stripe Prices of als interne lijnitems (kies 1, maak consistent)
+	•	webhook verwerkt:
+	•	checkout.session.completed
+	•	customer.subscription.created/updated/deleted
+	•	bij webhook: update Subscription + koppel aan user/project
+	•	bouw een “Billing Portal” knop.
+
+⸻
+
+6) UX eisen
+	•	Clean, rustig, premium (business)
+	•	Duidelijke stap-voor-stap wizard
+	•	In add-on budget UI: slider + input + duidelijke split (media vs beheer)
+	•	Admin heeft tabellen met filter/search (customers/projects/specialists/addons)
+
+⸻
+
+7) Security & compliance (basis)
+	•	Input validation met Zod
+	•	Rate limiting op auth en webhooks
+	•	CSRF bescherming waar relevant
+	•	Secret management via Replit Secrets: DATABASE_URL, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, AUTH_SECRET, EMAIL_API_KEY
+	•	GDPR: minimale data, export/delete request placeholder endpoints (later), audit log
+
+⸻
+
+8) Seeder & demo data
+
+Maak seed script:
+	•	1 admin user
+	•	3 plannen
+	•	10 templates (3 low, 7 medium)
+	•	5 add-ons (Google Ads met budgetsplit, Meta Ads met budgetsplit, SEO zonder budget, Content met aantal, Local SEO)
+	•	2 specialist test accounts (approved)
+	•	1 demo customer + project
+
+⸻
+
+9) Definition of Done
+	•	Project start zonder errors in Replit
+	•	Migraties + seed draaien
+	•	Signup → Checkout → Project dashboard werkt
+	•	Add-ons select + Google Ads budget split wordt opgeslagen en getoond
+	•	Admin kan specialist toewijzen aan Google Ads selection
+	•	Specialist ziet assignment en kan report invullen
+	•	Customer kan report bekijken
+	•	Stripe webhook updates subscription status correct
+
+⸻
+
+10) Bouwstijl
+	•	Gebruik TypeScript strikt
+	•	Componenten herbruikbaar
+	•	Geen rommel: duidelijke mappenstructuur
+	•	Voeg README met setup stappen + Replit secrets checklist
+	•	Voeg minimale tests toe (schema validation + critical util functions)
+
+⸻
+
+Extra (belangrijk): budgetsplit regels
+	•	Default media percentage = 85%
+	•	In admin kan range ingesteld worden: min 80% max 90%
+	•	Rond bedragen af op hele euro’s (cents correct)
+	•	Toon waarschuwing als totalBudget < €500 (of admin-config)
