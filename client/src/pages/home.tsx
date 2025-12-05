@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { DashboardMockup, TrustLogos, PaymentMethods, PartnerBadge } from "@/components/dashboard-mockup";
+import { MobileCarouselSection } from "@/components/mobile-carousel";
 import {
   FadeInUp,
   FadeIn,
@@ -364,32 +365,55 @@ export default function HomePage() {
             </div>
           </FadeInUp>
 
-          <StaggerChildren className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" staggerDelay={0.15}>
-            {howItWorks.map((item, index) => (
-              <StaggerItem key={item.step}>
-                <motion.div 
-                  className="relative"
-                  data-testid={`step-${index}`}
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {index < howItWorks.length - 1 && (
-                    <div className="hidden lg:block absolute top-12 left-full w-full h-px bg-gradient-to-r from-border to-transparent z-0" />
-                  )}
-                  <div className="relative z-10">
-                    <div className="text-6xl font-bold text-primary/10 mb-4 font-mono">
-                      {item.step}
-                    </div>
-                    <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                      <item.icon className="h-7 w-7 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+          <MobileCarouselSection
+            mobileChildren={howItWorks.map((item, index) => (
+              <motion.div 
+                key={item.step}
+                className="relative"
+                data-testid={`step-${index}`}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="relative z-10">
+                  <div className="text-6xl font-bold text-primary/10 mb-4 font-mono">
+                    {item.step}
                   </div>
-                </motion.div>
-              </StaggerItem>
+                  <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                    <item.icon className="h-7 w-7 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+                </div>
+              </motion.div>
             ))}
-          </StaggerChildren>
+          >
+            <StaggerChildren className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto" staggerDelay={0.15}>
+              {howItWorks.map((item, index) => (
+                <StaggerItem key={item.step}>
+                  <motion.div 
+                    className="relative"
+                    data-testid={`step-${index}`}
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {index < howItWorks.length - 1 && (
+                      <div className="hidden lg:block absolute top-12 left-full w-full h-px bg-gradient-to-r from-border to-transparent z-0" />
+                    )}
+                    <div className="relative z-10">
+                      <div className="text-6xl font-bold text-primary/10 mb-4 font-mono">
+                        {item.step}
+                      </div>
+                      <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                        <item.icon className="h-7 w-7 text-primary" />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+                    </div>
+                  </motion.div>
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          </MobileCarouselSection>
         </div>
       </section>
 
@@ -466,33 +490,60 @@ export default function HomePage() {
             </div>
           </FadeInUp>
 
-          <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto" staggerDelay={0.1}>
-            {benefits.map((benefit, index) => (
-              <StaggerItem key={benefit.title}>
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.2 }}
+          <MobileCarouselSection
+            mobileChildren={benefits.map((benefit, index) => (
+              <motion.div
+                key={benefit.title}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Card 
+                  className="border bg-card h-full"
+                  data-testid={`benefit-card-${index}`}
                 >
-                  <Card 
-                    className="border bg-card h-full"
-                    data-testid={`benefit-card-${index}`}
-                  >
-                    <CardContent className="p-6">
-                      <motion.div 
-                        className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4"
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <benefit.icon className="h-6 w-6 text-primary" />
-                      </motion.div>
-                      <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed">{benefit.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </StaggerItem>
+                  <CardContent className="p-6">
+                    <motion.div 
+                      className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <benefit.icon className="h-6 w-6 text-primary" />
+                    </motion.div>
+                    <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{benefit.description}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </StaggerChildren>
+          >
+            <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto" staggerDelay={0.1}>
+              {benefits.map((benefit, index) => (
+                <StaggerItem key={benefit.title}>
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Card 
+                      className="border bg-card h-full"
+                      data-testid={`benefit-card-${index}`}
+                    >
+                      <CardContent className="p-6">
+                        <motion.div 
+                          className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4"
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <benefit.icon className="h-6 w-6 text-primary" />
+                        </motion.div>
+                        <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
+                        <p className="text-muted-foreground text-sm leading-relaxed">{benefit.description}</p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          </MobileCarouselSection>
         </div>
       </section>
 
@@ -512,52 +563,98 @@ export default function HomePage() {
             </div>
           </FadeInUp>
 
-          <StaggerChildren className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto" staggerDelay={0.15}>
-            {testimonials.map((testimonial, index) => (
-              <StaggerItem key={testimonial.name}>
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.2 }}
+          <MobileCarouselSection
+            mobileChildren={testimonials.map((testimonial, index) => (
+              <motion.div
+                key={testimonial.name}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Card 
+                  className="border bg-card h-full"
+                  data-testid={`testimonial-card-${index}`}
                 >
-                  <Card 
-                    className="border bg-card h-full"
-                    data-testid={`testimonial-card-${index}`}
-                  >
-                    <CardContent className="p-8">
-                      <div className="flex gap-1 mb-6">
-                        {[...Array(testimonial.rating)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.1 * i, duration: 0.2 }}
-                          >
-                            <Star className="h-5 w-5 fill-primary text-primary" />
-                          </motion.div>
-                        ))}
-                      </div>
-                      <p className="text-lg leading-relaxed mb-8">
-                        "{testimonial.text}"
-                      </p>
-                      <div className="flex items-center gap-4">
-                        <Avatar className="h-12 w-12">
-                          <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                            {testimonial.initials}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <div className="font-semibold">{testimonial.name}</div>
-                          <div className="text-sm text-muted-foreground">
-                            {testimonial.role} bij {testimonial.company}
-                          </div>
+                  <CardContent className="p-8">
+                    <div className="flex gap-1 mb-6">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, scale: 0 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.1 * i, duration: 0.2 }}
+                        >
+                          <Star className="h-5 w-5 fill-primary text-primary" />
+                        </motion.div>
+                      ))}
+                    </div>
+                    <p className="text-lg leading-relaxed mb-8">
+                      "{testimonial.text}"
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <Avatar className="h-12 w-12">
+                        <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                          {testimonial.initials}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <div className="font-semibold">{testimonial.name}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {testimonial.role} bij {testimonial.company}
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </StaggerItem>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </StaggerChildren>
+          >
+            <StaggerChildren className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto" staggerDelay={0.15}>
+              {testimonials.map((testimonial, index) => (
+                <StaggerItem key={testimonial.name}>
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Card 
+                      className="border bg-card h-full"
+                      data-testid={`testimonial-card-${index}`}
+                    >
+                      <CardContent className="p-8">
+                        <div className="flex gap-1 mb-6">
+                          {[...Array(testimonial.rating)].map((_, i) => (
+                            <motion.div
+                              key={i}
+                              initial={{ opacity: 0, scale: 0 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: 0.1 * i, duration: 0.2 }}
+                            >
+                              <Star className="h-5 w-5 fill-primary text-primary" />
+                            </motion.div>
+                          ))}
+                        </div>
+                        <p className="text-lg leading-relaxed mb-8">
+                          "{testimonial.text}"
+                        </p>
+                        <div className="flex items-center gap-4">
+                          <Avatar className="h-12 w-12">
+                            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                              {testimonial.initials}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <div className="font-semibold">{testimonial.name}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {testimonial.role} bij {testimonial.company}
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          </MobileCarouselSection>
         </div>
       </section>
 
@@ -588,9 +685,9 @@ export default function HomePage() {
             </div>
           </FadeInUp>
 
-          <StaggerChildren className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto" staggerDelay={0.15}>
-            <StaggerItem>
-              <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
+          <MobileCarouselSection
+            mobileChildren={[
+              <motion.div key="starter" whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
                 <Card className="border bg-card h-full" data-testid="pricing-low">
                   <CardContent className="p-8">
                     <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Starter</div>
@@ -612,11 +709,8 @@ export default function HomePage() {
                     </Link>
                   </CardContent>
                 </Card>
-              </motion.div>
-            </StaggerItem>
-
-            <StaggerItem>
-              <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
+              </motion.div>,
+              <motion.div key="professional" whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
                 <Card className="border-2 border-primary bg-card relative h-full" data-testid="pricing-medium">
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <Badge>Meest gekozen</Badge>
@@ -641,11 +735,8 @@ export default function HomePage() {
                     </Link>
                   </CardContent>
                 </Card>
-              </motion.div>
-            </StaggerItem>
-
-            <StaggerItem>
-              <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
+              </motion.div>,
+              <motion.div key="enterprise" whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
                 <Card className="border bg-card h-full" data-testid="pricing-high">
                   <CardContent className="p-8">
                     <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Enterprise</div>
@@ -667,8 +758,90 @@ export default function HomePage() {
                   </CardContent>
                 </Card>
               </motion.div>
-            </StaggerItem>
-          </StaggerChildren>
+            ]}
+          >
+            <StaggerChildren className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto" staggerDelay={0.15}>
+              <StaggerItem>
+                <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
+                  <Card className="border bg-card h-full" data-testid="pricing-low">
+                    <CardContent className="p-8">
+                      <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Starter</div>
+                      <div className="flex items-baseline gap-1 mb-1">
+                        <span className="text-5xl font-bold font-mono">99</span>
+                        <span className="text-muted-foreground">/maand</span>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-8">Perfect voor starters</p>
+                      <ul className="space-y-4 mb-8">
+                        {["Professionele website", "5 pagina's", "SSL & hosting", "Maandelijkse updates", "E-mail support"].map((item) => (
+                          <li key={item} className="flex items-center gap-3 text-sm">
+                            <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                      <Link href="/pricing">
+                        <Button variant="outline" className="w-full">Selecteer</Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </StaggerItem>
+
+              <StaggerItem>
+                <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
+                  <Card className="border-2 border-primary bg-card relative h-full" data-testid="pricing-medium">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      <Badge>Meest gekozen</Badge>
+                    </div>
+                    <CardContent className="p-8">
+                      <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Professional</div>
+                      <div className="flex items-baseline gap-1 mb-1">
+                        <span className="text-5xl font-bold font-mono">199</span>
+                        <span className="text-muted-foreground">/maand</span>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-8">Voor groeiende bedrijven</p>
+                      <ul className="space-y-4 mb-8">
+                        {["Alles uit Starter", "Onbeperkt pagina's", "Persoonlijke specialist", "SEO optimalisatie", "Analytics dashboard", "Priority support"].map((item) => (
+                          <li key={item} className="flex items-center gap-3 text-sm">
+                            <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                      <Link href="/pricing">
+                        <Button className="w-full">Selecteer</Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </StaggerItem>
+
+              <StaggerItem>
+                <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
+                  <Card className="border bg-card h-full" data-testid="pricing-high">
+                    <CardContent className="p-8">
+                      <div className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Enterprise</div>
+                      <div className="flex items-baseline gap-1 mb-1">
+                        <span className="text-4xl font-bold">Op maat</span>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-8">Complete ontzorging</p>
+                      <ul className="space-y-4 mb-8">
+                        {["Alles uit Professional", "Custom design", "Google & Meta Ads", "Dedicated account manager", "SLA garantie", "Wekelijkse rapportage"].map((item) => (
+                          <li key={item} className="flex items-center gap-3 text-sm">
+                            <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                      <Link href="/pricing">
+                        <Button variant="outline" className="w-full">Neem contact op</Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </StaggerItem>
+            </StaggerChildren>
+          </MobileCarouselSection>
         </div>
       </section>
 
