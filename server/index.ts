@@ -38,9 +38,8 @@ async function initStripe() {
     log('Initializing Stripe schema...', 'stripe');
     try {
       await runMigrations({ 
-        databaseUrl,
-        schema: 'stripe'
-      });
+        databaseUrl
+      } as any);
       log('Stripe schema ready', 'stripe');
     } catch (migrationError: any) {
       if (migrationError.message?.includes('already exists')) {
