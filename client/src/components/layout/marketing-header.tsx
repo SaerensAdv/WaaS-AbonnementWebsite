@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useAuth } from "@/lib/auth-context";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 import logoGif from "@assets/Untitled_design_1764969853491.gif";
@@ -12,6 +12,14 @@ export function MarketingHeader() {
   const [location] = useLocation();
   const { user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showStaticLogo, setShowStaticLogo] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowStaticLogo(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -28,7 +36,7 @@ export function MarketingHeader() {
           data-testid="link-logo"
         >
           <img 
-            src={logoGif} 
+            src={showStaticLogo ? logoImage : logoGif} 
             alt="WebsiteAbonnementen" 
             className="h-12 w-12 rounded-lg transition-transform duration-200 group-hover:scale-105 object-contain"
           />
