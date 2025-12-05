@@ -1,5 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+
+function isMobileDevice() {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 768 || 
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    ('ontouchstart' in window);
+}
 
 interface AnimatedDotGridProps {
   className?: string;
@@ -18,8 +25,15 @@ export function AnimatedDotGrid({
 }: AnimatedDotGridProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    setIsMobile(isMobileDevice());
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
+    
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -31,7 +45,7 @@ export function AnimatedDotGrid({
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = rect.width;
       height = rect.height;
       canvas.width = width * dpr;
@@ -99,7 +113,11 @@ export function AnimatedDotGrid({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [dotSize, gap, baseOpacity, accentColor]);
+  }, [dotSize, gap, baseOpacity, accentColor, isMobile]);
+
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <canvas

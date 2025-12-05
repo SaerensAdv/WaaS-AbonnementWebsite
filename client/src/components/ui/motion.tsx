@@ -1,5 +1,20 @@
 import { motion, useSpring, useInView, Variants } from "framer-motion";
-import { useRef, ReactNode } from "react";
+import { useRef, ReactNode, useState, useEffect } from "react";
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      return window.innerWidth < 768 || 
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        ('ontouchstart' in window);
+    };
+    setIsMobile(checkMobile());
+  }, []);
+  
+  return isMobile;
+}
 
 const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
 
@@ -346,11 +361,12 @@ export function Float({
   distance = 10,
   delay = 0
 }: FloatProps) {
+  const isMobile = useIsMobile();
   const prefersReducedMotion = typeof window !== 'undefined' 
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
     : false;
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion || isMobile) {
     return <div className={className}>{children}</div>;
   }
 
@@ -382,11 +398,12 @@ export function GlowPulse({
   children, 
   className = "",
 }: GlowPulseProps) {
+  const isMobile = useIsMobile();
   const prefersReducedMotion = typeof window !== 'undefined' 
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
     : false;
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion || isMobile) {
     return <div className={className}>{children}</div>;
   }
 
