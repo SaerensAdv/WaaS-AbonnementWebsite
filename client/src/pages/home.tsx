@@ -4,8 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
-import { DashboardMockup, TrustLogos, PaymentMethods } from "@/components/dashboard-mockup";
-import { BudgetCalculator } from "@/components/budget-calculator";
+import { DashboardMockup, TrustLogos, PaymentMethods, PartnerBadge } from "@/components/dashboard-mockup";
 import {
   Globe,
   Zap,
@@ -16,77 +15,85 @@ import {
   ArrowRight,
   Check,
   Star,
-  MousePointer,
-  Palette,
   TrendingUp,
   Clock,
   Activity,
   Sparkles,
   Play,
   ChevronRight,
-  Layers,
   Target,
-  LineChart,
+  Coffee,
+  FileCheck,
+  MessageSquare,
+  Rocket,
+  Heart,
+  Award,
 } from "lucide-react";
 
-const features = [
+const benefits = [
   {
-    icon: Globe,
-    title: "Professionele Websites",
-    description: "Kies uit hoogwaardige templates of laat een website op maat maken voor uw bedrijf.",
+    icon: Coffee,
+    title: "Geen technische kennis nodig",
+    description: "U hoeft geen verstand van websites te hebben. Wij regelen alles van A tot Z.",
   },
   {
-    icon: Zap,
-    title: "Snelle Levering",
-    description: "Uw website is binnen enkele dagen live dankzij ons gestroomlijnde proces.",
+    icon: Clock,
+    title: "Bespaar uren tijd",
+    description: "Geen gedoe met hosting, updates of onderhoud. Besteed uw tijd aan uw bedrijf.",
   },
   {
     icon: Shield,
-    title: "Beheerde Hosting",
-    description: "SSL, updates, backups en beveiliging worden volledig door ons beheerd.",
+    title: "Altijd up-to-date & veilig",
+    description: "SSL, backups, updates en beveiliging worden automatisch door ons geregeld.",
   },
   {
-    icon: BarChart3,
-    title: "Growth Add-ons",
-    description: "Voeg Google Ads, Meta Ads, SEO en content toe voor maximale groei.",
+    icon: TrendingUp,
+    title: "Meetbare groei",
+    description: "Bekijk uw resultaten in een helder dashboard. Meer bezoekers, meer klanten.",
   },
   {
     icon: Users,
-    title: "Expert Specialisten",
-    description: "Gecertificeerde specialisten beheren uw advertenties met bewezen resultaten.",
+    title: "Persoonlijke specialist",
+    description: "Een vaste specialist die uw bedrijf begrijpt en voor optimale resultaten zorgt.",
   },
   {
     icon: Headphones,
-    title: "Premium Support",
-    description: "Persoonlijke ondersteuning en maandelijkse rapportages over uw resultaten.",
+    title: "Altijd bereikbaar",
+    description: "Vragen of wijzigingen? Wij staan voor u klaar met snelle, persoonlijke support.",
   },
 ];
 
 const stats = [
-  { value: "500+", label: "Tevreden klanten", description: "Bedrijven vertrouwen ons" },
-  { value: "99.9%", label: "Uptime garantie", description: "Altijd online" },
-  { value: "2.4M", label: "Bezoekers/maand", description: "Totaal bereik" },
-  { value: "127%", label: "Gem. groei", description: "ROI verhoging" },
+  { value: "500+", label: "Tevreden klanten", description: "Zorgeloos online" },
+  { value: "99.9%", label: "Uptime garantie", description: "Altijd bereikbaar" },
+  { value: "127%", label: "Gem. groei", description: "Meer bezoekers" },
+  { value: "<48u", label: "Reactietijd", description: "Snelle support" },
 ];
 
 const howItWorks = [
   {
     step: "01",
-    icon: MousePointer,
-    title: "Kies uw plan",
-    description: "Selecteer het abonnement dat het beste past bij uw behoeften en budget.",
+    icon: MessageSquare,
+    title: "Vertel over uw bedrijf",
+    description: "Een kort gesprek over uw wensen, doelgroep en doelen. Wij luisteren en adviseren.",
   },
   {
     step: "02",
-    icon: Palette,
-    title: "Wij bouwen uw website",
-    description: "Ons team ontwerpt en bouwt uw professionele website binnen enkele dagen.",
+    icon: Rocket,
+    title: "Wij bouwen alles voor u",
+    description: "Ons team ontwerpt en bouwt uw complete website. U hoeft niets te doen.",
   },
   {
     step: "03",
-    icon: TrendingUp,
-    title: "Groei met add-ons",
-    description: "Breid uit met Google Ads, SEO, content en meer naarmate u groeit.",
+    icon: FileCheck,
+    title: "U keurt goed",
+    description: "Bekijk het resultaat en geef feedback. Wij passen aan tot u 100% tevreden bent.",
+  },
+  {
+    step: "04",
+    icon: BarChart3,
+    title: "Bekijk uw resultaten",
+    description: "Uw website is live! Volg uw bezoekers en groei via uw persoonlijke dashboard.",
   },
 ];
 
@@ -96,7 +103,7 @@ const testimonials = [
     initials: "JV",
     company: "De Vries Bouw",
     role: "Directeur",
-    text: "Eindelijk een website waar ik me geen zorgen over hoef te maken. Het team zorgt voor alles en de resultaten zijn uitstekend!",
+    text: "Eindelijk een partij die alles uit handen neemt. Ik hoef me nergens zorgen over te maken en de resultaten zijn fantastisch!",
     rating: 5,
   },
   {
@@ -104,7 +111,7 @@ const testimonials = [
     initials: "SJ",
     company: "Jansen Consulting",
     role: "CEO",
-    text: "De combinatie van een mooie website plus Google Ads beheer heeft ons bedrijf een enorme boost gegeven.",
+    text: "Als ondernemer heb ik geen tijd voor technische zaken. Dit team regelt alles en ik zie alleen maar groei in mijn dashboard.",
     rating: 5,
   },
   {
@@ -112,9 +119,20 @@ const testimonials = [
     initials: "ME",
     company: "El-Amin Logistics",
     role: "Eigenaar",
-    text: "Transparante prijzen, professionele service, en uitstekende resultaten. Na jaren zoeken eindelijk de juiste partner.",
+    text: "Transparante prijzen, geen verrassingen, en een website waar ik trots op ben. Eindelijk de juiste partner gevonden.",
     rating: 5,
   },
+];
+
+const includedServices = [
+  "Professioneel website ontwerp",
+  "Hosting & domein beheer",
+  "SSL beveiliging",
+  "Maandelijkse updates",
+  "Content aanpassingen",
+  "Performance monitoring",
+  "Cookie banner (ConsentEase.io)",
+  "Maandelijkse rapportage",
 ];
 
 export default function HomePage() {
@@ -134,7 +152,7 @@ export default function HomePage() {
           <div className="max-w-5xl mx-auto text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-8">
               <Sparkles className="h-4 w-4 text-primary" />
-              Nu met gratis proefperiode van 14 dagen
+              Wij doen alles, u geniet van de resultaten
               <ChevronRight className="h-4 w-4" />
             </div>
             
@@ -142,20 +160,20 @@ export default function HomePage() {
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9] text-white mb-8" 
               data-testid="text-hero-title"
             >
-              Professionele websites
+              Uw website
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">zonder zorgen</span>
             </h1>
             
             <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-10">
-              Alles-in-een website abonnementen met beheerde hosting, SEO, 
-              en advertentie-beheer. Kies uw plan en laat ons de rest regelen.
+              Geen technische kennis nodig. Geen gedoe met hosting of updates. 
+              Wij bouwen en beheren uw professionele website terwijl u zich focust op uw bedrijf.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link href="/pricing">
                 <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-view-plans">
-                  Bekijk plannen
+                  Bekijk abonnementen
                   <ArrowRight className="h-5 w-5" />
                 </Button>
               </Link>
@@ -167,10 +185,12 @@ export default function HomePage() {
                   data-testid="button-start-trial"
                 >
                   <Play className="h-4 w-4 mr-2" />
-                  Bekijk demo
+                  Bekijk voorbeelden
                 </Button>
               </Link>
             </div>
+            
+            <PartnerBadge className="mb-0" />
           </div>
           
           <div className="relative max-w-5xl mx-auto">
@@ -192,11 +212,11 @@ export default function HomePage() {
             <div className="absolute -top-6 -right-6 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl border border-slate-200 dark:border-slate-700 hidden md:block">
               <div className="flex items-center gap-3">
                 <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Globe className="h-6 w-6 text-primary" />
+                  <Heart className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">Websites live</div>
-                  <div className="text-2xl font-bold font-mono">2,847</div>
+                  <div className="text-sm text-muted-foreground">Tevreden klanten</div>
+                  <div className="text-2xl font-bold font-mono">500+</div>
                 </div>
               </div>
             </div>
@@ -207,7 +227,7 @@ export default function HomePage() {
       <section className="py-16 border-b" data-testid="section-trust">
         <div className="container mx-auto px-4">
           <p className="text-center text-sm text-muted-foreground mb-8">
-            Vertrouwd door 500+ Nederlandse bedrijven
+            Vertrouwd door 500+ Nederlandse ondernemers
           </p>
           <TrustLogos />
         </div>
@@ -233,40 +253,35 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-24 md:py-32 bg-slate-900" data-testid="section-product">
+      <section className="py-24 md:py-32 bg-slate-50 dark:bg-slate-900/50" data-testid="section-value-prop">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <Badge variant="secondary" className="mb-6 no-default-hover-elevate no-default-active-elevate">
-                Website Builder
+                Geen gedoe, alleen resultaten
               </Badge>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-                Bouw uw perfecte website
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Wij nemen alles uit handen
               </h2>
-              <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-                Onze intuïtieve website builder maakt het eenvoudig om een professionele 
-                website te creëren. Kies uit tientallen templates en pas alles aan naar wens.
+              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+                U heeft een professionele website nodig, maar geen tijd of zin om u te verdiepen 
+                in technische zaken. Wij begrijpen dat. Daarom doen wij letterlijk alles voor u.
               </p>
               
-              <div className="space-y-4 mb-8">
-                {[
-                  "Drag-and-drop editor",
-                  "50+ professionele templates",
-                  "Mobiel-geoptimaliseerd design",
-                  "Geïntegreerde SEO tools",
-                ].map((feature) => (
-                  <div key={feature} className="flex items-center gap-3 text-slate-200">
-                    <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center">
+              <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                {includedServices.map((service) => (
+                  <div key={service} className="flex items-center gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                       <Check className="h-4 w-4 text-primary" />
                     </div>
-                    {feature}
+                    <span className="text-sm">{service}</span>
                   </div>
                 ))}
               </div>
               
               <Link href="/pricing">
                 <Button size="lg" className="gap-2">
-                  Start met bouwen
+                  Bekijk wat u krijgt
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -274,7 +289,7 @@ export default function HomePage() {
             
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-blue-500/20 blur-3xl rounded-3xl opacity-50" />
-              <DashboardMockup variant="builder" className="relative" />
+              <DashboardMockup variant="timeline" className="relative" />
             </div>
           </div>
         </div>
@@ -287,14 +302,14 @@ export default function HomePage() {
               Hoe het werkt
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              In 3 stappen online
+              In 4 simpele stappen online
             </h2>
             <p className="text-xl text-muted-foreground">
-              Van aanmelding tot live website in minder dan een week
+              U hoeft alleen te vertellen wat u wilt. De rest doen wij.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {howItWorks.map((item, index) => (
               <div 
                 key={item.step}
@@ -302,16 +317,16 @@ export default function HomePage() {
                 data-testid={`step-${index}`}
               >
                 {index < howItWorks.length - 1 && (
-                  <div className="hidden md:block absolute top-12 left-full w-full h-px bg-gradient-to-r from-border to-transparent z-0" />
+                  <div className="hidden lg:block absolute top-12 left-full w-full h-px bg-gradient-to-r from-border to-transparent z-0" />
                 )}
                 <div className="relative z-10">
-                  <div className="text-7xl font-bold text-primary/10 mb-4 font-mono">
+                  <div className="text-6xl font-bold text-primary/10 mb-4 font-mono">
                     {item.step}
                   </div>
                   <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
                     <item.icon className="h-7 w-7 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-semibold mb-3">{item.title}</h3>
+                  <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
                   <p className="text-muted-foreground leading-relaxed">{item.description}</p>
                 </div>
               </div>
@@ -320,108 +335,45 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-24 md:py-32 bg-slate-950" data-testid="section-calculator">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-              Budget Calculator
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-              Bereken uw advertentie potentieel
-            </h2>
-            <p className="text-xl text-slate-300">
-              Verdeel uw budget over Google Ads, Meta en SEO en zie direct de geschatte resultaten
-            </p>
-          </div>
-          
-          <div className="max-w-5xl mx-auto">
-            <BudgetCalculator />
-          </div>
-        </div>
-      </section>
-
-      <section className="py-24 md:py-32" data-testid="section-features">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div className="lg:sticky lg:top-32">
-              <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-                Features
-              </Badge>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Alles wat u nodig heeft
-              </h2>
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                Van website tot advertenties, wij bieden een complete oplossing 
-                voor uw online aanwezigheid.
-              </p>
-              <Link href="/pricing">
-                <Button size="lg" className="gap-2">
-                  Bekijk alle features
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-            
-            <div className="grid sm:grid-cols-2 gap-4">
-              {features.map((feature, index) => (
-                <Card 
-                  key={feature.title} 
-                  className="border bg-card group"
-                  data-testid={`feature-card-${index}`}
-                >
-                  <CardContent className="p-6">
-                    <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <feature.icon className="h-6 w-6 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-24 md:py-32 bg-slate-900" data-testid="section-analytics">
+      <section className="py-24 md:py-32 bg-slate-900" data-testid="section-results">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl rounded-3xl opacity-50" />
-              <DashboardMockup variant="analytics" className="relative" />
+              <DashboardMockup variant="results" className="relative" />
             </div>
             
             <div className="order-1 lg:order-2">
               <Badge variant="secondary" className="mb-6 no-default-hover-elevate no-default-active-elevate">
-                Advertentie Dashboard
+                Uw Dashboard
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-                Volledige controle over uw ads
+                Alleen resultaten, geen gedoe
               </h2>
               <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-                Bekijk real-time prestaties, beheer uw budget en optimaliseer 
-                uw campagnes met ons intuïtieve dashboard.
+                U krijgt toegang tot een helder dashboard waar u in één oogopslag ziet 
+                hoe uw website presteert. Bezoekers, leads, omzet - alles overzichtelijk.
               </p>
               
-              <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="space-y-4 mb-8">
                 {[
-                  { icon: Target, label: "Doelgroep targeting" },
-                  { icon: LineChart, label: "Real-time analytics" },
-                  { icon: Layers, label: "A/B testing" },
-                  { icon: TrendingUp, label: "ROI tracking" },
+                  { icon: Target, label: "Real-time bezoekersstatistieken" },
+                  { icon: TrendingUp, label: "Groei en conversie tracking" },
+                  { icon: Award, label: "SEO score en ranking" },
+                  { icon: FileCheck, label: "Maandelijkse rapportages" },
                 ].map((item) => (
                   <div key={item.label} className="flex items-center gap-3 text-slate-200">
                     <div className="h-10 w-10 rounded-lg bg-white/5 flex items-center justify-center">
                       <item.icon className="h-5 w-5 text-primary" />
                     </div>
-                    <span className="text-sm">{item.label}</span>
+                    <span>{item.label}</span>
                   </div>
                 ))}
               </div>
               
               <Link href="/pricing">
                 <Button size="lg" className="gap-2">
-                  Start met adverteren
+                  Start vandaag
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -430,17 +382,51 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-24 md:py-32" data-testid="section-testimonials">
+      <section className="py-24 md:py-32" data-testid="section-benefits">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-              Testimonials
+              Voordelen
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Waarom ondernemers voor ons kiezen
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              Focus op uw bedrijf terwijl wij uw online aanwezigheid verzorgen
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {benefits.map((benefit, index) => (
+              <Card 
+                key={benefit.title} 
+                className="border bg-card group"
+                data-testid={`benefit-card-${index}`}
+              >
+                <CardContent className="p-6">
+                  <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <benefit.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{benefit.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 md:py-32 bg-slate-50 dark:bg-slate-900/50" data-testid="section-testimonials">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
+              Ervaringen
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Wat onze klanten zeggen
             </h2>
             <p className="text-xl text-muted-foreground">
-              Ontdek waarom meer dan 500 bedrijven voor ons kiezen
+              Ondernemers die net als u geen tijd hebben voor technisch gedoe
             </p>
           </div>
 
@@ -483,7 +469,7 @@ export default function HomePage() {
       <section className="py-16 border-y" data-testid="section-payments">
         <div className="container mx-auto px-4">
           <p className="text-center text-sm text-muted-foreground mb-6">
-            Veilig betalen met
+            Veilig en eenvoudig betalen met
           </p>
           <PaymentMethods />
         </div>
@@ -493,13 +479,13 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-              Prijzen
+              Abonnementen
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Transparante prijzen
+              Vaste maandprijs, geen verrassingen
             </h2>
             <p className="text-xl text-muted-foreground">
-              Kies het plan dat past bij uw behoeften. Geen verborgen kosten.
+              Alles inbegrepen. Geen opstartkosten. Maandelijks opzegbaar.
             </p>
           </div>
 
@@ -511,9 +497,9 @@ export default function HomePage() {
                   <span className="text-5xl font-bold font-mono">99</span>
                   <span className="text-muted-foreground">/maand</span>
                 </div>
-                <p className="text-muted-foreground text-sm mb-8">Perfect voor kleine bedrijven</p>
+                <p className="text-muted-foreground text-sm mb-8">Perfect voor starters</p>
                 <ul className="space-y-4 mb-8">
-                  {["3 templates", "5 pagina's", "Basis support", "SSL inbegrepen"].map((item) => (
+                  {["Professionele website", "5 pagina's", "SSL & hosting", "Maandelijkse updates", "E-mail support"].map((item) => (
                     <li key={item} className="flex items-center gap-3 text-sm">
                       <Check className="h-5 w-5 text-primary flex-shrink-0" />
                       {item}
@@ -538,7 +524,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-muted-foreground text-sm mb-8">Voor groeiende bedrijven</p>
                 <ul className="space-y-4 mb-8">
-                  {["10 templates", "Onbeperkt pagina's", "Priority support", "Analytics dashboard", "SEO basis pakket"].map((item) => (
+                  {["Alles uit Starter", "Onbeperkt pagina's", "Persoonlijke specialist", "SEO optimalisatie", "Analytics dashboard", "Priority support"].map((item) => (
                     <li key={item} className="flex items-center gap-3 text-sm">
                       <Check className="h-5 w-5 text-primary flex-shrink-0" />
                       {item}
@@ -557,9 +543,9 @@ export default function HomePage() {
                 <div className="flex items-baseline gap-1 mb-1">
                   <span className="text-4xl font-bold">Op maat</span>
                 </div>
-                <p className="text-muted-foreground text-sm mb-8">Voor grote organisaties</p>
+                <p className="text-muted-foreground text-sm mb-8">Complete ontzorging</p>
                 <ul className="space-y-4 mb-8">
-                  {["Custom design", "Dedicated support", "SLA garantie", "Specialist toegang", "Volledige integratie"].map((item) => (
+                  {["Alles uit Professional", "Custom design", "Google & Meta Ads", "Dedicated account manager", "SLA garantie", "Wekelijkse rapportage"].map((item) => (
                     <li key={item} className="flex items-center gap-3 text-sm">
                       <Check className="h-5 w-5 text-primary flex-shrink-0" />
                       {item}
@@ -567,7 +553,7 @@ export default function HomePage() {
                   ))}
                 </ul>
                 <Link href="/pricing">
-                  <Button variant="outline" className="w-full">Contact</Button>
+                  <Button variant="outline" className="w-full">Neem contact op</Button>
                 </Link>
               </CardContent>
             </Card>
@@ -584,11 +570,11 @@ export default function HomePage() {
         
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-8 text-white">
-            Klaar om te starten?
+            Klaar om zorgeloos online te gaan?
           </h2>
           <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Start vandaag nog met uw professionele website. 
-            Geen verplichtingen, transparante prijzen.
+            Laat de techniek aan ons over. U focust op uw klanten, 
+            wij zorgen voor uw professionele website.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/signup">
@@ -597,7 +583,7 @@ export default function HomePage() {
                 className="gap-2 text-lg h-14 px-10" 
                 data-testid="button-cta-signup"
               >
-                Start gratis proefperiode
+                Start vandaag
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </Link>
@@ -608,7 +594,7 @@ export default function HomePage() {
                 className="bg-white/5 border-white/20 text-white h-14 px-10 text-lg backdrop-blur-sm"
                 data-testid="button-cta-pricing"
               >
-                Bekijk prijzen
+                Bekijk abonnementen
               </Button>
             </Link>
           </div>
@@ -623,7 +609,7 @@ export default function HomePage() {
             </div>
             <div className="flex items-center gap-2">
               <Clock className="h-5 w-5" />
-              <span>24/7 Support</span>
+              <span>Persoonlijke support</span>
             </div>
           </div>
         </div>

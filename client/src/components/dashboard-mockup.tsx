@@ -1,35 +1,36 @@
 import { 
-  BarChart3, 
   Globe, 
   TrendingUp, 
-  Users, 
-  Settings,
   Bell,
   Search,
   LayoutDashboard,
   FileText,
   CreditCard,
-  MessageSquare,
-  ChevronRight,
   Check,
   Clock,
   ArrowUpRight,
-  Palette,
-  Layers
+  Users,
+  Eye,
+  MousePointerClick,
+  ShoppingCart,
+  Activity,
+  Calendar,
+  BarChart3,
+  Zap
 } from "lucide-react";
 
 interface DashboardMockupProps {
-  variant?: "dashboard" | "builder" | "analytics";
+  variant?: "dashboard" | "results" | "timeline";
   className?: string;
 }
 
 export function DashboardMockup({ variant = "dashboard", className = "" }: DashboardMockupProps) {
-  if (variant === "builder") {
-    return <BuilderMockup className={className} />;
+  if (variant === "results") {
+    return <ResultsMockup className={className} />;
   }
   
-  if (variant === "analytics") {
-    return <AnalyticsMockup className={className} />;
+  if (variant === "timeline") {
+    return <TimelineMockup className={className} />;
   }
   
   return (
@@ -71,28 +72,31 @@ export function DashboardMockup({ variant = "dashboard", className = "" }: Dashb
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-white font-semibold text-sm">Welkom terug, Jan</h3>
-                <p className="text-slate-400 text-xs">Hier is een overzicht van uw website</p>
+                <p className="text-slate-400 text-xs">Hier is een overzicht van uw website prestaties</p>
               </div>
               <div className="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                Live
+                Website Live
               </div>
             </div>
             
             <div className="grid grid-cols-3 gap-3">
               <StatCard 
+                icon={Eye}
                 label="Bezoekers" 
                 value="2,847" 
                 change="+12.5%" 
                 positive 
               />
               <StatCard 
+                icon={MousePointerClick}
                 label="Conversies" 
                 value="156" 
                 change="+8.2%" 
                 positive 
               />
               <StatCard 
+                icon={ShoppingCart}
                 label="Omzet" 
                 value="€12.4K" 
                 change="+23.1%" 
@@ -138,7 +142,7 @@ export function DashboardMockup({ variant = "dashboard", className = "" }: Dashb
               <div className="flex-1 bg-slate-800/50 rounded-lg p-3 border border-slate-700">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-6 h-6 rounded bg-green-500/20 flex items-center justify-center">
-                    <Clock className="w-3 h-3 text-green-400" />
+                    <Activity className="w-3 h-3 text-green-400" />
                   </div>
                   <span className="text-slate-300 text-xs font-medium">Uptime</span>
                 </div>
@@ -152,134 +156,31 @@ export function DashboardMockup({ variant = "dashboard", className = "" }: Dashb
   );
 }
 
-function StatCard({ label, value, change, positive }: { 
+interface StatCardProps {
+  icon: React.ElementType;
   label: string; 
   value: string; 
   change: string; 
   positive: boolean;
-}) {
+}
+
+function StatCard({ icon: Icon, label, value, change, positive }: StatCardProps) {
   return (
     <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-      <div className="text-slate-400 text-xs mb-1">{label}</div>
+      <div className="flex items-center gap-2 mb-2">
+        <Icon className="w-4 h-4 text-slate-400" />
+        <span className="text-slate-400 text-xs">{label}</span>
+      </div>
       <div className="text-white font-bold text-lg font-mono">{value}</div>
-      <div className={`text-xs ${positive ? 'text-green-400' : 'text-red-400'}`}>
+      <div className={`text-xs flex items-center gap-1 ${positive ? 'text-green-400' : 'text-red-400'}`}>
+        <ArrowUpRight className="w-3 h-3" />
         {change}
       </div>
     </div>
   );
 }
 
-function BuilderMockup({ className = "" }: { className?: string }) {
-  return (
-    <div className={`bg-slate-900 rounded-xl border border-slate-700 overflow-hidden shadow-2xl ${className}`}>
-      <div className="h-10 bg-slate-800 border-b border-slate-700 flex items-center justify-between px-3">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500" />
-            <div className="w-3 h-3 rounded-full bg-green-500" />
-          </div>
-          <span className="text-slate-400 text-xs ml-2">Website Builder</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <button className="px-2 py-1 rounded bg-slate-700 text-slate-300 text-xs">Preview</button>
-          <button className="px-2 py-1 rounded bg-primary text-white text-xs">Publiceren</button>
-        </div>
-      </div>
-      
-      <div className="flex">
-        <div className="w-12 bg-slate-800/50 border-r border-slate-700 py-3 flex flex-col items-center gap-3">
-          <div className="w-8 h-8 rounded bg-primary/20 flex items-center justify-center text-primary">
-            <Layers className="w-4 h-4" />
-          </div>
-          <div className="w-8 h-8 rounded bg-slate-700/50 flex items-center justify-center text-slate-400">
-            <FileText className="w-4 h-4" />
-          </div>
-          <div className="w-8 h-8 rounded bg-slate-700/50 flex items-center justify-center text-slate-400">
-            <Palette className="w-4 h-4" />
-          </div>
-          <div className="w-8 h-8 rounded bg-slate-700/50 flex items-center justify-center text-slate-400">
-            <Settings className="w-4 h-4" />
-          </div>
-        </div>
-        
-        <div className="w-48 bg-slate-800/30 border-r border-slate-700 p-3">
-          <div className="text-slate-300 text-xs font-medium mb-3">Componenten</div>
-          <div className="space-y-2">
-            {["Hero Sectie", "Over Ons", "Diensten", "Contact", "Footer"].map((item, i) => (
-              <div 
-                key={item}
-                className={`p-2 rounded text-xs cursor-pointer transition-colors ${
-                  i === 0 
-                    ? 'bg-primary/20 text-primary border border-primary/30' 
-                    : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
-                }`}
-              >
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="flex-1 p-4 bg-slate-950/50">
-          <div className="bg-white rounded-lg overflow-hidden shadow-lg">
-            <div className="h-28 bg-gradient-to-r from-blue-600 to-primary relative">
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
-                <div className="text-lg font-bold mb-1">Uw Bedrijfsnaam</div>
-                <div className="text-xs opacity-80">Premium website oplossing</div>
-              </div>
-            </div>
-            <div className="p-3 space-y-2">
-              <div className="h-3 bg-slate-200 rounded w-3/4" />
-              <div className="h-2 bg-slate-100 rounded w-full" />
-              <div className="h-2 bg-slate-100 rounded w-5/6" />
-              <div className="flex gap-2 mt-3">
-                <div className="h-6 w-16 bg-primary rounded text-[8px] text-white flex items-center justify-center">
-                  Contact
-                </div>
-                <div className="h-6 w-16 bg-slate-200 rounded" />
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="w-44 bg-slate-800/30 border-l border-slate-700 p-3">
-          <div className="text-slate-300 text-xs font-medium mb-3">Eigenschappen</div>
-          <div className="space-y-3">
-            <div>
-              <label className="text-slate-500 text-[10px]">Achtergrond</label>
-              <div className="flex gap-1 mt-1">
-                {["#3B82F6", "#8B5CF6", "#10B981", "#F59E0B"].map((color) => (
-                  <div 
-                    key={color}
-                    className="w-5 h-5 rounded border-2 border-slate-600 cursor-pointer"
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
-            </div>
-            <div>
-              <label className="text-slate-500 text-[10px]">Lettertype</label>
-              <select className="w-full mt-1 bg-slate-700 border border-slate-600 rounded text-slate-300 text-xs p-1">
-                <option>Inter</option>
-              </select>
-            </div>
-            <div>
-              <label className="text-slate-500 text-[10px]">Padding</label>
-              <input 
-                type="range" 
-                className="w-full mt-1"
-                defaultValue="50"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function AnalyticsMockup({ className = "" }: { className?: string }) {
+function ResultsMockup({ className = "" }: { className?: string }) {
   return (
     <div className={`bg-slate-900 rounded-xl border border-slate-700 overflow-hidden shadow-2xl ${className}`}>
       <div className="h-10 bg-slate-800 border-b border-slate-700 flex items-center px-4 gap-4">
@@ -288,82 +189,197 @@ function AnalyticsMockup({ className = "" }: { className?: string }) {
           <div className="w-3 h-3 rounded-full bg-yellow-500" />
           <div className="w-3 h-3 rounded-full bg-green-500" />
         </div>
-        <div className="text-slate-400 text-xs">Google Ads Dashboard</div>
+        <div className="text-slate-400 text-xs">Maandelijkse Resultaten - December 2024</div>
       </div>
       
-      <div className="p-4 space-y-4">
+      <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
-          <h3 className="text-white font-semibold text-sm">Advertentie Prestaties</h3>
-          <div className="flex gap-2">
-            <span className="px-2 py-1 rounded bg-slate-700 text-slate-300 text-xs">7 dagen</span>
-            <span className="px-2 py-1 rounded bg-primary text-white text-xs">30 dagen</span>
+          <div>
+            <h3 className="text-white font-semibold">Uw Website Prestaties</h3>
+            <p className="text-slate-400 text-sm">Door onze specialisten beheerd</p>
+          </div>
+          <div className="px-3 py-1.5 rounded-full bg-green-500/20 text-green-400 text-sm flex items-center gap-2">
+            <Check className="w-4 h-4" />
+            Alle doelen behaald
           </div>
         </div>
         
-        <div className="grid grid-cols-4 gap-3">
-          <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-            <div className="text-slate-400 text-xs">Impressies</div>
-            <div className="text-white font-bold text-lg font-mono">45.2K</div>
-            <div className="text-green-400 text-xs flex items-center gap-1">
-              <ArrowUpRight className="w-3 h-3" />
-              +18.3%
-            </div>
-          </div>
-          <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-            <div className="text-slate-400 text-xs">Klikken</div>
-            <div className="text-white font-bold text-lg font-mono">1,847</div>
-            <div className="text-green-400 text-xs flex items-center gap-1">
-              <ArrowUpRight className="w-3 h-3" />
-              +12.1%
-            </div>
-          </div>
-          <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-            <div className="text-slate-400 text-xs">CTR</div>
-            <div className="text-white font-bold text-lg font-mono">4.09%</div>
-            <div className="text-green-400 text-xs flex items-center gap-1">
-              <ArrowUpRight className="w-3 h-3" />
-              +0.8%
-            </div>
-          </div>
-          <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-            <div className="text-slate-400 text-xs">Kosten</div>
-            <div className="text-white font-bold text-lg font-mono">€847</div>
-            <div className="text-slate-400 text-xs">van €1.000 budget</div>
-          </div>
+        <div className="grid grid-cols-2 gap-4">
+          <ResultCard
+            icon={Users}
+            label="Website Bezoekers"
+            value="4,847"
+            subtext="Deze maand"
+            change="+34%"
+            changeLabel="vs. vorige maand"
+          />
+          <ResultCard
+            icon={MousePointerClick}
+            label="Leads Gegenereerd"
+            value="127"
+            subtext="Nieuwe contacten"
+            change="+28%"
+            changeLabel="vs. vorige maand"
+          />
+          <ResultCard
+            icon={TrendingUp}
+            label="Google Ranking"
+            value="#3"
+            subtext="Voor hoofdzoekwoord"
+            change="+5"
+            changeLabel="posities gestegen"
+          />
+          <ResultCard
+            icon={ShoppingCart}
+            label="Omzet via Website"
+            value="€18.4K"
+            subtext="Totale waarde"
+            change="+41%"
+            changeLabel="vs. vorige maand"
+          />
         </div>
         
         <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-slate-300 text-sm font-medium">Budget Verdeling</span>
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+              <Zap className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <div className="text-white font-medium">Volgende optimalisaties gepland</div>
+              <div className="text-slate-400 text-sm">Uw specialist werkt aan 3 verbeteringen</div>
+            </div>
           </div>
-          <div className="space-y-3">
-            <div>
-              <div className="flex justify-between text-xs mb-1">
-                <span className="text-slate-400">Google Ads</span>
-                <span className="text-white">€600 (60%)</span>
+          <div className="space-y-2 pl-13">
+            {[
+              "Homepage laadtijd optimalisatie",
+              "Nieuwe SEO content voor blogpagina",
+              "Google Ads campagne verfijning"
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm text-slate-300">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                {item}
               </div>
-              <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                <div className="h-full bg-blue-500 rounded-full" style={{ width: '60%' }} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface ResultCardProps {
+  icon: React.ElementType;
+  label: string;
+  value: string;
+  subtext: string;
+  change: string;
+  changeLabel: string;
+}
+
+function ResultCard({ icon: Icon, label, value, subtext, change, changeLabel }: ResultCardProps) {
+  return (
+    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+      <div className="flex items-center gap-2 mb-3">
+        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+          <Icon className="w-4 h-4 text-primary" />
+        </div>
+        <span className="text-slate-300 text-sm">{label}</span>
+      </div>
+      <div className="text-2xl font-bold text-white font-mono mb-1">{value}</div>
+      <div className="text-slate-500 text-xs mb-2">{subtext}</div>
+      <div className="flex items-center gap-1 text-green-400 text-sm">
+        <ArrowUpRight className="w-3 h-3" />
+        <span className="font-medium">{change}</span>
+        <span className="text-slate-500">{changeLabel}</span>
+      </div>
+    </div>
+  );
+}
+
+function TimelineMockup({ className = "" }: { className?: string }) {
+  const steps = [
+    { 
+      day: "Dag 1-2", 
+      title: "Kennismaking & Briefing", 
+      description: "U vertelt over uw bedrijf, wij maken een plan",
+      status: "completed"
+    },
+    { 
+      day: "Dag 3-5", 
+      title: "Website Ontwerp", 
+      description: "Ons team ontwerpt uw website op maat",
+      status: "completed"
+    },
+    { 
+      day: "Dag 6-8", 
+      title: "Development & Content", 
+      description: "Website wordt gebouwd met uw content",
+      status: "current"
+    },
+    { 
+      day: "Dag 9-10", 
+      title: "Review & Lancering", 
+      description: "U keurt goed, wij lanceren live",
+      status: "upcoming"
+    },
+  ];
+
+  return (
+    <div className={`bg-slate-900 rounded-xl border border-slate-700 overflow-hidden shadow-2xl ${className}`}>
+      <div className="h-10 bg-slate-800 border-b border-slate-700 flex items-center px-4 gap-4">
+        <div className="flex gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-red-500" />
+          <div className="w-3 h-3 rounded-full bg-yellow-500" />
+          <div className="w-3 h-3 rounded-full bg-green-500" />
+        </div>
+        <div className="text-slate-400 text-xs">Project Voortgang - De Vries Bouw</div>
+      </div>
+      
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-white font-semibold">Uw Website Wordt Gebouwd</h3>
+            <p className="text-slate-400 text-sm">Geen actie vereist - wij regelen alles</p>
+          </div>
+          <div className="text-right">
+            <div className="text-2xl font-bold text-white font-mono">75%</div>
+            <div className="text-slate-400 text-xs">Voortgang</div>
+          </div>
+        </div>
+        
+        <div className="relative">
+          <div className="absolute left-4 top-0 bottom-0 w-px bg-slate-700" />
+          
+          <div className="space-y-6">
+            {steps.map((step, index) => (
+              <div key={index} className="relative pl-10">
+                <div className={`absolute left-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                  step.status === 'completed' 
+                    ? 'bg-green-500' 
+                    : step.status === 'current'
+                    ? 'bg-primary animate-pulse'
+                    : 'bg-slate-700'
+                }`}>
+                  {step.status === 'completed' ? (
+                    <Check className="w-4 h-4 text-white" />
+                  ) : step.status === 'current' ? (
+                    <Clock className="w-4 h-4 text-white" />
+                  ) : (
+                    <Calendar className="w-4 h-4 text-slate-400" />
+                  )}
+                </div>
+                
+                <div className={`bg-slate-800/50 rounded-lg p-4 border ${
+                  step.status === 'current' ? 'border-primary' : 'border-slate-700'
+                }`}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-white font-medium">{step.title}</span>
+                    <span className="text-slate-500 text-xs">{step.day}</span>
+                  </div>
+                  <p className="text-slate-400 text-sm">{step.description}</p>
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="flex justify-between text-xs mb-1">
-                <span className="text-slate-400">Meta Ads</span>
-                <span className="text-white">€300 (30%)</span>
-              </div>
-              <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                <div className="h-full bg-purple-500 rounded-full" style={{ width: '30%' }} />
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-between text-xs mb-1">
-                <span className="text-slate-400">SEO</span>
-                <span className="text-white">€100 (10%)</span>
-              </div>
-              <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                <div className="h-full bg-green-500 rounded-full" style={{ width: '10%' }} />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -406,6 +422,20 @@ export function PaymentMethods({ className = "" }: { className?: string }) {
           {method}
         </div>
       ))}
+    </div>
+  );
+}
+
+export function PartnerBadge({ className = "" }: { className?: string }) {
+  return (
+    <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 ${className}`}>
+      <div className="flex items-center gap-2">
+        <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <Check className="w-3 h-3 text-white" />
+        </div>
+        <span className="text-sm font-medium">Cookie Compliant met</span>
+      </div>
+      <span className="text-sm font-bold text-primary">ConsentEase.io</span>
     </div>
   );
 }
