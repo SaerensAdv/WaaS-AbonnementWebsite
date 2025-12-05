@@ -36,34 +36,48 @@ async function initStripe() {
 
   try {
     log('Initializing Stripe schema...', 'stripe');
-    await runMigrations({ 
-      databaseUrl,
-      schema: 'stripe'
-    });
-    log('Stripe schema ready', 'stripe');
+    try {
+      await runMigrations({ 
+        databaseUrl,
+        schema: 'stripe'
+      });
+      log('Stripe schema ready', 'stripe');
+    } catch (migrationError: any) {
+      if (migrationError.message?.includes('already exists')) {
+        log('Stripe schema already up to date', 'stripe');
+      } else {
+        throw migrationError;
+      }
+    }
 
     const stripeSync = await getStripeSync();
 
     log('Setting up managed webhook...', 'stripe');
     const webhookBaseUrl = `https://${process.env.REPLIT_DOMAINS?.split(',')[0]}`;
-    const { webhook, uuid } = await stripeSync.findOrCreateManagedWebhook(
-      `${webhookBaseUrl}/api/stripe/webhook`,
-      {
-        enabled_events: ['*'],
-        description: 'Managed webhook for Stripe sync',
-      }
-    );
-    log(`Webhook configured: ${webhook.url}`, 'stripe');
+    
+    try {
+      const { webhook, uuid } = await stripeSync.findOrCreateManagedWebhook(
+        `${webhookBaseUrl}/api/stripe/webhook`,
+        {
+          enabled_events: ['*'],
+          description: 'Managed webhook for Stripe sync',
+        }
+      );
+      log(`Webhook configured: ${webhook.url}`, 'stripe');
 
-    stripeSync.syncBackfill()
-      .then(() => {
-        log('Stripe data synced', 'stripe');
-      })
-      .catch((err: Error) => {
-        log(`Error syncing Stripe data: ${err.message}`, 'stripe');
-      });
+      stripeSync.syncBackfill()
+        .then(() => {
+          log('Stripe data synced', 'stripe');
+        })
+        .catch((err: Error) => {
+          log(`Error syncing Stripe data: ${err.message}`, 'stripe');
+        });
 
-    return uuid;
+      return uuid;
+    } catch (webhookError: any) {
+      log(`Webhook setup skipped: ${webhookError.message}`, 'stripe');
+      return null;
+    }
   } catch (error: any) {
     log(`Failed to initialize Stripe: ${error.message}`, 'stripe');
     return null;
