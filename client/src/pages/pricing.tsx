@@ -1,10 +1,14 @@
-import { Link } from "wouter";
+import { useState } from "react";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/lib/auth-context";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 import {
   Check,
   X,
@@ -16,6 +20,7 @@ import {
   TrendingUp,
   ArrowRight,
   Info,
+  Loader2,
 } from "lucide-react";
 import {
   Tooltip,
@@ -47,8 +52,42 @@ function formatPrice(cents: number): string {
   }).format(cents / 100);
 }
 
-function PlanCard({ plan, featured = false }: { plan: Plan; featured?: boolean }) {
+function PlanCard({ 
+  plan, 
+  featured = false, 
+  isCustomer,
+  isLoggedIn,
+  onCheckout,
+  isCheckoutPending,
+  pendingPlanId,
+}: { 
+  plan: Plan; 
+  featured?: boolean;
+  isCustomer: boolean;
+  isLoggedIn: boolean;
+  onCheckout: (planId: string) => void;
+  isCheckoutPending: boolean;
+  pendingPlanId: string | null;
+}) {
   const features = plan.features || [];
+  const isPending = isCheckoutPending && pendingPlanId === plan.id;
+
+  const handleClick = () => {
+    if (plan.tier === "HIGH") {
+      window.location.href = "mailto:sales@websiteabonnementen.nl?subject=Custom%20Plan%20Aanvraag";
+    } else if (isCustomer) {
+      onCheckout(plan.id);
+    } else if (!isLoggedIn) {
+      window.location.href = `/signup?plan=${plan.id}`;
+    }
+  };
+  
+  const getButtonText = () => {
+    if (plan.tier === "HIGH") return "Neem contact op";
+    if (isLoggedIn && !isCustomer) return "Alleen voor klanten";
+    if (isCustomer) return "Direct starten";
+    return "Selecteer plan";
+  };
 
   return (
     <Card className={`relative flex flex-col ${featured ? "border-2 border-primary" : "border"}`}>
@@ -105,12 +144,22 @@ function PlanCard({ plan, featured = false }: { plan: Plan; featured?: boolean }
         </div>
       </CardContent>
       <CardFooter className="pt-4">
-        <Link href="/signup" className="w-full">
-          <Button className="w-full gap-2" variant={featured ? "default" : "outline"} data-testid={`button-select-${plan.tier.toLowerCase()}`}>
-            {plan.tier === "HIGH" ? "Neem contact op" : "Selecteer plan"}
-            <ArrowRight className="h-4 w-4" />
-          </Button>
-        </Link>
+        <Button 
+          className="w-full gap-2" 
+          variant={featured ? "default" : "outline"} 
+          data-testid={`button-select-${plan.tier.toLowerCase()}`}
+          onClick={handleClick}
+          disabled={isPending || (isLoggedIn && !isCustomer && plan.tier !== "HIGH")}
+        >
+          {isPending ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <>
+              {getButtonText()}
+              <ArrowRight className="h-4 w-4" />
+            </>
+          )}
+        </Button>
       </CardFooter>
     </Card>
   );
@@ -187,12 +236,45 @@ function PlansSkeleton() {
 }
 
 export default function PricingPage() {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [, setLocation] = useLocation();
+  const [pendingPlanId, setPendingPlanId] = useState<string | null>(null);
+
   const { data: plans, isLoading: plansLoading } = useQuery<Plan[]>({
     queryKey: ["/api/plans"],
   });
 
   const { data: addOns, isLoading: addOnsLoading } = useQuery<AddOn[]>({
     queryKey: ["/api/addons"],
+  });
+
+  const checkoutMutation = useMutation({
+    mutationFn: async (planId: string) => {
+      setPendingPlanId(planId);
+      const response = await apiRequest("POST", "/api/checkout", { planId });
+      return response.json();
+    },
+    onSuccess: (data) => {
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast({
+          title: "Fout",
+          description: "Kan checkout niet starten. Probeer het opnieuw.",
+          variant: "destructive",
+        });
+      }
+      setPendingPlanId(null);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Fout",
+        description: error.message || "Kan checkout niet starten. Probeer het opnieuw.",
+        variant: "destructive",
+      });
+      setPendingPlanId(null);
+    },
   });
 
   const sortedPlans = plans?.sort((a, b) => {
@@ -224,6 +306,11 @@ export default function PricingPage() {
                   key={plan.id}
                   plan={plan}
                   featured={plan.tier === "MEDIUM"}
+                  isCustomer={user?.role === "CUSTOMER"}
+                  isLoggedIn={!!user}
+                  onCheckout={(planId) => checkoutMutation.mutate(planId)}
+                  isCheckoutPending={checkoutMutation.isPending}
+                  pendingPlanId={pendingPlanId}
                 />
               ))}
             </div>

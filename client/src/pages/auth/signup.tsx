@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useSearch } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth-context";
+import { apiRequest } from "@/lib/queryClient";
 import { signupSchema, type SignupInput } from "@shared/schema";
 import { Globe, Loader2, ArrowLeft, Building2, UserCog } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -25,10 +26,13 @@ type ExtendedSignupInput = z.infer<typeof extendedSignupSchema>;
 
 export default function SignupPage() {
   const [, setLocation] = useLocation();
+  const searchString = useSearch();
   const { signup } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [accountType, setAccountType] = useState<"CUSTOMER" | "SPECIALIST">("CUSTOMER");
+
+  const planId = new URLSearchParams(searchString).get('plan');
 
   const form = useForm<ExtendedSignupInput>({
     resolver: zodResolver(extendedSignupSchema),
@@ -45,6 +49,42 @@ export default function SignupPage() {
     setIsLoading(true);
     try {
       await signup(data.email, data.name, data.password, accountType);
+      
+      if (accountType === "CUSTOMER" && planId) {
+        toast({
+          title: "Account aangemaakt!",
+          description: "U wordt doorgestuurd naar de betaalpagina...",
+        });
+        
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        
+        try {
+          const response = await apiRequest("POST", "/api/checkout", { planId });
+          const checkoutData = await response.json();
+          if (checkoutData.url) {
+            window.location.href = checkoutData.url;
+            return;
+          } else {
+            toast({
+              title: "Checkout kon niet starten",
+              description: "Ga naar de prijzen pagina om uw plan te selecteren.",
+              variant: "destructive",
+            });
+            setLocation("/pricing");
+            return;
+          }
+        } catch (checkoutError: any) {
+          console.error("Checkout redirect failed:", checkoutError);
+          toast({
+            title: "Checkout fout",
+            description: "Ga naar de prijzen pagina om uw plan te selecteren.",
+            variant: "destructive",
+          });
+          setLocation("/pricing");
+          return;
+        }
+      }
+      
       toast({
         title: "Account aangemaakt!",
         description: accountType === "SPECIALIST" 
