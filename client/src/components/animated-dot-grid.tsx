@@ -12,33 +12,26 @@ interface AnimatedDotGridProps {
 export function AnimatedDotGrid({
   className,
   dotSize = 1,
-  gap = 48,
-  baseOpacity = 0.06,
+  gap = 40,
+  baseOpacity = 0.08,
   accentColor = "59, 130, 246",
 }: AnimatedDotGridProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
-  const lastFrameRef = useRef<number>(0);
-  const isVisibleRef = useRef(true);
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d", { alpha: true });
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     let width = 0;
     let height = 0;
-    const targetFPS = 24;
-    const frameInterval = 1000 / targetFPS;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = window.devicePixelRatio || 1;
       width = rect.width;
       height = rect.height;
       canvas.width = width * dpr;
@@ -46,66 +39,62 @@ export function AnimatedDotGrid({
       ctx.scale(dpr, dpr);
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        isVisibleRef.current = entries[0]?.isIntersecting ?? true;
-      },
-      { threshold: 0 }
-    );
-    observer.observe(canvas);
-
     const animate = (time: number) => {
-      animationRef.current = requestAnimationFrame(animate);
-      
-      if (!isVisibleRef.current) return;
-      
-      const delta = time - lastFrameRef.current;
-      if (delta < frameInterval) return;
-      lastFrameRef.current = time - (delta % frameInterval);
-
       ctx.clearRect(0, 0, width, height);
       
       const cols = Math.ceil(width / gap) + 1;
       const rows = Math.ceil(height / gap) + 1;
-      const centerX = width / 2;
-      const centerY = height / 2;
-      const maxDist = Math.sqrt(centerX * centerX + centerY * centerY);
-      const timeScale = time * 0.0006;
       
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
           const x = col * gap;
           const y = row * gap;
           
-          const waveOffset = (x + y) * 0.008;
-          const wave = Math.sin(timeScale + waveOffset);
+          const waveOffset = (x + y) * 0.01;
+          const wave = Math.sin(time * 0.0008 + waveOffset) * 0.5 + 0.5;
           
-          const dx = x - centerX;
-          const dy = y - centerY;
-          const distFromCenter = Math.sqrt(dx * dx + dy * dy);
-          const centerInfluence = 1 - distFromCenter / maxDist;
+          const centerX = width / 2;
+          const centerY = height / 2;
+          const distFromCenter = Math.sqrt(
+            Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
+          );
+          const maxDist = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2));
+          const centerInfluence = 1 - (distFromCenter / maxDist) * 0.5;
           
-          const opacity = baseOpacity + wave * 0.02 * centerInfluence;
+          const pulse = Math.sin(time * 0.001 - distFromCenter * 0.003) * 0.5 + 0.5;
           
-          const isAccented = wave > 0.6 && centerInfluence > 0.6;
+          const opacity = baseOpacity + wave * 0.04 + pulse * centerInfluence * 0.06;
+          
+          const isAccented = pulse > 0.7 && centerInfluence > 0.5;
+          const color = isAccented ? accentColor : "255, 255, 255";
           
           ctx.beginPath();
           ctx.arc(x, y, dotSize, 0, Math.PI * 2);
-          ctx.fillStyle = isAccented 
-            ? `rgba(${accentColor}, ${opacity + 0.04})`
-            : `rgba(255, 255, 255, ${opacity})`;
+          ctx.fillStyle = `rgba(${color}, ${opacity})`;
           ctx.fill();
+          
+          if (isAccented && opacity > 0.1) {
+            const glowSize = dotSize * 3;
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, glowSize);
+            gradient.addColorStop(0, `rgba(${accentColor}, ${opacity * 0.3})`);
+            gradient.addColorStop(1, `rgba(${accentColor}, 0)`);
+            ctx.beginPath();
+            ctx.arc(x, y, glowSize, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+          }
         }
       }
+      
+      animationRef.current = requestAnimationFrame(animate);
     };
 
     resize();
-    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("resize", resize);
     animationRef.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("resize", resize);
-      observer.disconnect();
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }

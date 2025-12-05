@@ -347,12 +347,38 @@ interface FloatProps {
 export function Float({ 
   children, 
   className = "",
+  duration = 4,
+  distance = 10,
+  delay = 0
 }: FloatProps) {
-  return <div className={className}>{children}</div>;
+  const prefersReducedMotion = typeof window !== 'undefined' 
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+    : false;
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return (
+    <motion.div
+      animate={{
+        y: [-distance, distance, -distance],
+      }}
+      transition={{
+        duration,
+        delay,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 interface GlowPulseProps {
-  children?: ReactNode;
+  children: ReactNode;
   className?: string;
   color?: string;
 }
@@ -361,7 +387,30 @@ export function GlowPulse({
   children, 
   className = "",
 }: GlowPulseProps) {
-  return <div className={className}>{children}</div>;
+  const prefersReducedMotion = typeof window !== 'undefined' 
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+    : false;
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return (
+    <motion.div
+      animate={{
+        opacity: [0.5, 0.8, 0.5],
+        scale: [1, 1.02, 1],
+      }}
+      transition={{
+        duration: 3,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 interface CountUpProps {
@@ -510,13 +559,15 @@ export function BlurIn({
       variants={{
         hidden: { 
           opacity: 0, 
+          filter: "blur(10px)",
           y: 20 
         },
         visible: { 
           opacity: 1, 
+          filter: "blur(0px)",
           y: 0,
           transition: {
-            duration: 0.5,
+            duration: 0.7,
             delay,
             ease: easing,
           }
