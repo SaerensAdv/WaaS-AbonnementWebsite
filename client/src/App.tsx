@@ -11,6 +11,8 @@ import HomePage from "@/pages/home";
 import PricingPage from "@/pages/pricing";
 import LoginPage from "@/pages/auth/login";
 import SignupPage from "@/pages/auth/signup";
+import ForgotPasswordPage from "@/pages/auth/forgot-password";
+import ResetPasswordPage from "@/pages/auth/reset-password";
 
 import CustomerDashboard from "@/pages/dashboard/customer-dashboard";
 import ProjectPage from "@/pages/dashboard/project";
@@ -70,6 +72,8 @@ function Router() {
       <Route path="/pricing" component={PricingPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/signup" component={SignupPage} />
+      <Route path="/forgot-password" component={ForgotPasswordPage} />
+      <Route path="/reset-password" component={ResetPasswordPage} />
 
       <Route path="/app">
         <ProtectedRoute component={CustomerDashboard} roles={["CUSTOMER"]} />

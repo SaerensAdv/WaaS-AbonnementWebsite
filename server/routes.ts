@@ -154,6 +154,77 @@ export async function registerRoutes(
     }
   });
 
+  app.post("/api/auth/forgot-password", async (req, res) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+      }
+      
+      const user = await storage.getUserByEmail(email);
+      
+      if (user) {
+        const token = await storage.createPasswordResetToken(user.id);
+        const resetUrl = `${req.headers.origin || 'https://' + req.headers.host}/reset-password?token=${token}`;
+        
+        console.log(`Password reset requested for ${email}. Reset URL: ${resetUrl}`);
+      }
+      
+      res.json({ 
+        message: "Als dit e-mailadres bij ons bekend is, ontvangt u een e-mail met instructies om uw wachtwoord te resetten." 
+      });
+    } catch (error: any) {
+      console.error("Forgot password error:", error);
+      res.status(500).json({ message: "Er is iets misgegaan. Probeer het later opnieuw." });
+    }
+  });
+
+  app.post("/api/auth/reset-password", async (req, res) => {
+    try {
+      const { token, password } = req.body;
+      
+      if (!token || !password) {
+        return res.status(400).json({ message: "Token en nieuw wachtwoord zijn vereist" });
+      }
+      
+      if (password.length < 8) {
+        return res.status(400).json({ message: "Wachtwoord moet minimaal 8 tekens bevatten" });
+      }
+      
+      const tokenData = await storage.getValidPasswordResetToken(token);
+      
+      if (!tokenData) {
+        return res.status(400).json({ message: "Ongeldige of verlopen token. Vraag een nieuwe reset link aan." });
+      }
+      
+      const passwordHash = await hashPassword(password);
+      await storage.updateUserPassword(tokenData.userId, passwordHash);
+      await storage.usePasswordResetToken(token);
+      
+      res.json({ message: "Uw wachtwoord is succesvol gewijzigd. U kunt nu inloggen." });
+    } catch (error: any) {
+      console.error("Reset password error:", error);
+      res.status(500).json({ message: "Er is iets misgegaan. Probeer het later opnieuw." });
+    }
+  });
+
+  app.get("/api/auth/verify-reset-token", async (req, res) => {
+    try {
+      const { token } = req.query;
+      
+      if (!token || typeof token !== 'string') {
+        return res.status(400).json({ valid: false });
+      }
+      
+      const tokenData = await storage.getValidPasswordResetToken(token);
+      res.json({ valid: !!tokenData });
+    } catch (error) {
+      console.error("Verify reset token error:", error);
+      res.json({ valid: false });
+    }
+  });
+
   app.get("/api/plans", async (_req, res) => {
     try {
       const plans = await storage.getPlans();
@@ -362,7 +433,111 @@ export async function registerRoutes(
   });
 
   app.post("/api/billing/portal", requireRole("CUSTOMER"), async (req, res) => {
-    res.json({ url: null, message: "Stripe billing portal will be configured upon Stripe integration" });
+    try {
+      const user = (req as any).user as User;
+      const subscription = await storage.getSubscription(user.id);
+      
+      if (!subscription?.stripeCustomerId) {
+        return res.json({ url: null, message: "No active subscription found" });
+      }
+
+      const { getUncachableStripeClient } = await import("./stripeClient");
+      const stripe = await getUncachableStripeClient();
+      
+      const protocol = req.headers['x-forwarded-proto'] || 'https';
+      const host = req.headers.host;
+      const returnUrl = `${protocol}://${host}/app/billing`;
+      
+      const session = await stripe.billingPortal.sessions.create({
+        customer: subscription.stripeCustomerId,
+        return_url: returnUrl,
+      });
+      
+      res.json({ url: session.url });
+    } catch (error: any) {
+      console.error("Billing portal error:", error);
+      res.json({ url: null, message: "Could not create billing portal session" });
+    }
+  });
+
+  app.post("/api/checkout", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const user = (req as any).user as User;
+      const { planId } = req.body;
+      
+      if (!planId) {
+        return res.status(400).json({ message: "Plan ID is required" });
+      }
+      
+      const plan = await storage.getPlan(planId);
+      if (!plan) {
+        return res.status(404).json({ message: "Plan not found" });
+      }
+      
+      const { getUncachableStripeClient } = await import("./stripeClient");
+      const stripe = await getUncachableStripeClient();
+      
+      let customerId: string | undefined;
+      const existingSubscription = await storage.getSubscription(user.id);
+      
+      if (existingSubscription?.stripeCustomerId) {
+        customerId = existingSubscription.stripeCustomerId;
+      } else {
+        const customer = await stripe.customers.create({
+          email: user.email,
+          name: user.name,
+          metadata: { userId: user.id },
+        });
+        customerId = customer.id;
+      }
+      
+      const protocol = req.headers['x-forwarded-proto'] || 'https';
+      const host = req.headers.host;
+      const successUrl = `${protocol}://${host}/app?checkout=success`;
+      const cancelUrl = `${protocol}://${host}/pricing?checkout=cancelled`;
+      
+      const session = await stripe.checkout.sessions.create({
+        customer: customerId,
+        payment_method_types: ['card', 'ideal'],
+        line_items: [{
+          price_data: {
+            currency: 'eur',
+            product_data: {
+              name: plan.name,
+              description: `${plan.name} - Website Abonnement`,
+            },
+            unit_amount: plan.monthlyPriceCents,
+            recurring: {
+              interval: 'month',
+            },
+          },
+          quantity: 1,
+        }],
+        mode: 'subscription',
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        metadata: {
+          userId: user.id,
+          planId: plan.id,
+        },
+      });
+      
+      res.json({ url: session.url, sessionId: session.id });
+    } catch (error: any) {
+      console.error("Checkout error:", error);
+      res.status(500).json({ message: "Could not create checkout session" });
+    }
+  });
+
+  app.get("/api/stripe/publishable-key", async (_req, res) => {
+    try {
+      const { getStripePublishableKey } = await import("./stripeClient");
+      const publishableKey = await getStripePublishableKey();
+      res.json({ publishableKey });
+    } catch (error: any) {
+      console.error("Get publishable key error:", error);
+      res.status(500).json({ message: "Could not get Stripe publishable key" });
+    }
   });
 
   app.get("/api/admin/stats", requireRole("ADMIN"), async (_req, res) => {
@@ -415,7 +590,11 @@ export async function registerRoutes(
 
   app.get("/api/admin/assignments", requireRole("ADMIN"), async (_req, res) => {
     try {
-      res.json({ assignments: [], unassigned: [], specialists: [] });
+      const allAssignments = await storage.getAllAssignmentsWithDetails();
+      const unassigned = await storage.getUnassignedAddOnSelections();
+      const specialists = await storage.getApprovedSpecialistsWithProfiles();
+      
+      res.json({ assignments: allAssignments, unassigned, specialists });
     } catch (error) {
       console.error("Get assignments error:", error);
       res.status(500).json({ message: "Failed to fetch assignments" });
@@ -447,20 +626,25 @@ export async function registerRoutes(
     try {
       const user = (req as any).user as User;
       const profile = await storage.getSpecialistProfile(user.id);
-      const assignments = await storage.getAssignmentsBySpecialist(user.id);
+      const assignmentsWithDetails = await storage.getAssignmentsWithDetailsBySpecialist(user.id);
+      const reportsThisMonth = await storage.getReportsCountByCreatorThisMonth(user.id);
       
-      const activeCount = assignments.filter((a) => a.status === "ACTIVE").length;
-      const proposedCount = assignments.filter((a) => a.status === "PROPOSED").length;
+      const activeCount = assignmentsWithDetails.filter((a) => a.assignment.status === "ACTIVE").length;
+      const proposedCount = assignmentsWithDetails.filter((a) => a.assignment.status === "PROPOSED").length;
+
+      const recentAssignments = assignmentsWithDetails
+        .sort((a, b) => new Date(b.assignment.createdAt!).getTime() - new Date(a.assignment.createdAt!).getTime())
+        .slice(0, 5);
 
       res.json({
         stats: {
-          totalAssignments: assignments.length,
+          totalAssignments: assignmentsWithDetails.length,
           activeAssignments: activeCount,
           proposedAssignments: proposedCount,
-          reportsThisMonth: 0,
+          reportsThisMonth,
           profile,
         },
-        recentAssignments: [],
+        recentAssignments,
       });
     } catch (error) {
       console.error("Get specialist dashboard error:", error);
@@ -471,8 +655,8 @@ export async function registerRoutes(
   app.get("/api/specialist/assignments", requireRole("SPECIALIST"), async (req, res) => {
     try {
       const user = (req as any).user as User;
-      const assignments = await storage.getAssignmentsBySpecialist(user.id);
-      res.json({ assignments });
+      const assignmentsWithDetails = await storage.getAssignmentsWithDetailsBySpecialist(user.id);
+      res.json({ assignments: assignmentsWithDetails });
     } catch (error) {
       console.error("Get specialist assignments error:", error);
       res.status(500).json({ message: "Failed to fetch assignments" });
@@ -497,8 +681,8 @@ export async function registerRoutes(
     try {
       const user = (req as any).user as User;
       const reports = await storage.getReportsByCreator(user.id);
-      const assignments = await storage.getAssignmentsBySpecialist(user.id);
-      res.json({ reports, assignments });
+      const assignmentsWithDetails = await storage.getAssignmentsWithDetailsBySpecialist(user.id);
+      res.json({ reports, assignments: assignmentsWithDetails });
     } catch (error) {
       console.error("Get specialist reports error:", error);
       res.status(500).json({ message: "Failed to fetch reports" });

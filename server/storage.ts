@@ -1,4 +1,4 @@
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, lt, isNull } from "drizzle-orm";
 import { db } from "./db";
 import {
   users,
@@ -13,6 +13,7 @@ import {
   assignments,
   reports,
   auditLogs,
+  passwordResetTokens,
   type User,
   type InsertUser,
   type CustomerProfile,
@@ -38,6 +39,7 @@ import {
   type AuditLog,
   type InsertAuditLog,
 } from "@shared/schema";
+import { randomBytes } from "crypto";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -349,6 +351,187 @@ export class DatabaseStorage implements IStorage {
       pendingSpecialists: pendingCount,
       activeAddOns: activeAddOnsCount,
     };
+  }
+
+  async getAllAssignmentsWithDetails(): Promise<{
+    assignment: Assignment;
+    addOnSelection: AddOnSelection & { addOn: AddOn };
+    specialist: User;
+    customer: User;
+  }[]> {
+    const allAssignments = await db.select().from(assignments);
+    
+    const result = await Promise.all(
+      allAssignments.map(async (assignment) => {
+        const [selectionResult] = await db
+          .select()
+          .from(addOnSelections)
+          .innerJoin(addOns, eq(addOnSelections.addOnId, addOns.id))
+          .where(eq(addOnSelections.id, assignment.addOnSelectionId));
+        
+        if (!selectionResult) return null;
+        
+        const [project] = await db.select().from(projects).where(eq(projects.id, selectionResult.add_on_selections.projectId));
+        if (!project) return null;
+        
+        const specialist = await this.getUser(assignment.specialistUserId);
+        const customer = await this.getUser(project.userId);
+        
+        if (!specialist || !customer) return null;
+        
+        return {
+          assignment,
+          addOnSelection: { ...selectionResult.add_on_selections, addOn: selectionResult.add_ons },
+          specialist,
+          customer,
+        };
+      })
+    );
+    
+    return result.filter((r): r is NonNullable<typeof r> => r !== null);
+  }
+
+  async getUnassignedAddOnSelections(): Promise<{
+    selection: AddOnSelection & { addOn: AddOn };
+    customer: User;
+  }[]> {
+    const allSelections = await db
+      .select()
+      .from(addOnSelections)
+      .innerJoin(addOns, eq(addOnSelections.addOnId, addOns.id))
+      .where(eq(addOnSelections.status, "REQUESTED"));
+    
+    const result = await Promise.all(
+      allSelections.map(async (selectionResult) => {
+        const existingAssignments = await this.getAssignmentsByAddOnSelection(selectionResult.add_on_selections.id);
+        if (existingAssignments.length > 0) return null;
+        
+        const [project] = await db.select().from(projects).where(eq(projects.id, selectionResult.add_on_selections.projectId));
+        if (!project) return null;
+        
+        const customer = await this.getUser(project.userId);
+        if (!customer) return null;
+        
+        return {
+          selection: { ...selectionResult.add_on_selections, addOn: selectionResult.add_ons },
+          customer,
+        };
+      })
+    );
+    
+    return result.filter((r): r is NonNullable<typeof r> => r !== null);
+  }
+
+  async getApprovedSpecialistsWithProfiles(): Promise<(User & { profile: SpecialistProfile })[]> {
+    const specialistUsers = await db.select().from(users).where(eq(users.role, "SPECIALIST"));
+    
+    const result = await Promise.all(
+      specialistUsers.map(async (user) => {
+        const profile = await this.getSpecialistProfile(user.id);
+        if (!profile || !profile.approved) return null;
+        return { ...user, profile };
+      })
+    );
+    
+    return result.filter((r): r is NonNullable<typeof r> => r !== null);
+  }
+
+  async getAssignmentsWithDetailsBySpecialist(userId: string): Promise<{
+    assignment: Assignment;
+    addOnSelection: AddOnSelection & { addOn: AddOn };
+    customer: User;
+    project: Project;
+  }[]> {
+    const userAssignments = await this.getAssignmentsBySpecialist(userId);
+    
+    const result = await Promise.all(
+      userAssignments.map(async (assignment) => {
+        const [selectionResult] = await db
+          .select()
+          .from(addOnSelections)
+          .innerJoin(addOns, eq(addOnSelections.addOnId, addOns.id))
+          .where(eq(addOnSelections.id, assignment.addOnSelectionId));
+        
+        if (!selectionResult) return null;
+        
+        const [project] = await db.select().from(projects).where(eq(projects.id, selectionResult.add_on_selections.projectId));
+        if (!project) return null;
+        
+        const customer = await this.getUser(project.userId);
+        if (!customer) return null;
+        
+        return {
+          assignment,
+          addOnSelection: { ...selectionResult.add_on_selections, addOn: selectionResult.add_ons },
+          customer,
+          project,
+        };
+      })
+    );
+    
+    return result.filter((r): r is NonNullable<typeof r> => r !== null);
+  }
+
+  async getReportsCountByCreatorThisMonth(userId: string): Promise<number> {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    
+    const allReports = await db.select().from(reports).where(eq(reports.createdByUserId, userId));
+    return allReports.filter((r) => new Date(r.createdAt!) >= startOfMonth).length;
+  }
+
+  async createPasswordResetToken(userId: string): Promise<string> {
+    await db.delete(passwordResetTokens).where(eq(passwordResetTokens.userId, userId));
+    
+    const token = randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+    
+    await db.insert(passwordResetTokens).values({
+      userId,
+      token,
+      expiresAt,
+    });
+    
+    return token;
+  }
+
+  async getValidPasswordResetToken(token: string): Promise<{ userId: string } | null> {
+    const now = new Date();
+    const [result] = await db
+      .select()
+      .from(passwordResetTokens)
+      .where(
+        and(
+          eq(passwordResetTokens.token, token),
+          isNull(passwordResetTokens.usedAt)
+        )
+      );
+    
+    if (!result || new Date(result.expiresAt) < now) {
+      return null;
+    }
+    
+    return { userId: result.userId };
+  }
+
+  async usePasswordResetToken(token: string): Promise<boolean> {
+    const [result] = await db
+      .update(passwordResetTokens)
+      .set({ usedAt: new Date() })
+      .where(eq(passwordResetTokens.token, token))
+      .returning();
+    
+    return !!result;
+  }
+
+  async updateUserPassword(userId: string, passwordHash: string): Promise<User | undefined> {
+    const [user] = await db
+      .update(users)
+      .set({ passwordHash })
+      .where(eq(users.id, userId))
+      .returning();
+    
+    return user || undefined;
   }
 }
 
