@@ -6,7 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/lib/theme-provider";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { PageLoader } from "@/components/page-loader";
-import { CustomCursor } from "@/components/custom-cursor";
 import NotFound from "@/pages/not-found";
 
 import HomePage from "@/pages/home";
@@ -146,7 +145,6 @@ function App() {
       <ThemeProvider defaultTheme="light" storageKey="website-abonnementen-theme">
         <TooltipProvider>
           <AuthProvider>
-            <CustomCursor />
             <PageLoader />
             <Router />
             <Toaster />
