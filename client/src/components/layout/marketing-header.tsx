@@ -29,7 +29,7 @@ export function MarketingHeader() {
           <img 
             src={logoImage} 
             alt="WebsiteAbonnementen" 
-            className="h-10 w-10 rounded-lg shadow-sm transition-transform duration-200 group-hover:scale-105 object-contain"
+            className="h-12 w-12 rounded-lg shadow-sm transition-transform duration-200 group-hover:scale-105 object-contain"
           />
           <span className="text-xl font-semibold tracking-tight">WebsiteAbonnementen</span>
         </Link>
