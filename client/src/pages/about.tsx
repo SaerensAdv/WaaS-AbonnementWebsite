@@ -107,8 +107,8 @@ const howWeWork = [
 
 export default function AboutPage() {
   useSEO({
-    title: "Over Ons",
-    description: "WebsiteAbonnementen helpt MKB-bedrijven online groeien met professionele websites en marketing op abonnementsbasis. Ontdek ons team en onze werkwijze.",
+    title: "Over Ons - Website Abonnement",
+    description: "Wij helpen MKB-bedrijven groeien met een website abonnement. Professioneel design, hosting en support vanaf €99/maand. Ontdek ons team.",
     canonical: "/about",
   });
 

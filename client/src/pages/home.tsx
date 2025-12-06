@@ -241,8 +241,8 @@ export default function HomePage() {
   };
 
   useSEO({
-    title: "Website Abonnement | Professionele Website Vanaf €99/maand",
-    description: "Een website abonnement zonder zorgen. Professioneel ontwerp, hosting, onderhoud en support inbegrepen. Geen technische kennis nodig. Start vandaag met uw website op abonnementsbasis.",
+    title: "Website Abonnement vanaf €99/maand",
+    description: "Website abonnement met design, hosting en support inbegrepen. Geen technische kennis nodig. Maandelijks opzegbaar. Start vandaag.",
     canonical: "/",
     structuredData: homeStructuredData,
   });

@@ -96,19 +96,19 @@ function BlogPostSkeleton() {
 
 export default function BlogPage() {
   useSEO({
-    title: "Blog - Tips & Inzichten voor Uw Website",
-    description: "Ontdek de laatste tips, trends en inzichten over websites, SEO, en online marketing. Praktische informatie voor ondernemers die hun online aanwezigheid willen verbeteren.",
+    title: "Website Abonnement Blog",
+    description: "Tips over website abonnementen, SEO en online marketing. Praktische informatie voor ondernemers die online willen groeien.",
     canonical: "/blog",
     ogType: "website",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Blog",
-      "name": "WebsiteAbonnementen Blog",
-      "description": "Tips, trends en inzichten over websites, SEO en online marketing",
+      "name": "Abonnement.Website Blog",
+      "description": "Tips over website abonnementen, SEO en online marketing",
       "url": "https://abonnement.website/blog",
       "publisher": {
         "@type": "Organization",
-        "name": "WebsiteAbonnementen",
+        "name": "Abonnement.Website",
         "url": "https://abonnement.website"
       }
     }

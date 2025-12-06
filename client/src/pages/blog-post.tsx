@@ -90,12 +90,12 @@ export default function BlogPostPage() {
     "datePublished": post.publishedAt,
     "dateModified": post.updatedAt,
     "author": {
-      "@type": "Person",
-      "name": "WebsiteAbonnementen Team"
+      "@type": "Organization",
+      "name": "Abonnement.Website"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "WebsiteAbonnementen",
+      "name": "Abonnement.Website",
       "url": "https://abonnement.website",
       "logo": {
         "@type": "ImageObject",
@@ -112,10 +112,10 @@ export default function BlogPostPage() {
 
   useSEO({
     title: post?.metaTitle || post?.title || "Blog Artikel",
-    description: post?.metaDescription || post?.intro || "Lees dit artikel op de WebsiteAbonnementen blog.",
+    description: post?.metaDescription || post?.intro || "Lees dit artikel op de Abonnement.Website blog.",
     canonical: `/blog/${slug}`,
     ogType: "article",
-    ogImage: post?.featuredImageUrl,
+    ogImage: post?.featuredImageUrl || undefined,
     structuredData: articleSchema
   });
 
@@ -224,7 +224,7 @@ export default function BlogPostPage() {
             {post.authorBio && (
               <div className="mt-12 pt-8 border-t">
                 <AuthorBio
-                  name="WebsiteAbonnementen Team"
+                  name="Abonnement.Website Team"
                   bio={post.authorBio}
                 />
               </div>

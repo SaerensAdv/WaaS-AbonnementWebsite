@@ -240,58 +240,106 @@ function PlansSkeleton() {
 }
 
 export default function PricingPage() {
-  const faqSchema = {
+  const structuredData = {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
+    "@graph": [
       {
-        "@type": "Question",
-        "name": "Wat kost een website abonnement?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Onze website abonnementen starten vanaf €99 per maand voor het Starter pakket. Het Professional pakket kost €199 per maand en biedt uitgebreidere functionaliteiten. Voor Enterprise oplossingen maken wij een offerte op maat."
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Wat kost een website abonnement?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Onze website abonnementen starten vanaf €99 per maand voor het Starter pakket. Het Professional pakket kost €199 per maand en biedt uitgebreidere functionaliteiten. Voor Enterprise oplossingen maken wij een offerte op maat."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Wat is inbegrepen in het abonnement?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Elk abonnement bevat een professionele website, beheerde hosting met SSL, regelmatige updates en backups, basis SEO optimalisatie, en ondersteuning via e-mail."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kan ik mijn abonnement opzeggen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ja, u kunt maandelijks opzeggen. Na opzegging blijft uw website nog 30 dagen actief."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kan ik later upgraden naar een hoger plan?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ja, u kunt op elk moment upgraden. Het verschil in kosten wordt pro-rata berekend."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://abonnement.website/pricing#starter",
+        "name": "Website Abonnement Starter",
+        "description": "Professionele website voor starters en kleine ondernemingen. Inclusief hosting, SSL en onderhoud.",
+        "provider": {
+          "@type": "Organization",
+          "name": "Abonnement.Website"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "99",
+          "priceCurrency": "EUR",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "99",
+            "priceCurrency": "EUR",
+            "unitText": "maand"
+          }
         }
       },
       {
-        "@type": "Question",
-        "name": "Wat is inbegrepen in het abonnement?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Elk abonnement bevat een professionele website, beheerde hosting met SSL, regelmatige updates en backups, basis SEO optimalisatie, en ondersteuning via e-mail. Afhankelijk van uw plan krijgt u ook toegang tot meer templates en maandelijkse credits voor wijzigingen."
+        "@type": "Service",
+        "@id": "https://abonnement.website/pricing#professional",
+        "name": "Website Abonnement Professional",
+        "description": "Complete website met SEO en marketing voor groeiende bedrijven. Inclusief hosting, SSL, onderhoud en rapportages.",
+        "provider": {
+          "@type": "Organization",
+          "name": "Abonnement.Website"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "199",
+          "priceCurrency": "EUR",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "199",
+            "priceCurrency": "EUR",
+            "unitText": "maand"
+          }
         }
       },
       {
-        "@type": "Question",
-        "name": "Kan ik mijn abonnement opzeggen?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Ja, u kunt maandelijks opzeggen. Na opzegging blijft uw website nog 30 dagen actief. Op verzoek kunnen we uw websitebestanden exporteren zodat u ze elders kunt hosten."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Hoe werkt de budgetsplit voor advertenties?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Bij onze advertentie add-ons (Google Ads, Meta Ads) splitsen we uw maandbudget automatisch op. Standaard gaat 85% naar mediakosten (de daadwerkelijke advertenties) en 15% naar beheerskosten. U ziet deze split altijd transparant voordat u bevestigt."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Kan ik later upgraden naar een hoger plan?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Ja, u kunt op elk moment upgraden. Het verschil in kosten wordt pro-rata berekend. Uw bestaande website en data blijven volledig behouden bij een upgrade."
+        "@type": "Service",
+        "@id": "https://abonnement.website/pricing#enterprise",
+        "name": "Website Abonnement Enterprise",
+        "description": "Maatwerk website voor bedrijven met specifieke wensen. Dedicated specialist en 24/7 support.",
+        "provider": {
+          "@type": "Organization",
+          "name": "Abonnement.Website"
         }
       }
     ]
   };
 
   useSEO({
-    title: "Prijzen en Abonnementen",
-    description: "Kies het website abonnement dat past bij uw bedrijf. Starter vanaf €99/maand, Professional vanaf €199/maand, of Enterprise voor maatwerk. Inclusief hosting en onderhoud.",
+    title: "Website Abonnement Prijzen",
+    description: "Website abonnement vanaf €99/maand. Starter, Professional of Enterprise. Inclusief design, hosting, onderhoud en support. Maandelijks opzegbaar.",
     canonical: "/pricing",
-    structuredData: faqSchema,
+    structuredData: structuredData,
   });
 
   const { user } = useAuth();
