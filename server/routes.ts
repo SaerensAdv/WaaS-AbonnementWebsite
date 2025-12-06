@@ -86,6 +86,7 @@ export async function registerRoutes(
       { url: "/about", priority: "0.7", changefreq: "monthly" },
       { url: "/contact", priority: "0.7", changefreq: "monthly" },
       { url: "/specialists", priority: "0.6", changefreq: "monthly" },
+      { url: "/blog", priority: "0.8", changefreq: "daily" },
       { url: "/privacy", priority: "0.3", changefreq: "yearly" },
       { url: "/terms", priority: "0.3", changefreq: "yearly" },
       { url: "/cookies", priority: "0.3", changefreq: "yearly" },
@@ -1006,6 +1007,77 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Update specialist profile error:", error);
       res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
+
+  // Public Blog Endpoints
+  app.get("/api/blog", async (_req, res) => {
+    try {
+      const posts = await storage.getBlogPosts("PUBLISHED");
+      res.json(posts);
+    } catch (error) {
+      console.error("Get blog posts error:", error);
+      res.status(500).json({ message: "Failed to fetch blog posts" });
+    }
+  });
+
+  app.get("/api/blog/:slug", async (req, res) => {
+    try {
+      const post = await storage.getBlogPostBySlug(req.params.slug);
+      if (!post || post.status !== "PUBLISHED") {
+        return res.status(404).json({ message: "Blog post not found" });
+      }
+      res.json(post);
+    } catch (error) {
+      console.error("Get blog post error:", error);
+      res.status(500).json({ message: "Failed to fetch blog post" });
+    }
+  });
+
+  // Admin Blog Endpoints
+  app.get("/api/admin/blog", requireRole("ADMIN"), async (_req, res) => {
+    try {
+      const posts = await storage.getBlogPosts();
+      res.json(posts);
+    } catch (error) {
+      console.error("Get all blog posts error:", error);
+      res.status(500).json({ message: "Failed to fetch blog posts" });
+    }
+  });
+
+  app.post("/api/admin/blog", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const post = await storage.createBlogPost(req.body);
+      res.json(post);
+    } catch (error) {
+      console.error("Create blog post error:", error);
+      res.status(500).json({ message: "Failed to create blog post" });
+    }
+  });
+
+  app.patch("/api/admin/blog/:id", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const post = await storage.updateBlogPost(req.params.id, req.body);
+      if (!post) {
+        return res.status(404).json({ message: "Blog post not found" });
+      }
+      res.json(post);
+    } catch (error) {
+      console.error("Update blog post error:", error);
+      res.status(500).json({ message: "Failed to update blog post" });
+    }
+  });
+
+  app.delete("/api/admin/blog/:id", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const success = await storage.deleteBlogPost(req.params.id);
+      if (!success) {
+        return res.status(404).json({ message: "Blog post not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Delete blog post error:", error);
+      res.status(500).json({ message: "Failed to delete blog post" });
     }
   });
 

@@ -191,6 +191,37 @@ export const passwordResetTokens = pgTable("password_reset_tokens", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Blog Status Enum
+export const blogStatusEnum = pgEnum("blog_status", ["DRAFT", "PUBLISHED", "ARCHIVED"]);
+
+// Blog Posts
+export const blogPosts = pgTable("blog_posts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  focusKeyword: text("focus_keyword"),
+  supportingKeywords: text("supporting_keywords").array(),
+  featuredImageUrl: text("featured_image_url"),
+  featuredImageAlt: text("featured_image_alt"),
+  intro: text("intro").notNull(),
+  keyTakeaways: text("key_takeaways").array(),
+  content: text("content").notNull(),
+  inArticleImages: jsonb("in_article_images"),
+  inArticleVideos: jsonb("in_article_videos"),
+  authorId: varchar("author_id").references(() => users.id),
+  authorBio: text("author_bio"),
+  ctaText: text("cta_text"),
+  ctaLink: text("cta_link"),
+  status: blogStatusEnum("status").default("DRAFT"),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  readTimeMinutes: integer("read_time_minutes").default(5),
+  category: text("category"),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ one, many }) => ({
   customerProfile: one(customerProfiles, {
@@ -358,6 +389,12 @@ export const insertAuditLogSchema = createInsertSchema(auditLogs).omit({
   createdAt: true,
 });
 
+export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -383,6 +420,8 @@ export type Report = typeof reports.$inferSelect;
 export type InsertReport = z.infer<typeof insertReportSchema>;
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type InsertAuditLog = z.infer<typeof insertAuditLogSchema>;
+export type BlogPost = typeof blogPosts.$inferSelect;
+export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
 
 // Onboarding data type
 export interface OnboardingData {

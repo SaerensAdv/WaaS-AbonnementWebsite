@@ -150,6 +150,15 @@ export function MarketingFooter() {
                   Word specialist
                 </Link>
               </li>
+              <li>
+                <Link 
+                  href="/blog" 
+                  className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
+                  data-testid="link-footer-blog"
+                >
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
 

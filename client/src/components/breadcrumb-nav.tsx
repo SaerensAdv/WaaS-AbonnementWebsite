@@ -65,20 +65,22 @@ export function BreadcrumbNav({ items, className }: BreadcrumbNavProps) {
             </BreadcrumbLink>
           </BreadcrumbItem>
           {items.map((item, index) => (
-            <BreadcrumbItem key={item.label}>
+            <span key={item.label} className="contents">
               <BreadcrumbSeparator />
-              {index === items.length - 1 || !item.href ? (
-                <BreadcrumbPage data-testid={`breadcrumb-${item.label.toLowerCase().replace(/\s+/g, '-')}`}>
-                  {item.label}
-                </BreadcrumbPage>
-              ) : (
-                <BreadcrumbLink asChild>
-                  <Link href={item.href} data-testid={`breadcrumb-${item.label.toLowerCase().replace(/\s+/g, '-')}`}>
+              <BreadcrumbItem>
+                {index === items.length - 1 || !item.href ? (
+                  <BreadcrumbPage data-testid={`breadcrumb-${item.label.toLowerCase().replace(/\s+/g, '-')}`}>
                     {item.label}
-                  </Link>
-                </BreadcrumbLink>
-              )}
-            </BreadcrumbItem>
+                  </BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink asChild>
+                    <Link href={item.href} data-testid={`breadcrumb-${item.label.toLowerCase().replace(/\s+/g, '-')}`}>
+                      {item.label}
+                    </Link>
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+            </span>
           ))}
         </BreadcrumbList>
       </Breadcrumb>
