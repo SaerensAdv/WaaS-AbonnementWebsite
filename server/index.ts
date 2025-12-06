@@ -6,7 +6,6 @@ import { runMigrations } from 'stripe-replit-sync';
 import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
 import path from "path";
-import { isBot, getSeoContent, injectSeoContent } from "./seo-prerender";
 
 const app = express();
 
@@ -158,61 +157,6 @@ async function initStripe() {
       }
     });
 
-    next();
-  });
-
-  // SEO prerendering middleware for crawlers - intercepts HTML responses
-  app.use((req, res, next) => {
-    const userAgent = req.get("user-agent") || "";
-    
-    if (!isBot(userAgent)) {
-      return next();
-    }
-    
-    // Only apply to non-API routes
-    if (req.path.startsWith("/api")) {
-      return next();
-    }
-    
-    log(`Bot detected: ${userAgent.substring(0, 50)}...`, "seo");
-    
-    const originalEnd = res.end.bind(res);
-    let chunks: Buffer[] = [];
-    
-    res.write = function(chunk: any, ...args: any[]): boolean {
-      if (chunk) {
-        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-      }
-      return true;
-    };
-    
-    res.end = function(chunk?: any, ...args: any[]): Response {
-      if (chunk) {
-        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-      }
-      
-      const body = Buffer.concat(chunks).toString("utf-8");
-      
-      if (body.includes('<!DOCTYPE html>') || body.includes('<html')) {
-        getSeoContent(req.originalUrl).then(content => {
-          if (content) {
-            const enhancedHtml = injectSeoContent(body, content, req.originalUrl);
-            log(`SEO content injected for ${req.originalUrl}`, "seo");
-            originalEnd(enhancedHtml);
-          } else {
-            originalEnd(body);
-          }
-        }).catch((err) => {
-          log(`SEO injection error: ${err.message}`, "seo");
-          originalEnd(body);
-        });
-      } else {
-        originalEnd(body);
-      }
-      
-      return res;
-    };
-    
     next();
   });
 
