@@ -10,8 +10,8 @@ interface SEOProps {
   structuredData?: object;
 }
 
-const SITE_NAME = "WebsiteAbonnementen";
-const BASE_URL = "https://websiteabonnementen.nl";
+const SITE_NAME = "Abonnement.Website";
+const BASE_URL = "https://abonnement.website";
 const DEFAULT_OG_IMAGE = "/og-image.png";
 
 export function useSEO({

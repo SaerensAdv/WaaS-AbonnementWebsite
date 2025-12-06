@@ -21,4 +21,4 @@ Disallow: /checkout-success
 Disallow: /api
 
 # Sitemap location
-Sitemap: https://websiteabonnementen.nl/sitemap.xml
+Sitemap: https://abonnement.website/sitemap.xml
