@@ -101,7 +101,7 @@ export default function PrivacyPage() {
   return (
     <MarketingLayout>
       <section 
-        className="relative min-h-[40vh] flex items-center overflow-hidden pt-[72px]"
+        className="relative min-h-[40vh] flex flex-col overflow-hidden pt-[72px]"
         data-testid="section-privacy-hero"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
@@ -119,11 +119,14 @@ export default function PrivacyPage() {
         
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
         
-        <div className="container mx-auto px-4 relative z-10 py-16">
+        <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
             items={[{ label: "Privacy" }]} 
-            className="mb-8 [&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
+            className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10 flex-1 flex items-center pb-20">
           <div className="max-w-4xl mx-auto text-center">
             <BlurIn delay={0}>
               <motion.div 

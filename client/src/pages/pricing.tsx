@@ -342,11 +342,11 @@ export default function PricingPage() {
 
   return (
     <MarketingLayout>
-      <section className="py-16 md:py-24">
+      <section className="pt-32 pb-16 md:pb-24">
         <div className="container mx-auto px-4">
           <BreadcrumbNav 
             items={[{ label: "Prijzen" }]} 
-            className="mb-12"
+            className="mb-8"
           />
           <div className="text-center max-w-2xl mx-auto mb-16">
             <Badge variant="secondary" className="mb-4">Prijzen</Badge>
