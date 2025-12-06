@@ -726,6 +726,26 @@ export async function registerRoutes(
     }
   });
 
+  // Contact form endpoint (public)
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const { name, email, subject, message } = req.body;
+      
+      if (!name || !email || !subject || !message) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+      
+      // For now, just log the contact request
+      // In production, this would send an email or store in database
+      console.log("Contact form submission:", { name, email, subject, message });
+      
+      res.json({ success: true, message: "Contact form submitted successfully" });
+    } catch (error) {
+      console.error("Contact form error:", error);
+      res.status(500).json({ message: "Failed to submit contact form" });
+    }
+  });
+
   app.put("/api/specialist/profile", requireRole("SPECIALIST"), async (req, res) => {
     try {
       const user = (req as any).user as User;
