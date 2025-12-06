@@ -1,0 +1,90 @@
+SEO opportunities - These suggestions will help you improve your on page SEO.
+Headings
+Your headings are bad and need to be improved.
++7 opportunities
+0/20
+
+
+Warning - There are problems that badly need to be addressed.
+Every web page should have a h1 heading with less than 40 characters that describes the content of the web page. The content of the title and h1 should differ from one another. Only one h1 should exist on a page. The keyword should be mentioned in all headings and the sooner it's mentioned the better.
+
+Entire keyword in h10/3
+The entire keyword is not in the title.
+
+Part of the keyword in h10/2
+Amount of keywords in the title: 0
+
+Length of the <h1>-tag0/2
+The <h1> heading should at most contain 40 characters. You have: 0
+
+Keyword position in the h10/5
+Keyword position in the h1: -
+
+Number of <h1>-tags0/4
+Your page seems to not contain <h1>-tag. For best results, it is recommended to have one <h1>-tag.
+
+Different content in title and <h1>-tag0/2
+You have the same content in your title and <h1>-tag or one of them is missing.
+
+Keyword in subheadings0/2
+Keyword was not found in any subheading.
+
+Body
+Your body content is bad and need to be improved.
++4 opportunities
+0/28
+
+
+Warning - There are problems that badly need to be addressed.
+Every web page should have at least 500 words in the body text. This shows Google that there is actual content on the web page. The keyword should be mentioned at least three times throughout the body text.
+
+Word count0/14
+Your web page has way too few words. Word count: 0
+
+Keyword in body text0/7
+Your web page never mentions the keyword in the body text. Try to get it up to at least three times. Mentions: 0
+
+Keyword partially in body text0/5
+No part of the keyword is mentioned.
+
+Every word in the keyword mentioned.0/2
+All words were not found.
+
+Meta
+Your meta-tags are bad and need to be improved.
++1 opportunity
+0/5
+
+
+Warning - There are problems that badly need to be addressed.
+The meta description is the description of your web page as shown in the Google-results. That's why it's important to mention your keyword as early as possible here.
+
+Keyword in meta description0/5
+Your web page's meta description does not contain the keyword.
+
+Media
+Your media is bad and need to be improved.
++1 opportunity
+0/4
+
+
+Warning - There are problems that badly need to be addressed.
+Having images of the keyword on your web page is important, it is equally important to mention the keyword in the alt-tag of the image containing the keyword. Also make sure the alt-tag is describing the image.
+
+Keyword found in an image's alt-text0/4
+Your web page does not mention the keyword in an alt-text of an image.
+
+Code
+Your code is good but could be improved.
++1 opportunity
+4/6
+
+
+OK - But there are still things that can be improved.
+A well structured web page should always have an external CSS-file according to Google. The bigger percentage of your source code is visible to visitors the better. Google doesn't want to go through code that won't even be visible to your users. Try to have at least 2% visible.
+
+Separate CSS-file3/3
+Perfect, your web page has a separate file for CSS. That's evidence of a well structured web page.
+
+Percentage of visible source code1/3
+Percentage of visible source code: 1.08%
