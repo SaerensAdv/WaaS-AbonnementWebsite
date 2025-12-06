@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth-context";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -34,20 +36,35 @@ export default function SettingsPage() {
   const { user } = useAuth();
   const { toast } = useToast();
   
-  const { data: profile, isLoading } = useQuery({
+  const { data: profileData, isLoading } = useQuery<{
+    profile: { companyName?: string; phone?: string; address?: string; vatNumber?: string } | null;
+    user: { name: string; email: string; createdAt: string };
+  }>({
     queryKey: ['/api/profile'],
   });
   
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      name: user?.name || "",
+      name: "",
       companyName: "",
       phone: "",
       address: "",
       vatNumber: "",
     },
   });
+  
+  useEffect(() => {
+    if (profileData) {
+      form.reset({
+        name: profileData.user?.name || user?.name || "",
+        companyName: profileData.profile?.companyName || "",
+        phone: profileData.profile?.phone || "",
+        address: profileData.profile?.address || "",
+        vatNumber: profileData.profile?.vatNumber || "",
+      });
+    }
+  }, [profileData, user, form]);
   
   const updateMutation = useMutation({
     mutationFn: async (data: ProfileFormData) => {
@@ -74,6 +91,29 @@ export default function SettingsPage() {
   const onSubmit = (data: ProfileFormData) => {
     updateMutation.mutate(data);
   };
+
+  if (isLoading) {
+    return (
+      <AppLayout title="Instellingen">
+        <div className="max-w-2xl space-y-6">
+          <Card>
+            <CardHeader>
+              <Skeleton className="h-6 w-40" />
+              <Skeleton className="h-4 w-60" />
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="space-y-2">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout title="Instellingen">
