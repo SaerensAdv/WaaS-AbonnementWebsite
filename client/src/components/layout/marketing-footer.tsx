@@ -101,11 +101,11 @@ export function MarketingFooter() {
               </li>
               <li>
                 <Link 
-                  href="/templates" 
+                  href="/projecten" 
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
-                  data-testid="link-footer-templates"
+                  data-testid="link-footer-projecten"
                 >
-                  Templates
+                  Projecten
                 </Link>
               </li>
             </ul>

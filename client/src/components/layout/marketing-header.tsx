@@ -24,6 +24,7 @@ export function MarketingHeader() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/pricing", label: "Prijzen" },
+    { href: "/projecten", label: "Projecten" },
     { href: "/about", label: "Over ons" },
   ];
 
