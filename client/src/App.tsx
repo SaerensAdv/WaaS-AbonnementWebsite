@@ -7,6 +7,17 @@ import { ThemeProvider } from "@/lib/theme-provider";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { PageLoader } from "@/components/page-loader";
 import NotFound from "@/pages/not-found";
+import { useEffect } from "react";
+
+function ScrollToTop() {
+  const [location] = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  
+  return null;
+}
 
 import HomePage from "@/pages/home";
 import PricingPage from "@/pages/pricing";
@@ -153,6 +164,7 @@ function App() {
       <ThemeProvider defaultTheme="light" storageKey="website-abonnementen-theme">
         <TooltipProvider>
           <AuthProvider>
+            <ScrollToTop />
             <PageLoader />
             <Router />
             <Toaster />
