@@ -104,6 +104,8 @@ export interface IStorage {
     pendingSpecialists: number;
     activeAddOns: number;
   }>;
+
+  getShowcaseProjects(): Promise<{ project: Project; plan: Plan | null; customerName: string }[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -564,6 +566,37 @@ export class DatabaseStorage implements IStorage {
       .returning();
     
     return user || undefined;
+  }
+
+  async getShowcaseProjects(): Promise<{ project: Project; plan: Plan | null; customerName: string }[]> {
+    const allProjects = await db.select().from(projects);
+    
+    const showcaseProjects = allProjects.filter(
+      (p) => p.status === "LIVE" && p.showcaseOptIn === "APPROVED"
+    );
+    
+    const sortedProjects = showcaseProjects.sort((a, b) => {
+      if (a.showcaseFeatured && !b.showcaseFeatured) return -1;
+      if (!a.showcaseFeatured && b.showcaseFeatured) return 1;
+      const aDate = a.launchedAt ? new Date(a.launchedAt).getTime() : 0;
+      const bDate = b.launchedAt ? new Date(b.launchedAt).getTime() : 0;
+      return bDate - aDate;
+    });
+    
+    const result = await Promise.all(
+      sortedProjects.map(async (project) => {
+        const plan = project.planId ? await this.getPlan(project.planId) : null;
+        const user = await this.getUser(project.userId);
+        const profile = user ? await this.getCustomerProfile(user.id) : null;
+        return {
+          project,
+          plan: plan || null,
+          customerName: profile?.companyName || user?.name || "Anoniem",
+        };
+      })
+    );
+    
+    return result;
   }
 }
 

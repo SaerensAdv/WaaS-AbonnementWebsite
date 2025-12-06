@@ -10,6 +10,7 @@ export const projectStatusEnum = pgEnum("project_status", ["ONBOARDING", "PRODUC
 export const addOnStatusEnum = pgEnum("addon_status", ["REQUESTED", "ACTIVE", "PAUSED"]);
 export const assignmentStatusEnum = pgEnum("assignment_status", ["PROPOSED", "ACTIVE", "ENDED"]);
 export const subscriptionStatusEnum = pgEnum("subscription_status", ["ACTIVE", "PAST_DUE", "CANCELED", "INCOMPLETE"]);
+export const showcaseOptInEnum = pgEnum("showcase_opt_in", ["PENDING", "APPROVED", "DECLINED", "REVOKED"]);
 
 // Users table
 export const users = pgTable("users", {
@@ -96,6 +97,15 @@ export const projects = pgTable("projects", {
   domain: text("domain"),
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
+  // Showcase fields for public portfolio
+  publicUrl: text("public_url"),
+  showcaseOptIn: showcaseOptInEnum("showcase_opt_in").default("PENDING"),
+  showcaseThumbnailUrl: text("showcase_thumbnail_url"),
+  showcaseTitle: text("showcase_title"),
+  showcaseDescription: text("showcase_description"),
+  showcaseIndustry: text("showcase_industry"),
+  showcaseFeatured: boolean("showcase_featured").default(false),
+  launchedAt: timestamp("launched_at"),
 });
 
 // Add-ons

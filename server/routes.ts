@@ -256,6 +256,16 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/showcase-projects", async (_req, res) => {
+    try {
+      const showcaseProjects = await storage.getShowcaseProjects();
+      res.json(showcaseProjects);
+    } catch (error) {
+      console.error("Get showcase projects error:", error);
+      res.status(500).json({ message: "Failed to fetch showcase projects" });
+    }
+  });
+
   app.get("/api/dashboard", requireRole("CUSTOMER"), async (req, res) => {
     try {
       const user = (req as any).user as User;
@@ -590,6 +600,42 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Update project status error:", error);
       res.status(500).json({ message: "Failed to update project" });
+    }
+  });
+
+  app.patch("/api/admin/projects/:id/showcase", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { 
+        publicUrl,
+        showcaseOptIn,
+        showcaseThumbnailUrl,
+        showcaseTitle,
+        showcaseDescription,
+        showcaseIndustry,
+        showcaseFeatured,
+        launchedAt
+      } = req.body;
+      
+      const updateData: Record<string, any> = {};
+      if (publicUrl !== undefined) updateData.publicUrl = publicUrl;
+      if (showcaseOptIn !== undefined) updateData.showcaseOptIn = showcaseOptIn;
+      if (showcaseThumbnailUrl !== undefined) updateData.showcaseThumbnailUrl = showcaseThumbnailUrl;
+      if (showcaseTitle !== undefined) updateData.showcaseTitle = showcaseTitle;
+      if (showcaseDescription !== undefined) updateData.showcaseDescription = showcaseDescription;
+      if (showcaseIndustry !== undefined) updateData.showcaseIndustry = showcaseIndustry;
+      if (showcaseFeatured !== undefined) updateData.showcaseFeatured = showcaseFeatured;
+      if (launchedAt !== undefined) updateData.launchedAt = launchedAt ? new Date(launchedAt) : null;
+      
+      const updated = await storage.updateProject(id, updateData);
+      if (!updated) {
+        return res.status(404).json({ message: "Project not found" });
+      }
+      
+      res.json(updated);
+    } catch (error) {
+      console.error("Update project showcase error:", error);
+      res.status(500).json({ message: "Failed to update showcase settings" });
     }
   });
 
