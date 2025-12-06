@@ -27,15 +27,29 @@ export default function LoginPage() {
     },
   });
 
+  function getRedirectPath(role: string): string {
+    switch (role) {
+      case "ADMIN":
+        return "/admin";
+      case "SPECIALIST":
+        return "/specialist";
+      case "CUSTOMER":
+      default:
+        return "/app";
+    }
+  }
+
   async function onSubmit(data: LoginInput) {
     setIsLoading(true);
     try {
-      await login(data.email, data.password);
+      const loggedInUser = await login(data.email, data.password);
+      const redirectPath = getRedirectPath(loggedInUser.role);
+      
       toast({
         title: "Welkom terug!",
         description: "U bent succesvol ingelogd.",
       });
-      setLocation("/app");
+      setLocation(redirectPath);
     } catch (error) {
       toast({
         title: "Inloggen mislukt",
