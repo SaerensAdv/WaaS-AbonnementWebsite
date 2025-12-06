@@ -77,41 +77,65 @@ export async function registerRoutes(
 
   // Sitemap.xml for SEO
   app.get("/sitemap.xml", async (_req, res) => {
-    const baseUrl = "https://abonnement.website";
-    const staticPages = [
-      { url: "/", priority: "1.0", changefreq: "weekly" },
-      { url: "/pricing", priority: "0.9", changefreq: "weekly" },
-      { url: "/projecten", priority: "0.8", changefreq: "daily" },
-      { url: "/templates", priority: "0.8", changefreq: "weekly" },
-      { url: "/about", priority: "0.7", changefreq: "monthly" },
-      { url: "/contact", priority: "0.7", changefreq: "monthly" },
-      { url: "/specialists", priority: "0.6", changefreq: "monthly" },
-      { url: "/blog", priority: "0.8", changefreq: "daily" },
-      { url: "/privacy", priority: "0.3", changefreq: "yearly" },
-      { url: "/terms", priority: "0.3", changefreq: "yearly" },
-      { url: "/cookies", priority: "0.3", changefreq: "yearly" },
-    ];
+    try {
+      const baseUrl = "https://abonnement.website";
+      const staticPages = [
+        { url: "/", priority: "1.0", changefreq: "weekly" },
+        { url: "/pricing", priority: "0.9", changefreq: "weekly" },
+        { url: "/projecten", priority: "0.8", changefreq: "daily" },
+        { url: "/templates", priority: "0.8", changefreq: "weekly" },
+        { url: "/about", priority: "0.7", changefreq: "monthly" },
+        { url: "/contact", priority: "0.7", changefreq: "monthly" },
+        { url: "/specialists", priority: "0.6", changefreq: "monthly" },
+        { url: "/blog", priority: "0.8", changefreq: "daily" },
+        { url: "/privacy", priority: "0.3", changefreq: "yearly" },
+        { url: "/terms", priority: "0.3", changefreq: "yearly" },
+        { url: "/cookies", priority: "0.3", changefreq: "yearly" },
+      ];
 
-    const today = new Date().toISOString().split("T")[0];
-    
-    let xml = `<?xml version="1.0" encoding="UTF-8"?>
+      const today = new Date().toISOString().split("T")[0];
+      
+      let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 `;
-    
-    for (const page of staticPages) {
-      xml += `  <url>
+      
+      for (const page of staticPages) {
+        xml += `  <url>
     <loc>${baseUrl}${page.url}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>
 `;
+      }
+      
+      // Add blog posts dynamically
+      const blogPosts = await storage.getBlogPosts();
+      for (const post of blogPosts) {
+        if (post.publishedAt) {
+          const lastmod = post.updatedAt 
+            ? new Date(post.updatedAt).toISOString().split("T")[0]
+            : post.createdAt 
+              ? new Date(post.createdAt).toISOString().split("T")[0]
+              : today;
+          xml += `  <url>
+    <loc>${baseUrl}/blog/${post.slug}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+`;
+        }
+      }
+      
+      xml += `</urlset>`;
+      
+      res.set("Content-Type", "application/xml");
+      res.send(xml);
+    } catch (error) {
+      console.error("Sitemap generation error:", error);
+      res.status(500).send("Error generating sitemap");
     }
-    
-    xml += `</urlset>`;
-    
-    res.set("Content-Type", "application/xml");
-    res.send(xml);
   });
 
   app.post("/api/auth/signup", async (req, res) => {
