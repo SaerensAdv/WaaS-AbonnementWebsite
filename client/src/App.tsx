@@ -12,6 +12,7 @@ import HomePage from "@/pages/home";
 import PricingPage from "@/pages/pricing";
 import AboutPage from "@/pages/about";
 import TemplatesPage from "@/pages/templates";
+import ProjectenPage from "@/pages/projecten";
 import ContactPage from "@/pages/contact";
 import SpecialistsPage from "@/pages/specialists";
 import PrivacyPage from "@/pages/privacy";
@@ -84,6 +85,7 @@ function Router() {
       <Route path="/pricing" component={PricingPage} />
       <Route path="/about" component={AboutPage} />
       <Route path="/templates" component={TemplatesPage} />
+      <Route path="/projecten" component={ProjectenPage} />
       <Route path="/contact" component={ContactPage} />
       <Route path="/specialists" component={SpecialistsPage} />
       <Route path="/privacy" component={PrivacyPage} />
