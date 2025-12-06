@@ -797,7 +797,7 @@ async function seed() {
 <ul>
 <li>SSL-certificaat (het slotje)</li>
 <li>Privacybeleid en voorwaarden</li>
-<li>KvK-nummer en BTW-nummer</li>
+<li>Ondernemingsnummer en BTW-nummer</li>
 <li>Fysiek adres (geen postbus)</li>
 <li>Keurmerken en certificaten</li>
 </ul>

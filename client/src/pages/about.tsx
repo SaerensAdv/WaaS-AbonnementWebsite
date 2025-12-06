@@ -263,13 +263,13 @@ export default function AboutPage() {
                   Wij nemen alle zorgen uit handen zodat u kunt focussen op wat u het beste doet: uw bedrijf runnen. 
                   Als professionele dienstverlener staan wij geregistreerd bij de{" "}
                   <a 
-                    href="https://www.kvk.nl" 
+                    href="https://kbopub.economie.fgov.be" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-primary hover:underline"
-                    data-testid="link-external-kvk"
+                    data-testid="link-external-kbo"
                   >
-                    Kamer van Koophandel
+                    Kruispuntbank van Ondernemingen
                   </a>.
                 </p>
               </div>
