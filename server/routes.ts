@@ -493,7 +493,7 @@ export async function registerRoutes(
       
       const protocol = req.headers['x-forwarded-proto'] || 'https';
       const host = req.headers.host;
-      const successUrl = `${protocol}://${host}/app?checkout=success`;
+      const successUrl = `${protocol}://${host}/checkout-success`;
       const cancelUrl = `${protocol}://${host}/pricing?checkout=cancelled`;
       
       const session = await stripe.checkout.sessions.create({
