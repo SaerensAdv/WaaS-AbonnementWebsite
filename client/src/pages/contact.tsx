@@ -154,6 +154,10 @@ export default function ContactPage() {
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
         
         <div className="container mx-auto px-4 relative z-10 py-16">
+          <BreadcrumbNav 
+            items={[{ label: "Contact" }]} 
+            className="mb-8 [&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
+          />
           <div className="max-w-4xl mx-auto text-center">
             <BlurIn delay={0}>
               <motion.div 
@@ -189,10 +193,6 @@ export default function ContactPage() {
 
       <section className="py-16 md:py-24" data-testid="section-contact-options">
         <div className="container mx-auto px-4">
-          <BreadcrumbNav 
-            items={[{ label: "Contact" }]} 
-            className="mb-12"
-          />
           <StaggerChildren className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16" staggerDelay={0.1}>
             {contactOptions.map((option, index) => (
               <StaggerItem key={option.title}>

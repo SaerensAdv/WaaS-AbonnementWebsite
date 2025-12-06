@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useSEO } from "@/hooks/use-seo";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
@@ -135,6 +136,10 @@ export default function TermsPage() {
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
         
         <div className="container mx-auto px-4 relative z-10 py-16">
+          <BreadcrumbNav 
+            items={[{ label: "Voorwaarden" }]} 
+            className="mb-8 [&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
+          />
           <div className="max-w-4xl mx-auto text-center">
             <BlurIn delay={0}>
               <motion.div 

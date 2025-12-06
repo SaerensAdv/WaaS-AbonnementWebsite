@@ -134,6 +134,10 @@ export default function AboutPage() {
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
         
         <div className="container mx-auto px-4 relative z-10 py-24">
+          <BreadcrumbNav 
+            items={[{ label: "Over Ons" }]} 
+            className="mb-8 [&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
+          />
           <div className="max-w-4xl mx-auto text-center">
             <BlurIn delay={0}>
               <motion.div 
@@ -195,10 +199,6 @@ export default function AboutPage() {
 
       <section className="py-24 md:py-32" data-testid="section-why-us">
         <div className="container mx-auto px-4">
-          <BreadcrumbNav 
-            items={[{ label: "Over Ons" }]} 
-            className="mb-12"
-          />
           <FadeInUp>
             <div className="text-center max-w-3xl mx-auto mb-16">
               <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
