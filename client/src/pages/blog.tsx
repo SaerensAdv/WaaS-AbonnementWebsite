@@ -120,7 +120,7 @@ export default function BlogPage() {
 
   return (
     <MarketingLayout>
-      <div className="pt-32 pb-20">
+      <div className="pt-[104px] pb-20">
         <div className="container mx-auto px-4">
           <BreadcrumbNav
             items={[{ label: "Blog" }]}

@@ -342,7 +342,7 @@ export default function PricingPage() {
 
   return (
     <MarketingLayout>
-      <section className="pt-32 pb-16 md:pb-24">
+      <section className="pt-[104px] pb-16 md:pb-24">
         <div className="container mx-auto px-4">
           <BreadcrumbNav 
             items={[{ label: "Prijzen" }]} 

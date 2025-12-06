@@ -122,7 +122,7 @@ export default function BlogPostPage() {
   if (isLoading) {
     return (
       <MarketingLayout>
-        <div className="pt-32 pb-20">
+        <div className="pt-[104px] pb-20">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <BlogPostSkeleton />
@@ -136,7 +136,7 @@ export default function BlogPostPage() {
   if (error || !post) {
     return (
       <MarketingLayout>
-        <div className="pt-32 pb-20">
+        <div className="pt-[104px] pb-20">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-2xl font-semibold mb-4">Artikel niet gevonden</h1>
             <p className="text-muted-foreground mb-8">
@@ -153,7 +153,7 @@ export default function BlogPostPage() {
 
   return (
     <MarketingLayout>
-      <article className="pt-32 pb-20">
+      <article className="pt-[104px] pb-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <BreadcrumbNav
