@@ -7,6 +7,48 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = React.useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768 || 
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      ('ontouchstart' in window);
+  });
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(
+        window.innerWidth < 768 || 
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        ('ontouchstart' in window)
+      );
+    };
+    
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile('matches' in e ? e.matches : (e as MediaQueryListEvent).matches);
+    };
+    
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handler as (e: MediaQueryListEvent) => void);
+    } else if (mediaQuery.addListener) {
+      mediaQuery.addListener(handler as (e: MediaQueryListEvent) => void);
+    }
+    
+    checkMobile();
+    
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handler as (e: MediaQueryListEvent) => void);
+      } else if (mediaQuery.removeListener) {
+        mediaQuery.removeListener(handler as (e: MediaQueryListEvent) => void);
+      }
+    };
+  }, []);
+
+  return isMobile;
+}
+
 interface MobileCarouselProps {
   children: React.ReactNode[];
   className?: string;
@@ -37,8 +79,8 @@ export function MobileCarousel({
 
   return (
     <div className={cn("relative", className)}>
-      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none md:hidden" />
-      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none md:hidden" />
+      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
       
       <Carousel
         setApi={setApi}
@@ -96,14 +138,15 @@ export function MobileCarouselSection({
   showDots = true,
   itemClassName,
 }: MobileCarouselSectionProps) {
-  return (
-    <>
-      <div className="hidden md:block">{children}</div>
-      <div className="md:hidden">
-        <MobileCarousel showDots={showDots} itemClassName={itemClassName}>
-          {mobileChildren}
-        </MobileCarousel>
-      </div>
-    </>
-  );
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <MobileCarousel showDots={showDots} itemClassName={itemClassName}>
+        {mobileChildren}
+      </MobileCarousel>
+    );
+  }
+
+  return <>{children}</>;
 }

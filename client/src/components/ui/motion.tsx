@@ -1,19 +1,55 @@
-import { motion, useSpring, useInView, Variants } from "framer-motion";
-import { useRef, ReactNode, useState, useEffect } from "react";
+import { motion, useSpring, useInView as framerUseInView, Variants } from "framer-motion";
+import { useRef, ReactNode, useState, useEffect, RefObject } from "react";
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768 || 
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      ('ontouchstart' in window);
+  });
   
   useEffect(() => {
     const checkMobile = () => {
-      return window.innerWidth < 768 || 
+      setIsMobile(
+        window.innerWidth < 768 || 
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-        ('ontouchstart' in window);
+        ('ontouchstart' in window)
+      );
     };
-    setIsMobile(checkMobile());
+    
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile('matches' in e ? e.matches : (e as MediaQueryListEvent).matches);
+    };
+    
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handler as (e: MediaQueryListEvent) => void);
+    } else if (mediaQuery.addListener) {
+      mediaQuery.addListener(handler as (e: MediaQueryListEvent) => void);
+    }
+    
+    checkMobile();
+    
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handler as (e: MediaQueryListEvent) => void);
+      } else if (mediaQuery.removeListener) {
+        mediaQuery.removeListener(handler as (e: MediaQueryListEvent) => void);
+      }
+    };
   }, []);
   
   return isMobile;
+}
+
+function useInViewDesktopOnly(
+  ref: RefObject<Element | null>,
+  options: { once?: boolean; amount?: number },
+  isMobile: boolean
+) {
+  const isInView = framerUseInView(ref, isMobile ? { once: true, amount: 0 } : options);
+  return isMobile ? true : isInView;
 }
 
 const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
@@ -133,8 +169,13 @@ export function FadeInUp({
   once = true,
   amount = 0.3,
 }: MotionDivProps) {
+  const isMobile = useIsMobile();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, amount });
+  const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
+  
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
   
   return (
     <motion.div
@@ -167,8 +208,13 @@ export function FadeIn({
   once = true,
   amount = 0.3,
 }: MotionDivProps) {
+  const isMobile = useIsMobile();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, amount });
+  const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
+  
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
   
   return (
     <motion.div
@@ -200,8 +246,13 @@ export function ScaleIn({
   once = true,
   amount = 0.3,
 }: MotionDivProps) {
+  const isMobile = useIsMobile();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, amount });
+  const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
+  
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
   
   return (
     <motion.div
@@ -235,9 +286,14 @@ export function SlideIn({
   once = true,
   amount = 0.3,
 }: MotionDivProps & { direction?: "left" | "right" }) {
+  const isMobile = useIsMobile();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, amount });
+  const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
   const x = direction === "left" ? -40 : 40;
+  
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
   
   return (
     <motion.div
@@ -278,8 +334,13 @@ export function StaggerChildren({
   once = true,
   amount = 0.2,
 }: StaggerChildrenProps) {
+  const isMobile = useIsMobile();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, amount });
+  const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
+  
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
   
   return (
     <motion.div
@@ -307,6 +368,12 @@ export function StaggerItem({
   children, 
   className = "",
 }: { children: ReactNode; className?: string }) {
+  const isMobile = useIsMobile();
+  
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
+  
   return (
     <motion.div
       variants={staggerItem}
@@ -330,6 +397,12 @@ export function Parallax({
   speed = 0.5,
   direction = "up"
 }: ParallaxProps) {
+  const isMobile = useIsMobile();
+  
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
+  
   const factor = direction === "up" ? -1 : 1;
   const distance = 10 * speed;
   
@@ -403,7 +476,11 @@ export function GlowPulse({
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
     : false;
 
-  if (prefersReducedMotion || isMobile) {
+  if (isMobile) {
+    return null;
+  }
+
+  if (prefersReducedMotion) {
     return <div className={className}>{children}</div>;
   }
 
@@ -442,9 +519,18 @@ export function CountUp({
   className = "",
   decimals = 0
 }: CountUpProps) {
+  const isMobile = useIsMobile();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const isInView = useInViewDesktopOnly(ref, { once: true, amount: 0.5 }, isMobile);
   const count = useSpring(0, { duration: duration * 1000 });
+  
+  if (isMobile) {
+    return (
+      <span className={className}>
+        {prefix}{end.toFixed(decimals)}{suffix}
+      </span>
+    );
+  }
   
   if (isInView) {
     count.set(end);
@@ -472,8 +558,13 @@ export function TextReveal({
   className = "",
   delay = 0
 }: TextRevealProps) {
+  const isMobile = useIsMobile();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const isInView = useInViewDesktopOnly(ref, { once: true, amount: 0.5 }, isMobile);
+  
+  if (isMobile) {
+    return <span className={className}>{children}</span>;
+  }
   
   const words = children.split(" ");
   
@@ -560,8 +651,13 @@ export function BlurIn({
   once = true,
   amount = 0.3,
 }: BlurInProps) {
+  const isMobile = useIsMobile();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, amount });
+  const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
+  
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
   
   return (
     <motion.div
