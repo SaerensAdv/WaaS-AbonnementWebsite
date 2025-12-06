@@ -184,6 +184,30 @@ export default function HomePage() {
               "@type": "Answer",
               "text": "Na een kort kennismakingsgesprek bouwen wij uw website binnen 2-4 weken. U keurt het ontwerp goed en daarna gaat uw website direct live."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Wat is het verschil tussen een website abonnement en een eenmalige website?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Bij een website abonnement betaalt u een vast maandbedrag en is alles inbegrepen: ontwerp, hosting, onderhoud, updates en support. Bij een eenmalige website betaalt u een grote som vooraf en komen hosting, onderhoud en updates daar nog bovenop."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kan ik mijn website abonnement opzeggen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ja, u kunt uw website abonnement maandelijks opzeggen. Er is geen lange contractduur of opzegboete. U betaalt alleen voor de maanden dat u gebruik maakt van onze diensten."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is een website abonnement geschikt voor mijn bedrijf?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Een website abonnement is ideaal voor ondernemers en MKB-bedrijven die een professionele website willen zonder technisch gedoe. Of u nu een ZZP'er, lokale dienstverlener of groeiend bedrijf bent - wij hebben een passend abonnement."
+            }
           }
         ]
       },
@@ -217,8 +241,8 @@ export default function HomePage() {
   };
 
   useSEO({
-    title: "Professionele Website Abonnementen",
-    description: "Laat uw bedrijf online groeien met een professionele website op abonnementsbasis. Inclusief hosting, onderhoud, SEO en persoonlijke begeleiding. Vanaf €99/maand.",
+    title: "Website Abonnement | Professionele Website Vanaf €99/maand",
+    description: "Een website abonnement zonder zorgen. Professioneel ontwerp, hosting, onderhoud en support inbegrepen. Geen technische kennis nodig. Start vandaag met uw website op abonnementsbasis.",
     canonical: "/",
     structuredData: homeStructuredData,
   });
@@ -263,7 +287,7 @@ export default function HomePage() {
                 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9] text-white mb-8" 
                 data-testid="text-hero-title"
               >
-                Uw website
+                Website abonnement
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">zonder zorgen</span>
               </h1>
@@ -271,8 +295,8 @@ export default function HomePage() {
             
             <BlurIn delay={0.2}>
               <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-10">
-                Geen technische kennis nodig. Geen gedoe met hosting of updates. 
-                Wij bouwen en beheren uw professionele website terwijl u zich focust op uw bedrijf.
+                Professioneel ontwerp, hosting, onderhoud en support - alles inbegrepen in één vast maandbedrag. 
+                Geen technische kennis nodig. Wij regelen alles, u focust op uw bedrijf.
               </p>
             </BlurIn>
             
@@ -348,7 +372,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <FadeIn>
             <p className="text-center text-sm text-muted-foreground mb-8">
-              Vertrouwd door 500+ Nederlandse ondernemers
+              Vertrouwd door 500+ ondernemers in heel België
             </p>
             <TrustLogos />
           </FadeIn>
@@ -384,14 +408,14 @@ export default function HomePage() {
             <SlideIn direction="left">
               <div>
                 <Badge variant="secondary" className="mb-6 no-default-hover-elevate no-default-active-elevate">
-                  Geen gedoe, alleen resultaten
+                  Alles inbegrepen
                 </Badge>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                  Wij nemen alles uit handen
+                  Wat zit er in uw website abonnement?
                 </h2>
                 <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                  U heeft een professionele website nodig, maar geen tijd of zin om u te verdiepen 
-                  in technische zaken. Wij begrijpen dat. Daarom doen wij letterlijk alles voor u.
+                  Bij ons website abonnement is alles inbegrepen: ontwerp, hosting, onderhoud en support. 
+                  Geen verborgen kosten, geen technisch gedoe. Wij regelen alles voor u.
                 </p>
                 
                 <StaggerChildren className="grid sm:grid-cols-2 gap-4 mb-8" staggerDelay={0.05}>
@@ -438,10 +462,10 @@ export default function HomePage() {
                 Hoe het werkt
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                In 4 simpele stappen online
+                Uw website abonnement in 4 stappen
               </h2>
               <p className="text-xl text-muted-foreground">
-                U hoeft alleen te vertellen wat u wilt. De rest doen wij.
+                Van aanvraag tot live website - wij begeleiden u bij elke stap.
               </p>
             </div>
           </FadeInUp>
@@ -516,11 +540,11 @@ export default function HomePage() {
                   Uw Dashboard
                 </Badge>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-                  Alleen resultaten, geen gedoe
+                  Volg uw resultaten in real-time
                 </h2>
                 <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-                  U krijgt toegang tot een helder dashboard waar u in één oogopslag ziet 
-                  hoe uw website presteert. Bezoekers, leads, omzet - alles overzichtelijk.
+                  Bij elk website abonnement krijgt u een persoonlijk dashboard. 
+                  Bekijk bezoekers, leads en groei - alles overzichtelijk op één plek.
                 </p>
                 
                 <StaggerChildren className="space-y-4 mb-8" staggerDelay={0.1}>
@@ -563,7 +587,7 @@ export default function HomePage() {
                 Voordelen
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Waarom ondernemers voor ons kiezen
+                Waarom een website abonnement?
               </h2>
               <p className="text-xl text-muted-foreground">
                 Focus op uw bedrijf terwijl wij uw online aanwezigheid verzorgen
@@ -636,10 +660,10 @@ export default function HomePage() {
                 Ervaringen
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Wat onze klanten zeggen
+                Wat klanten zeggen
               </h2>
               <p className="text-xl text-muted-foreground">
-                Ondernemers die net als u geen tijd hebben voor technisch gedoe
+                Ondernemers die net als u kozen voor een zorgeloze website
               </p>
             </div>
           </FadeInUp>
@@ -758,10 +782,10 @@ export default function HomePage() {
                 Abonnementen
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Vaste maandprijs, geen verrassingen
+                Kies uw website abonnement
               </h2>
               <p className="text-xl text-muted-foreground">
-                Alles inbegrepen. Geen opstartkosten. Maandelijks opzegbaar.
+                Vaste maandprijs, alles inbegrepen. Geen opstartkosten, maandelijks opzegbaar.
               </p>
             </div>
           </FadeInUp>
@@ -938,14 +962,14 @@ export default function HomePage() {
         <div className="container mx-auto px-4 text-center relative z-10">
           <FadeInUp>
             <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-8 text-white">
-              Klaar om zorgeloos online te gaan?
+              Klaar om te starten?
             </h2>
           </FadeInUp>
           
           <FadeInUp delay={0.1}>
             <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Laat de techniek aan ons over. U focust op uw klanten, 
-              wij zorgen voor uw professionele website.
+              Uw professionele website, vaste maandprijs, geen zorgen. 
+              Laat de techniek aan ons over en focus op wat u het beste doet.
             </p>
           </FadeInUp>
           
