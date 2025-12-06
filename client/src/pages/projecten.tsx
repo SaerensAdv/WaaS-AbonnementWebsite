@@ -129,34 +129,38 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
             )}
           </div>
           
-          <div className="p-6">
-            <div className="flex items-center justify-between gap-2 mb-3">
-              <h3 className="text-lg font-semibold">{title}</h3>
+          <div className="p-6 flex flex-col">
+            <div className="flex items-start justify-between gap-2 mb-3 min-h-[3.5rem]">
+              <h3 className="text-lg font-semibold line-clamp-2">{title}</h3>
               {project.project.showcaseFeatured && (
-                <Badge className="bg-primary text-primary-foreground gap-1 shrink-0">
+                <Badge className="bg-primary text-primary-foreground gap-1 shrink-0 mt-0.5">
                   <Star className="h-3 w-3" />
                   Featured
                 </Badge>
               )}
             </div>
             
-            {project.project.showcaseIndustry && (
-              <div className="flex flex-wrap gap-1 mb-4">
-                <Badge 
-                  variant="outline" 
-                  className="text-xs gap-1 no-default-hover-elevate no-default-active-elevate"
-                >
-                  <Building2 className="h-3 w-3" />
-                  {project.project.showcaseIndustry}
-                </Badge>
-              </div>
-            )}
+            <div className="h-7 mb-4">
+              {project.project.showcaseIndustry && (
+                <div className="flex flex-wrap gap-1">
+                  <Badge 
+                    variant="outline" 
+                    className="text-xs gap-1 no-default-hover-elevate no-default-active-elevate"
+                  >
+                    <Building2 className="h-3 w-3" />
+                    {project.project.showcaseIndustry}
+                  </Badge>
+                </div>
+              )}
+            </div>
             
-            {project.project.showcaseDescription && (
-              <p className="text-sm text-muted-foreground mb-6 line-clamp-2">
-                {project.project.showcaseDescription}
-              </p>
-            )}
+            <div className="h-12 mb-6">
+              {project.project.showcaseDescription && (
+                <p className="text-sm text-muted-foreground line-clamp-2">
+                  {project.project.showcaseDescription}
+                </p>
+              )}
+            </div>
             
             {project.project.publicUrl ? (
               <a 
