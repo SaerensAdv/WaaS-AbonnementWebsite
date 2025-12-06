@@ -214,13 +214,13 @@ export default function HomePage() {
                     </Button>
                   </motion.div>
                 </Link>
-                <Link href="/signup">
+                <Link href="/projecten">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button 
                       size="lg" 
                       variant="outline"
                       className="h-14 px-8 text-lg border-white/20 text-white bg-white/5 backdrop-blur-sm"
-                      data-testid="button-start-trial"
+                      data-testid="button-view-examples"
                     >
                       <Play className="h-4 w-4 mr-2" />
                       Bekijk voorbeelden
