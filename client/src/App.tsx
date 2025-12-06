@@ -47,6 +47,9 @@ import AdminCustomersPage from "@/pages/admin/customers";
 import AdminProjectsPage from "@/pages/admin/projects";
 import AdminSpecialistsPage from "@/pages/admin/specialists";
 import AdminAssignmentsPage from "@/pages/admin/assignments";
+import AdminPlansPage from "@/pages/admin/plans";
+import AdminAddOnsPage from "@/pages/admin/addons";
+import AdminTemplatesPage from "@/pages/admin/templates";
 
 import SpecialistDashboard from "@/pages/specialist/specialist-dashboard";
 import SpecialistAssignmentsPage from "@/pages/specialist/assignments";
@@ -142,6 +145,15 @@ function Router() {
       </Route>
       <Route path="/admin/assignments">
         <ProtectedRoute component={AdminAssignmentsPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/admin/plans">
+        <ProtectedRoute component={AdminPlansPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/admin/addons">
+        <ProtectedRoute component={AdminAddOnsPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/admin/templates">
+        <ProtectedRoute component={AdminTemplatesPage} roles={["ADMIN"]} />
       </Route>
 
       <Route path="/specialist">
