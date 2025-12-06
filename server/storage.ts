@@ -57,6 +57,7 @@ export interface IStorage {
 
   getPlans(): Promise<Plan[]>;
   getPlan(id: string): Promise<Plan | undefined>;
+  getPlanByStripePriceId(stripePriceId: string): Promise<Plan | undefined>;
   createPlan(plan: InsertPlan): Promise<Plan>;
 
   getTemplates(tier?: string): Promise<Template[]>;
@@ -67,6 +68,7 @@ export interface IStorage {
   createAddOn(addOn: InsertAddOn): Promise<AddOn>;
 
   getSubscription(userId: string): Promise<Subscription | undefined>;
+  getSubscriptionByStripeId(stripeSubscriptionId: string): Promise<Subscription | undefined>;
   getSubscriptionWithPlan(userId: string): Promise<(Subscription & { plan: Plan }) | undefined>;
   createSubscription(subscription: InsertSubscription): Promise<Subscription>;
   updateSubscription(id: string, data: Partial<Subscription>): Promise<Subscription | undefined>;
@@ -163,6 +165,11 @@ export class DatabaseStorage implements IStorage {
     return plan || undefined;
   }
 
+  async getPlanByStripePriceId(stripePriceId: string): Promise<Plan | undefined> {
+    const [plan] = await db.select().from(plans).where(eq(plans.stripePriceId, stripePriceId));
+    return plan || undefined;
+  }
+
   async createPlan(plan: InsertPlan): Promise<Plan> {
     const [result] = await db.insert(plans).values(plan).returning();
     return result;
@@ -196,6 +203,11 @@ export class DatabaseStorage implements IStorage {
 
   async getSubscription(userId: string): Promise<Subscription | undefined> {
     const [subscription] = await db.select().from(subscriptions).where(eq(subscriptions.userId, userId));
+    return subscription || undefined;
+  }
+
+  async getSubscriptionByStripeId(stripeSubscriptionId: string): Promise<Subscription | undefined> {
+    const [subscription] = await db.select().from(subscriptions).where(eq(subscriptions.stripeSubscriptionId, stripeSubscriptionId));
     return subscription || undefined;
   }
 

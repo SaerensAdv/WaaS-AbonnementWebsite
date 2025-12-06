@@ -64,6 +64,11 @@ Preferred communication style: Simple, everyday language.
 - Subscription management via Stripe Customer IDs
 - Subscription status tracking (ACTIVE, PAST_DUE, CANCELED, INCOMPLETE)
 - Line items for add-on purchases
+- Webhook handler (server/webhookHandlers.ts) processes:
+  - checkout.session.completed: Creates subscription and project records
+  - customer.subscription.updated: Syncs plan changes (upgrades/downgrades) and status
+  - customer.subscription.deleted: Marks subscription as canceled
+- Stripe sync via stripe-replit-sync for data mirroring
 
 **Database**: PostgreSQL
 - Hosted via environment variable (DATABASE_URL)
