@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { useSEO } from "@/hooks/use-seo";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -104,6 +105,12 @@ const howWeWork = [
 ];
 
 export default function AboutPage() {
+  useSEO({
+    title: "Over Ons",
+    description: "WebsiteAbonnementen helpt MKB-bedrijven online groeien met professionele websites en marketing op abonnementsbasis. Ontdek ons team en onze werkwijze.",
+    canonical: "/about",
+  });
+
   return (
     <MarketingLayout>
       <section 

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { useSEO } from "@/hooks/use-seo";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -88,6 +89,12 @@ const thirdParties = [
 ];
 
 export default function PrivacyPage() {
+  useSEO({
+    title: "Privacybeleid",
+    description: "Lees ons privacybeleid. Wij respecteren uw privacy en verwerken uw gegevens veilig conform de AVG. Transparant over wat we verzamelen en waarom.",
+    canonical: "/privacy",
+  });
+
   const lastUpdated = "6 december 2024";
 
   return (

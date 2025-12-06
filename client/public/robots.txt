@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Core pages
+Allow: /pricing
+Allow: /projecten
+Allow: /templates
+Allow: /about
+Allow: /contact
+Allow: /specialists
+Allow: /privacy
+Allow: /terms
+Allow: /cookies
+
+# Disallow internal/admin pages
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /specialist
+Disallow: /auth
+Disallow: /checkout-success
+Disallow: /api
+
+# Sitemap location
+Sitemap: https://websiteabonnementen.nl/sitemap.xml

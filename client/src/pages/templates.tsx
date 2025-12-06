@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { useSEO } from "@/hooks/use-seo";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -209,6 +210,12 @@ function TemplateCard({ template, index }: { template: typeof templates[0]; inde
 }
 
 export default function TemplatesPage() {
+  useSEO({
+    title: "Website Templates",
+    description: "Bekijk onze professionele website templates. Kies uit moderne ontwerpen voor zakelijke dienstverlening, retail, horeca en meer. Volledig aanpasbaar aan uw huisstijl.",
+    canonical: "/templates",
+  });
+
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
 
   const filteredTemplates = templates.filter((template) => {

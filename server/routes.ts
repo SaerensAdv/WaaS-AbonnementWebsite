@@ -75,6 +75,44 @@ export async function registerRoutes(
     })
   );
 
+  // Sitemap.xml for SEO
+  app.get("/sitemap.xml", async (_req, res) => {
+    const baseUrl = "https://websiteabonnementen.nl";
+    const staticPages = [
+      { url: "/", priority: "1.0", changefreq: "weekly" },
+      { url: "/pricing", priority: "0.9", changefreq: "weekly" },
+      { url: "/projecten", priority: "0.8", changefreq: "daily" },
+      { url: "/templates", priority: "0.8", changefreq: "weekly" },
+      { url: "/about", priority: "0.7", changefreq: "monthly" },
+      { url: "/contact", priority: "0.7", changefreq: "monthly" },
+      { url: "/specialists", priority: "0.6", changefreq: "monthly" },
+      { url: "/privacy", priority: "0.3", changefreq: "yearly" },
+      { url: "/terms", priority: "0.3", changefreq: "yearly" },
+      { url: "/cookies", priority: "0.3", changefreq: "yearly" },
+    ];
+
+    const today = new Date().toISOString().split("T")[0];
+    
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+`;
+    
+    for (const page of staticPages) {
+      xml += `  <url>
+    <loc>${baseUrl}${page.url}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>
+`;
+    }
+    
+    xml += `</urlset>`;
+    
+    res.set("Content-Type", "application/xml");
+    res.send(xml);
+  });
+
   app.post("/api/auth/signup", async (req, res) => {
     try {
       const data = signupSchema.parse(req.body);

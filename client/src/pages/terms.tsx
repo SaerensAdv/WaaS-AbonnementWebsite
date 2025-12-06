@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { useSEO } from "@/hooks/use-seo";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -104,6 +105,12 @@ const notIncluded = [
 ];
 
 export default function TermsPage() {
+  useSEO({
+    title: "Algemene Voorwaarden",
+    description: "Onze algemene voorwaarden voor website abonnementen. Duidelijke afspraken over dienstverlening, betaling, opzegging en aansprakelijkheid.",
+    canonical: "/terms",
+  });
+
   const lastUpdated = "6 december 2024";
 
   return (

@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useSEO } from "@/hooks/use-seo";
 import {
   Form,
   FormControl,
@@ -86,6 +87,12 @@ const subjectOptions = [
 ];
 
 export default function ContactPage() {
+  useSEO({
+    title: "Contact",
+    description: "Neem contact op met WebsiteAbonnementen. Stel uw vragen over onze website abonnementen, krijg een vrijblijvend advies, of plan een demo in.",
+    canonical: "/contact",
+  });
+
   const { toast } = useToast();
   const [isSubmitted, setIsSubmitted] = useState(false);
 

@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { useSEO } from "@/hooks/use-seo";
 import { DashboardMockup, TrustLogos, PaymentMethods, PartnerBadge } from "@/components/dashboard-mockup";
 import { MobileCarouselSection } from "@/components/mobile-carousel";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
@@ -151,6 +152,12 @@ const includedServices = [
 ];
 
 export default function HomePage() {
+  useSEO({
+    title: "Professionele Website Abonnementen",
+    description: "Laat uw bedrijf online groeien met een professionele website op abonnementsbasis. Inclusief hosting, onderhoud, SEO en persoonlijke begeleiding. Vanaf €99/maand.",
+    canonical: "/",
+  });
+
   return (
     <MarketingLayout>
       <section 

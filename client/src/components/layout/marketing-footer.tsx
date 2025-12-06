@@ -108,6 +108,15 @@ export function MarketingFooter() {
                   Projecten
                 </Link>
               </li>
+              <li>
+                <Link 
+                  href="/templates" 
+                  className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
+                  data-testid="link-footer-templates"
+                >
+                  Templates
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { useSEO } from "@/hooks/use-seo";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth-context";
@@ -238,6 +239,12 @@ function PlansSkeleton() {
 }
 
 export default function PricingPage() {
+  useSEO({
+    title: "Prijzen en Abonnementen",
+    description: "Kies het website abonnement dat past bij uw bedrijf. Starter vanaf €99/maand, Professional vanaf €199/maand, of Enterprise voor maatwerk. Inclusief hosting en onderhoud.",
+    canonical: "/pricing",
+  });
+
   const { user } = useAuth();
   const { toast } = useToast();
   const [, setLocation] = useLocation();

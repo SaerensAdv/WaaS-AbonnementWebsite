@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { useSEO } from "@/hooks/use-seo";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -181,6 +182,12 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
 }
 
 export default function ProjectenPage() {
+  useSEO({
+    title: "Portfolio - Onze Projecten",
+    description: "Bekijk onze succesvolle website projecten. Van automotive tot retail, wij bouwen professionele websites die resultaat opleveren voor bedrijven in heel Nederland.",
+    canonical: "/projecten",
+  });
+
   const [activeFilter, setActiveFilter] = useState<string>("all");
 
   const { data: projects, isLoading } = useQuery<ShowcaseProject[]>({
