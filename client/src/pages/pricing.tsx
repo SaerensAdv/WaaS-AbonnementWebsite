@@ -29,6 +29,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { Plan, AddOn } from "@shared/schema";
+import { RecommendationWizard } from "@/components/recommendation-wizard";
 
 const planIcons = {
   LOW: "text-chart-2",
@@ -296,6 +297,24 @@ export default function PricingPage() {
             <p className="text-lg text-muted-foreground">
               Kies het plan dat past bij uw bedrijf. Alle plannen inclusief hosting, SSL, en basis ondersteuning.
             </p>
+          </div>
+
+          {/* Recommendation Wizard */}
+          {sortedPlans && sortedPlans.length > 0 && addOns && addOns.length > 0 && (
+            <div className="max-w-xl mx-auto mb-16">
+              <RecommendationWizard
+                plans={sortedPlans}
+                addOns={addOns}
+                onCheckout={(planId) => checkoutMutation.mutate(planId)}
+                isLoggedIn={!!user}
+                isCustomer={user?.role === "CUSTOMER"}
+                isCheckoutPending={checkoutMutation.isPending}
+              />
+            </div>
+          )}
+
+          <div className="text-center mb-8">
+            <p className="text-sm text-muted-foreground">Of bekijk alle opties hieronder</p>
           </div>
 
           {plansLoading ? (
