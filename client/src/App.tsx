@@ -40,6 +40,7 @@ import ProjectPage from "@/pages/dashboard/project";
 import AddOnsPage from "@/pages/dashboard/addons";
 import ReportsPage from "@/pages/dashboard/reports";
 import BillingPage from "@/pages/dashboard/billing";
+import SettingsPage from "@/pages/dashboard/settings";
 
 import AdminDashboard from "@/pages/admin/admin-dashboard";
 import AdminCustomersPage from "@/pages/admin/customers";
@@ -122,6 +123,9 @@ function Router() {
       </Route>
       <Route path="/app/billing">
         <ProtectedRoute component={BillingPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/app/settings">
+        <ProtectedRoute component={SettingsPage} roles={["CUSTOMER"]} />
       </Route>
 
       <Route path="/admin">

@@ -106,7 +106,7 @@ export class WebhookHandlers {
         expand: ['items.data.price'],
       });
 
-      const updateData: { status: string; planId?: string } = { 
+      const updateData: { status: 'ACTIVE' | 'PAST_DUE' | 'CANCELED' | 'INCOMPLETE'; planId?: string } = { 
         status: WebhookHandlers.mapStripeStatus(liveSubscription.status) 
       };
 

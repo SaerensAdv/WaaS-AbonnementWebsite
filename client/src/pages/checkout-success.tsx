@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
@@ -16,7 +16,11 @@ import {
   Mail,
   Calendar,
   Sparkles,
+  Loader2,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 const nextSteps = [
   {
@@ -37,6 +41,48 @@ const nextSteps = [
 ];
 
 export default function CheckoutSuccessPage() {
+  const [, setLocation] = useLocation();
+  const [verified, setVerified] = useState(false);
+  const [verifying, setVerifying] = useState(true);
+  
+  const verifyMutation = useMutation({
+    mutationFn: async (sessionId: string) => {
+      const res = await apiRequest("POST", "/api/verify-checkout", { sessionId });
+      return res.json();
+    },
+    onSuccess: () => {
+      setVerified(true);
+      setVerifying(false);
+    },
+    onError: () => {
+      setVerifying(false);
+    },
+  });
+  
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+    
+    if (sessionId) {
+      verifyMutation.mutate(sessionId);
+    } else {
+      setVerifying(false);
+    }
+  }, []);
+  
+  if (verifying) {
+    return (
+      <MarketingLayout>
+        <section className="relative min-h-[80vh] flex items-center justify-center pt-[72px]">
+          <div className="text-center">
+            <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
+            <p className="text-lg text-muted-foreground">Uw bestelling wordt verwerkt...</p>
+          </div>
+        </section>
+      </MarketingLayout>
+    );
+  }
+  
   return (
     <MarketingLayout>
       <section 

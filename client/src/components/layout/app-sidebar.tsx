@@ -53,7 +53,6 @@ const adminMenuItems = [
   { title: "Plannen", url: "/admin/plans", icon: Layers },
   { title: "Add-ons", url: "/admin/addons", icon: Puzzle },
   { title: "Templates", url: "/admin/templates", icon: ClipboardList },
-  { title: "Instellingen", url: "/admin/settings", icon: Settings },
 ];
 
 const specialistMenuItems = [

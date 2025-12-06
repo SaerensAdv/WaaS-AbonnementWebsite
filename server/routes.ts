@@ -431,6 +431,44 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/profile", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const user = (req as any).user as User;
+      const profile = await storage.getCustomerProfile(user.id);
+      res.json({ profile, user: { name: user.name, email: user.email, createdAt: user.createdAt } });
+    } catch (error) {
+      console.error("Get profile error:", error);
+      res.status(500).json({ message: "Failed to fetch profile" });
+    }
+  });
+
+  app.patch("/api/profile", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const user = (req as any).user as User;
+      const { name, companyName, phone, address, vatNumber } = req.body;
+      
+      if (name && name !== user.name) {
+        await storage.updateUser(user.id, { name });
+      }
+      
+      const profile = await storage.getCustomerProfile(user.id);
+      if (profile) {
+        await storage.updateCustomerProfile(profile.id, {
+          companyName: companyName || null,
+          phone: phone || null,
+          address: address || null,
+          vatNumber: vatNumber || null,
+        });
+      }
+      
+      const updatedProfile = await storage.getCustomerProfile(user.id);
+      res.json({ success: true, profile: updatedProfile });
+    } catch (error) {
+      console.error("Update profile error:", error);
+      res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
+
   app.get("/api/billing", requireRole("CUSTOMER"), async (req, res) => {
     try {
       const user = (req as any).user as User;
@@ -503,7 +541,7 @@ export async function registerRoutes(
       
       const protocol = req.headers['x-forwarded-proto'] || 'https';
       const host = req.headers.host;
-      const successUrl = `${protocol}://${host}/checkout-success`;
+      const successUrl = `${protocol}://${host}/checkout-success?session_id={CHECKOUT_SESSION_ID}`;
       const cancelUrl = `${protocol}://${host}/pricing?checkout=cancelled`;
       
       const session = await stripe.checkout.sessions.create({
@@ -536,6 +574,76 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("Checkout error:", error);
       res.status(500).json({ message: "Could not create checkout session" });
+    }
+  });
+
+  app.post("/api/verify-checkout", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const user = (req as any).user as User;
+      const { sessionId } = req.body;
+      
+      if (!sessionId) {
+        return res.status(400).json({ message: "Session ID is required" });
+      }
+      
+      const { getUncachableStripeClient } = await import("./stripeClient");
+      const stripe = await getUncachableStripeClient();
+      
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      
+      if (session.payment_status !== 'paid') {
+        return res.status(400).json({ message: "Payment not completed" });
+      }
+      
+      const userId = session.metadata?.userId;
+      const planId = session.metadata?.planId;
+      const stripeCustomerId = session.customer as string;
+      const stripeSubscriptionId = session.subscription as string;
+      
+      if (!userId || !planId) {
+        return res.status(400).json({ message: "Invalid session metadata" });
+      }
+      
+      if (userId !== user.id) {
+        return res.status(403).json({ message: "Session does not belong to this user" });
+      }
+      
+      const existingSubscription = await storage.getSubscription(userId);
+      
+      if (existingSubscription) {
+        await storage.updateSubscription(existingSubscription.id, {
+          planId,
+          stripeCustomerId,
+          stripeSubscriptionId,
+          status: 'ACTIVE',
+        });
+      } else {
+        await storage.createSubscription({
+          userId,
+          planId,
+          stripeCustomerId,
+          stripeSubscriptionId,
+          status: 'ACTIVE',
+        });
+      }
+      
+      const existingProject = await storage.getProject(userId);
+      
+      if (!existingProject) {
+        await storage.createProject({
+          userId,
+          planId,
+          status: 'ONBOARDING',
+        });
+      }
+      
+      const subscription = await storage.getSubscription(userId);
+      const project = await storage.getProject(userId);
+      
+      res.json({ success: true, subscription, project });
+    } catch (error: any) {
+      console.error("Verify checkout error:", error);
+      res.status(500).json({ message: "Could not verify checkout session" });
     }
   });
 
