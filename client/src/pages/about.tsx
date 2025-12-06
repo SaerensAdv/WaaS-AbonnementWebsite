@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { useSEO } from "@/hooks/use-seo";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -194,6 +195,10 @@ export default function AboutPage() {
 
       <section className="py-24 md:py-32" data-testid="section-why-us">
         <div className="container mx-auto px-4">
+          <BreadcrumbNav 
+            items={[{ label: "Over Ons" }]} 
+            className="mb-12"
+          />
           <FadeInUp>
             <div className="text-center max-w-3xl mx-auto mb-16">
               <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
@@ -252,7 +257,17 @@ export default function AboutPage() {
                   <span className="text-primary">elke dag opnieuw</span>
                 </h2>
                 <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                  Wij nemen alle zorgen uit handen zodat u kunt focussen op wat u het beste doet: uw bedrijf runnen.
+                  Wij nemen alle zorgen uit handen zodat u kunt focussen op wat u het beste doet: uw bedrijf runnen. 
+                  Als professionele dienstverlener staan wij geregistreerd bij de{" "}
+                  <a 
+                    href="https://www.kvk.nl" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                    data-testid="link-external-kvk"
+                  >
+                    Kamer van Koophandel
+                  </a>.
                 </p>
               </div>
             </SlideIn>

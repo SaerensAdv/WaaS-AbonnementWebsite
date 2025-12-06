@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -188,6 +189,10 @@ export default function ContactPage() {
 
       <section className="py-16 md:py-24" data-testid="section-contact-options">
         <div className="container mx-auto px-4">
+          <BreadcrumbNav 
+            items={[{ label: "Contact" }]} 
+            className="mb-12"
+          />
           <StaggerChildren className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16" staggerDelay={0.1}>
             {contactOptions.map((option, index) => (
               <StaggerItem key={option.title}>

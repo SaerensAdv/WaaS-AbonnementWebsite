@@ -10,6 +10,8 @@
     <meta name="theme-color" content="#3B9BDB" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Schema.org Organization Structured Data -->
@@ -51,6 +53,81 @@
         "target": "https://abonnement.website/projecten?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
+    }
+    </script>
+    
+    <!-- Schema.org LocalBusiness Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Abonnement.Website",
+      "alternateName": "WebsiteAbonnementen",
+      "description": "Professionele website abonnementen voor MKB-bedrijven in Nederland. Inclusief hosting, onderhoud, SEO en persoonlijke begeleiding.",
+      "url": "https://abonnement.website",
+      "logo": "https://abonnement.website/logo.png",
+      "image": "https://abonnement.website/og-image.png",
+      "telephone": "+31-000-0000000",
+      "email": "info@abonnement.website",
+      "priceRange": "€€",
+      "currenciesAccepted": "EUR",
+      "paymentAccepted": "iDEAL, Credit Card, Bank Transfer",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "NL",
+        "addressLocality": "Nederland"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "52.1326",
+        "longitude": "5.2913"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Netherlands"
+      },
+      "serviceType": ["Website Design", "Website Hosting", "SEO Services", "Digital Marketing"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Website Abonnementen",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Starter Website Abonnement"
+            },
+            "price": "99",
+            "priceCurrency": "EUR",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "99",
+              "priceCurrency": "EUR",
+              "unitText": "maand"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Professional Website Abonnement"
+            },
+            "price": "199",
+            "priceCurrency": "EUR",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "199",
+              "priceCurrency": "EUR",
+              "unitText": "maand"
+            }
+          }
+        ]
+      },
+      "sameAs": [
+        "https://linkedin.com/company/abonnementwebsite",
+        "https://twitter.com/abonnementsite",
+        "https://instagram.com/abonnementwebsite"
+      ]
     }
     </script>
   </head>

@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/tooltip";
 import type { Plan, AddOn } from "@shared/schema";
 import { RecommendationWizard } from "@/components/recommendation-wizard";
+import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
 const planIcons = {
   LOW: "text-chart-2",
@@ -77,7 +78,7 @@ function PlanCard({
 
   const handleClick = () => {
     if (plan.tier === "HIGH") {
-      window.location.href = "mailto:sales@websiteabonnementen.nl?subject=Custom%20Plan%20Aanvraag";
+      window.location.href = "mailto:sales@abonnement.website?subject=Custom%20Plan%20Aanvraag";
     } else if (isCustomer) {
       onCheckout(plan.id);
     } else if (!isLoggedIn) {
@@ -239,10 +240,58 @@ function PlansSkeleton() {
 }
 
 export default function PricingPage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Wat kost een website abonnement?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Onze website abonnementen starten vanaf €99 per maand voor het Starter pakket. Het Professional pakket kost €199 per maand en biedt uitgebreidere functionaliteiten. Voor Enterprise oplossingen maken wij een offerte op maat."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Wat is inbegrepen in het abonnement?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Elk abonnement bevat een professionele website, beheerde hosting met SSL, regelmatige updates en backups, basis SEO optimalisatie, en ondersteuning via e-mail. Afhankelijk van uw plan krijgt u ook toegang tot meer templates en maandelijkse credits voor wijzigingen."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kan ik mijn abonnement opzeggen?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja, u kunt maandelijks opzeggen. Na opzegging blijft uw website nog 30 dagen actief. Op verzoek kunnen we uw websitebestanden exporteren zodat u ze elders kunt hosten."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hoe werkt de budgetsplit voor advertenties?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Bij onze advertentie add-ons (Google Ads, Meta Ads) splitsen we uw maandbudget automatisch op. Standaard gaat 85% naar mediakosten (de daadwerkelijke advertenties) en 15% naar beheerskosten. U ziet deze split altijd transparant voordat u bevestigt."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kan ik later upgraden naar een hoger plan?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja, u kunt op elk moment upgraden. Het verschil in kosten wordt pro-rata berekend. Uw bestaande website en data blijven volledig behouden bij een upgrade."
+        }
+      }
+    ]
+  };
+
   useSEO({
     title: "Prijzen en Abonnementen",
     description: "Kies het website abonnement dat past bij uw bedrijf. Starter vanaf €99/maand, Professional vanaf €199/maand, of Enterprise voor maatwerk. Inclusief hosting en onderhoud.",
     canonical: "/pricing",
+    structuredData: faqSchema,
   });
 
   const { user } = useAuth();
@@ -295,6 +344,10 @@ export default function PricingPage() {
     <MarketingLayout>
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
+          <BreadcrumbNav 
+            items={[{ label: "Prijzen" }]} 
+            className="mb-12"
+          />
           <div className="text-center max-w-2xl mx-auto mb-16">
             <Badge variant="secondary" className="mb-4">Prijzen</Badge>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-4" data-testid="text-pricing-title">
@@ -302,7 +355,17 @@ export default function PricingPage() {
               <span className="text-primary"> geen verrassingen</span>
             </h1>
             <p className="text-lg text-muted-foreground">
-              Kies het plan dat past bij uw bedrijf. Alle plannen inclusief hosting, SSL, en basis ondersteuning.
+              Kies het plan dat past bij uw bedrijf. Alle plannen inclusief hosting, SSL, en basis ondersteuning. 
+              Onze websites zijn geoptimaliseerd volgens de{" "}
+              <a 
+                href="https://developers.google.com/speed/docs/insights/v5/about" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+                data-testid="link-external-pagespeed"
+              >
+                Google PageSpeed richtlijnen
+              </a>.
             </p>
           </div>
 

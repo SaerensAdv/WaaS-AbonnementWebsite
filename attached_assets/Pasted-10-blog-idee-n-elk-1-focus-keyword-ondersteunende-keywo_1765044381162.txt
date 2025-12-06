@@ -1,0 +1,120 @@
+10 blog-ideeën (elk = 1 focus-keyword + ondersteunende keywords + outline)
+1) “Wat kost een website laten maken in 2025?”
+
+Focus keyword: wat kost een website / website laten maken kosten
+
+Ondersteunend: kosten website per maand, website onderhoud kosten, hosting kosten
+
+Zoekintentie: informatief → commercial
+
+Outline (H2’s): prijsranges • wat zit in de prijs • maandelijkse kosten (hosting/updates) • goedkoop vs professioneel • “website abonnement” als alternatief • checklist “wat heb ik nodig?”
+
+CTA: “Bekijk abonnementen” + “Start zonder opstartkosten”
+
+2) “Website laten maken: waar moet u op letten (checklist)”
+
+Focus keyword: website laten maken
+
+Ondersteunend: professionele website, website bouwer kiezen, website eisen
+
+Intensie: informatief → lead
+
+H2’s: doel bepalen • structuur/pagina’s • teksten/foto’s • snelheid/mobiel • beveiliging • SEO basics • onderhoud • vragen voor offerte
+
+CTA: “Wij doen alles, u hoeft niets te regelen”
+
+3) “Website onderhoud: wat is het en wat kost het per maand?”
+
+Focus keyword: website onderhoud
+
+Ondersteunend: website onderhoud abonnement, wordpress onderhoud, updates website
+
+Intensie: informatief → commercial
+
+H2’s: wat valt onder onderhoud • risico’s zonder onderhoud • kosten per maand • wat is ‘normaal’ • onderhoud via abonnement.website
+
+CTA: “Zorgeloos online: onderhoud inbegrepen”
+
+4) “WordPress onderhoud: waarom het misgaat (en hoe u het voorkomt)”
+
+Focus keyword: wordpress onderhoud
+
+Ondersteunend: wordpress updates, plugin updates, wordpress beveiliging
+
+Intensie: probleem-oplossend
+
+H2’s: typische problemen • hack/traagheid • backups • updates zonder stress • wat u zelf kan doen • wat wij doen
+
+CTA: “Laat ons het fixen en beheren”
+
+5) “SEO voor lokale bedrijven: beter gevonden worden in uw regio”
+
+Focus keyword: lokale SEO
+
+Ondersteunend: beter gevonden in [stad], Google bedrijfsprofiel, lokale vindbaarheid
+
+Intensie: informatief → service
+
+H2’s: hoe mensen lokaal zoeken • pagina’s per dienst/regio • reviews • Google Bedrijfsprofiel • voorbeeldstructuur • fouten die u geld kosten
+
+CTA: “Professioneel + groei: kies Professional”
+
+6) “Waarom een website abonnement vaak slimmer is dan een éénmalige website”
+
+Focus keyword: website abonnement
+
+Ondersteunend: website per maand, website abonnement kosten, website zonder opstartkosten
+
+Intensie: commercial investigation
+
+H2’s: éénmalig vs abonnement • totale kost 3 jaar • altijd up-to-date • support/aanpassingen • voor wie wel/niet
+
+CTA: “Bekijk abonnementen”
+
+7) “Zakelijke website laten maken: wat moet er minimaal op staan?”
+
+Focus keyword: zakelijke website
+
+Ondersteunend: website voor bedrijf, professionele website, conversie
+
+Intensie: informatief → lead
+
+H2’s: homepage • diensten • bewijs (reviews/cases) • contact/CTA • snelheid/mobiel • vertrouwen • veelgemaakte fouten
+
+CTA: “Kies een voorbeeld en wij maken het van u”
+
+8) “Landingpagina maken die leads oplevert (zonder gedoe)”
+
+Focus keyword: landingpagina maken
+
+Ondersteunend: leadgeneratie, conversie verhogen, formulier optimalisatie
+
+Intensie: probleem-oplossend → commercial
+
+H2’s: doel + 1 actie • structuur • CTA’s • vertrouwen • snelheid • voorbeelden • checklist
+
+CTA: add-on “Google Ads” of “SEO” upsell
+
+9) “Google Ads voor lokale diensten: wat kost het en wat levert het op?”
+
+Focus keyword: Google Ads kosten
+
+Ondersteunend: Google Ads uitbesteden, Google Ads budget, kosten per klik (algemeen)
+
+Intensie: commercial
+
+H2’s: hoe budget werkt • wat is een realistisch startbudget • wat u krijgt voor beheer • waarom split (advertenties vs specialist) logisch is • rapportage
+
+CTA: “Kies budget, wij regelen specialist + rapportage”
+
+10) “Nieuwe website? Dit zijn de 12 fouten die ondernemers geld kosten”
+
+Focus keyword: website fouten
+
+Ondersteunend: website verbeteren, conversie verhogen, website sneller maken
+
+Intensie: informatief (hoog sharebaar)
+
+H2’s: traag • onduidelijke CTA • geen bewijs • slechte mobiel • te veel tekst • geen meetbaarheid • geen updates • geen consent • etc.
+
+CTA: “Wij fixen dit standaard in elk abonnement”

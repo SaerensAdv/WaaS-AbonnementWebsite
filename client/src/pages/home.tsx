@@ -152,10 +152,75 @@ const includedServices = [
 ];
 
 export default function HomePage() {
+  const totalRatings = testimonials.reduce((sum, t) => sum + t.rating, 0);
+  const averageRating = totalRatings / testimonials.length;
+  
+  const homeStructuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Wat kost een website abonnement?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Onze website abonnementen starten vanaf €99 per maand. Dit is inclusief professioneel ontwerp, hosting, SSL beveiliging, maandelijkse updates en persoonlijke support."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Moet ik technische kennis hebben?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nee, u hoeft geen technische kennis te hebben. Wij regelen alles van A tot Z: ontwerp, hosting, updates, beveiliging en onderhoud. U focust op uw bedrijf, wij zorgen voor uw website."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Hoe snel is mijn website online?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Na een kort kennismakingsgesprek bouwen wij uw website binnen 2-4 weken. U keurt het ontwerp goed en daarna gaat uw website direct live."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "name": "Abonnement.Website",
+        "url": "https://abonnement.website",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": averageRating.toFixed(1),
+          "reviewCount": testimonials.length,
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "review": testimonials.map((testimonial) => ({
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": testimonial.name
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": testimonial.rating,
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "reviewBody": testimonial.text
+        }))
+      }
+    ]
+  };
+
   useSEO({
     title: "Professionele Website Abonnementen",
     description: "Laat uw bedrijf online groeien met een professionele website op abonnementsbasis. Inclusief hosting, onderhoud, SEO en persoonlijke begeleiding. Vanaf €99/maand.",
     canonical: "/",
+    structuredData: homeStructuredData,
   });
 
   return (
@@ -928,6 +993,19 @@ export default function HomePage() {
                 <span>Persoonlijke support</span>
               </div>
             </div>
+            <p className="text-slate-500 text-sm mt-8">
+              Uw privacy is gewaarborgd volgens de{" "}
+              <a 
+                href="https://autoriteitpersoonsgegevens.nl" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+                data-testid="link-external-ap"
+              >
+                Autoriteit Persoonsgegevens
+              </a>{" "}
+              richtlijnen.
+            </p>
           </FadeIn>
         </div>
       </section>
