@@ -83,6 +83,12 @@ function ProjectCardSkeleton() {
 function ProjectCard({ project }: { project: ShowcaseProject }) {
   const title = project.project.showcaseTitle || project.project.domain || "Website";
   const hasImage = !!project.project.showcaseThumbnailUrl;
+  
+  // SEO-optimized alt text with keywords
+  const industry = project.project.showcaseIndustry;
+  const altText = industry 
+    ? `Website abonnement ${title} - professionele ${industry.toLowerCase()} website op maat gemaakt`
+    : `Website abonnement ${title} - professionele website op maat gemaakt`;
 
   return (
     <motion.div
@@ -98,7 +104,7 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
             {hasImage ? (
               <img 
                 src={project.project.showcaseThumbnailUrl!}
-                alt={title}
+                alt={altText}
                 className="w-full h-full object-cover object-top"
               />
             ) : (
