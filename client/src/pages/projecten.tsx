@@ -111,12 +111,6 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
                 </div>
               </>
             )}
-            {project.project.showcaseFeatured && (
-              <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground gap-1">
-                <Star className="h-3 w-3" />
-                Featured
-              </Badge>
-            )}
             {project.plan && (
               <Badge 
                 variant="secondary" 
@@ -128,7 +122,15 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
           </div>
           
           <div className="p-6">
-            <h3 className="text-lg font-semibold mb-3">{title}</h3>
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <h3 className="text-lg font-semibold">{title}</h3>
+              {project.project.showcaseFeatured && (
+                <Badge className="bg-primary text-primary-foreground gap-1 shrink-0">
+                  <Star className="h-3 w-3" />
+                  Featured
+                </Badge>
+              )}
+            </div>
             
             {project.project.showcaseIndustry && (
               <div className="flex flex-wrap gap-1 mb-4">
