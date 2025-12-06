@@ -4,38 +4,36 @@ import { useRef, ReactNode, useState, useEffect, RefObject } from "react";
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window === 'undefined') return false;
-    return window.innerWidth < 768 || 
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-      ('ontouchstart' in window);
+    const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isSmallScreen = window.innerWidth < 768;
+    return isMobileUA && isSmallScreen;
   });
   
   useEffect(() => {
+    const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     const checkMobile = () => {
-      setIsMobile(
-        window.innerWidth < 768 || 
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-        ('ontouchstart' in window)
-      );
+      setIsMobile(isMobileUA && window.innerWidth < 768);
     };
     
     const mediaQuery = window.matchMedia('(max-width: 767px)');
-    const handler = (e: MediaQueryListEvent | MediaQueryList) => {
-      setIsMobile('matches' in e ? e.matches : (e as MediaQueryListEvent).matches);
+    const handler = () => {
+      setIsMobile(isMobileUA && mediaQuery.matches);
     };
     
     if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener('change', handler as (e: MediaQueryListEvent) => void);
+      mediaQuery.addEventListener('change', handler);
     } else if (mediaQuery.addListener) {
-      mediaQuery.addListener(handler as (e: MediaQueryListEvent) => void);
+      mediaQuery.addListener(handler);
     }
     
     checkMobile();
     
     return () => {
       if (mediaQuery.removeEventListener) {
-        mediaQuery.removeEventListener('change', handler as (e: MediaQueryListEvent) => void);
+        mediaQuery.removeEventListener('change', handler);
       } else if (mediaQuery.removeListener) {
-        mediaQuery.removeListener(handler as (e: MediaQueryListEvent) => void);
+        mediaQuery.removeListener(handler);
       }
     };
   }, []);
