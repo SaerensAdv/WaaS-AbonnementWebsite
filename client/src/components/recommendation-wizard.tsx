@@ -141,9 +141,9 @@ export function RecommendationWizard({
     setAnswers(newAnswers);
     
     if (step < 2) {
-      setTimeout(() => setStep(step + 1), 300);
+      setStep(step + 1);
     } else {
-      setTimeout(() => setShowResult(true), 300);
+      setShowResult(true);
     }
   };
 
