@@ -172,7 +172,14 @@ export function FadeInUp({
   const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
   
   if (isMobile) {
-    return <div className={className}>{children}</div>;
+    return (
+      <div 
+        className={`${className} animate-fade-in-up`}
+        style={{ animationDelay: `${delay}s` }}
+      >
+        {children}
+      </div>
+    );
   }
   
   return (
@@ -211,7 +218,14 @@ export function FadeIn({
   const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
   
   if (isMobile) {
-    return <div className={className}>{children}</div>;
+    return (
+      <div 
+        className={`${className} animate-fade-in`}
+        style={{ animationDelay: `${delay}s` }}
+      >
+        {children}
+      </div>
+    );
   }
   
   return (
@@ -290,7 +304,15 @@ export function SlideIn({
   const x = direction === "left" ? -40 : 40;
   
   if (isMobile) {
-    return <div className={className}>{children}</div>;
+    const animClass = direction === "left" ? "animate-slide-in-left" : "animate-slide-in-right";
+    return (
+      <div 
+        className={`${className} ${animClass}`}
+        style={{ animationDelay: `${delay}s` }}
+      >
+        {children}
+      </div>
+    );
   }
   
   return (
@@ -337,7 +359,7 @@ export function StaggerChildren({
   const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
   
   if (isMobile) {
-    return <div className={className}>{children}</div>;
+    return <div className={`${className} animate-fade-in`}>{children}</div>;
   }
   
   return (
@@ -369,7 +391,7 @@ export function StaggerItem({
   const isMobile = useIsMobile();
   
   if (isMobile) {
-    return <div className={className}>{children}</div>;
+    return <div className={`${className} animate-fade-in-up`}>{children}</div>;
   }
   
   return (

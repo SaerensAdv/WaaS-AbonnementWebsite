@@ -3,9 +3,9 @@ import { cn } from "@/lib/utils";
 
 function isMobileDevice() {
   if (typeof window === 'undefined') return false;
-  return window.innerWidth < 768 || 
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    ('ontouchstart' in window);
+  const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const isSmallScreen = window.innerWidth < 768;
+  return isMobileUA && isSmallScreen;
 }
 
 interface AnimatedDotGridProps {
