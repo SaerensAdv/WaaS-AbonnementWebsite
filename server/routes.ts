@@ -75,10 +75,35 @@ export async function registerRoutes(
     })
   );
 
-  // Sitemap.xml for SEO
+  // Sitemap.xml for SEO - 100% valid for Google Search Console
   app.get("/sitemap.xml", async (_req, res) => {
+    // Helper: escape XML special characters
+    const escapeXml = (str: string): string => {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+    };
+
+    // Helper: normalize URL (no trailing slash except root)
+    const normalizeUrl = (path: string): string => {
+      if (path === "/") return path;
+      return path.replace(/\/+$/, "");
+    };
+
+    // Set headers first to ensure pure XML response
+    res.set({
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
+      "X-Content-Type-Options": "nosniff",
+    });
+
     try {
       const baseUrl = "https://abonnement.website";
+      
+      // Static pages (excludes admin, auth, api, dashboard routes)
       const staticPages = [
         { url: "/", priority: "1.0", changefreq: "weekly" },
         { url: "/pricing", priority: "0.9", changefreq: "weekly" },
@@ -95,18 +120,19 @@ export async function registerRoutes(
 
       const today = new Date().toISOString().split("T")[0];
       
-      let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-`;
+      // Build XML with proper formatting
+      const urlEntries: string[] = [];
       
       for (const page of staticPages) {
-        xml += `  <url>
-    <loc>${baseUrl}${page.url}</loc>
+        const loc = escapeXml(`${baseUrl}${normalizeUrl(page.url)}`);
+        urlEntries.push(
+`  <url>
+    <loc>${loc}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-  </url>
-`;
+  </url>`
+        );
       }
       
       // Add blog posts dynamically
@@ -118,23 +144,32 @@ export async function registerRoutes(
             : post.createdAt 
               ? new Date(post.createdAt).toISOString().split("T")[0]
               : today;
-          xml += `  <url>
-    <loc>${baseUrl}/blog/${post.slug}</loc>
+          const loc = escapeXml(`${baseUrl}/blog/${post.slug}`);
+          urlEntries.push(
+`  <url>
+    <loc>${loc}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-`;
+  </url>`
+          );
         }
       }
       
-      xml += `</urlset>`;
+      // Construct final XML
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urlEntries.join("\n")}
+</urlset>`;
       
-      res.set("Content-Type", "application/xml");
-      res.send(xml);
+      return res.send(xml);
     } catch (error) {
       console.error("Sitemap generation error:", error);
-      res.status(500).send("Error generating sitemap");
+      // Return valid XML even on error
+      const errorXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+</urlset>`;
+      return res.status(500).send(errorXml);
     }
   });
 
