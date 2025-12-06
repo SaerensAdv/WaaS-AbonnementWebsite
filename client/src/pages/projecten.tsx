@@ -62,7 +62,7 @@ function ProjectCardSkeleton() {
   return (
     <Card className="border bg-card h-full overflow-visible">
       <CardContent className="p-0">
-        <Skeleton className="aspect-[4/3] rounded-t-lg" />
+        <Skeleton className="aspect-[16/9] rounded-t-lg" />
         <div className="p-6">
           <Skeleton className="h-6 w-3/4 mb-4" />
           <div className="flex flex-wrap gap-2 mb-4">
@@ -92,12 +92,12 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
         data-testid={`card-project-${project.project.id}`}
       >
         <CardContent className="p-0">
-          <div className="aspect-[4/3] rounded-t-lg flex items-center justify-center relative overflow-hidden">
+          <div className="aspect-[16/9] rounded-t-lg flex items-center justify-center relative overflow-hidden">
             {hasImage ? (
               <img 
                 src={project.project.showcaseThumbnailUrl!}
                 alt={title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top"
               />
             ) : (
               <>
