@@ -41,6 +41,34 @@ function useIsMobile() {
   return isMobile;
 }
 
+function useMobileInView(ref: RefObject<Element | null>, once: boolean = true) {
+  const [isInView, setIsInView] = useState(false);
+  
+  useEffect(() => {
+    if (!ref.current) return;
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          if (once) {
+            observer.disconnect();
+          }
+        } else if (!once) {
+          setIsInView(false);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    
+    observer.observe(ref.current);
+    
+    return () => observer.disconnect();
+  }, [ref, once]);
+  
+  return isInView;
+}
+
 function useInViewDesktopOnly(
   ref: RefObject<Element | null>,
   options: { once?: boolean; amount?: number },
@@ -168,13 +196,15 @@ export function FadeInUp({
   amount = 0.3,
 }: MotionDivProps) {
   const isMobile = useIsMobile();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
+  const mobileInView = useMobileInView(ref, once);
   
   if (isMobile) {
     return (
       <div 
-        className={`${className} animate-fade-in-up`}
+        ref={ref}
+        className={`${className} ${mobileInView ? 'animate-fade-in-up' : 'opacity-0'}`}
         style={{ animationDelay: `${delay}s` }}
       >
         {children}
@@ -214,13 +244,15 @@ export function FadeIn({
   amount = 0.3,
 }: MotionDivProps) {
   const isMobile = useIsMobile();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
+  const mobileInView = useMobileInView(ref, once);
   
   if (isMobile) {
     return (
       <div 
-        className={`${className} animate-fade-in`}
+        ref={ref}
+        className={`${className} ${mobileInView ? 'animate-fade-in' : 'opacity-0'}`}
         style={{ animationDelay: `${delay}s` }}
       >
         {children}
@@ -259,11 +291,20 @@ export function ScaleIn({
   amount = 0.3,
 }: MotionDivProps) {
   const isMobile = useIsMobile();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
+  const mobileInView = useMobileInView(ref, once);
   
   if (isMobile) {
-    return <div className={className}>{children}</div>;
+    return (
+      <div 
+        ref={ref}
+        className={`${className} ${mobileInView ? 'animate-fade-in' : 'opacity-0'}`}
+        style={{ animationDelay: `${delay}s` }}
+      >
+        {children}
+      </div>
+    );
   }
   
   return (
@@ -299,15 +340,17 @@ export function SlideIn({
   amount = 0.3,
 }: MotionDivProps & { direction?: "left" | "right" }) {
   const isMobile = useIsMobile();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
+  const mobileInView = useMobileInView(ref, once);
   const x = direction === "left" ? -40 : 40;
   
   if (isMobile) {
     const animClass = direction === "left" ? "animate-slide-in-left" : "animate-slide-in-right";
     return (
       <div 
-        className={`${className} ${animClass}`}
+        ref={ref}
+        className={`${className} ${mobileInView ? animClass : 'opacity-0'}`}
         style={{ animationDelay: `${delay}s` }}
       >
         {children}
@@ -355,11 +398,19 @@ export function StaggerChildren({
   amount = 0.2,
 }: StaggerChildrenProps) {
   const isMobile = useIsMobile();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInViewDesktopOnly(ref, { once, amount }, isMobile);
+  const mobileInView = useMobileInView(ref, once);
   
   if (isMobile) {
-    return <div className={`${className} animate-fade-in`}>{children}</div>;
+    return (
+      <div 
+        ref={ref}
+        className={`${className} ${mobileInView ? 'animate-fade-in' : 'opacity-0'}`}
+      >
+        {children}
+      </div>
+    );
   }
   
   return (
@@ -389,9 +440,18 @@ export function StaggerItem({
   className = "",
 }: { children: ReactNode; className?: string }) {
   const isMobile = useIsMobile();
+  const ref = useRef<HTMLDivElement>(null);
+  const mobileInView = useMobileInView(ref, true);
   
   if (isMobile) {
-    return <div className={`${className} animate-fade-in-up`}>{children}</div>;
+    return (
+      <div 
+        ref={ref}
+        className={`${className} ${mobileInView ? 'animate-fade-in-up' : 'opacity-0'}`}
+      >
+        {children}
+      </div>
+    );
   }
   
   return (
