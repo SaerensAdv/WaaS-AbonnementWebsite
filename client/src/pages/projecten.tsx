@@ -152,7 +152,7 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
             
             {project.project.publicUrl ? (
               <a 
-                href={project.project.publicUrl} 
+                href={`${project.project.publicUrl}${project.project.publicUrl.includes('?') ? '&' : '?'}utm_source=websiteabonnementen&utm_medium=showcase&utm_campaign=portfolio`}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
