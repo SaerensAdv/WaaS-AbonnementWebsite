@@ -31,6 +31,7 @@ import BillingPage from "@/pages/dashboard/billing";
 
 import AdminDashboard from "@/pages/admin/admin-dashboard";
 import AdminCustomersPage from "@/pages/admin/customers";
+import AdminProjectsPage from "@/pages/admin/projects";
 import AdminSpecialistsPage from "@/pages/admin/specialists";
 import AdminAssignmentsPage from "@/pages/admin/assignments";
 
@@ -115,6 +116,9 @@ function Router() {
       </Route>
       <Route path="/admin/customers">
         <ProtectedRoute component={AdminCustomersPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/admin/projects">
+        <ProtectedRoute component={AdminProjectsPage} roles={["ADMIN"]} />
       </Route>
       <Route path="/admin/specialists">
         <ProtectedRoute component={AdminSpecialistsPage} roles={["ADMIN"]} />

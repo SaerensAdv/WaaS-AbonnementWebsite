@@ -560,6 +560,39 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/admin/projects", requireRole("ADMIN"), async (_req, res) => {
+    try {
+      const projects = await storage.getAllProjectsWithDetails();
+      const statusCounts = {
+        ONBOARDING: projects.filter((p) => p.project.status === "ONBOARDING").length,
+        PRODUCTION: projects.filter((p) => p.project.status === "PRODUCTION").length,
+        LIVE: projects.filter((p) => p.project.status === "LIVE").length,
+        MAINTENANCE: projects.filter((p) => p.project.status === "MAINTENANCE").length,
+      };
+      res.json({ projects, total: projects.length, statusCounts });
+    } catch (error) {
+      console.error("Get projects error:", error);
+      res.status(500).json({ message: "Failed to fetch projects" });
+    }
+  });
+
+  app.put("/api/admin/projects/:id/status", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      
+      const updated = await storage.updateProject(id, { status });
+      if (!updated) {
+        return res.status(404).json({ message: "Project not found" });
+      }
+      
+      res.json(updated);
+    } catch (error) {
+      console.error("Update project status error:", error);
+      res.status(500).json({ message: "Failed to update project" });
+    }
+  });
+
   app.get("/api/admin/specialists", requireRole("ADMIN"), async (_req, res) => {
     try {
       const specialists = await storage.getAllSpecialists();
@@ -576,12 +609,26 @@ export async function registerRoutes(
       const { userId } = req.params;
       const { approved } = req.body;
       
-      const updated = await storage.updateSpecialistProfile(userId, { approved });
-      if (!updated) {
+      const user = await storage.getUser(userId);
+      if (!user || user.role !== "SPECIALIST") {
         return res.status(404).json({ message: "Specialist not found" });
       }
       
-      res.json(updated);
+      let profile = await storage.getSpecialistProfile(userId);
+      
+      if (!profile) {
+        profile = await storage.createSpecialistProfile({ 
+          userId, 
+          approved: approved === true,
+          skills: [],
+          capacity: 5
+        });
+      } else {
+        const updated = await storage.updateSpecialistProfile(userId, { approved });
+        if (updated) profile = updated;
+      }
+      
+      res.json(profile);
     } catch (error) {
       console.error("Approve specialist error:", error);
       res.status(500).json({ message: "Failed to update specialist" });

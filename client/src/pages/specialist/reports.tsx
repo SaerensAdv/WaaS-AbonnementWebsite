@@ -244,13 +244,13 @@ export default function SpecialistReportsPage() {
                   {item.report.kpiData && typeof item.report.kpiData === "object" && (
                     <div className="mt-4 pt-4 border-t">
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        {Object.entries(item.report.kpiData as Record<string, any>).map(([key, value]) => (
+                        {Object.entries(item.report.kpiData as Record<string, unknown>).map(([key, value]) => (
                           <div key={key} className="text-center p-2 rounded-md bg-muted/50">
                             <div className="text-xs text-muted-foreground capitalize">
                               {key.replace(/_/g, " ")}
                             </div>
                             <div className="font-semibold font-mono">
-                              {typeof value === "number" ? value.toLocaleString("nl-NL") : value}
+                              {typeof value === "number" ? value.toLocaleString("nl-NL") : String(value)}
                             </div>
                           </div>
                         ))}

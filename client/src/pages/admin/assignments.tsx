@@ -255,9 +255,9 @@ export default function AdminAssignmentsPage() {
                       <TableCell>
                         <Badge
                           variant="secondary"
-                          className={statusColors[assignment.assignment.status] || "bg-muted"}
+                          className={statusColors[assignment.assignment.status || "PROPOSED"] || "bg-muted"}
                         >
-                          {statusLabels[assignment.assignment.status] || assignment.assignment.status}
+                          {statusLabels[assignment.assignment.status || "PROPOSED"] || assignment.assignment.status}
                         </Badge>
                       </TableCell>
                     </TableRow>

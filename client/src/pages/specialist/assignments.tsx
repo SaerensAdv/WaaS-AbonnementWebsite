@@ -176,9 +176,9 @@ export default function SpecialistAssignmentsPage() {
                                 <h3 className="font-medium">{item.customer.name}</h3>
                                 <Badge
                                   variant="secondary"
-                                  className={statusColors[item.assignment.status]}
+                                  className={statusColors[item.assignment.status || "PROPOSED"]}
                                 >
-                                  {statusLabels[item.assignment.status]}
+                                  {statusLabels[item.assignment.status || "PROPOSED"]}
                                 </Badge>
                                 <Badge variant="outline">{item.addOnSelection.addOn.name}</Badge>
                               </div>
