@@ -5,8 +5,11 @@ import { createServer } from "http";
 import { runMigrations } from 'stripe-replit-sync';
 import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
+import path from "path";
 
 const app = express();
+
+app.use('/assets', express.static(path.resolve(process.cwd(), 'attached_assets')));
 const httpServer = createServer(app);
 
 declare module "http" {
