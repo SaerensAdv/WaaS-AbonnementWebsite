@@ -435,7 +435,15 @@ export function PartnerBadge({ className = "" }: { className?: string }) {
         </div>
         <span className="text-sm font-medium">Cookie Compliant met</span>
       </div>
-      <span className="text-sm font-bold text-primary">ConsentEase.io</span>
+      <a 
+        href="https://consentease.io" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-sm font-bold text-primary transition-colors duration-150 hover:text-primary/80"
+        data-testid="link-consentease"
+      >
+        ConsentEase.io
+      </a>
     </div>
   );
 }
