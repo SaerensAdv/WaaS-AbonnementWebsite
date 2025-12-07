@@ -75,6 +75,80 @@ export async function registerRoutes(
     })
   );
 
+  // Sitemap XSL stylesheet for browser rendering
+  app.get("/sitemap.xsl", (_req, res) => {
+    res.set({
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, max-age=86400",
+    });
+    
+    const xsl = `<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="2.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <xsl:output method="html" encoding="UTF-8" indent="yes"/>
+  <xsl:template match="/">
+    <html>
+      <head>
+        <title>Sitemap - abonnement.website</title>
+        <meta name="robots" content="noindex,follow"/>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; background: #f8fafc; color: #1e293b; }
+          h1 { color: #0f172a; font-size: 24px; margin-bottom: 8px; }
+          p { color: #64748b; margin-bottom: 24px; }
+          table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+          th { background: #0f172a; color: white; text-align: left; padding: 12px 16px; font-weight: 500; }
+          td { padding: 12px 16px; border-bottom: 1px solid #e2e8f0; }
+          tr:last-child td { border-bottom: none; }
+          tr:hover td { background: #f1f5f9; }
+          a { color: #2563eb; text-decoration: none; }
+          a:hover { text-decoration: underline; }
+          .priority { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+          .high { background: #dcfce7; color: #166534; }
+          .medium { background: #fef9c3; color: #854d0e; }
+          .low { background: #f1f5f9; color: #475569; }
+        </style>
+      </head>
+      <body>
+        <h1>XML Sitemap</h1>
+        <p>Deze sitemap bevat <xsl:value-of select="count(sitemap:urlset/sitemap:url)"/> URLs voor zoekmachines.</p>
+        <table>
+          <tr>
+            <th>URL</th>
+            <th>Laatst gewijzigd</th>
+            <th>Frequentie</th>
+            <th>Prioriteit</th>
+          </tr>
+          <xsl:for-each select="sitemap:urlset/sitemap:url">
+            <xsl:sort select="sitemap:priority" order="descending"/>
+            <tr>
+              <td><a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc"/></a></td>
+              <td><xsl:value-of select="sitemap:lastmod"/></td>
+              <td><xsl:value-of select="sitemap:changefreq"/></td>
+              <td>
+                <xsl:variable name="prio" select="sitemap:priority"/>
+                <span>
+                  <xsl:attribute name="class">
+                    priority <xsl:choose>
+                      <xsl:when test="$prio >= 0.8">high</xsl:when>
+                      <xsl:when test="$prio >= 0.5">medium</xsl:when>
+                      <xsl:otherwise>low</xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:attribute>
+                  <xsl:value-of select="sitemap:priority"/>
+                </span>
+              </td>
+            </tr>
+          </xsl:for-each>
+        </table>
+      </body>
+    </html>
+  </xsl:template>
+</xsl:stylesheet>`;
+    
+    return res.send(xsl);
+  });
+
   // Sitemap.xml for SEO - 100% valid for Google Search Console
   app.get("/sitemap.xml", async (_req, res) => {
     // Helper: escape XML special characters
@@ -157,8 +231,9 @@ export async function registerRoutes(
         }
       }
       
-      // Construct final XML
+      // Construct final XML with XSL stylesheet reference for browser rendering
       const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlEntries.join("\n")}
 </urlset>`;
