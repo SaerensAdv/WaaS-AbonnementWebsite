@@ -17,7 +17,6 @@ export function MarketingFooter() {
   return (
     <footer className="relative bg-muted/30" data-testid="marketing-footer">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-      
       <div className="container mx-auto px-4 py-12 md:py-20">
         <div className="grid gap-10 md:gap-12 grid-cols-2 md:grid-cols-2 lg:grid-cols-12">
           <div className="col-span-2 md:col-span-2 lg:col-span-4 space-y-5 text-center md:text-left">
@@ -27,7 +26,8 @@ export function MarketingFooter() {
                 alt="WebsiteAbonnementen" 
                 className="h-10 w-10 md:h-11 md:w-11 rounded-md object-contain"
               />
-              <span className="text-lg md:text-xl font-semibold">WebsiteAbonnementen</span>
+              <span className="text-lg md:text-xl font-semibold">abonnement.website
+</span>
             </Link>
             
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mx-auto md:mx-0">
