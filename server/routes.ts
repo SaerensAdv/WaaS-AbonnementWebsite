@@ -110,6 +110,7 @@ export async function registerRoutes(
         { url: "/projecten", priority: "0.8", changefreq: "daily" },
         { url: "/templates", priority: "0.8", changefreq: "weekly" },
         { url: "/about", priority: "0.7", changefreq: "monthly" },
+        { url: "/tools", priority: "0.7", changefreq: "monthly" },
         { url: "/contact", priority: "0.7", changefreq: "monthly" },
         { url: "/specialists", priority: "0.6", changefreq: "monthly" },
         { url: "/blog", priority: "0.8", changefreq: "daily" },
