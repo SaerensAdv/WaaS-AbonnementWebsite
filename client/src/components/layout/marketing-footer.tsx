@@ -168,6 +168,24 @@ export function MarketingFooter() {
                   Blog
                 </Link>
               </li>
+              <li>
+                <Link 
+                  href="/faq" 
+                  className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
+                  data-testid="link-footer-faq"
+                >
+                  Veelgestelde Vragen
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/vergelijk" 
+                  className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
+                  data-testid="link-footer-vergelijk"
+                >
+                  Vergelijken
+                </Link>
+              </li>
             </ul>
           </div>
 

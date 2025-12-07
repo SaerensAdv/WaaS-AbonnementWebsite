@@ -37,6 +37,11 @@ import CheckoutSuccessPage from "@/pages/checkout-success";
 import BlogPage from "@/pages/blog";
 import BlogPostPage from "@/pages/blog-post";
 import ToolsPage from "@/pages/tools";
+import FAQPage from "@/pages/faq";
+import VergelijkOverviewPage from "@/pages/vergelijk/index";
+import VergelijkWordPressPage from "@/pages/vergelijk/wordpress";
+import VergelijkWixPage from "@/pages/vergelijk/wix";
+import VergelijkEenmaligPage from "@/pages/vergelijk/eenmalig";
 
 import CustomerDashboard from "@/pages/dashboard/customer-dashboard";
 import ProjectPage from "@/pages/dashboard/project";
@@ -117,6 +122,11 @@ function Router() {
       <Route path="/blog" component={BlogPage} />
       <Route path="/blog/:slug" component={BlogPostPage} />
       <Route path="/tools" component={ToolsPage} />
+      <Route path="/faq" component={FAQPage} />
+      <Route path="/vergelijk" component={VergelijkOverviewPage} />
+      <Route path="/vergelijk/wordpress" component={VergelijkWordPressPage} />
+      <Route path="/vergelijk/wix" component={VergelijkWixPage} />
+      <Route path="/vergelijk/eenmalig" component={VergelijkEenmaligPage} />
 
       <Route path="/app">
         <ProtectedRoute component={CustomerDashboard} roles={["CUSTOMER"]} />
