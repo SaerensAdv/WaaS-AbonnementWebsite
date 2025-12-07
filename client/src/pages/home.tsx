@@ -327,7 +327,15 @@ export default function HomePage() {
             </FadeInUp>
             
             <FadeIn delay={0.4}>
-              <PartnerBadge className="mb-0" />
+              <PartnerBadge className="mb-4" />
+            </FadeIn>
+            
+            <FadeIn delay={0.5}>
+              <Link href="/tools" className="inline-flex items-center gap-2 text-sm text-slate-400 transition-colors duration-150 hover:text-white" data-testid="link-hero-tools">
+                <BarChart3 className="h-4 w-4" />
+                Powered by Google Analytics, SEMrush, Wincher & meer
+                <ChevronRight className="h-4 w-4" />
+              </Link>
             </FadeIn>
           </div>
           
