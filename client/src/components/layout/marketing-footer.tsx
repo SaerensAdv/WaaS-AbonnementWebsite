@@ -117,6 +117,15 @@ export function MarketingFooter() {
                   Templates
                 </Link>
               </li>
+              <li>
+                <Link 
+                  href="/tools" 
+                  className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
+                  data-testid="link-footer-tools"
+                >
+                  Onze Tools
+                </Link>
+              </li>
             </ul>
           </div>
 
