@@ -439,7 +439,7 @@ export function PartnerBadge({ className = "" }: { className?: string }) {
         href="https://consentease.io" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="text-sm font-bold text-primary transition-colors duration-150 hover:text-primary/80"
+        className="text-sm font-bold transition-colors duration-150 hover:text-primary/80 text-[#8a36ebcc]"
         data-testid="link-consentease"
       >
         ConsentEase.io
