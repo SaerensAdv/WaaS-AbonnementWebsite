@@ -101,7 +101,7 @@ const toolCategories: ToolCategory[] = [
       {
         name: "ConsentEase",
         description: "AVG-conforme cookie consent voor uw bezoekers",
-        url: "https://www.consentease.com",
+        url: "https://consentease.io",
       },
     ],
   },
