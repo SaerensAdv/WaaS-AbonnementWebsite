@@ -25,63 +25,7 @@ import {
 } from "lucide-react";
 import { SiWix } from "react-icons/si";
 import { useEffect } from "react";
-
-const comparisonFeatures = [
-  {
-    feature: "Wie doet het werk?",
-    wix: "U zelf - ontwerp, teksten, onderhoud",
-    abonnement: "Wij doen alles voor u",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Professioneel design",
-    wix: "Sjabloon - zelf aanpassen",
-    abonnement: "Op maat door designers",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Maandelijkse prijs",
-    wix: "€17-€35/maand (Core-Business)",
-    abonnement: "€99-€199/maand (alles inbegrepen)",
-    advantage: "draw",
-  },
-  {
-    feature: "Uw tijdsinvestering",
-    wix: "40+ uur opzetten, 2-4 uur/maand onderhoud",
-    abonnement: "0 uur - wij doen het",
-    advantage: "abonnement",
-  },
-  {
-    feature: "SEO-optimalisatie",
-    wix: "Basis - zelf instellen",
-    abonnement: "Professioneel ingesteld",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Ondersteuning",
-    wix: "Helpcentrum, geen persoonlijke hulp",
-    abonnement: "Persoonlijke support",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Aanpassingen",
-    wix: "Zelf doen in editor",
-    abonnement: "Vraag aan en wij passen aan",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Wix-advertenties",
-    wix: "Alleen weg bij betaald plan",
-    abonnement: "Nooit advertenties",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Flexibiliteit",
-    wix: "Beperkt tot Wix-functies",
-    abonnement: "Maatwerk mogelijk",
-    advantage: "abonnement",
-  },
-];
+import { useTranslation } from "@/lib/i18n-context";
 
 const wixCosts = {
   yearly: {
@@ -89,35 +33,14 @@ const wixCosts = {
     core: { price: 29, name: "Core", description: "Betalingen, 50GB opslag" },
     business: { price: 36, name: "Business", description: "E-commerce, 100GB" },
   },
-  hidden: [
-    { item: "Apps uit App Market", cost: "€0-€30+/maand per app" },
-    { item: "Premium functies", cost: "€5-€50/maand extra" },
-    { item: "Domeinnaam na jaar 1", cost: "€10-€45/jaar" },
-    { item: "E-mail hosting", cost: "€5-€15/maand" },
-  ],
 };
 
-const timeInvestment = {
+const timeInvestmentData = {
   initial: {
     hours: 40,
-    tasks: [
-      "Sjabloon kiezen en aanpassen",
-      "Alle teksten schrijven",
-      "Afbeeldingen zoeken en plaatsen",
-      "Menu en pagina's structureren",
-      "Formulieren instellen",
-      "SEO basis instellen",
-      "Mobiele versie controleren",
-    ],
   },
   monthly: {
     hours: 3,
-    tasks: [
-      "Content updates",
-      "Kleine aanpassingen",
-      "Statistieken bekijken",
-      "Problemen oplossen",
-    ],
   },
 };
 
@@ -148,12 +71,74 @@ function generateComparisonSchema() {
 }
 
 export default function VergelijkWixPage() {
+  const { t } = useTranslation();
   const comparisonSchema = generateComparisonSchema();
   const hourlyRate = 50;
+
+  const comparisonFeatures = [
+    {
+      feature: t("compare.wix.features.items.whoDoesWork.feature"),
+      wix: t("compare.wix.features.items.whoDoesWork.wix"),
+      abonnement: t("compare.wix.features.items.whoDoesWork.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wix.features.items.design.feature"),
+      wix: t("compare.wix.features.items.design.wix"),
+      abonnement: t("compare.wix.features.items.design.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wix.features.items.monthlyPrice.feature"),
+      wix: t("compare.wix.features.items.monthlyPrice.wix"),
+      abonnement: t("compare.wix.features.items.monthlyPrice.subscription"),
+      advantage: "draw",
+    },
+    {
+      feature: t("compare.wix.features.items.timeInvestment.feature"),
+      wix: t("compare.wix.features.items.timeInvestment.wix"),
+      abonnement: t("compare.wix.features.items.timeInvestment.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wix.features.items.seo.feature"),
+      wix: t("compare.wix.features.items.seo.wix"),
+      abonnement: t("compare.wix.features.items.seo.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wix.features.items.support.feature"),
+      wix: t("compare.wix.features.items.support.wix"),
+      abonnement: t("compare.wix.features.items.support.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wix.features.items.adjustments.feature"),
+      wix: t("compare.wix.features.items.adjustments.wix"),
+      abonnement: t("compare.wix.features.items.adjustments.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wix.features.items.ads.feature"),
+      wix: t("compare.wix.features.items.ads.wix"),
+      abonnement: t("compare.wix.features.items.ads.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wix.features.items.flexibility.feature"),
+      wix: t("compare.wix.features.items.flexibility.wix"),
+      abonnement: t("compare.wix.features.items.flexibility.subscription"),
+      advantage: "abonnement",
+    },
+  ];
+
+  const setupTasks = t("compare.wix.time.setup.tasks") as unknown as string[];
+  const monthlyTasks = t("compare.wix.time.monthly.tasks") as unknown as string[];
+  const hiddenCostItems = t("compare.wix.costs.hidden.items") as unknown as Array<{item: string; cost: string}>;
   
   useSEO({
-    title: "Website Abonnement vs Wix - Zelf Doen of Laten Doen? 2025",
-    description: "Vergelijk Wix met een website abonnement. Hoeveel tijd kost Wix echt? Tel uw uren bij de prijs op en ontdek wat voordeliger is.",
+    title: t("compare.wix.seo.title"),
+    description: t("compare.wix.seo.description"),
     canonical: "/vergelijk/wix",
   });
 
@@ -178,8 +163,8 @@ export default function VergelijkWixPage() {
   }, []);
 
   const wixYearlyCost = wixCosts.yearly.core.price * 12;
-  const timeValueInitial = timeInvestment.initial.hours * hourlyRate;
-  const timeValueMonthly = timeInvestment.monthly.hours * hourlyRate * 12;
+  const timeValueInitial = timeInvestmentData.initial.hours * hourlyRate;
+  const timeValueMonthly = timeInvestmentData.monthly.hours * hourlyRate * 12;
   const wixTotalYear1 = wixYearlyCost + timeValueInitial + timeValueMonthly;
   const wixTotalYear2And3 = wixYearlyCost + timeValueMonthly;
   const wixTotal3Years = wixTotalYear1 + (wixTotalYear2And3 * 2);
@@ -208,8 +193,8 @@ export default function VergelijkWixPage() {
         <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
             items={[
-              { label: "Vergelijken", href: "/vergelijk" },
-              { label: "vs Wix" }
+              { label: t("compare.breadcrumb"), href: "/vergelijk" },
+              { label: t("compare.wix.hero.breadcrumb") }
             ]} 
             className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
@@ -220,7 +205,7 @@ export default function VergelijkWixPage() {
             <BlurIn delay={0}>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-8">
                 <SiWix className="h-4 w-4 text-[#0C6EFC]" />
-                Zelf doen vs laten doen
+                {t("compare.wix.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </div>
             </BlurIn>
@@ -230,16 +215,15 @@ export default function VergelijkWixPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-6" 
                 data-testid="text-wix-hero-title"
               >
-                Website Abonnement
+                {t("compare.wix.hero.title")}
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">vs Wix</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">{t("compare.wix.hero.titleHighlight")}</span>
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-                Wix lijkt goedkoop, maar hoeveel is uw tijd waard? 
-                Tel de uren erbij op.
+                {t("compare.wix.hero.description")}
               </p>
             </BlurIn>
           </div>
@@ -252,13 +236,13 @@ export default function VergelijkWixPage() {
             <FadeInUp>
               <div className="text-center mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-                  De verborgen kost: uw tijd
+                  {t("compare.wix.time.badge")}
                 </Badge>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Hoeveel uur kost Wix echt?
+                  {t("compare.wix.time.title")}
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                  Wix is doe-het-zelf. Dat betekent dat u alles zelf doet.
+                  {t("compare.wix.time.description")}
                 </p>
               </div>
             </FadeInUp>
@@ -269,12 +253,12 @@ export default function VergelijkWixPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Clock className="h-5 w-5 text-primary" />
-                      Opzetten: {timeInvestment.initial.hours}+ uur
+                      {(t("compare.wix.time.setup.title") as string).replace("{hours}", String(timeInvestmentData.initial.hours))}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2">
-                      {timeInvestment.initial.tasks.map((task, i) => (
+                      {setupTasks.map((task, i) => (
                         <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
                           <div className="h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
                           {task}
@@ -283,9 +267,9 @@ export default function VergelijkWixPage() {
                     </ul>
                     <div className="mt-4 p-3 rounded-lg bg-slate-100 dark:bg-slate-800">
                       <p className="text-sm">
-                        <span className="font-medium">Waarde van uw tijd:</span>{" "}
+                        <span className="font-medium">{t("compare.wix.time.setup.timeValue")}</span>{" "}
                         <span className="text-primary font-semibold">€{timeValueInitial.toLocaleString("nl-NL")}</span>
-                        <span className="text-muted-foreground"> (à €{hourlyRate}/uur)</span>
+                        <span className="text-muted-foreground"> {(t("compare.wix.time.setup.hourlyRate") as string).replace("{rate}", String(hourlyRate))}</span>
                       </p>
                     </div>
                   </CardContent>
@@ -297,12 +281,12 @@ export default function VergelijkWixPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Clock className="h-5 w-5 text-primary" />
-                      Maandelijks: {timeInvestment.monthly.hours} uur
+                      {(t("compare.wix.time.monthly.title") as string).replace("{hours}", String(timeInvestmentData.monthly.hours))}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2">
-                      {timeInvestment.monthly.tasks.map((task, i) => (
+                      {monthlyTasks.map((task, i) => (
                         <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
                           <div className="h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
                           {task}
@@ -311,9 +295,9 @@ export default function VergelijkWixPage() {
                     </ul>
                     <div className="mt-4 p-3 rounded-lg bg-slate-100 dark:bg-slate-800">
                       <p className="text-sm">
-                        <span className="font-medium">Waarde per jaar:</span>{" "}
+                        <span className="font-medium">{t("compare.wix.time.monthly.timeValue")}</span>{" "}
                         <span className="text-primary font-semibold">€{timeValueMonthly.toLocaleString("nl-NL")}</span>
-                        <span className="text-muted-foreground"> ({timeInvestment.monthly.hours} × 12 × €{hourlyRate})</span>
+                        <span className="text-muted-foreground"> {(t("compare.wix.time.monthly.calculation") as string).replace("{hours}", String(timeInvestmentData.monthly.hours)).replace("{rate}", String(hourlyRate))}</span>
                       </p>
                     </div>
                   </CardContent>
@@ -330,7 +314,7 @@ export default function VergelijkWixPage() {
             <FadeInUp>
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Totale kosten over 3 jaar
+                  {t("compare.wix.costs.title")}
                 </h2>
               </div>
             </FadeInUp>
@@ -344,27 +328,27 @@ export default function VergelijkWixPage() {
                         <SiWix className="h-6 w-6 text-[#0C6EFC]" />
                       </div>
                       <div>
-                        <CardTitle>Wix Core</CardTitle>
-                        <p className="text-sm text-muted-foreground">Zelf doen</p>
+                        <CardTitle>{t("compare.wix.costs.wix")}</CardTitle>
+                        <p className="text-sm text-muted-foreground">{t("compare.wix.costs.wixSelfDo")}</p>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
-                        <span className="text-sm text-muted-foreground">Wix Core (€29/mnd × 36)</span>
+                        <span className="text-sm text-muted-foreground">{t("compare.wix.costs.items.wixCore")}</span>
                         <span className="font-medium">€{(wixCosts.yearly.core.price * 36).toLocaleString("nl-NL")}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
-                        <span className="text-sm text-muted-foreground">Opzetten (40 uur × €50)</span>
+                        <span className="text-sm text-muted-foreground">{t("compare.wix.costs.items.setup")}</span>
                         <span className="font-medium">€{timeValueInitial.toLocaleString("nl-NL")}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
-                        <span className="text-sm text-muted-foreground">Onderhoud (3 uur/mnd × 36 × €50)</span>
+                        <span className="text-sm text-muted-foreground">{t("compare.wix.costs.items.maintenance")}</span>
                         <span className="font-medium">€{(timeValueMonthly * 3).toLocaleString("nl-NL")}</span>
                       </div>
                       <div className="flex justify-between items-center pt-4 border-t-2">
-                        <span className="font-semibold">Totaal 3 jaar</span>
+                        <span className="font-semibold">{t("compare.wix.costs.total3Years")}</span>
                         <span className="text-xl font-bold text-red-600 dark:text-red-400">
                           €{wixTotal3Years.toLocaleString("nl-NL")}
                         </span>
@@ -375,9 +359,9 @@ export default function VergelijkWixPage() {
                       <div className="flex gap-3">
                         <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                         <div className="text-sm">
-                          <p className="font-medium text-amber-800 dark:text-amber-200 mb-1">Plus verborgen kosten</p>
+                          <p className="font-medium text-amber-800 dark:text-amber-200 mb-1">{t("compare.wix.costs.hidden.title")}</p>
                           <ul className="text-amber-700 dark:text-amber-300 space-y-1">
-                            {wixCosts.hidden.slice(0, 2).map((item, i) => (
+                            {hiddenCostItems.slice(0, 2).map((item, i) => (
                               <li key={i}>{item.item}: {item.cost}</li>
                             ))}
                           </ul>
@@ -396,33 +380,33 @@ export default function VergelijkWixPage() {
                         <Check className="h-6 w-6 text-primary" />
                       </div>
                       <div>
-                        <CardTitle>Website Abonnement</CardTitle>
-                        <p className="text-sm text-muted-foreground">Wij doen alles</p>
+                        <CardTitle>{t("compare.wix.costs.subscription")}</CardTitle>
+                        <p className="text-sm text-muted-foreground">{t("compare.wix.costs.weDoAll")}</p>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
-                        <span className="text-sm text-muted-foreground">Starter (€99/mnd × 36)</span>
+                        <span className="text-sm text-muted-foreground">{t("compare.wix.costs.subscriptionItems.starter")}</span>
                         <span className="font-medium">€3.564</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
                         <span className="text-sm text-muted-foreground flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-500" />
-                          Professioneel maatwerk design
+                          {t("compare.wix.costs.subscriptionItems.design")}
                         </span>
-                        <span className="text-green-600 dark:text-green-400 font-medium">Inbegrepen</span>
+                        <span className="text-green-600 dark:text-green-400 font-medium">{t("compare.wix.costs.included")}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
                         <span className="text-sm text-muted-foreground flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-500" />
-                          Uw tijd: 0 uur
+                          {t("compare.wix.costs.subscriptionItems.time")}
                         </span>
                         <span className="text-green-600 dark:text-green-400 font-medium">€0</span>
                       </div>
                       <div className="flex justify-between items-center pt-4 border-t-2">
-                        <span className="font-semibold">Totaal 3 jaar</span>
+                        <span className="font-semibold">{t("compare.wix.costs.total3Years")}</span>
                         <span className="text-xl font-bold text-green-600 dark:text-green-400">
                           €3.564
                         </span>
@@ -434,10 +418,10 @@ export default function VergelijkWixPage() {
                         <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
                         <div className="text-sm">
                           <p className="font-medium text-green-800 dark:text-green-200 mb-1">
-                            U bespaart: €{(wixTotal3Years - 3564).toLocaleString("nl-NL")}
+                            {(t("compare.wix.costs.savings.title") as string).replace("{amount}", (wixTotal3Years - 3564).toLocaleString("nl-NL"))}
                           </p>
                           <p className="text-green-700 dark:text-green-300">
-                            Plus {timeInvestment.initial.hours + (timeInvestment.monthly.hours * 36)} uur van uw tijd
+                            {(t("compare.wix.costs.savings.time") as string).replace("{hours}", String(timeInvestmentData.initial.hours + (timeInvestmentData.monthly.hours * 36)))}
                           </p>
                         </div>
                       </div>
@@ -456,7 +440,7 @@ export default function VergelijkWixPage() {
             <FadeInUp>
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Feature vergelijking
+                  {t("compare.wix.features.title")}
                 </h2>
               </div>
             </FadeInUp>
@@ -478,7 +462,7 @@ export default function VergelijkWixPage() {
                           <th className="text-left p-4 font-semibold">
                             <div className="flex items-center gap-2 text-primary">
                               <Check className="h-4 w-4" />
-                              Website Abonnement
+                              {t("compare.wix.costs.subscription")}
                             </div>
                           </th>
                         </tr>
@@ -526,18 +510,17 @@ export default function VergelijkWixPage() {
           <FadeInUp>
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-                Uw tijd is waardevol
+                {t("compare.wix.cta.title")}
               </h2>
               <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-                Laat ons uw website bouwen en onderhouden.
-                Focus op wat u het beste kunt: uw bedrijf runnen.
+                {t("compare.wix.cta.description")}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/pricing">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-wix-pricing">
-                      Bekijk abonnementen
+                      {t("compare.cta.viewPlans")}
                       <ArrowRight className="h-5 w-5" />
                     </Button>
                   </motion.div>
@@ -549,7 +532,7 @@ export default function VergelijkWixPage() {
                       variant="outline"
                       className="h-14 px-8 text-lg border-white/20 text-white bg-white/5 backdrop-blur-sm"
                     >
-                      Meer vergelijkingen
+                      {t("compare.cta.moreComparisons")}
                     </Button>
                   </motion.div>
                 </Link>

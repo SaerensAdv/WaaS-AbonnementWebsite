@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { useSEO } from "@/hooks/use-seo";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
+import { useTranslation } from "@/lib/i18n-context";
 import {
   FadeInUp,
   FadeIn,
@@ -26,32 +27,7 @@ import {
   Users,
 } from "lucide-react";
 
-const howItWorks = [
-  {
-    step: "01",
-    icon: CreditCard,
-    title: "U kiest een abonnement",
-    description: "Selecteer het pakket dat bij uw bedrijf past.",
-  },
-  {
-    step: "02",
-    icon: PlusCircle,
-    title: "U kiest eventueel een add-on",
-    description: "Google Ads, SEO, Meta Ads of andere extra's.",
-  },
-  {
-    step: "03",
-    icon: UserCheck,
-    title: "Wij koppelen een specialist",
-    description: "Een expert die past bij uw branche en doelen.",
-  },
-  {
-    step: "04",
-    icon: LayoutDashboard,
-    title: "U ziet alles in uw dashboard",
-    description: "Volg de voortgang en resultaten live.",
-  },
-];
+const howItWorksIcons = [CreditCard, PlusCircle, UserCheck, LayoutDashboard];
 
 const placeholderSpecialists = [
   {
@@ -78,11 +54,20 @@ const placeholderSpecialists = [
 ];
 
 export default function SpecialistsPage() {
+  const { t } = useTranslation();
+
   useSEO({
-    title: "Onze Specialisten",
-    description: "Maak kennis met onze gecertificeerde website- en marketingspecialisten. Experts in Google Ads, SEO, Meta Ads en webdevelopment die u persoonlijk begeleiden.",
+    title: t("specialists.seo.title"),
+    description: t("specialists.seo.description"),
     canonical: "/specialists",
   });
+
+  const howItWorks = [
+    { step: "01", icon: howItWorksIcons[0], title: t("specialists.howItWorks.steps.0.title"), description: t("specialists.howItWorks.steps.0.description") },
+    { step: "02", icon: howItWorksIcons[1], title: t("specialists.howItWorks.steps.1.title"), description: t("specialists.howItWorks.steps.1.description") },
+    { step: "03", icon: howItWorksIcons[2], title: t("specialists.howItWorks.steps.2.title"), description: t("specialists.howItWorks.steps.2.description") },
+    { step: "04", icon: howItWorksIcons[3], title: t("specialists.howItWorks.steps.3.title"), description: t("specialists.howItWorks.steps.3.description") },
+  ];
 
   return (
     <MarketingLayout>
@@ -114,7 +99,7 @@ export default function SpecialistsPage() {
                 transition={{ duration: 0.2 }}
               >
                 <Sparkles className="h-4 w-4 text-primary" />
-                Echte experts, geen callcenter
+                {t("specialists.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </motion.div>
             </BlurIn>
@@ -124,15 +109,15 @@ export default function SpecialistsPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-8" 
                 data-testid="text-specialists-hero-title"
               >
-                Uw website wordt beheerd
+                {t("specialists.hero.title")}
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">door specialisten</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">{t("specialists.hero.titleHighlight")}</span>
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-10">
-                Geen algemeen "support team", maar mensen die dagelijks websites, SEO en advertenties beter maken.
+                {t("specialists.hero.description")}
               </p>
             </BlurIn>
             
@@ -140,7 +125,7 @@ export default function SpecialistsPage() {
               <Link href="/pricing">
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-specialists-pricing">
-                    Bekijk abonnementen
+                    {t("common.buttons.viewPlans")}
                     <ArrowRight className="h-5 w-5" />
                   </Button>
                 </motion.div>
@@ -155,13 +140,13 @@ export default function SpecialistsPage() {
           <FadeInUp>
             <div className="text-center max-w-3xl mx-auto mb-20">
               <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-                Hoe dit werkt
+                {t("specialists.howItWorks.badge")}
               </Badge>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                Super simpel
+                {t("specialists.howItWorks.title")}
               </h2>
               <p className="text-xl text-muted-foreground">
-                In 4 stappen naar professionele ondersteuning
+                {t("specialists.howItWorks.description")}
               </p>
             </div>
           </FadeInUp>
@@ -200,13 +185,13 @@ export default function SpecialistsPage() {
           <FadeInUp>
             <div className="text-center max-w-3xl mx-auto mb-12">
               <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-                Ons team
+                {t("specialists.team.badge")}
               </Badge>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                Onze specialisten
+                {t("specialists.team.title")}
               </h2>
               <p className="text-xl text-muted-foreground">
-                Geverifieerde experts klaar om uw bedrijf te helpen groeien
+                {t("specialists.team.description")}
               </p>
             </div>
           </FadeInUp>
@@ -218,9 +203,9 @@ export default function SpecialistsPage() {
                   <Users className="h-5 w-5 text-amber-600 dark:text-amber-400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-amber-900 dark:text-amber-200 mb-1">Coming soon</h3>
+                  <h3 className="font-semibold text-amber-900 dark:text-amber-200 mb-1">{t("specialists.team.comingSoon.title")}</h3>
                   <p className="text-amber-700 dark:text-amber-300 text-sm leading-relaxed">
-                    Onze specialist profielen worden binnenkort toegevoegd. Hieronder ziet u een voorbeeld van hoe dit eruit zal zien.
+                    {t("specialists.team.comingSoon.description")}
                   </p>
                 </div>
               </div>
@@ -254,7 +239,7 @@ export default function SpecialistsPage() {
                         {specialist.verified && (
                           <Badge variant="secondary" className="gap-1 flex-shrink-0 no-default-hover-elevate no-default-active-elevate">
                             <Shield className="h-3 w-3" />
-                            Geverifieerd
+                            {t("specialists.team.verified")}
                           </Badge>
                         )}
                       </div>
@@ -284,19 +269,19 @@ export default function SpecialistsPage() {
           <FadeInUp>
             <div className="max-w-3xl mx-auto text-center">
               <Badge className="mb-6 bg-white/10 text-white border-white/20 no-default-hover-elevate no-default-active-elevate">
-                Word specialist
+                {t("specialists.cta.badge")}
               </Badge>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-                Wilt u specialist worden?
+                {t("specialists.cta.title")}
               </h2>
               <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-                Bent u expert in websites, SEO of online advertenties? Sluit u aan bij ons netwerk van geverifieerde specialisten.
+                {t("specialists.cta.description")}
               </p>
               
               <Link href="/signup">
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-become-specialist">
-                    Maak een specialist account aan
+                    {t("common.buttons.becomeSpecialist")}
                     <ArrowRight className="h-5 w-5" />
                   </Button>
                 </motion.div>

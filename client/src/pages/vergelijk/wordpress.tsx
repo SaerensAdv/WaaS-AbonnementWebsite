@@ -29,74 +29,18 @@ import {
 } from "lucide-react";
 import { SiWordpress } from "react-icons/si";
 import { useEffect } from "react";
-
-const comparisonFeatures = [
-  {
-    feature: "Professioneel design",
-    wordpress: "Zelf maken of €1.500-€5.000 extra",
-    abonnement: "Inbegrepen - op maat gemaakt",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Hosting",
-    wordpress: "€5-€25/maand (zelf regelen)",
-    abonnement: "Inbegrepen - snelle servers",
-    advantage: "abonnement",
-  },
-  {
-    feature: "SSL-certificaat",
-    wordpress: "Soms extra, €0-€100/jaar",
-    abonnement: "Inbegrepen",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Onderhoud & updates",
-    wordpress: "Zelf doen of €50-€150/maand",
-    abonnement: "Inbegrepen",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Beveiliging",
-    wordpress: "Plugins + monitoring nodig",
-    abonnement: "Volledig beheerd",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Back-ups",
-    wordpress: "Zelf instellen of extra betalen",
-    abonnement: "Dagelijks, automatisch",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Technische support",
-    wordpress: "Hosting support alleen, geen WordPress",
-    abonnement: "Volledige support inbegrepen",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Flexibiliteit",
-    wordpress: "Maximaal - alles mogelijk",
-    abonnement: "Goed - zakelijke functies",
-    advantage: "wordpress",
-  },
-  {
-    feature: "Eigenaarschap code",
-    wordpress: "Volledig eigenaar",
-    abonnement: "Content is van u",
-    advantage: "wordpress",
-  },
-];
+import { useTranslation } from "@/lib/i18n-context";
 
 const wordPressCosts = {
   threeYears: {
-    hosting: { low: 180, high: 900, label: "Hosting (3 jaar)" },
-    domain: { low: 30, high: 60, label: "Domeinnaam (3 jaar)" },
-    theme: { low: 0, high: 200, label: "Premium thema (eenmalig)" },
-    plugins: { low: 0, high: 500, label: "Premium plugins (3 jaar)" },
-    design: { low: 0, high: 5000, label: "Professioneel design" },
-    maintenance: { low: 0, high: 5400, label: "Onderhoud (€0-150/mnd × 36)" },
-    security: { low: 0, high: 300, label: "Beveiliging plugins" },
-    backup: { low: 0, high: 300, label: "Back-up service" },
+    hosting: { low: 180, high: 900, key: "hosting" },
+    domain: { low: 30, high: 60, key: "domain" },
+    theme: { low: 0, high: 200, key: "theme" },
+    plugins: { low: 0, high: 500, key: "plugins" },
+    design: { low: 0, high: 5000, key: "design" },
+    maintenance: { low: 0, high: 5400, key: "maintenance" },
+    security: { low: 0, high: 300, key: "security" },
+    backup: { low: 0, high: 300, key: "backup" },
   },
 };
 
@@ -131,11 +75,69 @@ function generateComparisonSchema() {
 }
 
 export default function VergelijkWordPressPage() {
+  const { t } = useTranslation();
   const comparisonSchema = generateComparisonSchema();
+
+  const comparisonFeatures = [
+    {
+      feature: t("compare.wordpress.features.items.design.feature"),
+      wordpress: t("compare.wordpress.features.items.design.wordpress"),
+      abonnement: t("compare.wordpress.features.items.design.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wordpress.features.items.hosting.feature"),
+      wordpress: t("compare.wordpress.features.items.hosting.wordpress"),
+      abonnement: t("compare.wordpress.features.items.hosting.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wordpress.features.items.ssl.feature"),
+      wordpress: t("compare.wordpress.features.items.ssl.wordpress"),
+      abonnement: t("compare.wordpress.features.items.ssl.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wordpress.features.items.maintenance.feature"),
+      wordpress: t("compare.wordpress.features.items.maintenance.wordpress"),
+      abonnement: t("compare.wordpress.features.items.maintenance.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wordpress.features.items.security.feature"),
+      wordpress: t("compare.wordpress.features.items.security.wordpress"),
+      abonnement: t("compare.wordpress.features.items.security.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wordpress.features.items.backups.feature"),
+      wordpress: t("compare.wordpress.features.items.backups.wordpress"),
+      abonnement: t("compare.wordpress.features.items.backups.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wordpress.features.items.support.feature"),
+      wordpress: t("compare.wordpress.features.items.support.wordpress"),
+      abonnement: t("compare.wordpress.features.items.support.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.wordpress.features.items.flexibility.feature"),
+      wordpress: t("compare.wordpress.features.items.flexibility.wordpress"),
+      abonnement: t("compare.wordpress.features.items.flexibility.subscription"),
+      advantage: "wordpress",
+    },
+    {
+      feature: t("compare.wordpress.features.items.ownership.feature"),
+      wordpress: t("compare.wordpress.features.items.ownership.wordpress"),
+      abonnement: t("compare.wordpress.features.items.ownership.subscription"),
+      advantage: "wordpress",
+    },
+  ];
   
   useSEO({
-    title: "Website Abonnement vs WordPress - Eerlijke Kostenvergelijking 2025",
-    description: "Vergelijk de totale kosten van een website abonnement met WordPress over 3 jaar. Inclusief hosting, onderhoud, beveiliging en design. Ontdek wat echt voordeliger is.",
+    title: t("compare.wordpress.seo.title"),
+    description: t("compare.wordpress.seo.description"),
     canonical: "/vergelijk/wordpress",
   });
 
@@ -162,6 +164,10 @@ export default function VergelijkWordPressPage() {
   const wpLowTotal = calculateTotal(wordPressCosts.threeYears, "low");
   const wpHighTotal = calculateTotal(wordPressCosts.threeYears, "high");
 
+  const wpItems = t("compare.wordpress.costs.items") as unknown as Record<string, string>;
+  const whenWordpressItems = t("compare.wordpress.when.wordpress.items") as unknown as string[];
+  const whenSubscriptionItems = t("compare.wordpress.when.subscription.items") as unknown as string[];
+
   return (
     <MarketingLayout>
       <section 
@@ -186,8 +192,8 @@ export default function VergelijkWordPressPage() {
         <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
             items={[
-              { label: "Vergelijken", href: "/vergelijk" },
-              { label: "vs WordPress" }
+              { label: t("compare.breadcrumb"), href: "/vergelijk" },
+              { label: t("compare.wordpress.hero.breadcrumb") }
             ]} 
             className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
@@ -198,7 +204,7 @@ export default function VergelijkWordPressPage() {
             <BlurIn delay={0}>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-8">
                 <SiWordpress className="h-4 w-4 text-[#21759b]" />
-                Eerlijke vergelijking
+                {t("compare.wordpress.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </div>
             </BlurIn>
@@ -208,16 +214,15 @@ export default function VergelijkWordPressPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-6" 
                 data-testid="text-wordpress-hero-title"
               >
-                Website Abonnement
+                {t("compare.wordpress.hero.title")}
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">vs WordPress</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">{t("compare.wordpress.hero.titleHighlight")}</span>
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-                WordPress is flexibel, maar wat kost het echt? 
-                Vergelijk alle kosten over 3 jaar.
+                {t("compare.wordpress.hero.description")}
               </p>
             </BlurIn>
           </div>
@@ -230,13 +235,13 @@ export default function VergelijkWordPressPage() {
             <FadeInUp>
               <div className="text-center mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-                  Kostenvergelijking over 3 jaar
+                  {t("compare.wordpress.costs.badge")}
                 </Badge>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  De werkelijke kosten
+                  {t("compare.wordpress.costs.title")}
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                  WordPress lijkt goedkoop, maar tel alle kosten bij elkaar op.
+                  {t("compare.wordpress.costs.description")}
                 </p>
               </div>
             </FadeInUp>
@@ -250,8 +255,8 @@ export default function VergelijkWordPressPage() {
                         <SiWordpress className="h-6 w-6 text-[#21759b]" />
                       </div>
                       <div>
-                        <CardTitle>WordPress</CardTitle>
-                        <p className="text-sm text-muted-foreground">Zelf beheren</p>
+                        <CardTitle>{t("compare.wordpress.costs.wordpress")}</CardTitle>
+                        <p className="text-sm text-muted-foreground">{t("compare.wordpress.costs.selfManaged")}</p>
                       </div>
                     </div>
                   </CardHeader>
@@ -259,14 +264,14 @@ export default function VergelijkWordPressPage() {
                     <div className="space-y-3">
                       {Object.entries(wordPressCosts.threeYears).map(([key, cost]) => (
                         <div key={key} className="flex justify-between items-center py-2 border-b border-dashed last:border-0">
-                          <span className="text-sm text-muted-foreground">{cost.label}</span>
+                          <span className="text-sm text-muted-foreground">{wpItems[cost.key]}</span>
                           <span className="font-medium">
                             €{cost.low.toLocaleString("nl-NL")} - €{cost.high.toLocaleString("nl-NL")}
                           </span>
                         </div>
                       ))}
                       <div className="flex justify-between items-center pt-4 border-t-2">
-                        <span className="font-semibold">Totaal 3 jaar</span>
+                        <span className="font-semibold">{t("compare.wordpress.costs.total3Years")}</span>
                         <span className="text-xl font-bold text-red-600 dark:text-red-400">
                           €{wpLowTotal.toLocaleString("nl-NL")} - €{wpHighTotal.toLocaleString("nl-NL")}
                         </span>
@@ -277,9 +282,9 @@ export default function VergelijkWordPressPage() {
                       <div className="flex gap-3">
                         <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                         <div className="text-sm">
-                          <p className="font-medium text-amber-800 dark:text-amber-200 mb-1">Let op: verborgen kosten</p>
+                          <p className="font-medium text-amber-800 dark:text-amber-200 mb-1">{t("compare.wordpress.costs.warning.title")}</p>
                           <p className="text-amber-700 dark:text-amber-300">
-                            Uw eigen tijd voor onderhoud, updates en troubleshooting is hier niet meegerekend.
+                            {t("compare.wordpress.costs.warning.description")}
                           </p>
                         </div>
                       </div>
@@ -296,51 +301,51 @@ export default function VergelijkWordPressPage() {
                         <Check className="h-6 w-6 text-primary" />
                       </div>
                       <div>
-                        <CardTitle>Website Abonnement</CardTitle>
-                        <p className="text-sm text-muted-foreground">Wij doen alles</p>
+                        <CardTitle>{t("compare.wordpress.costs.subscription")}</CardTitle>
+                        <p className="text-sm text-muted-foreground">{t("compare.wordpress.costs.weDoAll")}</p>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
-                        <span className="text-sm text-muted-foreground">Starter (€99/mnd × 36)</span>
+                        <span className="text-sm text-muted-foreground">{t("compare.wordpress.costs.subscriptionItems.starter")}</span>
                         <span className="font-medium">€3.564</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
-                        <span className="text-sm text-muted-foreground">Professional (€199/mnd × 36)</span>
+                        <span className="text-sm text-muted-foreground">{t("compare.wordpress.costs.subscriptionItems.professional")}</span>
                         <span className="font-medium">€7.164</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
                         <span className="text-sm text-muted-foreground flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-500" />
-                          Professioneel design
+                          {t("compare.wordpress.costs.subscriptionItems.design")}
                         </span>
-                        <span className="text-green-600 dark:text-green-400 font-medium">Inbegrepen</span>
+                        <span className="text-green-600 dark:text-green-400 font-medium">{t("compare.wordpress.costs.included")}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
                         <span className="text-sm text-muted-foreground flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-500" />
-                          Hosting & SSL
+                          {t("compare.wordpress.costs.subscriptionItems.hosting")}
                         </span>
-                        <span className="text-green-600 dark:text-green-400 font-medium">Inbegrepen</span>
+                        <span className="text-green-600 dark:text-green-400 font-medium">{t("compare.wordpress.costs.included")}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
                         <span className="text-sm text-muted-foreground flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-500" />
-                          Onderhoud & updates
+                          {t("compare.wordpress.costs.subscriptionItems.maintenance")}
                         </span>
-                        <span className="text-green-600 dark:text-green-400 font-medium">Inbegrepen</span>
+                        <span className="text-green-600 dark:text-green-400 font-medium">{t("compare.wordpress.costs.included")}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
                         <span className="text-sm text-muted-foreground flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-500" />
-                          Support & beveiliging
+                          {t("compare.wordpress.costs.subscriptionItems.support")}
                         </span>
-                        <span className="text-green-600 dark:text-green-400 font-medium">Inbegrepen</span>
+                        <span className="text-green-600 dark:text-green-400 font-medium">{t("compare.wordpress.costs.included")}</span>
                       </div>
                       <div className="flex justify-between items-center pt-4 border-t-2">
-                        <span className="font-semibold">Totaal 3 jaar</span>
+                        <span className="font-semibold">{t("compare.wordpress.costs.total3Years")}</span>
                         <span className="text-xl font-bold text-green-600 dark:text-green-400">
                           €3.564 - €7.164
                         </span>
@@ -351,9 +356,9 @@ export default function VergelijkWordPressPage() {
                       <div className="flex gap-3">
                         <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
                         <div className="text-sm">
-                          <p className="font-medium text-green-800 dark:text-green-200 mb-1">Alles inbegrepen</p>
+                          <p className="font-medium text-green-800 dark:text-green-200 mb-1">{t("compare.wordpress.costs.allIncluded.title")}</p>
                           <p className="text-green-700 dark:text-green-300">
-                            Geen verrassingen, geen extra kosten, geen eigen tijd nodig.
+                            {t("compare.wordpress.costs.allIncluded.description")}
                           </p>
                         </div>
                       </div>
@@ -372,10 +377,10 @@ export default function VergelijkWordPressPage() {
             <FadeInUp>
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Feature vergelijking
+                  {t("compare.wordpress.features.title")}
                 </h2>
                 <p className="text-xl text-muted-foreground">
-                  Wat krijgt u bij elke optie?
+                  {t("compare.wordpress.features.description")}
                 </p>
               </div>
             </FadeInUp>
@@ -391,13 +396,13 @@ export default function VergelijkWordPressPage() {
                           <th className="text-left p-4 font-semibold">
                             <div className="flex items-center gap-2">
                               <SiWordpress className="h-4 w-4 text-[#21759b]" />
-                              WordPress
+                              {t("compare.wordpress.costs.wordpress")}
                             </div>
                           </th>
                           <th className="text-left p-4 font-semibold">
                             <div className="flex items-center gap-2 text-primary">
                               <Check className="h-4 w-4" />
-                              Website Abonnement
+                              {t("compare.wordpress.costs.subscription")}
                             </div>
                           </th>
                         </tr>
@@ -444,7 +449,7 @@ export default function VergelijkWordPressPage() {
             <FadeInUp>
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Wanneer kiest u wat?
+                  {t("compare.wordpress.when.title")}
                 </h2>
               </div>
             </FadeInUp>
@@ -455,27 +460,17 @@ export default function VergelijkWordPressPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <SiWordpress className="h-5 w-5 text-[#21759b]" />
-                      Kies WordPress als...
+                      {t("compare.wordpress.when.wordpress.title")}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3">
-                      <li className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>U technische kennis heeft of wilt leren</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>U maximale flexibiliteit en controle wilt</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>U tijd heeft voor onderhoud en updates</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>U complexe functionaliteit nodig heeft (webshop, membership)</span>
-                      </li>
+                      {whenWordpressItems.map((item, i) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
                     </ul>
                   </CardContent>
                 </Card>
@@ -486,27 +481,17 @@ export default function VergelijkWordPressPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-primary">
                       <Check className="h-5 w-5" />
-                      Kies Website Abonnement als...
+                      {t("compare.wordpress.when.subscription.title")}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-3">
-                      <li className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>U zich wilt focussen op uw bedrijf, niet op techniek</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>U voorspelbare kosten wilt zonder verrassingen</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>U professioneel design wilt zonder grote investering</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>U onderhoud en beveiliging wilt uitbesteden</span>
-                      </li>
+                      {whenSubscriptionItems.map((item, i) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
                     </ul>
                   </CardContent>
                 </Card>
@@ -521,18 +506,17 @@ export default function VergelijkWordPressPage() {
           <FadeInUp>
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-                Klaar om te starten?
+                {t("compare.cta.title")}
               </h2>
               <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-                Laat ons uw professionele website bouwen en onderhouden.
-                U focust op uw bedrijf, wij op uw website.
+                {t("compare.cta.description")}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/pricing">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-wordpress-pricing">
-                      Bekijk abonnementen
+                      {t("compare.cta.viewPlans")}
                       <ArrowRight className="h-5 w-5" />
                     </Button>
                   </motion.div>
@@ -544,7 +528,7 @@ export default function VergelijkWordPressPage() {
                       variant="outline"
                       className="h-14 px-8 text-lg border-white/20 text-white bg-white/5 backdrop-blur-sm"
                     >
-                      Meer vergelijkingen
+                      {t("compare.cta.moreComparisons")}
                     </Button>
                   </motion.div>
                 </Link>

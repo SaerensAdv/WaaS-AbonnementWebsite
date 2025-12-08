@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useSEO } from "@/hooks/use-seo";
+import { useTranslation } from "@/lib/i18n-context";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -47,19 +48,6 @@ interface ShowcaseProject {
   customerName: string;
 }
 
-function getTierLabel(tier: string): string {
-  switch (tier) {
-    case "LOW":
-      return "Starter";
-    case "MEDIUM":
-      return "Professional";
-    case "HIGH":
-      return "Enterprise";
-    default:
-      return tier;
-  }
-}
-
 function ProjectCardSkeleton() {
   return (
     <Card className="border bg-card h-full overflow-visible">
@@ -80,15 +68,27 @@ function ProjectCardSkeleton() {
   );
 }
 
-function ProjectCard({ project }: { project: ShowcaseProject }) {
+function ProjectCard({ project, t }: { project: ShowcaseProject; t: (key: string) => string }) {
   const title = project.project.showcaseTitle || project.project.domain || "Website";
   const hasImage = !!project.project.showcaseThumbnailUrl;
   
-  // SEO-optimized alt text with keywords
   const industry = project.project.showcaseIndustry;
   const altText = industry 
     ? `Website abonnement ${title} - professionele ${industry.toLowerCase()} website op maat gemaakt`
     : `Website abonnement ${title} - professionele website op maat gemaakt`;
+
+  const getTierLabel = (tier: string): string => {
+    switch (tier) {
+      case "LOW":
+        return t("projects.tiers.starter");
+      case "MEDIUM":
+        return t("projects.tiers.professional");
+      case "HIGH":
+        return t("projects.tiers.enterprise");
+      default:
+        return tier;
+    }
+  };
 
   return (
     <motion.div
@@ -135,7 +135,7 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
               {project.project.showcaseFeatured && (
                 <Badge className="bg-primary text-primary-foreground gap-1 shrink-0 mt-0.5">
                   <Star className="h-3 w-3" />
-                  Featured
+                  {t("projects.featured")}
                 </Badge>
               )}
             </div>
@@ -172,7 +172,7 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
                   className="w-full gap-2" 
                   data-testid={`button-visit-${project.project.id}`}
                 >
-                  Bekijk website
+                  {t("projects.viewWebsite")}
                   <ExternalLink className="h-4 w-4" />
                 </Button>
               </a>
@@ -182,7 +182,7 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
                 variant="secondary"
                 disabled
               >
-                Binnenkort online
+                {t("projects.comingSoon")}
               </Button>
             )}
           </div>
@@ -193,9 +193,11 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
 }
 
 export default function ProjectenPage() {
+  const { t } = useTranslation();
+
   useSEO({
-    title: "Portfolio - Onze Projecten",
-    description: "Bekijk onze succesvolle website projecten. Van automotive tot retail, wij bouwen professionele websites die resultaat opleveren voor bedrijven in heel Nederland.",
+    title: t("projects.seo.title"),
+    description: t("projects.seo.description"),
     canonical: "/projecten",
   });
 
@@ -224,9 +226,15 @@ export default function ProjectenPage() {
   }, [projects, activeFilter]);
 
   const filterOptions = [
-    { id: "all", label: "Alle projecten", icon: Globe },
-    { id: "featured", label: "Uitgelicht", icon: Star },
+    { id: "all", label: t("projects.filters.all"), icon: Globe },
+    { id: "featured", label: t("projects.filters.featured"), icon: Star },
     ...industries.map((industry) => ({ id: industry, label: industry, icon: Building2 })),
+  ];
+
+  const statsItems = [
+    { icon: Zap, label: t("projects.stats.items.0.label"), desc: t("projects.stats.items.0.desc") },
+    { icon: Award, label: t("projects.stats.items.1.label"), desc: t("projects.stats.items.1.desc") },
+    { icon: Globe, label: t("projects.stats.items.2.label"), desc: t("projects.stats.items.2.desc") },
   ];
 
   return (
@@ -252,7 +260,7 @@ export default function ProjectenPage() {
         
         <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
-            items={[{ label: "Projecten" }]} 
+            items={[{ label: t("common.nav.projects") }]} 
             className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
         </div>
@@ -266,7 +274,7 @@ export default function ProjectenPage() {
                 transition={{ duration: 0.2 }}
               >
                 <Sparkles className="h-4 w-4 text-primary" />
-                Echte websites, echte resultaten
+                {t("projects.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </motion.div>
             </BlurIn>
@@ -276,16 +284,15 @@ export default function ProjectenPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-8" 
                 data-testid="text-projecten-hero-title"
               >
-                Onze gerealiseerde
+                {t("projects.hero.title")}
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">projecten</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">{t("projects.hero.titleHighlight")}</span>
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-10">
-                Bekijk de websites die wij voor onze klanten hebben gebouwd. 
-                Van starter tot enterprise: elke website op maat gemaakt.
+                {t("projects.hero.description")}
               </p>
             </BlurIn>
             
@@ -293,7 +300,7 @@ export default function ProjectenPage() {
               <Link href="/pricing">
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-projecten-start">
-                    Start uw eigen project
+                    {t("common.buttons.getStarted")}
                     <ArrowRight className="h-5 w-5" />
                   </Button>
                 </motion.div>
@@ -339,7 +346,7 @@ export default function ProjectenPage() {
             <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" staggerDelay={0.1}>
               {filteredProjects.map((project) => (
                 <StaggerItem key={project.project.id}>
-                  <ProjectCard project={project} />
+                  <ProjectCard project={project} t={t} />
                 </StaggerItem>
               ))}
             </StaggerChildren>
@@ -349,14 +356,13 @@ export default function ProjectenPage() {
                 <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
                   <Briefcase className="h-10 w-10 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Binnenkort beschikbaar</h3>
+                <h3 className="text-xl font-semibold mb-3">{t("projects.empty.title")}</h3>
                 <p className="text-muted-foreground mb-8">
-                  Binnenkort tonen we hier onze gerealiseerde projecten. 
-                  Wilt u de eerste zijn? Start vandaag met uw website.
+                  {t("projects.empty.description")}
                 </p>
                 <Link href="/pricing">
                   <Button className="gap-2">
-                    Bekijk abonnementen
+                    {t("common.buttons.viewPlans")}
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
@@ -371,23 +377,19 @@ export default function ProjectenPage() {
           <FadeInUp>
             <div className="max-w-3xl mx-auto text-center">
               <Badge variant="secondary" className="mb-6 no-default-hover-elevate no-default-active-elevate">
-                Waarom klanten kiezen voor ons
+                {t("projects.stats.badge")}
               </Badge>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                Websites die
+                {t("projects.stats.title")}
                 <br />
-                <span className="text-primary">resultaat opleveren</span>
+                <span className="text-primary">{t("projects.stats.titleHighlight")}</span>
               </h2>
               <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
-                Elke website wordt op maat gemaakt met aandacht voor design, snelheid en conversie.
+                {t("projects.stats.description")}
               </p>
               
               <StaggerChildren className="grid sm:grid-cols-3 gap-6 mb-12" staggerDelay={0.1}>
-                {[
-                  { icon: Zap, label: "Snelle oplevering", desc: "Binnen 10 werkdagen live" },
-                  { icon: Award, label: "Premium design", desc: "Professionele uitstraling" },
-                  { icon: Globe, label: "SEO-geoptimaliseerd", desc: "Gevonden worden" },
-                ].map((item) => (
+                {statsItems.map((item) => (
                   <StaggerItem key={item.label}>
                     <motion.div
                       whileHover={{ y: -2 }}
@@ -416,17 +418,17 @@ export default function ProjectenPage() {
           <FadeInUp>
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-                Uw website hier?
+                {t("projects.cta.title")}
               </h2>
               <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-                Word onderdeel van ons portfolio. Start vandaag met uw professionele website.
+                {t("projects.cta.description")}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/signup">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-projecten-cta-start">
-                      Start vandaag
+                      {t("common.buttons.startToday")}
                       <ArrowRight className="h-5 w-5" />
                     </Button>
                   </motion.div>
@@ -439,7 +441,7 @@ export default function ProjectenPage() {
                       className="h-14 px-8 text-lg border-white/20 text-white bg-white/5 backdrop-blur-sm"
                       data-testid="button-projecten-cta-pricing"
                     >
-                      Bekijk abonnementen
+                      {t("common.buttons.viewPlans")}
                     </Button>
                   </motion.div>
                 </Link>
@@ -449,15 +451,15 @@ export default function ProjectenPage() {
                 <div className="flex flex-wrap items-center justify-center gap-6 mt-12 text-slate-400 text-sm">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>Binnen 10 dagen live</span>
+                    <span>{t("projects.cta.features.0")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>100% op maat</span>
+                    <span>{t("projects.cta.features.1")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>Geen opstartkosten</span>
+                    <span>{t("projects.cta.features.2")}</span>
                   </div>
                 </div>
               </FadeIn>

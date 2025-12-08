@@ -6,6 +6,7 @@ import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
+import { useTranslation } from "@/lib/i18n-context";
 import {
   Accordion,
   AccordionContent,
@@ -30,7 +31,7 @@ import {
   Sparkles,
   MessageSquare,
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 interface FAQItem {
   question: string;
@@ -43,117 +44,6 @@ interface FAQCategory {
   icon: typeof HelpCircle;
   questions: FAQItem[];
 }
-
-const faqCategories: FAQCategory[] = [
-  {
-    id: "algemeen",
-    title: "Algemeen",
-    icon: HelpCircle,
-    questions: [
-      {
-        question: "Wat is een website abonnement?",
-        answer: "Een website abonnement is een all-in-one oplossing waarbij u een professionele website krijgt voor een vast maandelijks bedrag. Dit omvat het ontwerp, de bouw, hosting, onderhoud, beveiliging en support. U betaalt geen grote eenmalige factuur, maar een voorspelbaar maandbedrag vanaf €99."
-      },
-      {
-        question: "Hoe werkt een website abonnement precies?",
-        answer: "U kiest een abonnement dat past bij uw bedrijf (Starter vanaf €99/maand, Professional vanaf €199/maand, of Enterprise op maat). Na aanmelding bespreken we uw wensen, bouwen wij uw website, en na goedkeuring gaat deze live. Daarna zorgen wij maandelijks voor updates, beveiliging, hosting en kleine aanpassingen."
-      },
-      {
-        question: "Voor wie is een website abonnement geschikt?",
-        answer: "Een website abonnement is ideaal voor MKB-bedrijven, zelfstandigen en starters die een professionele online aanwezigheid willen zonder technische kennis of grote investeringen. Het is perfect voor ondernemers die zich willen focussen op hun bedrijf, niet op website-onderhoud."
-      },
-      {
-        question: "Hoe snel is mijn website online?",
-        answer: "De meeste websites zijn binnen 10 werkdagen live. Na het intakegesprek ontvangt u binnen 5 dagen een eerste ontwerp. Na uw feedback maken we de laatste aanpassingen en gaat uw website online."
-      },
-      {
-        question: "Kan ik mijn website later uitbreiden?",
-        answer: "Ja, u kunt op elk moment upgraden naar een hoger abonnement of add-ons toevoegen zoals Google Ads beheer, SEO-optimalisatie, of contentcreatie. Downgraden kan ook, dit gaat in op de volgende factuurdatum."
-      },
-    ],
-  },
-  {
-    id: "prijzen",
-    title: "Prijzen & Kosten",
-    icon: Euro,
-    questions: [
-      {
-        question: "Wat kost een website abonnement per maand?",
-        answer: "Onze abonnementen starten vanaf €99/maand (Starter) voor een professionele website met 5 pagina's. Het Professional abonnement kost €199/maand en biedt tot 15 pagina's plus geavanceerde functies. Voor grotere projecten bieden we Enterprise abonnementen op maat."
-      },
-      {
-        question: "Zijn er opstartkosten of eenmalige kosten?",
-        answer: "Nee, er zijn geen opstartkosten. De prijs die u ziet is de prijs die u betaalt. Alles is inbegrepen: ontwerp, bouw, hosting, SSL-certificaat, en een .nl of .be domeinnaam voor het eerste jaar."
-      },
-      {
-        question: "Wat is goedkoper: een website abonnement of een eenmalige website?",
-        answer: "Over 3 jaar bekeken is een website abonnement vaak voordeliger. Een eenmalige website kost €3.000-€10.000 plus jaarlijks €500-€1.500 voor hosting en onderhoud. Ons Starter abonnement kost €99 × 36 = €3.564 voor 3 jaar, inclusief alles. Bovendien heeft u geen onverwachte kosten bij updates of problemen."
-      },
-      {
-        question: "Wat is inbegrepen in de maandelijkse prijs?",
-        answer: "Elk abonnement bevat: professioneel webdesign, hosting op snelle servers, SSL-beveiliging, maandelijks onderhoud en updates, technische support, back-ups, en kleine tekstaanpassingen. Bij hogere abonnementen komen daar extra pagina's, contactformulieren, en geavanceerde functies bij."
-      },
-      {
-        question: "Hoe vergelijkt dit met Wix of WordPress?",
-        answer: "Wix kost €17-€35/maand maar u doet alles zelf (ontwerp, onderhoud, beveiliging). WordPress hosting + onderhoud kost €70-€180/maand bij een bureau, zonder het ontwerp. Ons abonnement is een complete oplossing: wij doen alles voor u, inclusief professioneel maatwerk design."
-      },
-    ],
-  },
-  {
-    id: "technisch",
-    title: "Technisch",
-    icon: Settings,
-    questions: [
-      {
-        question: "Op welk platform wordt mijn website gebouwd?",
-        answer: "Wij bouwen websites met moderne technologieën die snel, veilig en SEO-vriendelijk zijn. U hoeft zich geen zorgen te maken over technische details - wij kiezen de beste oplossing voor uw situatie."
-      },
-      {
-        question: "Krijg ik een eigen domeinnaam?",
-        answer: "Ja, uw eerste jaar domeinnaam (.nl, .be, of .com) is inbegrepen. Heeft u al een domeinnaam? Dan helpen we gratis met de verhuizing naar uw nieuwe website."
-      },
-      {
-        question: "Hoe zit het met SEO (vindbaarheid in Google)?",
-        answer: "Elke website wordt gebouwd met basis-SEO: snelle laadtijden, mobielvriendelijk design, juiste meta-tags, en een sitemap voor Google. Voor actieve SEO-optimalisatie (zoekwoordenonderzoek, contentoptimalisatie, linkbuilding) kunt u onze SEO add-on toevoegen."
-      },
-      {
-        question: "Is mijn website mobielvriendelijk?",
-        answer: "Absoluut. Alle websites zijn 100% responsive en werken perfect op smartphones, tablets en desktops. Dit is essentieel voor Google-ranking en gebruikerservaring."
-      },
-      {
-        question: "Hoe veilig is mijn website?",
-        answer: "Zeer veilig. Elke website heeft een SSL-certificaat (het groene slotje), regelmatige beveiligingsupdates, dagelijkse back-ups, en wordt gehost op beveiligde servers. Bij problemen herstellen wij uw website snel."
-      },
-    ],
-  },
-  {
-    id: "onderhoud",
-    title: "Onderhoud & Support",
-    icon: Wrench,
-    questions: [
-      {
-        question: "Wat houdt het maandelijkse onderhoud in?",
-        answer: "Wij zorgen voor: software-updates en beveiligingspatches, prestatie-optimalisatie, dagelijkse back-ups, monitoring op downtime, en het oplossen van technische problemen. U hoeft nergens aan te denken."
-      },
-      {
-        question: "Kan ik zelf aanpassingen doen aan mijn website?",
-        answer: "Kleine tekstaanpassingen kunt u via ons doorgeven en worden snel uitgevoerd. Voor grotere wijzigingen bespreken we de beste aanpak. Zo blijft uw website professioneel en consistent."
-      },
-      {
-        question: "Hoe snel krijg ik support bij problemen?",
-        answer: "Bij urgente problemen (website offline) reageren we binnen 2 uur tijdens kantooruren. Voor reguliere vragen ontvangt u binnen 24 uur een reactie. Enterprise klanten hebben toegang tot prioriteitssupport."
-      },
-      {
-        question: "Wat gebeurt er als ik wil opzeggen?",
-        answer: "U kunt maandelijks opzeggen met een opzegtermijn van 1 maand. Bij opzegging ontvangt u een export van uw content (teksten en afbeeldingen). De website-code blijft ons eigendom, maar u kunt altijd een nieuwe website laten bouwen met uw content."
-      },
-      {
-        question: "Krijg ik rapportages over mijn website?",
-        answer: "Ja, u ontvangt maandelijks een overzicht met bezoekersstatistieken, technische status, en uitgevoerde werkzaamheden. Zo weet u precies hoe uw website presteert."
-      },
-    ],
-  },
-];
 
 function generateFAQSchema(categories: FAQCategory[]) {
   const allQuestions = categories.flatMap(cat => cat.questions);
@@ -173,11 +63,124 @@ function generateFAQSchema(categories: FAQCategory[]) {
 }
 
 export default function FAQPage() {
-  const faqSchema = generateFAQSchema(faqCategories);
+  const { t } = useTranslation();
+
+  const faqCategories: FAQCategory[] = useMemo(() => [
+    {
+      id: "algemeen",
+      title: t("faq.categories.algemeen.title"),
+      icon: HelpCircle,
+      questions: [
+        {
+          question: t("faq.categories.algemeen.questions.0.question"),
+          answer: t("faq.categories.algemeen.questions.0.answer"),
+        },
+        {
+          question: t("faq.categories.algemeen.questions.1.question"),
+          answer: t("faq.categories.algemeen.questions.1.answer"),
+        },
+        {
+          question: t("faq.categories.algemeen.questions.2.question"),
+          answer: t("faq.categories.algemeen.questions.2.answer"),
+        },
+        {
+          question: t("faq.categories.algemeen.questions.3.question"),
+          answer: t("faq.categories.algemeen.questions.3.answer"),
+        },
+        {
+          question: t("faq.categories.algemeen.questions.4.question"),
+          answer: t("faq.categories.algemeen.questions.4.answer"),
+        },
+      ],
+    },
+    {
+      id: "prijzen",
+      title: t("faq.categories.prijzen.title"),
+      icon: Euro,
+      questions: [
+        {
+          question: t("faq.categories.prijzen.questions.0.question"),
+          answer: t("faq.categories.prijzen.questions.0.answer"),
+        },
+        {
+          question: t("faq.categories.prijzen.questions.1.question"),
+          answer: t("faq.categories.prijzen.questions.1.answer"),
+        },
+        {
+          question: t("faq.categories.prijzen.questions.2.question"),
+          answer: t("faq.categories.prijzen.questions.2.answer"),
+        },
+        {
+          question: t("faq.categories.prijzen.questions.3.question"),
+          answer: t("faq.categories.prijzen.questions.3.answer"),
+        },
+        {
+          question: t("faq.categories.prijzen.questions.4.question"),
+          answer: t("faq.categories.prijzen.questions.4.answer"),
+        },
+      ],
+    },
+    {
+      id: "technisch",
+      title: t("faq.categories.technisch.title"),
+      icon: Settings,
+      questions: [
+        {
+          question: t("faq.categories.technisch.questions.0.question"),
+          answer: t("faq.categories.technisch.questions.0.answer"),
+        },
+        {
+          question: t("faq.categories.technisch.questions.1.question"),
+          answer: t("faq.categories.technisch.questions.1.answer"),
+        },
+        {
+          question: t("faq.categories.technisch.questions.2.question"),
+          answer: t("faq.categories.technisch.questions.2.answer"),
+        },
+        {
+          question: t("faq.categories.technisch.questions.3.question"),
+          answer: t("faq.categories.technisch.questions.3.answer"),
+        },
+        {
+          question: t("faq.categories.technisch.questions.4.question"),
+          answer: t("faq.categories.technisch.questions.4.answer"),
+        },
+      ],
+    },
+    {
+      id: "onderhoud",
+      title: t("faq.categories.onderhoud.title"),
+      icon: Wrench,
+      questions: [
+        {
+          question: t("faq.categories.onderhoud.questions.0.question"),
+          answer: t("faq.categories.onderhoud.questions.0.answer"),
+        },
+        {
+          question: t("faq.categories.onderhoud.questions.1.question"),
+          answer: t("faq.categories.onderhoud.questions.1.answer"),
+        },
+        {
+          question: t("faq.categories.onderhoud.questions.2.question"),
+          answer: t("faq.categories.onderhoud.questions.2.answer"),
+        },
+        {
+          question: t("faq.categories.onderhoud.questions.3.question"),
+          answer: t("faq.categories.onderhoud.questions.3.answer"),
+        },
+        {
+          question: t("faq.categories.onderhoud.questions.4.question"),
+          answer: t("faq.categories.onderhoud.questions.4.answer"),
+        },
+      ],
+    },
+  ], [t]);
+
+  const faqSchema = useMemo(() => generateFAQSchema(faqCategories), [faqCategories]);
   
   useSEO({
-    title: "Veelgestelde Vragen over Website Abonnementen - FAQ",
-    description: "Antwoorden op veelgestelde vragen over website abonnementen. Wat kost het? Hoe werkt het? Wat is inbegrepen? Ontdek alles over onze website abonnement service.",
+    title: t("faq.seo.title"),
+    description: t("faq.seo.description"),
     canonical: "/faq",
   });
 
@@ -199,7 +202,7 @@ export default function FAQPage() {
         schemaScript.remove();
       }
     };
-  }, []);
+  }, [faqSchema]);
 
   return (
     <MarketingLayout>
@@ -224,7 +227,7 @@ export default function FAQPage() {
         
         <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
-            items={[{ label: "Veelgestelde Vragen" }]} 
+            items={[{ label: t("common.nav.faq") }]} 
             className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
         </div>
@@ -234,7 +237,7 @@ export default function FAQPage() {
             <BlurIn delay={0}>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-8">
                 <HelpCircle className="h-4 w-4 text-primary" />
-                Alle antwoorden op één plek
+                {t("faq.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </div>
             </BlurIn>
@@ -244,16 +247,15 @@ export default function FAQPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-6" 
                 data-testid="text-faq-hero-title"
               >
-                Veelgestelde
+                {t("faq.hero.title")}
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">Vragen</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">{t("faq.hero.titleHighlight")}</span>
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-                Alles wat u wilt weten over website abonnementen, prijzen, 
-                techniek en onderhoud.
+                {t("faq.hero.description")}
               </p>
             </BlurIn>
           </div>
@@ -312,37 +314,37 @@ export default function FAQPage() {
           <FadeInUp>
             <div className="max-w-4xl mx-auto text-center">
               <Badge variant="secondary" className="mb-6 no-default-hover-elevate no-default-active-elevate">
-                Meer weten?
+                {t("faq.comparison.badge")}
               </Badge>
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Vergelijk uw opties
+                {t("faq.comparison.title")}
               </h2>
               <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-                Bekijk hoe een website abonnement zich verhoudt tot andere oplossingen.
+                {t("faq.comparison.description")}
               </p>
               
               <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
                 <Link href="/vergelijk/wordpress">
                   <Card className="hover-elevate cursor-pointer h-full">
                     <CardContent className="p-6 text-center">
-                      <div className="text-lg font-medium mb-2">vs WordPress</div>
-                      <p className="text-sm text-muted-foreground">Vergelijk kosten en gemak</p>
+                      <div className="text-lg font-medium mb-2">{t("faq.comparison.vsWordpress")}</div>
+                      <p className="text-sm text-muted-foreground">{t("faq.comparison.vsWordpressDesc")}</p>
                     </CardContent>
                   </Card>
                 </Link>
                 <Link href="/vergelijk/wix">
                   <Card className="hover-elevate cursor-pointer h-full">
                     <CardContent className="p-6 text-center">
-                      <div className="text-lg font-medium mb-2">vs Wix</div>
-                      <p className="text-sm text-muted-foreground">Zelf doen vs laten doen</p>
+                      <div className="text-lg font-medium mb-2">{t("faq.comparison.vsWix")}</div>
+                      <p className="text-sm text-muted-foreground">{t("faq.comparison.vsWixDesc")}</p>
                     </CardContent>
                   </Card>
                 </Link>
                 <Link href="/vergelijk/eenmalig">
                   <Card className="hover-elevate cursor-pointer h-full">
                     <CardContent className="p-6 text-center">
-                      <div className="text-lg font-medium mb-2">vs Eenmalige website</div>
-                      <p className="text-sm text-muted-foreground">Welke is voordeliger?</p>
+                      <div className="text-lg font-medium mb-2">{t("faq.comparison.vsOneTime")}</div>
+                      <p className="text-sm text-muted-foreground">{t("faq.comparison.vsOneTimeDesc")}</p>
                     </CardContent>
                   </Card>
                 </Link>
@@ -360,17 +362,16 @@ export default function FAQPage() {
                 <MessageSquare className="h-8 w-8 text-primary" />
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-                Nog vragen?
+                {t("faq.cta.title")}
               </h2>
               <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-                Staat uw vraag er niet tussen? Neem gerust contact op. 
-                Wij helpen u graag verder.
+                {t("faq.cta.description")}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/contact">
                   <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-faq-contact">
-                    Stel uw vraag
+                    {t("common.buttons.askQuestion")}
                     <ArrowRight className="h-5 w-5" />
                   </Button>
                 </Link>
@@ -381,7 +382,7 @@ export default function FAQPage() {
                     className="h-14 px-8 text-lg border-white/20 text-white bg-white/5 backdrop-blur-sm"
                     data-testid="button-faq-pricing"
                   >
-                    Bekijk abonnementen
+                    {t("common.buttons.viewPlans")}
                   </Button>
                 </Link>
               </div>

@@ -24,62 +24,58 @@ import {
 } from "lucide-react";
 import { SiWordpress, SiWix } from "react-icons/si";
 import { Globe } from "lucide-react";
-
-const comparisons = [
-  {
-    id: "wordpress",
-    title: "Website Abonnement vs WordPress",
-    subtitle: "Vergelijk kosten, onderhoud en gemak",
-    description: "WordPress is flexibel maar vereist technische kennis en doorlopend onderhoud. Ontdek hoeveel u echt kwijt bent aan hosting, updates en beveiliging.",
-    icon: SiWordpress,
-    highlights: [
-      { label: "WordPress totaalkosten 3 jaar", value: "€4.200 - €8.000+", type: "negative" },
-      { label: "Website Abonnement 3 jaar", value: "€3.564 - €7.164", type: "positive" },
-    ],
-    href: "/vergelijk/wordpress",
-    color: "text-[#21759b]",
-  },
-  {
-    id: "wix",
-    title: "Website Abonnement vs Wix",
-    subtitle: "Zelf doen versus laten doen",
-    description: "Wix lijkt goedkoop, maar u doet alles zelf: ontwerp, inhoud, onderhoud. Tel daar uw uren bij op en vergelijk eerlijk.",
-    icon: SiWix,
-    highlights: [
-      { label: "Wix + uw tijd (40 uur)", value: "€2.800 - €4.500/jaar", type: "negative" },
-      { label: "Website Abonnement", value: "€1.188 - €2.388/jaar", type: "positive" },
-    ],
-    href: "/vergelijk/wix",
-    color: "text-[#0C6EFC]",
-  },
-  {
-    id: "eenmalig",
-    title: "Website Abonnement vs Eenmalige Website",
-    subtitle: "Grote factuur of voorspelbare kosten",
-    description: "Een eenmalige website kost €3.000-€10.000 vooraf, plus jaarlijks onderhoud. Bereken wat echt voordeliger is over 3 jaar.",
-    icon: Globe,
-    highlights: [
-      { label: "Eenmalige website 3 jaar", value: "€4.500 - €14.500", type: "negative" },
-      { label: "Website Abonnement 3 jaar", value: "€3.564 - €7.164", type: "positive" },
-    ],
-    href: "/vergelijk/eenmalig",
-    color: "text-chart-3",
-  },
-];
-
-const benefits = [
-  "Geen grote eenmalige investering",
-  "Onderhoud en updates inbegrepen",
-  "Professioneel maatwerk design",
-  "Technische support wanneer nodig",
-  "Beveiliging en back-ups geregeld",
-  "Voorspelbare maandelijkse kosten",
-];
+import { useTranslation } from "@/lib/i18n-context";
 
 export default function VergelijkOverviewPage() {
+  const { t } = useTranslation();
+
+  const comparisons = [
+    {
+      id: "wordpress",
+      title: t("compare.comparisons.wordpress.title"),
+      subtitle: t("compare.comparisons.wordpress.subtitle"),
+      description: t("compare.comparisons.wordpress.description"),
+      icon: SiWordpress,
+      highlights: [
+        { label: t("compare.comparisons.wordpress.wpTotal"), value: "€4.200 - €8.000+", type: "negative" },
+        { label: t("compare.comparisons.wordpress.subTotal"), value: "€3.564 - €7.164", type: "positive" },
+      ],
+      href: "/vergelijk/wordpress",
+      color: "text-[#21759b]",
+    },
+    {
+      id: "wix",
+      title: t("compare.comparisons.wix.title"),
+      subtitle: t("compare.comparisons.wix.subtitle"),
+      description: t("compare.comparisons.wix.description"),
+      icon: SiWix,
+      highlights: [
+        { label: t("compare.comparisons.wix.wixTotal"), value: "€2.800 - €4.500/jaar", type: "negative" },
+        { label: t("compare.comparisons.wix.subTotal"), value: "€1.188 - €2.388/jaar", type: "positive" },
+      ],
+      href: "/vergelijk/wix",
+      color: "text-[#0C6EFC]",
+    },
+    {
+      id: "eenmalig",
+      title: t("compare.comparisons.onetime.title"),
+      subtitle: t("compare.comparisons.onetime.subtitle"),
+      description: t("compare.comparisons.onetime.description"),
+      icon: Globe,
+      highlights: [
+        { label: t("compare.comparisons.onetime.onetimeTotal"), value: "€4.500 - €14.500", type: "negative" },
+        { label: t("compare.comparisons.onetime.subTotal"), value: "€3.564 - €7.164", type: "positive" },
+      ],
+      href: "/vergelijk/eenmalig",
+      color: "text-chart-3",
+    },
+  ];
+
+  const benefits = t("compare.benefits.items") as unknown as string[];
+
   useSEO({
-    title: "Website Abonnement Vergelijken - WordPress, Wix & Eenmalige Website",
-    description: "Vergelijk een website abonnement met WordPress, Wix en een eenmalige website. Ontdek wat echt voordeliger is qua kosten, onderhoud en gemak.",
+    title: t("compare.seo.title"),
+    description: t("compare.seo.description"),
     canonical: "/vergelijk",
   });
 
@@ -106,7 +102,7 @@ export default function VergelijkOverviewPage() {
         
         <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
-            items={[{ label: "Vergelijken" }]} 
+            items={[{ label: t("compare.breadcrumb") }]} 
             className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
         </div>
@@ -116,7 +112,7 @@ export default function VergelijkOverviewPage() {
             <BlurIn delay={0}>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-8">
                 <Scale className="h-4 w-4 text-primary" />
-                Eerlijke vergelijkingen
+                {t("compare.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </div>
             </BlurIn>
@@ -126,16 +122,15 @@ export default function VergelijkOverviewPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-6" 
                 data-testid="text-vergelijk-hero-title"
               >
-                Website Abonnement
+                {t("compare.hero.title")}
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">vergelijken</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">{t("compare.hero.titleHighlight")}</span>
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-                Wat is de beste keuze voor uw website? Vergelijk eerlijk de kosten, 
-                het gemak en wat u echt krijgt.
+                {t("compare.hero.description")}
               </p>
             </BlurIn>
           </div>
@@ -192,7 +187,7 @@ export default function VergelijkOverviewPage() {
                             
                             <div className="flex-shrink-0">
                               <Button className="gap-2">
-                                Bekijk vergelijking
+                                {t("compare.cta.viewPlans")}
                                 <ArrowRight className="h-4 w-4" />
                               </Button>
                             </div>
@@ -214,13 +209,13 @@ export default function VergelijkOverviewPage() {
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-                  Waarom een website abonnement?
+                  {t("compare.benefits.badge")}
                 </Badge>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Alles inbegrepen, geen zorgen
+                  {t("compare.benefits.title")}
                 </h2>
                 <p className="text-xl text-muted-foreground">
-                  Eén vast bedrag per maand, en wij regelen de rest.
+                  {t("compare.benefits.description")}
                 </p>
               </div>
               
@@ -247,17 +242,17 @@ export default function VergelijkOverviewPage() {
           <FadeInUp>
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-                Klaar om te starten?
+                {t("compare.cta.title")}
               </h2>
               <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-                Bekijk onze abonnementen en kies wat het beste bij uw bedrijf past.
+                {t("compare.cta.description")}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/pricing">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-vergelijk-pricing">
-                      Bekijk abonnementen
+                      {t("compare.cta.viewPlans")}
                       <ArrowRight className="h-5 w-5" />
                     </Button>
                   </motion.div>
@@ -269,7 +264,7 @@ export default function VergelijkOverviewPage() {
                       variant="outline"
                       className="h-14 px-8 text-lg border-white/20 text-white bg-white/5 backdrop-blur-sm"
                     >
-                      Veelgestelde vragen
+                      {t("compare.cta.faq")}
                     </Button>
                   </motion.div>
                 </Link>

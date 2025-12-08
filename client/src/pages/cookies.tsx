@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useSEO } from "@/hooks/use-seo";
+import { useTranslation } from "@/lib/i18n-context";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -26,34 +27,14 @@ import {
   Eye,
 } from "lucide-react";
 
-const cookieTypes = [
-  {
-    icon: Settings,
-    title: "Functioneel",
-    subtitle: "Nodig",
-    description: "Deze cookies zijn noodzakelijk om de website correct te laten werken. Zonder deze cookies werkt de site niet naar behoren.",
-    required: true,
-  },
-  {
-    icon: BarChart3,
-    title: "Analytics",
-    subtitle: "Inzichten",
-    description: "Met deze cookies meten we hoe bezoekers de website gebruiken, zodat we de ervaring kunnen verbeteren.",
-    required: false,
-  },
-  {
-    icon: Target,
-    title: "Marketing",
-    subtitle: "Alleen met toestemming",
-    description: "Deze cookies worden alleen geplaatst als u daar expliciet toestemming voor geeft. Ze helpen bij het tonen van relevante advertenties.",
-    required: false,
-  },
-];
+const cookieTypeIcons = [Settings, BarChart3, Target];
 
 export default function CookiesPage() {
+  const { t } = useTranslation();
+
   useSEO({
-    title: "Cookiebeleid",
-    description: "Ons cookiebeleid uitgelegd. Welke cookies we gebruiken, waarvoor, en hoe u uw voorkeuren kunt beheren. Transparant en AVG-compliant.",
+    title: t("legal.cookies.seo.title"),
+    description: t("legal.cookies.seo.description"),
     canonical: "/cookies",
   });
 
@@ -82,7 +63,7 @@ export default function CookiesPage() {
         
         <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
-            items={[{ label: "Cookies" }]} 
+            items={[{ label: t("legal.cookies.breadcrumb") }]} 
             className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
         </div>
@@ -96,7 +77,7 @@ export default function CookiesPage() {
                 transition={{ duration: 0.2 }}
               >
                 <Sparkles className="h-4 w-4 text-primary" />
-                Transparant
+                {t("legal.cookies.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </motion.div>
             </BlurIn>
@@ -106,13 +87,13 @@ export default function CookiesPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-8" 
                 data-testid="text-cookies-hero-title"
               >
-                Cookiebeleid
+                {t("legal.cookies.hero.title")}
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-                Wij gebruiken cookies om de website goed te laten werken en om prestaties te meten. Marketingcookies alleen na uw keuze.
+                {t("legal.cookies.hero.description")}
               </p>
             </BlurIn>
           </div>
@@ -126,55 +107,58 @@ export default function CookiesPage() {
               <div className="mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
                   <Cookie className="h-3 w-3 mr-1" />
-                  Soorten
+                  {t("legal.cookies.cookieTypes.badge")}
                 </Badge>
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                  Soorten cookies
+                  {t("legal.cookies.cookieTypes.title")}
                 </h2>
               </div>
             </FadeInUp>
 
             <StaggerChildren className="space-y-4" staggerDelay={0.15}>
-              {cookieTypes.map((cookie) => (
-                <StaggerItem key={cookie.title}>
-                  <motion.div whileHover={{ x: 4 }} transition={{ duration: 0.2 }}>
-                    <Card className="border bg-card" data-testid={`card-cookie-${cookie.title.toLowerCase()}`}>
-                      <CardContent className="p-6">
-                        <div className="flex items-start gap-4">
-                          <div className={`h-12 w-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                            cookie.required 
-                              ? 'bg-green-500/10' 
-                              : 'bg-primary/10'
-                          }`}>
-                            <cookie.icon className={`h-6 w-6 ${
-                              cookie.required 
-                                ? 'text-green-600 dark:text-green-400' 
-                                : 'text-primary'
-                            }`} />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2 flex-wrap">
-                              <h3 className="text-lg font-semibold">{cookie.title}</h3>
-                              <Badge 
-                                variant={cookie.required ? "default" : "secondary"} 
-                                className="text-xs no-default-hover-elevate no-default-active-elevate"
-                              >
-                                {cookie.subtitle}
-                              </Badge>
+              {cookieTypeIcons.map((Icon, index) => {
+                const isRequired = index === 0;
+                return (
+                  <StaggerItem key={index}>
+                    <motion.div whileHover={{ x: 4 }} transition={{ duration: 0.2 }}>
+                      <Card className="border bg-card" data-testid={`card-cookie-${index}`}>
+                        <CardContent className="p-6">
+                          <div className="flex items-start gap-4">
+                            <div className={`h-12 w-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                              isRequired 
+                                ? 'bg-green-500/10' 
+                                : 'bg-primary/10'
+                            }`}>
+                              <Icon className={`h-6 w-6 ${
+                                isRequired 
+                                  ? 'text-green-600 dark:text-green-400' 
+                                  : 'text-primary'
+                              }`} />
                             </div>
-                            <p className="text-muted-foreground">{cookie.description}</p>
-                          </div>
-                          {cookie.required && (
-                            <div className="flex-shrink-0 hidden sm:block">
-                              <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                <h3 className="text-lg font-semibold">{t(`legal.cookies.cookieTypes.items.${index}.title`)}</h3>
+                                <Badge 
+                                  variant={isRequired ? "default" : "secondary"} 
+                                  className="text-xs no-default-hover-elevate no-default-active-elevate"
+                                >
+                                  {t(`legal.cookies.cookieTypes.items.${index}.subtitle`)}
+                                </Badge>
+                              </div>
+                              <p className="text-muted-foreground">{t(`legal.cookies.cookieTypes.items.${index}.description`)}</p>
                             </div>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </StaggerItem>
-              ))}
+                            {isRequired && (
+                              <div className="flex-shrink-0 hidden sm:block">
+                                <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
+                              </div>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  </StaggerItem>
+                );
+              })}
             </StaggerChildren>
           </div>
         </div>
@@ -191,9 +175,9 @@ export default function CookiesPage() {
                       <Settings className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold mb-2">Beheren</h2>
+                      <h2 className="text-2xl font-bold mb-2">{t("legal.cookies.management.title")}</h2>
                       <p className="text-muted-foreground">
-                        U kan uw cookie-voorkeuren altijd aanpassen. Wij respecteren uw keuze en slaan alleen de cookies op waarvoor u toestemming heeft gegeven.
+                        {t("legal.cookies.management.description")}
                       </p>
                     </div>
                   </div>
@@ -202,7 +186,7 @@ export default function CookiesPage() {
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button className="gap-2" data-testid="button-cookie-settings">
                         <Settings className="h-4 w-4" />
-                        Cookie-instellingen
+                        {t("legal.cookies.management.buttonText")}
                       </Button>
                     </motion.div>
                   </div>
@@ -219,8 +203,8 @@ export default function CookiesPage() {
                         <Shield className="h-5 w-5 text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-semibold">Veilig opgeslagen</h3>
-                        <p className="text-sm text-muted-foreground">Uw voorkeuren worden lokaal bewaard</p>
+                        <h3 className="font-semibold">{t("legal.cookies.features.secureStorage.title")}</h3>
+                        <p className="text-sm text-muted-foreground">{t("legal.cookies.features.secureStorage.description")}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -233,8 +217,8 @@ export default function CookiesPage() {
                         <Eye className="h-5 w-5 text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-semibold">Altijd transparant</h3>
-                        <p className="text-sm text-muted-foreground">Geen verborgen tracking</p>
+                        <h3 className="font-semibold">{t("legal.cookies.features.transparent.title")}</h3>
+                        <p className="text-sm text-muted-foreground">{t("legal.cookies.features.transparent.description")}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -244,7 +228,7 @@ export default function CookiesPage() {
 
             <FadeInUp delay={0.2}>
               <p className="text-center text-sm text-muted-foreground mt-8" data-testid="text-cookies-last-updated">
-                Laatst bijgewerkt: {lastUpdated}
+                {t("legal.cookies.lastUpdated")} {lastUpdated}
               </p>
             </FadeInUp>
           </div>

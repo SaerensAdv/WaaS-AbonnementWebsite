@@ -25,103 +25,23 @@ import {
   Globe,
 } from "lucide-react";
 import { useEffect } from "react";
-
-const comparisonFeatures = [
-  {
-    feature: "Vooraf betalen",
-    eenmalig: "€3.000 - €10.000 vooraf",
-    abonnement: "€0 - start direct",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Maandelijkse kosten",
-    eenmalig: "€50-€150 onderhoud + hosting",
-    abonnement: "€99-€199 alles inbegrepen",
-    advantage: "draw",
-  },
-  {
-    feature: "Onderhoud inbegrepen",
-    eenmalig: "Nee - apart afrekenen",
-    abonnement: "Ja - volledig inbegrepen",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Updates en beveiliging",
-    eenmalig: "Extra kosten of zelf doen",
-    abonnement: "Automatisch geregeld",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Aanpassingen",
-    eenmalig: "Betalen per uur (€75-€150/u)",
-    abonnement: "Kleine wijzigingen inbegrepen",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Cashflow",
-    eenmalig: "Grote investering vooraf",
-    abonnement: "Voorspelbaar maandbedrag",
-    advantage: "abonnement",
-  },
-  {
-    feature: "Eigenaarschap",
-    eenmalig: "Volledig eigenaar van code",
-    abonnement: "Eigenaar van content",
-    advantage: "eenmalig",
-  },
-  {
-    feature: "Flexibiliteit leverancier",
-    eenmalig: "Makkelijk overstappen",
-    abonnement: "Gebonden aan contract",
-    advantage: "eenmalig",
-  },
-  {
-    feature: "Risico verouderde website",
-    eenmalig: "Hoog - na 2-3 jaar update nodig",
-    abonnement: "Laag - continue verbetering",
-    advantage: "abonnement",
-  },
-];
+import { useTranslation } from "@/lib/i18n-context";
 
 const eenmaligCosts = {
   threeYears: {
-    development: { low: 3000, high: 10000, label: "Website ontwikkeling" },
-    hosting: { low: 300, high: 900, label: "Hosting (3 jaar)" },
-    domain: { low: 30, high: 60, label: "Domeinnaam (3 jaar)" },
-    ssl: { low: 0, high: 300, label: "SSL-certificaat (3 jaar)" },
-    maintenance: { low: 600, high: 5400, label: "Onderhoud (€0-150/mnd × 36)" },
-    updates: { low: 0, high: 2000, label: "Grote updates/redesign" },
-    fixes: { low: 0, high: 1500, label: "Bug fixes en aanpassingen" },
+    development: { low: 3000, high: 10000, key: "development" },
+    hosting: { low: 300, high: 900, key: "hosting" },
+    domain: { low: 30, high: 60, key: "domain" },
+    ssl: { low: 0, high: 300, key: "ssl" },
+    maintenance: { low: 600, high: 5400, key: "maintenance" },
+    updates: { low: 0, high: 2000, key: "updates" },
+    fixes: { low: 0, high: 1500, key: "fixes" },
   },
 };
 
 const calculateTotal = (costs: typeof eenmaligCosts.threeYears, type: "low" | "high") => {
   return Object.values(costs).reduce((sum, cost) => sum + cost[type], 0);
 };
-
-const scenarios = [
-  {
-    name: "Budget scenario",
-    description: "Goedkope ontwikkelaar, minimaal onderhoud",
-    eenmalig: 3930,
-    abonnement: 3564,
-    difference: -366,
-  },
-  {
-    name: "Gemiddeld scenario",
-    description: "Professioneel bureau, basis onderhoud",
-    eenmalig: 7500,
-    abonnement: 3564,
-    difference: -3936,
-  },
-  {
-    name: "Premium scenario",
-    description: "Top bureau, volledig onderhoud",
-    eenmalig: 20160,
-    abonnement: 7164,
-    difference: -12996,
-  },
-];
 
 function generateComparisonSchema() {
   return {
@@ -150,11 +70,95 @@ function generateComparisonSchema() {
 }
 
 export default function VergelijkEenmaligPage() {
+  const { t } = useTranslation();
   const comparisonSchema = generateComparisonSchema();
+
+  const comparisonFeatures = [
+    {
+      feature: t("compare.eenmalig.features.items.upfront.feature"),
+      eenmalig: t("compare.eenmalig.features.items.upfront.onetime"),
+      abonnement: t("compare.eenmalig.features.items.upfront.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.eenmalig.features.items.monthly.feature"),
+      eenmalig: t("compare.eenmalig.features.items.monthly.onetime"),
+      abonnement: t("compare.eenmalig.features.items.monthly.subscription"),
+      advantage: "draw",
+    },
+    {
+      feature: t("compare.eenmalig.features.items.maintenanceIncluded.feature"),
+      eenmalig: t("compare.eenmalig.features.items.maintenanceIncluded.onetime"),
+      abonnement: t("compare.eenmalig.features.items.maintenanceIncluded.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.eenmalig.features.items.updates.feature"),
+      eenmalig: t("compare.eenmalig.features.items.updates.onetime"),
+      abonnement: t("compare.eenmalig.features.items.updates.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.eenmalig.features.items.adjustments.feature"),
+      eenmalig: t("compare.eenmalig.features.items.adjustments.onetime"),
+      abonnement: t("compare.eenmalig.features.items.adjustments.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.eenmalig.features.items.cashflow.feature"),
+      eenmalig: t("compare.eenmalig.features.items.cashflow.onetime"),
+      abonnement: t("compare.eenmalig.features.items.cashflow.subscription"),
+      advantage: "abonnement",
+    },
+    {
+      feature: t("compare.eenmalig.features.items.ownership.feature"),
+      eenmalig: t("compare.eenmalig.features.items.ownership.onetime"),
+      abonnement: t("compare.eenmalig.features.items.ownership.subscription"),
+      advantage: "eenmalig",
+    },
+    {
+      feature: t("compare.eenmalig.features.items.vendorFlex.feature"),
+      eenmalig: t("compare.eenmalig.features.items.vendorFlex.onetime"),
+      abonnement: t("compare.eenmalig.features.items.vendorFlex.subscription"),
+      advantage: "eenmalig",
+    },
+    {
+      feature: t("compare.eenmalig.features.items.outdatedRisk.feature"),
+      eenmalig: t("compare.eenmalig.features.items.outdatedRisk.onetime"),
+      abonnement: t("compare.eenmalig.features.items.outdatedRisk.subscription"),
+      advantage: "abonnement",
+    },
+  ];
+
+  const scenarios = [
+    {
+      name: t("compare.eenmalig.scenarios.budget.name"),
+      description: t("compare.eenmalig.scenarios.budget.description"),
+      eenmalig: 3930,
+      abonnement: 3564,
+      difference: -366,
+    },
+    {
+      name: t("compare.eenmalig.scenarios.average.name"),
+      description: t("compare.eenmalig.scenarios.average.description"),
+      eenmalig: 7500,
+      abonnement: 3564,
+      difference: -3936,
+    },
+    {
+      name: t("compare.eenmalig.scenarios.premium.name"),
+      description: t("compare.eenmalig.scenarios.premium.description"),
+      eenmalig: 20160,
+      abonnement: 7164,
+      difference: -12996,
+    },
+  ];
+
+  const costItems = t("compare.eenmalig.costs.items") as unknown as Record<string, string>;
   
   useSEO({
-    title: "Website Abonnement vs Eenmalige Website - Wat is Voordeliger? 2025",
-    description: "Vergelijk een website abonnement met een eenmalige website. Bereken de totale kosten over 3 jaar inclusief onderhoud, hosting en updates.",
+    title: t("compare.eenmalig.seo.title"),
+    description: t("compare.eenmalig.seo.description"),
     canonical: "/vergelijk/eenmalig",
   });
 
@@ -205,8 +209,8 @@ export default function VergelijkEenmaligPage() {
         <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
             items={[
-              { label: "Vergelijken", href: "/vergelijk" },
-              { label: "vs Eenmalige Website" }
+              { label: t("compare.breadcrumb"), href: "/vergelijk" },
+              { label: t("compare.eenmalig.hero.breadcrumb") }
             ]} 
             className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
@@ -217,7 +221,7 @@ export default function VergelijkEenmaligPage() {
             <BlurIn delay={0}>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-white/80 text-sm mb-8">
                 <CreditCard className="h-4 w-4 text-primary" />
-                Investeren of abonneren
+                {t("compare.eenmalig.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </div>
             </BlurIn>
@@ -227,16 +231,15 @@ export default function VergelijkEenmaligPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-6" 
                 data-testid="text-eenmalig-hero-title"
               >
-                Website Abonnement
+                {t("compare.eenmalig.hero.title")}
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">vs Eenmalige Website</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">{t("compare.eenmalig.hero.titleHighlight")}</span>
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-                Grote factuur vooraf of voorspelbare maandkosten? 
-                Bereken wat echt voordeliger is.
+                {t("compare.eenmalig.hero.description")}
               </p>
             </BlurIn>
           </div>
@@ -249,13 +252,13 @@ export default function VergelijkEenmaligPage() {
             <FadeInUp>
               <div className="text-center mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-                  Total Cost of Ownership
+                  {t("compare.eenmalig.costs.badge")}
                 </Badge>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Alle kosten over 3 jaar
+                  {t("compare.eenmalig.costs.title")}
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                  Een eenmalige website kost meer dan de ontwikkelkosten alleen.
+                  {t("compare.eenmalig.costs.description")}
                 </p>
               </div>
             </FadeInUp>
@@ -269,8 +272,8 @@ export default function VergelijkEenmaligPage() {
                         <Globe className="h-6 w-6 text-slate-600 dark:text-slate-400" />
                       </div>
                       <div>
-                        <CardTitle>Eenmalige Website</CardTitle>
-                        <p className="text-sm text-muted-foreground">Traditioneel model</p>
+                        <CardTitle>{t("compare.eenmalig.costs.onetime")}</CardTitle>
+                        <p className="text-sm text-muted-foreground">{t("compare.eenmalig.costs.traditional")}</p>
                       </div>
                     </div>
                   </CardHeader>
@@ -278,14 +281,14 @@ export default function VergelijkEenmaligPage() {
                     <div className="space-y-3">
                       {Object.entries(eenmaligCosts.threeYears).map(([key, cost]) => (
                         <div key={key} className="flex justify-between items-center py-2 border-b border-dashed last:border-0">
-                          <span className="text-sm text-muted-foreground">{cost.label}</span>
+                          <span className="text-sm text-muted-foreground">{costItems[cost.key]}</span>
                           <span className="font-medium">
                             €{cost.low.toLocaleString("nl-NL")} - €{cost.high.toLocaleString("nl-NL")}
                           </span>
                         </div>
                       ))}
                       <div className="flex justify-between items-center pt-4 border-t-2">
-                        <span className="font-semibold">Totaal 3 jaar</span>
+                        <span className="font-semibold">{t("compare.eenmalig.costs.total3Years")}</span>
                         <span className="text-xl font-bold text-red-600 dark:text-red-400">
                           €{eenmaligLowTotal.toLocaleString("nl-NL")} - €{eenmaligHighTotal.toLocaleString("nl-NL")}
                         </span>
@@ -296,9 +299,9 @@ export default function VergelijkEenmaligPage() {
                       <div className="flex gap-3">
                         <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                         <div className="text-sm">
-                          <p className="font-medium text-amber-800 dark:text-amber-200 mb-1">Risico: veroudering</p>
+                          <p className="font-medium text-amber-800 dark:text-amber-200 mb-1">{t("compare.eenmalig.costs.warning.title")}</p>
                           <p className="text-amber-700 dark:text-amber-300">
-                            Na 3-5 jaar is vaak een redesign nodig (€2.000-€5.000 extra).
+                            {t("compare.eenmalig.costs.warning.description")}
                           </p>
                         </div>
                       </div>
@@ -315,44 +318,44 @@ export default function VergelijkEenmaligPage() {
                         <RefreshCw className="h-6 w-6 text-primary" />
                       </div>
                       <div>
-                        <CardTitle>Website Abonnement</CardTitle>
-                        <p className="text-sm text-muted-foreground">Continue service</p>
+                        <CardTitle>{t("compare.eenmalig.costs.subscription")}</CardTitle>
+                        <p className="text-sm text-muted-foreground">{t("compare.eenmalig.costs.continuousService")}</p>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
-                        <span className="text-sm text-muted-foreground">Starter (€99/mnd × 36)</span>
+                        <span className="text-sm text-muted-foreground">{t("compare.eenmalig.costs.subscriptionItems.starter")}</span>
                         <span className="font-medium">€3.564</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
-                        <span className="text-sm text-muted-foreground">Professional (€199/mnd × 36)</span>
+                        <span className="text-sm text-muted-foreground">{t("compare.eenmalig.costs.subscriptionItems.professional")}</span>
                         <span className="font-medium">€7.164</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
                         <span className="text-sm text-muted-foreground flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-500" />
-                          Geen voorafbetaling
+                          {t("compare.eenmalig.costs.subscriptionItems.noUpfront")}
                         </span>
                         <span className="text-green-600 dark:text-green-400 font-medium">€0</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
                         <span className="text-sm text-muted-foreground flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-500" />
-                          Continue updates
+                          {t("compare.eenmalig.costs.subscriptionItems.continuousUpdates")}
                         </span>
-                        <span className="text-green-600 dark:text-green-400 font-medium">Inbegrepen</span>
+                        <span className="text-green-600 dark:text-green-400 font-medium">{t("compare.eenmalig.costs.included")}</span>
                       </div>
                       <div className="flex justify-between items-center py-2 border-b border-dashed">
                         <span className="text-sm text-muted-foreground flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-500" />
-                          Geen redesign nodig
+                          {t("compare.eenmalig.costs.subscriptionItems.noRedesign")}
                         </span>
-                        <span className="text-green-600 dark:text-green-400 font-medium">Inbegrepen</span>
+                        <span className="text-green-600 dark:text-green-400 font-medium">{t("compare.eenmalig.costs.included")}</span>
                       </div>
                       <div className="flex justify-between items-center pt-4 border-t-2">
-                        <span className="font-semibold">Totaal 3 jaar</span>
+                        <span className="font-semibold">{t("compare.eenmalig.costs.total3Years")}</span>
                         <span className="text-xl font-bold text-green-600 dark:text-green-400">
                           €3.564 - €7.164
                         </span>
@@ -363,9 +366,9 @@ export default function VergelijkEenmaligPage() {
                       <div className="flex gap-3">
                         <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
                         <div className="text-sm">
-                          <p className="font-medium text-green-800 dark:text-green-200 mb-1">Continue verbetering</p>
+                          <p className="font-medium text-green-800 dark:text-green-200 mb-1">{t("compare.eenmalig.costs.improvement.title")}</p>
                           <p className="text-green-700 dark:text-green-300">
-                            Uw website blijft altijd modern en up-to-date.
+                            {t("compare.eenmalig.costs.improvement.description")}
                           </p>
                         </div>
                       </div>
@@ -384,10 +387,10 @@ export default function VergelijkEenmaligPage() {
             <FadeInUp>
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  3 realistische scenario's
+                  {t("compare.eenmalig.scenarios.title")}
                 </h2>
                 <p className="text-xl text-muted-foreground">
-                  Vergelijk verschillende situaties over 3 jaar.
+                  {t("compare.eenmalig.scenarios.description")}
                 </p>
               </div>
             </FadeInUp>
@@ -403,19 +406,19 @@ export default function VergelijkEenmaligPage() {
                     <CardContent>
                       <div className="space-y-4">
                         <div>
-                          <p className="text-sm text-muted-foreground mb-1">Eenmalige website</p>
+                          <p className="text-sm text-muted-foreground mb-1">{t("compare.eenmalig.scenarios.onetimeWebsite")}</p>
                           <p className="text-xl font-bold text-red-600 dark:text-red-400">
                             €{scenario.eenmalig.toLocaleString("nl-NL")}
                           </p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground mb-1">Website Abonnement</p>
+                          <p className="text-sm text-muted-foreground mb-1">{t("compare.eenmalig.scenarios.websiteSubscription")}</p>
                           <p className="text-xl font-bold text-green-600 dark:text-green-400">
                             €{scenario.abonnement.toLocaleString("nl-NL")}
                           </p>
                         </div>
                         <div className="pt-4 border-t">
-                          <p className="text-sm text-muted-foreground mb-1">U bespaart</p>
+                          <p className="text-sm text-muted-foreground mb-1">{t("compare.eenmalig.scenarios.youSave")}</p>
                           <p className="text-2xl font-bold text-primary">
                             €{Math.abs(scenario.difference).toLocaleString("nl-NL")}
                           </p>
@@ -436,7 +439,7 @@ export default function VergelijkEenmaligPage() {
             <FadeInUp>
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Feature vergelijking
+                  {t("compare.eenmalig.features.title")}
                 </h2>
               </div>
             </FadeInUp>
@@ -452,13 +455,13 @@ export default function VergelijkEenmaligPage() {
                           <th className="text-left p-4 font-semibold">
                             <div className="flex items-center gap-2">
                               <Globe className="h-4 w-4 text-slate-600" />
-                              Eenmalige Website
+                              {t("compare.eenmalig.costs.onetime")}
                             </div>
                           </th>
                           <th className="text-left p-4 font-semibold">
                             <div className="flex items-center gap-2 text-primary">
                               <Check className="h-4 w-4" />
-                              Website Abonnement
+                              {t("compare.eenmalig.costs.subscription")}
                             </div>
                           </th>
                         </tr>
@@ -506,18 +509,17 @@ export default function VergelijkEenmaligPage() {
           <FadeInUp>
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-                Voorspelbare kosten, professioneel resultaat
+                {t("compare.eenmalig.cta.title")}
               </h2>
               <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-                Geen grote investering vooraf. Start direct met een 
-                professionele website voor een vast maandbedrag.
+                {t("compare.eenmalig.cta.description")}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/pricing">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-eenmalig-pricing">
-                      Bekijk abonnementen
+                      {t("compare.cta.viewPlans")}
                       <ArrowRight className="h-5 w-5" />
                     </Button>
                   </motion.div>
@@ -529,7 +531,7 @@ export default function VergelijkEenmaligPage() {
                       variant="outline"
                       className="h-14 px-8 text-lg border-white/20 text-white bg-white/5 backdrop-blur-sm"
                     >
-                      Meer vergelijkingen
+                      {t("compare.cta.moreComparisons")}
                     </Button>
                   </motion.div>
                 </Link>

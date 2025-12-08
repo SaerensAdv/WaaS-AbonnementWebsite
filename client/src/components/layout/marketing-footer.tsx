@@ -3,11 +3,13 @@ import { Linkedin, Twitter, Instagram, Mail, ShieldCheck, CreditCard, Lock } fro
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { useTranslation } from "@/lib/i18n-context";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 
 export function MarketingFooter() {
   const currentYear = new Date().getFullYear();
   const [email, setEmail] = useState("");
+  const { t } = useTranslation();
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +33,7 @@ export function MarketingFooter() {
             </Link>
             
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mx-auto md:mx-0">
-              Premium website abonnementen met beheerde hosting, SEO, en reclame-oplossingen.
+              {t("common.footer.tagline")}
             </p>
 
             <div className="flex items-center justify-center md:justify-start gap-1 pt-1">
@@ -79,7 +81,7 @@ export function MarketingFooter() {
           </div>
 
           <div className="col-span-1 lg:col-span-2">
-            <h4 className="mb-4 md:mb-5 text-sm font-semibold tracking-wide uppercase text-foreground">Producten</h4>
+            <h4 className="mb-4 md:mb-5 text-sm font-semibold tracking-wide uppercase text-foreground">{t("common.footer.products")}</h4>
             <ul className="space-y-2.5 md:space-y-3 text-sm">
               <li>
                 <Link 
@@ -87,7 +89,7 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-pricing"
                 >
-                  Abonnementen
+                  {t("common.footer.subscriptions")}
                 </Link>
               </li>
               <li>
@@ -96,7 +98,7 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-addons"
                 >
-                  Add-ons
+                  {t("common.footer.addons")}
                 </Link>
               </li>
               <li>
@@ -105,7 +107,7 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-projecten"
                 >
-                  Projecten
+                  {t("common.nav.projects")}
                 </Link>
               </li>
               <li>
@@ -114,7 +116,7 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-templates"
                 >
-                  Templates
+                  {t("common.nav.templates")}
                 </Link>
               </li>
               <li>
@@ -123,14 +125,14 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-tools"
                 >
-                  Onze Tools
+                  {t("common.nav.tools")}
                 </Link>
               </li>
             </ul>
           </div>
 
           <div className="col-span-1 lg:col-span-2">
-            <h4 className="mb-4 md:mb-5 text-sm font-semibold tracking-wide uppercase text-foreground">Bedrijf</h4>
+            <h4 className="mb-4 md:mb-5 text-sm font-semibold tracking-wide uppercase text-foreground">{t("common.footer.company")}</h4>
             <ul className="space-y-2.5 md:space-y-3 text-sm">
               <li>
                 <Link 
@@ -138,7 +140,7 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-about"
                 >
-                  Over ons
+                  {t("common.nav.about")}
                 </Link>
               </li>
               <li>
@@ -147,7 +149,7 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-contact"
                 >
-                  Contact
+                  {t("common.nav.contact")}
                 </Link>
               </li>
               <li>
@@ -156,7 +158,7 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-specialists"
                 >
-                  Word specialist
+                  {t("common.nav.specialists")}
                 </Link>
               </li>
               <li>
@@ -165,7 +167,7 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-blog"
                 >
-                  Blog
+                  {t("common.nav.blog")}
                 </Link>
               </li>
               <li>
@@ -174,7 +176,7 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-faq"
                 >
-                  Veelgestelde Vragen
+                  {t("common.nav.faq")}
                 </Link>
               </li>
               <li>
@@ -183,7 +185,7 @@ export function MarketingFooter() {
                   className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
                   data-testid="link-footer-vergelijk"
                 >
-                  Vergelijken
+                  {t("common.nav.compare")}
                 </Link>
               </li>
             </ul>
@@ -191,21 +193,21 @@ export function MarketingFooter() {
 
           <div className="col-span-2 lg:col-span-4 space-y-5">
             <div>
-              <h4 className="mb-2 text-sm font-semibold tracking-wide uppercase text-foreground">Nieuwsbrief</h4>
+              <h4 className="mb-2 text-sm font-semibold tracking-wide uppercase text-foreground">{t("common.footer.newsletter")}</h4>
               <p className="text-sm text-muted-foreground mb-3">
-                Blijf op de hoogte van updates
+                {t("common.footer.newsletterDescription")}
               </p>
               <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2" data-testid="form-newsletter">
                 <Input
                   type="email"
-                  placeholder="Uw e-mailadres"
+                  placeholder={t("common.footer.emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="flex-1"
                   data-testid="input-newsletter-email"
                 />
                 <Button type="submit" className="w-full sm:w-auto" data-testid="button-newsletter-subscribe">
-                  Aanmelden
+                  {t("common.buttons.subscribe")}
                 </Button>
               </form>
             </div>
@@ -221,7 +223,7 @@ export function MarketingFooter() {
               </div>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <CreditCard className="h-4 w-4" />
-                <span>Veilig betalen</span>
+                <span>{t("common.footer.securePayment")}</span>
               </div>
             </div>
           </div>
@@ -234,26 +236,26 @@ export function MarketingFooter() {
               className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
               data-testid="link-footer-privacy"
             >
-              Privacy
+              {t("common.footer.privacy")}
             </Link>
             <Link 
               href="/terms" 
               className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
               data-testid="link-footer-terms"
             >
-              Voorwaarden
+              {t("common.footer.terms")}
             </Link>
             <Link 
               href="/cookies" 
               className="text-muted-foreground transition-colors duration-150 hover:text-foreground"
               data-testid="link-footer-cookies"
             >
-              Cookies
+              {t("common.footer.cookies")}
             </Link>
           </div>
           
           <p className="text-xs text-muted-foreground" data-testid="text-copyright">
-            {currentYear} WebsiteAbonnementen. Alle rechten voorbehouden.
+            {currentYear} WebsiteAbonnementen. {t("common.footer.copyright")}
           </p>
         </div>
       </div>

@@ -746,6 +746,7 @@ export const nl = {
       titleHighlight: "vergelijken",
       description: "Wat is de beste keuze voor uw website? Vergelijk eerlijk de kosten, het gemak en wat u echt krijgt.",
     },
+    breadcrumb: "Vergelijken",
     comparisons: {
       wordpress: {
         title: "Website Abonnement vs WordPress",
@@ -785,6 +786,379 @@ export const nl = {
     cta: {
       title: "Klaar om te starten?",
       description: "Bekijk onze abonnementen en kies wat het beste bij uw bedrijf past.",
+      viewPlans: "Bekijk abonnementen",
+      faq: "Veelgestelde vragen",
+      moreComparisons: "Meer vergelijkingen",
+    },
+    wordpress: {
+      seo: {
+        title: "Website Abonnement vs WordPress - Eerlijke Kostenvergelijking 2025",
+        description: "Vergelijk de totale kosten van een website abonnement met WordPress over 3 jaar. Inclusief hosting, onderhoud, beveiliging en design. Ontdek wat echt voordeliger is.",
+      },
+      hero: {
+        badge: "Eerlijke vergelijking",
+        breadcrumb: "vs WordPress",
+        title: "Website Abonnement",
+        titleHighlight: "vs WordPress",
+        description: "WordPress is flexibel, maar wat kost het echt? Vergelijk alle kosten over 3 jaar.",
+      },
+      costs: {
+        badge: "Kostenvergelijking over 3 jaar",
+        title: "De werkelijke kosten",
+        description: "WordPress lijkt goedkoop, maar tel alle kosten bij elkaar op.",
+        wordpress: "WordPress",
+        selfManaged: "Zelf beheren",
+        subscription: "Website Abonnement",
+        weDoAll: "Wij doen alles",
+        total3Years: "Totaal 3 jaar",
+        items: {
+          hosting: "Hosting (3 jaar)",
+          domain: "Domeinnaam (3 jaar)",
+          theme: "Premium thema (eenmalig)",
+          plugins: "Premium plugins (3 jaar)",
+          design: "Professioneel design",
+          maintenance: "Onderhoud (€0-150/mnd × 36)",
+          security: "Beveiliging plugins",
+          backup: "Back-up service",
+        },
+        warning: {
+          title: "Let op: verborgen kosten",
+          description: "Uw eigen tijd voor onderhoud, updates en troubleshooting is hier niet meegerekend.",
+        },
+        subscriptionItems: {
+          starter: "Starter (€99/mnd × 36)",
+          professional: "Professional (€199/mnd × 36)",
+          design: "Professioneel design",
+          hosting: "Hosting & SSL",
+          maintenance: "Onderhoud & updates",
+          support: "Support & beveiliging",
+        },
+        included: "Inbegrepen",
+        allIncluded: {
+          title: "Alles inbegrepen",
+          description: "Geen verrassingen, geen extra kosten, geen eigen tijd nodig.",
+        },
+      },
+      features: {
+        title: "Feature vergelijking",
+        description: "Wat krijgt u bij elke optie?",
+        items: {
+          design: {
+            feature: "Professioneel design",
+            wordpress: "Zelf maken of €1.500-€5.000 extra",
+            subscription: "Inbegrepen - op maat gemaakt",
+          },
+          hosting: {
+            feature: "Hosting",
+            wordpress: "€5-€25/maand (zelf regelen)",
+            subscription: "Inbegrepen - snelle servers",
+          },
+          ssl: {
+            feature: "SSL-certificaat",
+            wordpress: "Soms extra, €0-€100/jaar",
+            subscription: "Inbegrepen",
+          },
+          maintenance: {
+            feature: "Onderhoud & updates",
+            wordpress: "Zelf doen of €50-€150/maand",
+            subscription: "Inbegrepen",
+          },
+          security: {
+            feature: "Beveiliging",
+            wordpress: "Plugins + monitoring nodig",
+            subscription: "Volledig beheerd",
+          },
+          backups: {
+            feature: "Back-ups",
+            wordpress: "Zelf instellen of extra betalen",
+            subscription: "Dagelijks, automatisch",
+          },
+          support: {
+            feature: "Technische support",
+            wordpress: "Hosting support alleen, geen WordPress",
+            subscription: "Volledige support inbegrepen",
+          },
+          flexibility: {
+            feature: "Flexibiliteit",
+            wordpress: "Maximaal - alles mogelijk",
+            subscription: "Goed - zakelijke functies",
+          },
+          ownership: {
+            feature: "Eigenaarschap code",
+            wordpress: "Volledig eigenaar",
+            subscription: "Content is van u",
+          },
+        },
+      },
+      when: {
+        title: "Wanneer kiest u wat?",
+        wordpress: {
+          title: "Kies WordPress als...",
+          items: [
+            "U technische kennis heeft of wilt leren",
+            "U maximale flexibiliteit en controle wilt",
+            "U tijd heeft voor onderhoud en updates",
+            "U complexe functionaliteit nodig heeft (webshop, membership)",
+          ],
+        },
+        subscription: {
+          title: "Kies Website Abonnement als...",
+          items: [
+            "U zich wilt focussen op uw bedrijf, niet op techniek",
+            "U voorspelbare kosten wilt zonder verrassingen",
+            "U professioneel design wilt zonder grote investering",
+            "U onderhoud en beveiliging wilt uitbesteden",
+          ],
+        },
+      },
+    },
+    wix: {
+      seo: {
+        title: "Website Abonnement vs Wix - Zelf Doen of Laten Doen? 2025",
+        description: "Vergelijk Wix met een website abonnement. Hoeveel tijd kost Wix echt? Tel uw uren bij de prijs op en ontdek wat voordeliger is.",
+      },
+      hero: {
+        badge: "Zelf doen vs laten doen",
+        breadcrumb: "vs Wix",
+        title: "Website Abonnement",
+        titleHighlight: "vs Wix",
+        description: "Wix lijkt goedkoop, maar hoeveel is uw tijd waard? Tel de uren erbij op.",
+      },
+      time: {
+        badge: "De verborgen kost: uw tijd",
+        title: "Hoeveel uur kost Wix echt?",
+        description: "Wix is doe-het-zelf. Dat betekent dat u alles zelf doet.",
+        setup: {
+          title: "Opzetten: {hours}+ uur",
+          tasks: [
+            "Sjabloon kiezen en aanpassen",
+            "Alle teksten schrijven",
+            "Afbeeldingen zoeken en plaatsen",
+            "Menu en pagina's structureren",
+            "Formulieren instellen",
+            "SEO basis instellen",
+            "Mobiele versie controleren",
+          ],
+          timeValue: "Waarde van uw tijd:",
+          hourlyRate: "(à €{rate}/uur)",
+        },
+        monthly: {
+          title: "Maandelijks: {hours} uur",
+          tasks: [
+            "Content updates",
+            "Kleine aanpassingen",
+            "Statistieken bekijken",
+            "Problemen oplossen",
+          ],
+          timeValue: "Waarde per jaar:",
+          calculation: "({hours} × 12 × €{rate})",
+        },
+      },
+      costs: {
+        title: "Totale kosten over 3 jaar",
+        wix: "Wix Core",
+        wixSelfDo: "Zelf doen",
+        subscription: "Website Abonnement",
+        weDoAll: "Wij doen alles",
+        total3Years: "Totaal 3 jaar",
+        items: {
+          wixCore: "Wix Core (€29/mnd × 36)",
+          setup: "Opzetten (40 uur × €50)",
+          maintenance: "Onderhoud (3 uur/mnd × 36 × €50)",
+        },
+        subscriptionItems: {
+          starter: "Starter (€99/mnd × 36)",
+          design: "Professioneel maatwerk design",
+          time: "Uw tijd: 0 uur",
+        },
+        included: "Inbegrepen",
+        hidden: {
+          title: "Plus verborgen kosten",
+          items: [
+            { item: "Apps uit App Market", cost: "€0-€30+/maand per app" },
+            { item: "Premium functies", cost: "€5-€50/maand extra" },
+          ],
+        },
+        savings: {
+          title: "U bespaart: €{amount}",
+          time: "Plus {hours} uur van uw tijd",
+        },
+      },
+      features: {
+        title: "Feature vergelijking",
+        items: {
+          whoDoesWork: {
+            feature: "Wie doet het werk?",
+            wix: "U zelf - ontwerp, teksten, onderhoud",
+            subscription: "Wij doen alles voor u",
+          },
+          design: {
+            feature: "Professioneel design",
+            wix: "Sjabloon - zelf aanpassen",
+            subscription: "Op maat door designers",
+          },
+          monthlyPrice: {
+            feature: "Maandelijkse prijs",
+            wix: "€17-€35/maand (Core-Business)",
+            subscription: "€99-€199/maand (alles inbegrepen)",
+          },
+          timeInvestment: {
+            feature: "Uw tijdsinvestering",
+            wix: "40+ uur opzetten, 2-4 uur/maand onderhoud",
+            subscription: "0 uur - wij doen het",
+          },
+          seo: {
+            feature: "SEO-optimalisatie",
+            wix: "Basis - zelf instellen",
+            subscription: "Professioneel ingesteld",
+          },
+          support: {
+            feature: "Ondersteuning",
+            wix: "Helpcentrum, geen persoonlijke hulp",
+            subscription: "Persoonlijke support",
+          },
+          adjustments: {
+            feature: "Aanpassingen",
+            wix: "Zelf doen in editor",
+            subscription: "Vraag aan en wij passen aan",
+          },
+          ads: {
+            feature: "Wix-advertenties",
+            wix: "Alleen weg bij betaald plan",
+            subscription: "Nooit advertenties",
+          },
+          flexibility: {
+            feature: "Flexibiliteit",
+            wix: "Beperkt tot Wix-functies",
+            subscription: "Maatwerk mogelijk",
+          },
+        },
+      },
+      cta: {
+        title: "Uw tijd is waardevol",
+        description: "Laat ons uw website bouwen en onderhouden. Focus op wat u het beste kunt: uw bedrijf runnen.",
+      },
+    },
+    eenmalig: {
+      seo: {
+        title: "Website Abonnement vs Eenmalige Website - Wat is Voordeliger? 2025",
+        description: "Vergelijk een website abonnement met een eenmalige website. Bereken de totale kosten over 3 jaar inclusief onderhoud, hosting en updates.",
+      },
+      hero: {
+        badge: "Investeren of abonneren",
+        breadcrumb: "vs Eenmalige Website",
+        title: "Website Abonnement",
+        titleHighlight: "vs Eenmalige Website",
+        description: "Grote factuur vooraf of voorspelbare maandkosten? Bereken wat echt voordeliger is.",
+      },
+      costs: {
+        badge: "Total Cost of Ownership",
+        title: "Alle kosten over 3 jaar",
+        description: "Een eenmalige website kost meer dan de ontwikkelkosten alleen.",
+        onetime: "Eenmalige Website",
+        traditional: "Traditioneel model",
+        subscription: "Website Abonnement",
+        continuousService: "Continue service",
+        total3Years: "Totaal 3 jaar",
+        items: {
+          development: "Website ontwikkeling",
+          hosting: "Hosting (3 jaar)",
+          domain: "Domeinnaam (3 jaar)",
+          ssl: "SSL-certificaat (3 jaar)",
+          maintenance: "Onderhoud (€0-150/mnd × 36)",
+          updates: "Grote updates/redesign",
+          fixes: "Bug fixes en aanpassingen",
+        },
+        warning: {
+          title: "Risico: veroudering",
+          description: "Na 3-5 jaar is vaak een redesign nodig (€2.000-€5.000 extra).",
+        },
+        subscriptionItems: {
+          starter: "Starter (€99/mnd × 36)",
+          professional: "Professional (€199/mnd × 36)",
+          noUpfront: "Geen voorafbetaling",
+          continuousUpdates: "Continue updates",
+          noRedesign: "Geen redesign nodig",
+        },
+        included: "Inbegrepen",
+        improvement: {
+          title: "Continue verbetering",
+          description: "Uw website blijft altijd modern en up-to-date.",
+        },
+      },
+      scenarios: {
+        title: "3 realistische scenario's",
+        description: "Vergelijk verschillende situaties over 3 jaar.",
+        budget: {
+          name: "Budget scenario",
+          description: "Goedkope ontwikkelaar, minimaal onderhoud",
+        },
+        average: {
+          name: "Gemiddeld scenario",
+          description: "Professioneel bureau, basis onderhoud",
+        },
+        premium: {
+          name: "Premium scenario",
+          description: "Top bureau, volledig onderhoud",
+        },
+        onetimeWebsite: "Eenmalige website",
+        websiteSubscription: "Website Abonnement",
+        youSave: "U bespaart",
+      },
+      features: {
+        title: "Feature vergelijking",
+        items: {
+          upfront: {
+            feature: "Vooraf betalen",
+            onetime: "€3.000 - €10.000 vooraf",
+            subscription: "€0 - start direct",
+          },
+          monthly: {
+            feature: "Maandelijkse kosten",
+            onetime: "€50-€150 onderhoud + hosting",
+            subscription: "€99-€199 alles inbegrepen",
+          },
+          maintenanceIncluded: {
+            feature: "Onderhoud inbegrepen",
+            onetime: "Nee - apart afrekenen",
+            subscription: "Ja - volledig inbegrepen",
+          },
+          updates: {
+            feature: "Updates en beveiliging",
+            onetime: "Extra kosten of zelf doen",
+            subscription: "Automatisch geregeld",
+          },
+          adjustments: {
+            feature: "Aanpassingen",
+            onetime: "Betalen per uur (€75-€150/u)",
+            subscription: "Kleine wijzigingen inbegrepen",
+          },
+          cashflow: {
+            feature: "Cashflow",
+            onetime: "Grote investering vooraf",
+            subscription: "Voorspelbaar maandbedrag",
+          },
+          ownership: {
+            feature: "Eigenaarschap",
+            onetime: "Volledig eigenaar van code",
+            subscription: "Eigenaar van content",
+          },
+          vendorFlex: {
+            feature: "Flexibiliteit leverancier",
+            onetime: "Makkelijk overstappen",
+            subscription: "Gebonden aan contract",
+          },
+          outdatedRisk: {
+            feature: "Risico verouderde website",
+            onetime: "Hoog - na 2-3 jaar update nodig",
+            subscription: "Laag - continue verbetering",
+          },
+        },
+      },
+      cta: {
+        title: "Voorspelbare kosten, professioneel resultaat",
+        description: "Geen grote investering vooraf. Start direct met een professionele website voor een vast maandbedrag.",
+      },
     },
   },
 
@@ -834,10 +1208,86 @@ export const nl = {
       lastUpdated: "Laatst bijgewerkt:",
     },
     terms: {
-      title: "Algemene Voorwaarden",
+      seo: {
+        title: "Algemene Voorwaarden",
+        description: "Onze algemene voorwaarden voor website abonnementen. Duidelijke afspraken over dienstverlening, betaling, opzegging en aansprakelijkheid.",
+      },
+      hero: {
+        badge: "Duidelijk en eerlijk",
+        title: "Algemene Voorwaarden",
+        description: "Geen kleine lettertjes. Gewoon helder wat we afspreken.",
+      },
+      breadcrumb: "Voorwaarden",
+      coreTerms: {
+        badge: "Kern",
+        title: "In mensentaal",
+        items: [
+          "U betaalt maandelijks voor uw website-abonnement",
+          "Wij bouwen, beheren en onderhouden uw website",
+          "Wij doen aanpassingen volgens uw abonnement (en eventuele extra's)",
+          "U kan maandelijks opzeggen (tenzij anders afgesproken)",
+        ],
+      },
+      included: {
+        badge: "Inbegrepen",
+        title: "Wat zit inbegrepen",
+        items: [
+          { title: "Hosting", description: "Betrouwbare hosting inbegrepen" },
+          { title: "Updates", description: "Software updates en patches" },
+          { title: "Beveiliging", description: "SSL en beveiligingsmaatregelen" },
+          { title: "Onderhoud", description: "Technisch onderhoud" },
+          { title: "Ondersteuning", description: "Support volgens uw pakket" },
+          { title: "Rapportering", description: "Zoals in uw abonnement staat" },
+        ],
+      },
+      notIncluded: {
+        badge: "Niet standaard",
+        title: "Wat niet automatisch inbegrepen is",
+        description: "Deze zaken kunnen wel, maar worden apart afgesproken.",
+        items: [
+          { title: "Grote herwerkingen", description: "Buiten de afgesproken scope" },
+          { title: "Spoedwerk", description: "Buiten normale support" },
+          { title: "Content aanleveren", description: "Teksten/foto's door u of als extra dienst" },
+        ],
+      },
+      responsibility: {
+        title: "Verantwoordelijkheid",
+        description: "Wij doen ons best om alles stabiel en veilig te houden, maar externe partijen (hosting/betalingen) kunnen impact hebben. Wij werken alleen met betrouwbare partners om dit risico te minimaliseren.",
+        text: "Heeft u vragen over deze voorwaarden? Neem gerust contact met ons op.",
+        buttonText: "Contacteer ons",
+      },
+      lastUpdated: "Laatst bijgewerkt:",
     },
     cookies: {
-      title: "Cookiebeleid",
+      seo: {
+        title: "Cookiebeleid",
+        description: "Ons cookiebeleid uitgelegd. Welke cookies we gebruiken, waarvoor, en hoe u uw voorkeuren kunt beheren. Transparant en AVG-compliant.",
+      },
+      hero: {
+        badge: "Transparant",
+        title: "Cookiebeleid",
+        description: "Wij gebruiken cookies om de website goed te laten werken en om prestaties te meten. Marketingcookies alleen na uw keuze.",
+      },
+      breadcrumb: "Cookies",
+      cookieTypes: {
+        badge: "Soorten",
+        title: "Soorten cookies",
+        items: [
+          { title: "Functioneel", subtitle: "Nodig", description: "Deze cookies zijn noodzakelijk om de website correct te laten werken. Zonder deze cookies werkt de site niet naar behoren.", required: true },
+          { title: "Analytics", subtitle: "Inzichten", description: "Met deze cookies meten we hoe bezoekers de website gebruiken, zodat we de ervaring kunnen verbeteren.", required: false },
+          { title: "Marketing", subtitle: "Alleen met toestemming", description: "Deze cookies worden alleen geplaatst als u daar expliciet toestemming voor geeft. Ze helpen bij het tonen van relevante advertenties.", required: false },
+        ],
+      },
+      management: {
+        title: "Beheren",
+        description: "U kan uw cookie-voorkeuren altijd aanpassen. Wij respecteren uw keuze en slaan alleen de cookies op waarvoor u toestemming heeft gegeven.",
+        buttonText: "Cookie-instellingen",
+      },
+      features: {
+        secureStorage: { title: "Veilig opgeslagen", description: "Uw voorkeuren worden lokaal bewaard" },
+        transparent: { title: "Altijd transparant", description: "Geen verborgen tracking" },
+      },
+      lastUpdated: "Laatst bijgewerkt:",
     },
   },
 

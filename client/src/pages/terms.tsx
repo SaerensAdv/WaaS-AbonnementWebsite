@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useSEO } from "@/hooks/use-seo";
+import { useTranslation } from "@/lib/i18n-context";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -35,80 +36,16 @@ import {
   XCircle,
 } from "lucide-react";
 
-const corePoints = [
-  {
-    icon: CreditCard,
-    text: "U betaalt maandelijks voor uw website-abonnement",
-  },
-  {
-    icon: Globe,
-    text: "Wij bouwen, beheren en onderhouden uw website",
-  },
-  {
-    icon: Settings,
-    text: "Wij doen aanpassingen volgens uw abonnement (en eventuele extra's)",
-  },
-  {
-    icon: Calendar,
-    text: "U kan maandelijks opzeggen (tenzij anders afgesproken)",
-  },
-];
-
-const included = [
-  {
-    icon: Server,
-    title: "Hosting",
-    description: "Betrouwbare hosting inbegrepen",
-  },
-  {
-    icon: RefreshCw,
-    title: "Updates",
-    description: "Software updates en patches",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Beveiliging",
-    description: "SSL en beveiligingsmaatregelen",
-  },
-  {
-    icon: Settings,
-    title: "Onderhoud",
-    description: "Technisch onderhoud",
-  },
-  {
-    icon: MessageSquare,
-    title: "Ondersteuning",
-    description: "Support volgens uw pakket",
-  },
-  {
-    icon: BarChart3,
-    title: "Rapportering",
-    description: "Zoals in uw abonnement staat",
-  },
-];
-
-const notIncluded = [
-  {
-    icon: AlertCircle,
-    title: "Grote herwerkingen",
-    description: "Buiten de afgesproken scope",
-  },
-  {
-    icon: Clock,
-    title: "Spoedwerk",
-    description: "Buiten normale support",
-  },
-  {
-    icon: FileImage,
-    title: "Content aanleveren",
-    description: "Teksten/foto's door u of als extra dienst",
-  },
-];
+const corePointsIcons = [CreditCard, Globe, Settings, Calendar];
+const includedIcons = [Server, RefreshCw, ShieldCheck, Settings, MessageSquare, BarChart3];
+const notIncludedIcons = [AlertCircle, Clock, FileImage];
 
 export default function TermsPage() {
+  const { t } = useTranslation();
+
   useSEO({
-    title: "Algemene Voorwaarden",
-    description: "Onze algemene voorwaarden voor website abonnementen. Duidelijke afspraken over dienstverlening, betaling, opzegging en aansprakelijkheid.",
+    title: t("legal.terms.seo.title"),
+    description: t("legal.terms.seo.description"),
     canonical: "/terms",
   });
 
@@ -137,7 +74,7 @@ export default function TermsPage() {
         
         <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
-            items={[{ label: "Voorwaarden" }]} 
+            items={[{ label: t("legal.terms.breadcrumb") }]} 
             className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
         </div>
@@ -151,7 +88,7 @@ export default function TermsPage() {
                 transition={{ duration: 0.2 }}
               >
                 <Sparkles className="h-4 w-4 text-primary" />
-                Duidelijk en eerlijk
+                {t("legal.terms.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </motion.div>
             </BlurIn>
@@ -161,13 +98,13 @@ export default function TermsPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-8" 
                 data-testid="text-terms-hero-title"
               >
-                Algemene Voorwaarden
+                {t("legal.terms.hero.title")}
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-                Geen kleine lettertjes. Gewoon helder wat we afspreken.
+                {t("legal.terms.hero.description")}
               </p>
             </BlurIn>
           </div>
@@ -181,17 +118,17 @@ export default function TermsPage() {
               <div className="mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
                   <FileText className="h-3 w-3 mr-1" />
-                  Kern
+                  {t("legal.terms.coreTerms.badge")}
                 </Badge>
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                  In mensentaal
+                  {t("legal.terms.coreTerms.title")}
                 </h2>
               </div>
             </FadeInUp>
 
             <StaggerChildren className="space-y-3" staggerDelay={0.1}>
-              {corePoints.map((item, index) => (
-                <StaggerItem key={item.text}>
+              {corePointsIcons.map((Icon, index) => (
+                <StaggerItem key={index}>
                   <motion.div 
                     className="flex items-center gap-4 p-4 rounded-lg bg-card border"
                     whileHover={{ x: 4 }}
@@ -199,9 +136,9 @@ export default function TermsPage() {
                     data-testid={`item-core-${index}`}
                   >
                     <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <item.icon className="h-5 w-5 text-primary" />
+                      <Icon className="h-5 w-5 text-primary" />
                     </div>
-                    <span className="font-medium">{item.text}</span>
+                    <span className="font-medium">{t(`legal.terms.coreTerms.items.${index}`)}</span>
                   </motion.div>
                 </StaggerItem>
               ))}
@@ -217,27 +154,27 @@ export default function TermsPage() {
               <div className="mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
                   <CheckCircle2 className="h-3 w-3 mr-1" />
-                  Inbegrepen
+                  {t("legal.terms.included.badge")}
                 </Badge>
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                  Wat zit inbegrepen
+                  {t("legal.terms.included.title")}
                 </h2>
               </div>
             </FadeInUp>
 
             <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.1}>
-              {included.map((item) => (
-                <StaggerItem key={item.title}>
+              {includedIcons.map((Icon, index) => (
+                <StaggerItem key={index}>
                   <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
-                    <Card className="border bg-card h-full" data-testid={`card-included-${item.title.toLowerCase()}`}>
+                    <Card className="border bg-card h-full" data-testid={`card-included-${index}`}>
                       <CardContent className="p-5">
                         <div className="flex items-start gap-3">
                           <div className="h-10 w-10 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0">
-                            <item.icon className="h-5 w-5 text-green-600 dark:text-green-400" />
+                            <Icon className="h-5 w-5 text-green-600 dark:text-green-400" />
                           </div>
                           <div>
-                            <h3 className="font-semibold">{item.title}</h3>
-                            <p className="text-sm text-muted-foreground">{item.description}</p>
+                            <h3 className="font-semibold">{t(`legal.terms.included.items.${index}.title`)}</h3>
+                            <p className="text-sm text-muted-foreground">{t(`legal.terms.included.items.${index}.description`)}</p>
                           </div>
                         </div>
                       </CardContent>
@@ -257,30 +194,30 @@ export default function TermsPage() {
               <div className="mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
                   <XCircle className="h-3 w-3 mr-1" />
-                  Niet standaard
+                  {t("legal.terms.notIncluded.badge")}
                 </Badge>
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                  Wat niet automatisch inbegrepen is
+                  {t("legal.terms.notIncluded.title")}
                 </h2>
                 <p className="text-muted-foreground">
-                  Deze zaken kunnen wel, maar worden apart afgesproken.
+                  {t("legal.terms.notIncluded.description")}
                 </p>
               </div>
             </FadeInUp>
 
             <StaggerChildren className="grid sm:grid-cols-3 gap-4" staggerDelay={0.1}>
-              {notIncluded.map((item) => (
-                <StaggerItem key={item.title}>
+              {notIncludedIcons.map((Icon, index) => (
+                <StaggerItem key={index}>
                   <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
-                    <Card className="border bg-card h-full" data-testid={`card-not-included-${item.title.toLowerCase().replace(/\s/g, '-')}`}>
+                    <Card className="border bg-card h-full" data-testid={`card-not-included-${index}`}>
                       <CardContent className="p-5">
                         <div className="flex items-start gap-3">
                           <div className="h-10 w-10 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0">
-                            <item.icon className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                            <Icon className="h-5 w-5 text-amber-600 dark:text-amber-400" />
                           </div>
                           <div>
-                            <h3 className="font-semibold">{item.title}</h3>
-                            <p className="text-sm text-muted-foreground">{item.description}</p>
+                            <h3 className="font-semibold">{t(`legal.terms.notIncluded.items.${index}.title`)}</h3>
+                            <p className="text-sm text-muted-foreground">{t(`legal.terms.notIncluded.items.${index}.description`)}</p>
                           </div>
                         </div>
                       </CardContent>
@@ -304,22 +241,22 @@ export default function TermsPage() {
                       <ShieldCheck className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold mb-2">Verantwoordelijkheid</h2>
+                      <h2 className="text-2xl font-bold mb-2">{t("legal.terms.responsibility.title")}</h2>
                       <p className="text-muted-foreground">
-                        Wij doen ons best om alles stabiel en veilig te houden, maar externe partijen (hosting/betalingen) kunnen impact hebben. Wij werken alleen met betrouwbare partners om dit risico te minimaliseren.
+                        {t("legal.terms.responsibility.description")}
                       </p>
                     </div>
                   </div>
                   
                   <p className="text-muted-foreground mb-6">
-                    Heeft u vragen over deze voorwaarden? Neem gerust contact met ons op.
+                    {t("legal.terms.responsibility.text")}
                   </p>
                   
                   <Link href="/contact">
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button className="gap-2" data-testid="button-contact-terms">
                         <MessageSquare className="h-4 w-4" />
-                        Contacteer ons
+                        {t("legal.terms.responsibility.buttonText")}
                         <ArrowRight className="h-4 w-4" />
                       </Button>
                     </motion.div>
@@ -330,7 +267,7 @@ export default function TermsPage() {
 
             <FadeInUp delay={0.2}>
               <p className="text-center text-sm text-muted-foreground mt-8" data-testid="text-terms-last-updated">
-                Laatst bijgewerkt: {lastUpdated}
+                {t("legal.terms.lastUpdated")} {lastUpdated}
               </p>
             </FadeInUp>
           </div>

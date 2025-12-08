@@ -748,6 +748,7 @@ export const en: TranslationKeys = {
       titleHighlight: "compared",
       description: "What's the best choice for your website? Compare costs, convenience, and what you really get.",
     },
+    breadcrumb: "Compare",
     comparisons: {
       wordpress: {
         title: "Website Subscription vs WordPress",
@@ -787,6 +788,379 @@ export const en: TranslationKeys = {
     cta: {
       title: "Ready to Get Started?",
       description: "View our subscriptions and choose what fits your business best.",
+      viewPlans: "View Plans",
+      faq: "Frequently Asked Questions",
+      moreComparisons: "More Comparisons",
+    },
+    wordpress: {
+      seo: {
+        title: "Website Subscription vs WordPress - Honest Cost Comparison 2025",
+        description: "Compare the total costs of a website subscription with WordPress over 3 years. Including hosting, maintenance, security, and design. Discover what's really more affordable.",
+      },
+      hero: {
+        badge: "Fair Comparison",
+        breadcrumb: "vs WordPress",
+        title: "Website Subscription",
+        titleHighlight: "vs WordPress",
+        description: "WordPress is flexible, but what does it really cost? Compare all costs over 3 years.",
+      },
+      costs: {
+        badge: "Cost Comparison over 3 years",
+        title: "The Real Costs",
+        description: "WordPress seems cheap, but add up all the costs.",
+        wordpress: "WordPress",
+        selfManaged: "Self-managed",
+        subscription: "Website Subscription",
+        weDoAll: "We do everything",
+        total3Years: "Total 3 years",
+        items: {
+          hosting: "Hosting (3 years)",
+          domain: "Domain name (3 years)",
+          theme: "Premium theme (one-time)",
+          plugins: "Premium plugins (3 years)",
+          design: "Professional design",
+          maintenance: "Maintenance (€0-150/mo × 36)",
+          security: "Security plugins",
+          backup: "Backup service",
+        },
+        warning: {
+          title: "Note: hidden costs",
+          description: "Your own time for maintenance, updates, and troubleshooting is not included here.",
+        },
+        subscriptionItems: {
+          starter: "Starter (€99/mo × 36)",
+          professional: "Professional (€199/mo × 36)",
+          design: "Professional design",
+          hosting: "Hosting & SSL",
+          maintenance: "Maintenance & updates",
+          support: "Support & security",
+        },
+        included: "Included",
+        allIncluded: {
+          title: "Everything included",
+          description: "No surprises, no extra costs, no time needed from you.",
+        },
+      },
+      features: {
+        title: "Feature Comparison",
+        description: "What do you get with each option?",
+        items: {
+          design: {
+            feature: "Professional design",
+            wordpress: "DIY or €1,500-€5,000 extra",
+            subscription: "Included - custom made",
+          },
+          hosting: {
+            feature: "Hosting",
+            wordpress: "€5-€25/month (arrange yourself)",
+            subscription: "Included - fast servers",
+          },
+          ssl: {
+            feature: "SSL certificate",
+            wordpress: "Sometimes extra, €0-€100/year",
+            subscription: "Included",
+          },
+          maintenance: {
+            feature: "Maintenance & updates",
+            wordpress: "DIY or €50-€150/month",
+            subscription: "Included",
+          },
+          security: {
+            feature: "Security",
+            wordpress: "Plugins + monitoring needed",
+            subscription: "Fully managed",
+          },
+          backups: {
+            feature: "Backups",
+            wordpress: "Set up yourself or pay extra",
+            subscription: "Daily, automatic",
+          },
+          support: {
+            feature: "Technical support",
+            wordpress: "Hosting support only, no WordPress",
+            subscription: "Full support included",
+          },
+          flexibility: {
+            feature: "Flexibility",
+            wordpress: "Maximum - anything possible",
+            subscription: "Good - business features",
+          },
+          ownership: {
+            feature: "Code ownership",
+            wordpress: "Full owner",
+            subscription: "Content is yours",
+          },
+        },
+      },
+      when: {
+        title: "When to choose what?",
+        wordpress: {
+          title: "Choose WordPress if...",
+          items: [
+            "You have technical knowledge or want to learn",
+            "You want maximum flexibility and control",
+            "You have time for maintenance and updates",
+            "You need complex functionality (webshop, membership)",
+          ],
+        },
+        subscription: {
+          title: "Choose Website Subscription if...",
+          items: [
+            "You want to focus on your business, not technology",
+            "You want predictable costs without surprises",
+            "You want professional design without large investment",
+            "You want to outsource maintenance and security",
+          ],
+        },
+      },
+    },
+    wix: {
+      seo: {
+        title: "Website Subscription vs Wix - DIY or Done-For-You? 2025",
+        description: "Compare Wix with a website subscription. How much time does Wix really cost? Add up your hours and discover what's more affordable.",
+      },
+      hero: {
+        badge: "DIY vs done-for-you",
+        breadcrumb: "vs Wix",
+        title: "Website Subscription",
+        titleHighlight: "vs Wix",
+        description: "Wix seems cheap, but how much is your time worth? Add up the hours.",
+      },
+      time: {
+        badge: "The hidden cost: your time",
+        title: "How many hours does Wix really cost?",
+        description: "Wix is DIY. That means you do everything yourself.",
+        setup: {
+          title: "Setup: {hours}+ hours",
+          tasks: [
+            "Choose and customize template",
+            "Write all texts",
+            "Find and place images",
+            "Structure menu and pages",
+            "Set up forms",
+            "Configure basic SEO",
+            "Check mobile version",
+          ],
+          timeValue: "Value of your time:",
+          hourlyRate: "(at €{rate}/hour)",
+        },
+        monthly: {
+          title: "Monthly: {hours} hours",
+          tasks: [
+            "Content updates",
+            "Small adjustments",
+            "View statistics",
+            "Solve problems",
+          ],
+          timeValue: "Value per year:",
+          calculation: "({hours} × 12 × €{rate})",
+        },
+      },
+      costs: {
+        title: "Total costs over 3 years",
+        wix: "Wix Core",
+        wixSelfDo: "Do it yourself",
+        subscription: "Website Subscription",
+        weDoAll: "We do everything",
+        total3Years: "Total 3 years",
+        items: {
+          wixCore: "Wix Core (€29/mo × 36)",
+          setup: "Setup (40 hours × €50)",
+          maintenance: "Maintenance (3 hrs/mo × 36 × €50)",
+        },
+        subscriptionItems: {
+          starter: "Starter (€99/mo × 36)",
+          design: "Professional custom design",
+          time: "Your time: 0 hours",
+        },
+        included: "Included",
+        hidden: {
+          title: "Plus hidden costs",
+          items: [
+            { item: "Apps from App Market", cost: "€0-€30+/month per app" },
+            { item: "Premium features", cost: "€5-€50/month extra" },
+          ],
+        },
+        savings: {
+          title: "You save: €{amount}",
+          time: "Plus {hours} hours of your time",
+        },
+      },
+      features: {
+        title: "Feature Comparison",
+        items: {
+          whoDoesWork: {
+            feature: "Who does the work?",
+            wix: "You - design, texts, maintenance",
+            subscription: "We do everything for you",
+          },
+          design: {
+            feature: "Professional design",
+            wix: "Template - customize yourself",
+            subscription: "Custom by designers",
+          },
+          monthlyPrice: {
+            feature: "Monthly price",
+            wix: "€17-€35/month (Core-Business)",
+            subscription: "€99-€199/month (all included)",
+          },
+          timeInvestment: {
+            feature: "Your time investment",
+            wix: "40+ hours setup, 2-4 hrs/month maintenance",
+            subscription: "0 hours - we do it",
+          },
+          seo: {
+            feature: "SEO optimization",
+            wix: "Basic - set up yourself",
+            subscription: "Professionally configured",
+          },
+          support: {
+            feature: "Support",
+            wix: "Help center, no personal help",
+            subscription: "Personal support",
+          },
+          adjustments: {
+            feature: "Adjustments",
+            wix: "Do it yourself in editor",
+            subscription: "Request and we adjust",
+          },
+          ads: {
+            feature: "Wix advertisements",
+            wix: "Only removed with paid plan",
+            subscription: "Never advertisements",
+          },
+          flexibility: {
+            feature: "Flexibility",
+            wix: "Limited to Wix features",
+            subscription: "Custom possible",
+          },
+        },
+      },
+      cta: {
+        title: "Your time is valuable",
+        description: "Let us build and maintain your website. Focus on what you do best: running your business.",
+      },
+    },
+    eenmalig: {
+      seo: {
+        title: "Website Subscription vs One-Time Website - What's More Affordable? 2025",
+        description: "Compare a website subscription with a one-time website. Calculate the total costs over 3 years including maintenance, hosting, and updates.",
+      },
+      hero: {
+        badge: "Invest or subscribe",
+        breadcrumb: "vs One-Time Website",
+        title: "Website Subscription",
+        titleHighlight: "vs One-Time Website",
+        description: "Large invoice upfront or predictable monthly costs? Calculate what's really more affordable.",
+      },
+      costs: {
+        badge: "Total Cost of Ownership",
+        title: "All costs over 3 years",
+        description: "A one-time website costs more than just development.",
+        onetime: "One-Time Website",
+        traditional: "Traditional model",
+        subscription: "Website Subscription",
+        continuousService: "Continuous service",
+        total3Years: "Total 3 years",
+        items: {
+          development: "Website development",
+          hosting: "Hosting (3 years)",
+          domain: "Domain name (3 years)",
+          ssl: "SSL certificate (3 years)",
+          maintenance: "Maintenance (€0-150/mo × 36)",
+          updates: "Major updates/redesign",
+          fixes: "Bug fixes and adjustments",
+        },
+        warning: {
+          title: "Risk: obsolescence",
+          description: "After 3-5 years, a redesign is often needed (€2,000-€5,000 extra).",
+        },
+        subscriptionItems: {
+          starter: "Starter (€99/mo × 36)",
+          professional: "Professional (€199/mo × 36)",
+          noUpfront: "No upfront payment",
+          continuousUpdates: "Continuous updates",
+          noRedesign: "No redesign needed",
+        },
+        included: "Included",
+        improvement: {
+          title: "Continuous improvement",
+          description: "Your website always stays modern and up-to-date.",
+        },
+      },
+      scenarios: {
+        title: "3 realistic scenarios",
+        description: "Compare different situations over 3 years.",
+        budget: {
+          name: "Budget scenario",
+          description: "Cheap developer, minimal maintenance",
+        },
+        average: {
+          name: "Average scenario",
+          description: "Professional agency, basic maintenance",
+        },
+        premium: {
+          name: "Premium scenario",
+          description: "Top agency, full maintenance",
+        },
+        onetimeWebsite: "One-time website",
+        websiteSubscription: "Website Subscription",
+        youSave: "You save",
+      },
+      features: {
+        title: "Feature Comparison",
+        items: {
+          upfront: {
+            feature: "Upfront payment",
+            onetime: "€3,000 - €10,000 upfront",
+            subscription: "€0 - start immediately",
+          },
+          monthly: {
+            feature: "Monthly costs",
+            onetime: "€50-€150 maintenance + hosting",
+            subscription: "€99-€199 all included",
+          },
+          maintenanceIncluded: {
+            feature: "Maintenance included",
+            onetime: "No - billed separately",
+            subscription: "Yes - fully included",
+          },
+          updates: {
+            feature: "Updates and security",
+            onetime: "Extra costs or DIY",
+            subscription: "Automatically handled",
+          },
+          adjustments: {
+            feature: "Adjustments",
+            onetime: "Pay per hour (€75-€150/hr)",
+            subscription: "Small changes included",
+          },
+          cashflow: {
+            feature: "Cash flow",
+            onetime: "Large upfront investment",
+            subscription: "Predictable monthly amount",
+          },
+          ownership: {
+            feature: "Ownership",
+            onetime: "Full code ownership",
+            subscription: "Content ownership",
+          },
+          vendorFlex: {
+            feature: "Vendor flexibility",
+            onetime: "Easy to switch",
+            subscription: "Bound to contract",
+          },
+          outdatedRisk: {
+            feature: "Risk of outdated website",
+            onetime: "High - update needed after 2-3 years",
+            subscription: "Low - continuous improvement",
+          },
+        },
+      },
+      cta: {
+        title: "Predictable costs, professional results",
+        description: "No large upfront investment. Start immediately with a professional website for a fixed monthly fee.",
+      },
     },
   },
 
@@ -836,10 +1210,86 @@ export const en: TranslationKeys = {
       lastUpdated: "Last updated:",
     },
     terms: {
-      title: "Terms and Conditions",
+      seo: {
+        title: "Terms and Conditions",
+        description: "Our terms and conditions for website subscriptions. Clear agreements about services, payment, cancellation, and liability.",
+      },
+      hero: {
+        badge: "Clear and Honest",
+        title: "Terms and Conditions",
+        description: "No fine print. Just clear agreements.",
+      },
+      breadcrumb: "Terms",
+      coreTerms: {
+        badge: "Core",
+        title: "In Plain Language",
+        items: [
+          "You pay monthly for your website subscription",
+          "We build, manage, and maintain your website",
+          "We make adjustments according to your subscription (and any extras)",
+          "You can cancel monthly (unless otherwise agreed)",
+        ],
+      },
+      included: {
+        badge: "Included",
+        title: "What's Included",
+        items: [
+          { title: "Hosting", description: "Reliable hosting included" },
+          { title: "Updates", description: "Software updates and patches" },
+          { title: "Security", description: "SSL and security measures" },
+          { title: "Maintenance", description: "Technical maintenance" },
+          { title: "Support", description: "Support according to your plan" },
+          { title: "Reporting", description: "As stated in your subscription" },
+        ],
+      },
+      notIncluded: {
+        badge: "Not Standard",
+        title: "What's Not Automatically Included",
+        description: "These can be arranged, but are agreed upon separately.",
+        items: [
+          { title: "Major Revisions", description: "Outside the agreed scope" },
+          { title: "Rush Work", description: "Outside normal support" },
+          { title: "Content Delivery", description: "Text/photos by you or as an extra service" },
+        ],
+      },
+      responsibility: {
+        title: "Responsibility",
+        description: "We do our best to keep everything stable and secure, but external parties (hosting/payments) can have an impact. We only work with reliable partners to minimize this risk.",
+        text: "Do you have questions about these terms? Feel free to contact us.",
+        buttonText: "Contact Us",
+      },
+      lastUpdated: "Last updated:",
     },
     cookies: {
-      title: "Cookie Policy",
+      seo: {
+        title: "Cookie Policy",
+        description: "Our cookie policy explained. Which cookies we use, why, and how you can manage your preferences. Transparent and GDPR-compliant.",
+      },
+      hero: {
+        badge: "Transparent",
+        title: "Cookie Policy",
+        description: "We use cookies to make the website work properly and to measure performance. Marketing cookies only after your choice.",
+      },
+      breadcrumb: "Cookies",
+      cookieTypes: {
+        badge: "Types",
+        title: "Types of Cookies",
+        items: [
+          { title: "Functional", subtitle: "Required", description: "These cookies are necessary for the website to function correctly. Without these cookies, the site won't work properly.", required: true },
+          { title: "Analytics", subtitle: "Insights", description: "With these cookies, we measure how visitors use the website so we can improve the experience.", required: false },
+          { title: "Marketing", subtitle: "Only with consent", description: "These cookies are only placed if you explicitly consent. They help show relevant advertisements.", required: false },
+        ],
+      },
+      management: {
+        title: "Manage",
+        description: "You can always adjust your cookie preferences. We respect your choice and only store cookies for which you have given consent.",
+        buttonText: "Cookie Settings",
+      },
+      features: {
+        secureStorage: { title: "Securely Stored", description: "Your preferences are stored locally" },
+        transparent: { title: "Always Transparent", description: "No hidden tracking" },
+      },
+      lastUpdated: "Last updated:",
     },
   },
 

@@ -11,6 +11,7 @@ import { useAuth } from "@/lib/auth-context";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { MobileCarouselSection } from "@/components/mobile-carousel";
+import { useTranslation } from "@/lib/i18n-context";
 import {
   Check,
   X,
@@ -64,6 +65,7 @@ function PlanCard({
   onCheckout,
   isCheckoutPending,
   pendingPlanId,
+  t,
 }: { 
   plan: Plan; 
   featured?: boolean;
@@ -72,6 +74,7 @@ function PlanCard({
   onCheckout: (planId: string) => void;
   isCheckoutPending: boolean;
   pendingPlanId: string | null;
+  t: (key: string, params?: Record<string, string | number>) => string;
 }) {
   const features = plan.features || [];
   const isPending = isCheckoutPending && pendingPlanId === plan.id;
@@ -87,17 +90,17 @@ function PlanCard({
   };
   
   const getButtonText = () => {
-    if (plan.tier === "HIGH") return "Neem contact op";
-    if (isLoggedIn && !isCustomer) return "Alleen voor klanten";
-    if (isCustomer) return "Direct starten";
-    return "Selecteer plan";
+    if (plan.tier === "HIGH") return t("common.buttons.contactUs");
+    if (isLoggedIn && !isCustomer) return t("common.buttons.customersOnly");
+    if (isCustomer) return t("common.buttons.directStart");
+    return t("common.buttons.selectPlan");
   };
 
   return (
     <Card className={`relative flex flex-col ${featured ? "border-2 border-primary" : "border"}`}>
       {featured && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <Badge>Populair</Badge>
+          <Badge>{t("pricing.planLabels.popular")}</Badge>
         </div>
       )}
       <CardHeader className="pb-4">
@@ -109,11 +112,11 @@ function PlanCard({
         <CardTitle className="text-xl">{plan.name}</CardTitle>
         <div className="mt-2">
           {plan.tier === "HIGH" ? (
-            <div className="text-3xl font-semibold">Op maat</div>
+            <div className="text-3xl font-semibold">{t("pricing.planLabels.custom")}</div>
           ) : (
             <div className="text-3xl font-semibold">
               {formatPrice(plan.monthlyPriceCents)}
-              <span className="text-base font-normal text-muted-foreground">/maand</span>
+              <span className="text-base font-normal text-muted-foreground">{t("pricing.planLabels.perMonth")}</span>
             </div>
           )}
         </div>
@@ -121,9 +124,9 @@ function PlanCard({
       <CardContent className="flex-1">
         <div className="space-y-3">
           <div className="text-sm text-muted-foreground border-b pb-3 mb-3">
-            {plan.tier === "LOW" && `Keuze uit ${plan.includedTemplatesMax} templates`}
-            {plan.tier === "MEDIUM" && `Keuze uit ${plan.includedTemplatesMax} templates`}
-            {plan.tier === "HIGH" && "Volledig op maat ontwerp"}
+            {plan.tier === "LOW" && t("pricing.planFeatures.templateChoice", { count: plan.includedTemplatesMax })}
+            {plan.tier === "MEDIUM" && t("pricing.planFeatures.templateChoice", { count: plan.includedTemplatesMax })}
+            {plan.tier === "HIGH" && t("pricing.planFeatures.customDesign")}
           </div>
           {features.map((feature, index) => (
             <div key={index} className="flex items-start gap-2 text-sm">
@@ -133,11 +136,11 @@ function PlanCard({
           ))}
           <div className="flex items-start gap-2 text-sm">
             <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-            <span>{plan.includedPages} pagina's inbegrepen</span>
+            <span>{t("pricing.planFeatures.pagesIncluded", { count: plan.includedPages })}</span>
           </div>
           <div className="flex items-start gap-2 text-sm">
             <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-            <span>{plan.includedCredits} credits/wijzigingen per maand</span>
+            <span>{t("pricing.planFeatures.creditsPerMonth", { count: plan.includedCredits })}</span>
           </div>
           {plan.slaText && (
             <div className="flex items-start gap-2 text-sm text-muted-foreground pt-2 border-t mt-4">
@@ -169,7 +172,7 @@ function PlanCard({
   );
 }
 
-function AddOnCard({ addOn }: { addOn: AddOn }) {
+function AddOnCard({ addOn, t }: { addOn: AddOn; t: (key: string, params?: Record<string, string | number>) => string }) {
   const IconComponent = addOnIcons[addOn.slug] || TrendingUp;
 
   return (
@@ -185,10 +188,10 @@ function AddOnCard({ addOn }: { addOn: AddOn }) {
               {addOn.requiresBudget && (
                 <Tooltip>
                   <TooltipTrigger>
-                    <Badge variant="secondary" className="text-xs">Budget</Badge>
+                    <Badge variant="secondary" className="text-xs">{t("pricing.addons.budgetLabel")}</Badge>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Deze add-on vereist een maandelijks advertentiebudget</p>
+                    <p>{t("pricing.addons.budgetTooltip")}</p>
                   </TooltipContent>
                 </Tooltip>
               )}
@@ -196,14 +199,14 @@ function AddOnCard({ addOn }: { addOn: AddOn }) {
             <p className="text-sm text-muted-foreground mb-3">{addOn.description}</p>
             {addOn.baseFeeCents && addOn.baseFeeCents > 0 && (
               <div className="text-sm">
-                <span className="font-medium">Vanaf {formatPrice(addOn.baseFeeCents)}</span>
-                <span className="text-muted-foreground">/maand</span>
+                <span className="font-medium">{t("pricing.addons.fromPrice")} {formatPrice(addOn.baseFeeCents)}</span>
+                <span className="text-muted-foreground">{t("pricing.planLabels.perMonth")}</span>
               </div>
             )}
             {addOn.requiresBudget && (
               <div className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
                 <Info className="h-3 w-3" />
-                Media/beheer split: {addOn.mediaPercentageDefault}% / {100 - (addOn.mediaPercentageDefault || 85)}%
+                {t("pricing.addons.mediaSplit")} {addOn.mediaPercentageDefault}% / {100 - (addOn.mediaPercentageDefault || 85)}%
               </div>
             )}
           </div>
@@ -240,6 +243,8 @@ function PlansSkeleton() {
 }
 
 export default function PricingPage() {
+  const { t } = useTranslation();
+
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -336,8 +341,8 @@ export default function PricingPage() {
   };
 
   useSEO({
-    title: "Website Abonnement Prijzen",
-    description: "Website abonnement vanaf €99/maand. Starter, Professional of Enterprise. Inclusief design, hosting, onderhoud en support. Maandelijks opzegbaar.",
+    title: t("pricing.seo.title"),
+    description: t("pricing.seo.description"),
     canonical: "/pricing",
     structuredData: structuredData,
   });
@@ -366,8 +371,8 @@ export default function PricingPage() {
         window.location.href = data.url;
       } else {
         toast({
-          title: "Fout",
-          description: "Kan checkout niet starten. Probeer het opnieuw.",
+          title: t("pricing.errors.checkoutFailed"),
+          description: t("pricing.errors.checkoutFailed"),
           variant: "destructive",
         });
       }
@@ -375,8 +380,8 @@ export default function PricingPage() {
     },
     onError: (error: any) => {
       toast({
-        title: "Fout",
-        description: error.message || "Kan checkout niet starten. Probeer het opnieuw.",
+        title: t("pricing.errors.checkoutFailed"),
+        description: error.message || t("pricing.errors.checkoutFailed"),
         variant: "destructive",
       });
       setPendingPlanId(null);
@@ -393,18 +398,17 @@ export default function PricingPage() {
       <section className="pt-[104px] pb-16 md:pb-24">
         <div className="container mx-auto px-4">
           <BreadcrumbNav 
-            items={[{ label: "Prijzen" }]} 
+            items={[{ label: t("common.nav.pricing") }]} 
             className="mb-8"
           />
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <Badge variant="secondary" className="mb-4">Prijzen</Badge>
+            <Badge variant="secondary" className="mb-4">{t("pricing.hero.badge")}</Badge>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-4" data-testid="text-pricing-title">
-              Transparante prijzen,
-              <span className="text-primary"> geen verrassingen</span>
+              {t("pricing.hero.title")}
+              <span className="text-primary"> {t("pricing.hero.titleHighlight")}</span>
             </h1>
             <p className="text-lg text-muted-foreground">
-              Kies het plan dat past bij uw bedrijf. Alle plannen inclusief hosting, SSL, en basis ondersteuning. 
-              Onze websites zijn geoptimaliseerd volgens de{" "}
+              {t("pricing.hero.description")}{" "}
               <a 
                 href="https://developers.google.com/speed/docs/insights/v5/about" 
                 target="_blank" 
@@ -412,12 +416,11 @@ export default function PricingPage() {
                 className="text-primary hover:underline"
                 data-testid="link-external-pagespeed"
               >
-                Google PageSpeed richtlijnen
-              </a>.
+                {t("pricing.hero.pageSpeedLink")}
+              </a>
             </p>
           </div>
 
-          {/* Recommendation Wizard */}
           {sortedPlans && sortedPlans.length > 0 && addOns && addOns.length > 0 && (
             <div className="max-w-xl mx-auto mb-16">
               <RecommendationWizard
@@ -432,7 +435,7 @@ export default function PricingPage() {
           )}
 
           <div className="text-center mb-8">
-            <p className="text-sm text-muted-foreground">Of bekijk alle opties hieronder</p>
+            <p className="text-sm text-muted-foreground">{t("pricing.viewAllOptions")}</p>
           </div>
 
           {plansLoading ? (
@@ -450,6 +453,7 @@ export default function PricingPage() {
                     onCheckout={(planId) => checkoutMutation.mutate(planId)}
                     isCheckoutPending={checkoutMutation.isPending}
                     pendingPlanId={pendingPlanId}
+                    t={t}
                   />
                 ))}
               >
@@ -464,6 +468,7 @@ export default function PricingPage() {
                       onCheckout={(planId) => checkoutMutation.mutate(planId)}
                       isCheckoutPending={checkoutMutation.isPending}
                       pendingPlanId={pendingPlanId}
+                      t={t}
                     />
                   ))}
                 </div>
@@ -471,7 +476,7 @@ export default function PricingPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">Plannen worden binnenkort beschikbaar.</p>
+              <p className="text-muted-foreground">{t("pricing.plansComingSoon")}</p>
             </div>
           )}
         </div>
@@ -480,12 +485,12 @@ export default function PricingPage() {
       <section id="addons" className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <Badge variant="secondary" className="mb-4">Add-ons</Badge>
+            <Badge variant="secondary" className="mb-4">{t("pricing.addons.badge")}</Badge>
             <h2 className="text-3xl md:text-4xl font-semibold mb-4">
-              Boost uw groei
+              {t("pricing.addons.title")}
             </h2>
             <p className="text-lg text-muted-foreground">
-              Voeg extra diensten toe om uw online aanwezigheid te versterken. Van advertenties tot SEO.
+              {t("pricing.addons.description")}
             </p>
           </div>
 
@@ -509,12 +514,12 @@ export default function PricingPage() {
           ) : addOns && addOns.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {addOns.map((addOn) => (
-                <AddOnCard key={addOn.id} addOn={addOn} />
+                <AddOnCard key={addOn.id} addOn={addOn} t={t} />
               ))}
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">Add-ons worden binnenkort beschikbaar.</p>
+              <p className="text-muted-foreground">{t("pricing.addons.comingSoon")}</p>
             </div>
           )}
         </div>
@@ -524,37 +529,31 @@ export default function PricingPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-center">
-              Veelgestelde vragen
+              {t("pricing.faq.title")}
             </h2>
             <div className="space-y-6">
               <div className="border-b pb-6">
-                <h3 className="font-medium mb-2">Wat zit er allemaal in mijn abonnement?</h3>
+                <h3 className="font-medium mb-2">{t("pricing.faq.questions.0.question")}</h3>
                 <p className="text-muted-foreground text-sm">
-                  Elk abonnement bevat een professionele website, beheerde hosting met SSL, regelmatige updates en backups, 
-                  basis SEO optimalisatie, en ondersteuning via e-mail. Afhankelijk van uw plan krijgt u ook toegang tot 
-                  meer templates en maandelijkse credits voor wijzigingen.
+                  {t("pricing.faq.questions.0.answer")}
                 </p>
               </div>
               <div className="border-b pb-6">
-                <h3 className="font-medium mb-2">Hoe werkt de budgetsplit voor advertenties?</h3>
+                <h3 className="font-medium mb-2">{t("pricing.faq.questions.1.question")}</h3>
                 <p className="text-muted-foreground text-sm">
-                  Bij onze advertentie add-ons (Google Ads, Meta Ads) splitsen we uw maandbudget automatisch op. 
-                  Standaard gaat 85% naar mediakosten (de daadwerkelijke advertenties) en 15% naar beheerskosten. 
-                  U ziet deze split altijd transparant voordat u bevestigt.
+                  {t("pricing.faq.questions.1.answer")}
                 </p>
               </div>
               <div className="border-b pb-6">
-                <h3 className="font-medium mb-2">Kan ik later upgraden naar een hoger plan?</h3>
+                <h3 className="font-medium mb-2">{t("pricing.faq.questions.2.question")}</h3>
                 <p className="text-muted-foreground text-sm">
-                  Ja, u kunt op elk moment upgraden. Het verschil in kosten wordt pro-rata berekend. 
-                  Uw bestaande website en data blijven volledig behouden bij een upgrade.
+                  {t("pricing.faq.questions.2.answer")}
                 </p>
               </div>
               <div className="border-b pb-6">
-                <h3 className="font-medium mb-2">Wat als ik wil opzeggen?</h3>
+                <h3 className="font-medium mb-2">{t("pricing.faq.questions.3.question")}</h3>
                 <p className="text-muted-foreground text-sm">
-                  U kunt maandelijks opzeggen. Na opzegging blijft uw website nog 30 dagen actief. 
-                  Op verzoek kunnen we uw websitebestanden exporteren zodat u ze elders kunt hosten.
+                  {t("pricing.faq.questions.3.answer")}
                 </p>
               </div>
             </div>

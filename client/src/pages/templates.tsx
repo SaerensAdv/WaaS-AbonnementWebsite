@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useSEO } from "@/hooks/use-seo";
+import { useTranslation } from "@/lib/i18n-context";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -33,113 +34,40 @@ import {
 
 type FilterType = "all" | "starter" | "professional" | "popular";
 
-const templates = [
-  {
-    id: "zakelijk-modern",
-    title: "Strak & zakelijk",
-    tier: "starter" as const,
-    popular: true,
-    features: [
-      "Duidelijke diensten",
-      "Sterke CTA",
-      "Mobiel perfect",
-    ],
-    sectors: ["Consulting", "Zakelijke dienstverlening"],
-  },
-  {
-    id: "warm-lokaal",
-    title: "Warm & lokaal",
-    tier: "starter" as const,
-    popular: true,
-    features: [
-      "Persoonlijke uitstraling",
-      "Lokale focus",
-      "Vertrouwenwekkend",
-    ],
-    sectors: ["Horeca", "Retail", "Beauty"],
-  },
-  {
-    id: "premium-service",
-    title: "Premium service",
-    tier: "professional" as const,
-    popular: true,
-    features: [
-      "Luxe uitstraling",
-      "Portfolio showcase",
-      "Uitgebreide animaties",
-    ],
-    sectors: ["Automotive", "Vastgoed", "Luxe diensten"],
-  },
-  {
-    id: "bouw-vakwerk",
-    title: "Vakwerk & betrouwbaar",
-    tier: "starter" as const,
-    popular: false,
-    features: [
-      "Projecten showcase",
-      "Contact formulier",
-      "Snelle laadtijd",
-    ],
-    sectors: ["Bouw", "Installatie", "Techniek"],
-  },
-  {
-    id: "zorg-vertrouwen",
-    title: "Zorg & vertrouwen",
-    tier: "professional" as const,
-    popular: false,
-    features: [
-      "Rustige uitstraling",
-      "Online afspraken",
-      "Toegankelijk design",
-    ],
-    sectors: ["Zorg", "Fysiotherapie", "Coaching"],
-  },
-  {
-    id: "creatief-portfolio",
-    title: "Creatief & dynamisch",
-    tier: "professional" as const,
-    popular: true,
-    features: [
-      "Visueel portfolio",
-      "Moderne animaties",
-      "Uniek design",
-    ],
-    sectors: ["Creatieve sector", "Fotografie", "Design"],
-  },
-  {
-    id: "restaurant-sfeer",
-    title: "Sfeer & beleving",
-    tier: "starter" as const,
-    popular: false,
-    features: [
-      "Menu integratie",
-      "Reserveringen",
-      "Sfeerbeelden",
-    ],
-    sectors: ["Horeca", "Catering", "Events"],
-  },
-  {
-    id: "groei-conversie",
-    title: "Groei & conversie",
-    tier: "professional" as const,
-    popular: false,
-    features: [
-      "Lead generatie",
-      "A/B test ready",
-      "Analytics dashboard",
-    ],
-    sectors: ["Marketing", "E-commerce", "SaaS"],
-  },
+const templateIds = [
+  "zakelijkModern",
+  "warmLokaal",
+  "premiumService",
+  "bouwVakwerk",
+  "zorgVertrouwen",
+  "creatiefPortfolio",
+  "restaurantSfeer",
+  "groeiConversie",
+] as const;
+
+const templateData = [
+  { id: "zakelijk-modern", key: "zakelijkModern", tier: "starter" as const, popular: true },
+  { id: "warm-lokaal", key: "warmLokaal", tier: "starter" as const, popular: true },
+  { id: "premium-service", key: "premiumService", tier: "professional" as const, popular: true },
+  { id: "bouw-vakwerk", key: "bouwVakwerk", tier: "starter" as const, popular: false },
+  { id: "zorg-vertrouwen", key: "zorgVertrouwen", tier: "professional" as const, popular: false },
+  { id: "creatief-portfolio", key: "creatiefPortfolio", tier: "professional" as const, popular: true },
+  { id: "restaurant-sfeer", key: "restaurantSfeer", tier: "starter" as const, popular: false },
+  { id: "groei-conversie", key: "groeiConversie", tier: "professional" as const, popular: false },
 ];
 
-const filterOptions = [
-  { id: "all" as const, label: "Alle stijlen", icon: Layout },
-  { id: "starter" as const, label: "Starter websites", icon: Zap },
-  { id: "professional" as const, label: "Professional websites", icon: Award },
-  { id: "popular" as const, label: "Meest gekozen", icon: Star },
-];
+function TemplateCard({ template, index, t }: { template: typeof templateData[0]; index: number; t: (key: string) => string }) {
+  const title = t(`templates.templates.${template.key}.title`);
+  const features = [
+    t(`templates.templates.${template.key}.features.0`),
+    t(`templates.templates.${template.key}.features.1`),
+    t(`templates.templates.${template.key}.features.2`),
+  ];
+  const sectors = [
+    t(`templates.templates.${template.key}.sectors.0`),
+    t(`templates.templates.${template.key}.sectors.1`),
+  ];
 
-function TemplateCard({ template, index }: { template: typeof templates[0]; index: number }) {
   return (
     <motion.div
       whileHover={{ y: -4 }}
@@ -156,26 +84,26 @@ function TemplateCard({ template, index }: { template: typeof templates[0]; inde
               <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-primary/10 flex items-center justify-center">
                 <Layout className="h-8 w-8 text-primary" />
               </div>
-              <p className="text-sm text-muted-foreground">Preview</p>
+              <p className="text-sm text-muted-foreground">{t("templates.preview")}</p>
             </div>
             {template.popular && (
               <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
-                Populair
+                {t("templates.badges.popular")}
               </Badge>
             )}
             <Badge 
               variant="secondary" 
               className="absolute top-3 left-3 no-default-hover-elevate no-default-active-elevate"
             >
-              {template.tier === "starter" ? "Starter" : "Professional"}
+              {template.tier === "starter" ? t("templates.badges.starter") : t("templates.badges.professional")}
             </Badge>
           </div>
           
           <div className="p-6">
-            <h3 className="text-lg font-semibold mb-4">{template.title}</h3>
+            <h3 className="text-lg font-semibold mb-4">{title}</h3>
             
             <ul className="space-y-2 mb-6">
-              {template.features.map((feature) => (
+              {features.map((feature) => (
                 <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
                   <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Check className="h-3 w-3 text-primary" />
@@ -186,7 +114,7 @@ function TemplateCard({ template, index }: { template: typeof templates[0]; inde
             </ul>
             
             <div className="flex flex-wrap gap-1 mb-6">
-              {template.sectors.slice(0, 2).map((sector) => (
+              {sectors.slice(0, 2).map((sector) => (
                 <Badge 
                   key={sector} 
                   variant="outline" 
@@ -199,7 +127,7 @@ function TemplateCard({ template, index }: { template: typeof templates[0]; inde
             
             <Link href="/pricing">
               <Button className="w-full gap-2" data-testid={`button-select-${template.id}`}>
-                Kies dit voorbeeld
+                {t("common.buttons.chooseExample")}
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
@@ -211,21 +139,36 @@ function TemplateCard({ template, index }: { template: typeof templates[0]; inde
 }
 
 export default function TemplatesPage() {
+  const { t } = useTranslation();
+
   useSEO({
-    title: "Website Templates",
-    description: "Bekijk onze professionele website templates. Kies uit moderne ontwerpen voor zakelijke dienstverlening, retail, horeca en meer. Volledig aanpasbaar aan uw huisstijl.",
+    title: t("templates.seo.title"),
+    description: t("templates.seo.description"),
     canonical: "/templates",
   });
 
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
 
-  const filteredTemplates = templates.filter((template) => {
+  const filterOptions = [
+    { id: "all" as const, label: t("templates.filters.all"), icon: Layout },
+    { id: "starter" as const, label: t("templates.filters.starter"), icon: Zap },
+    { id: "professional" as const, label: t("templates.filters.professional"), icon: Award },
+    { id: "popular" as const, label: t("templates.filters.popular"), icon: Star },
+  ];
+
+  const filteredTemplates = templateData.filter((template) => {
     if (activeFilter === "all") return true;
     if (activeFilter === "starter") return template.tier === "starter";
     if (activeFilter === "professional") return template.tier === "professional";
     if (activeFilter === "popular") return template.popular;
     return true;
   });
+
+  const reassuranceItems = [
+    { icon: Heart, label: t("templates.reassurance.items.0") },
+    { icon: Briefcase, label: t("templates.reassurance.items.1") },
+    { icon: Target, label: t("templates.reassurance.items.2") },
+  ];
 
   return (
     <MarketingLayout>
@@ -250,7 +193,7 @@ export default function TemplatesPage() {
         
         <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
-            items={[{ label: "Voorbeelden" }]} 
+            items={[{ label: t("common.nav.templates") }]} 
             className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
         </div>
@@ -264,7 +207,7 @@ export default function TemplatesPage() {
                 transition={{ duration: 0.2 }}
               >
                 <Sparkles className="h-4 w-4 text-primary" />
-                Professionele website voorbeelden
+                {t("templates.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </motion.div>
             </BlurIn>
@@ -274,15 +217,15 @@ export default function TemplatesPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-8" 
                 data-testid="text-templates-hero-title"
               >
-                Kies een stijl die
+                {t("templates.hero.title")}
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">bij uw bedrijf past</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary">{t("templates.hero.titleHighlight")}</span>
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-10">
-                Bekijk voorbeelden van websites die wij bouwen. Strak, snel en klaar om klanten op te leveren.
+                {t("templates.hero.description")}
               </p>
             </BlurIn>
             
@@ -290,7 +233,7 @@ export default function TemplatesPage() {
               <Link href="/pricing">
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-templates-start">
-                    Start met een abonnement
+                    {t("common.buttons.viewPlans")}
                     <ArrowRight className="h-5 w-5" />
                   </Button>
                 </motion.div>
@@ -327,7 +270,7 @@ export default function TemplatesPage() {
           <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" staggerDelay={0.1}>
             {filteredTemplates.map((template, index) => (
               <StaggerItem key={template.id}>
-                <TemplateCard template={template} index={index} />
+                <TemplateCard template={template} index={index} t={t} />
               </StaggerItem>
             ))}
           </StaggerChildren>
@@ -335,7 +278,7 @@ export default function TemplatesPage() {
           {filteredTemplates.length === 0 && (
             <FadeIn>
               <div className="text-center py-16">
-                <p className="text-muted-foreground">Geen templates gevonden voor deze filter.</p>
+                <p className="text-muted-foreground">{t("templates.noResults")}</p>
               </div>
             </FadeIn>
           )}
@@ -347,24 +290,19 @@ export default function TemplatesPage() {
           <FadeInUp>
             <div className="max-w-3xl mx-auto text-center">
               <Badge variant="secondary" className="mb-6 no-default-hover-elevate no-default-active-elevate">
-                Volledig op maat
+                {t("templates.reassurance.badge")}
               </Badge>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                U kiest een voorbeeld.
+                {t("templates.reassurance.title")}
                 <br />
-                <span className="text-primary">Wij maken het van u.</span>
+                <span className="text-primary">{t("templates.reassurance.titleHighlight")}</span>
               </h2>
               <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
-                Kleuren, logo, teksten en foto's passen we aan zodat het klopt met uw bedrijf. 
-                Het resultaat is een unieke website die precies bij u past.
+                {t("templates.reassurance.description")}
               </p>
               
               <StaggerChildren className="grid sm:grid-cols-3 gap-6 mb-12" staggerDelay={0.1}>
-                {[
-                  { icon: Heart, label: "Uw huisstijl & kleuren" },
-                  { icon: Briefcase, label: "Uw teksten & content" },
-                  { icon: Target, label: "Uw doelen & resultaat" },
-                ].map((item) => (
+                {reassuranceItems.map((item) => (
                   <StaggerItem key={item.label}>
                     <motion.div
                       whileHover={{ y: -2 }}
@@ -386,7 +324,7 @@ export default function TemplatesPage() {
               <Link href="/pricing">
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-reassurance-pricing">
-                    Bekijk abonnementen
+                    {t("common.buttons.viewPlans")}
                     <ArrowRight className="h-5 w-5" />
                   </Button>
                 </motion.div>
@@ -401,17 +339,17 @@ export default function TemplatesPage() {
           <FadeInUp>
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
-                Klaar om te starten?
+                {t("templates.cta.title")}
               </h2>
               <p className="text-xl text-slate-300 mb-10 leading-relaxed">
-                Kies uw favoriete stijl en wij bouwen uw website binnen 10 werkdagen.
+                {t("templates.cta.description")}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/signup">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button size="lg" className="gap-2 text-lg h-14 px-8" data-testid="button-templates-cta-start">
-                      Start vandaag
+                      {t("common.buttons.startToday")}
                       <ArrowRight className="h-5 w-5" />
                     </Button>
                   </motion.div>
@@ -424,7 +362,7 @@ export default function TemplatesPage() {
                       className="h-14 px-8 text-lg border-white/20 text-white bg-white/5 backdrop-blur-sm"
                       data-testid="button-templates-cta-pricing"
                     >
-                      Bekijk abonnementen
+                      {t("common.buttons.viewPlans")}
                     </Button>
                   </motion.div>
                 </Link>
@@ -434,15 +372,15 @@ export default function TemplatesPage() {
                 <div className="flex flex-wrap items-center justify-center gap-6 mt-12 text-slate-400 text-sm">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>Binnen 10 dagen live</span>
+                    <span>{t("templates.cta.features.0")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>100% op maat</span>
+                    <span>{t("templates.cta.features.1")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-primary" />
-                    <span>Geen opstartkosten</span>
+                    <span>{t("templates.cta.features.2")}</span>
                   </div>
                 </div>
               </FadeIn>

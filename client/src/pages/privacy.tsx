@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useSEO } from "@/hooks/use-seo";
+import { useTranslation } from "@/lib/i18n-context";
 import { AnimatedDotGrid } from "@/components/animated-dot-grid";
 import {
   FadeInUp,
@@ -32,67 +33,16 @@ import {
   MessageSquare,
 } from "lucide-react";
 
-const whatWeCollect = [
-  {
-    icon: User,
-    title: "Accountgegevens",
-    description: "Naam en e-mailadres",
-  },
-  {
-    icon: CreditCard,
-    title: "Facturatiegegevens",
-    description: "Via onze betaalpartner",
-  },
-  {
-    icon: Settings,
-    title: "Website-instellingen",
-    description: "En contactaanvragen",
-  },
-  {
-    icon: BarChart3,
-    title: "Basis gebruiksdata",
-    description: "Om de dienst te verbeteren",
-  },
-];
-
-const whyWeCollect = [
-  {
-    icon: Globe,
-    text: "Om uw website te bouwen en te beheren",
-  },
-  {
-    icon: Wallet,
-    text: "Om betalingen en abonnementen te verwerken",
-  },
-  {
-    icon: Headphones,
-    text: "Om support te kunnen geven",
-  },
-  {
-    icon: ShieldCheck,
-    text: "Om veiligheid te garanderen",
-  },
-];
-
-const thirdParties = [
-  {
-    icon: CreditCard,
-    name: "Betaling",
-  },
-  {
-    icon: Mail,
-    name: "E-mail",
-  },
-  {
-    icon: Server,
-    name: "Hosting",
-  },
-];
+const whatWeCollectIcons = [User, CreditCard, Settings, BarChart3];
+const whyWeCollectIcons = [Globe, Wallet, Headphones, ShieldCheck];
+const thirdPartiesIcons = [CreditCard, Mail, Server];
 
 export default function PrivacyPage() {
+  const { t } = useTranslation();
+
   useSEO({
-    title: "Privacybeleid",
-    description: "Lees ons privacybeleid. Wij respecteren uw privacy en verwerken uw gegevens veilig conform de AVG. Transparant over wat we verzamelen en waarom.",
+    title: t("legal.privacy.seo.title"),
+    description: t("legal.privacy.seo.description"),
     canonical: "/privacy",
   });
 
@@ -121,7 +71,7 @@ export default function PrivacyPage() {
         
         <div className="container mx-auto px-4 relative z-10 pt-8">
           <BreadcrumbNav 
-            items={[{ label: "Privacy" }]} 
+            items={[{ label: t("common.footer.privacy") }]} 
             className="[&_a]:text-white/70 [&_a:hover]:text-white [&_span]:text-white [&_svg]:text-white/70"
           />
         </div>
@@ -135,7 +85,7 @@ export default function PrivacyPage() {
                 transition={{ duration: 0.2 }}
               >
                 <Sparkles className="h-4 w-4 text-primary" />
-                Helder en eerlijk
+                {t("legal.privacy.hero.badge")}
                 <ChevronRight className="h-4 w-4" />
               </motion.div>
             </BlurIn>
@@ -145,13 +95,13 @@ export default function PrivacyPage() {
                 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-white mb-8" 
                 data-testid="text-privacy-hero-title"
               >
-                Privacy Policy
+                {t("legal.privacy.hero.title")}
               </h1>
             </BlurIn>
             
             <BlurIn delay={0.2}>
               <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-                Wij gebruiken uw gegevens alleen om onze dienst te leveren en u correct te helpen. Punt.
+                {t("legal.privacy.hero.description")}
               </p>
             </BlurIn>
           </div>
@@ -164,27 +114,27 @@ export default function PrivacyPage() {
             <FadeInUp>
               <div className="mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-                  Gegevens
+                  {t("legal.privacy.whatWeCollect.badge")}
                 </Badge>
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                  Wat we bijhouden
+                  {t("legal.privacy.whatWeCollect.title")}
                 </h2>
               </div>
             </FadeInUp>
 
             <StaggerChildren className="grid sm:grid-cols-2 gap-4" staggerDelay={0.1}>
-              {whatWeCollect.map((item) => (
-                <StaggerItem key={item.title}>
+              {whatWeCollectIcons.map((Icon, index) => (
+                <StaggerItem key={index}>
                   <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
-                    <Card className="border bg-card" data-testid={`card-collect-${item.title.toLowerCase().replace(/\s/g, '-')}`}>
+                    <Card className="border bg-card" data-testid={`card-collect-${index}`}>
                       <CardContent className="p-5">
                         <div className="flex items-center gap-4">
                           <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                            <item.icon className="h-5 w-5 text-primary" />
+                            <Icon className="h-5 w-5 text-primary" />
                           </div>
                           <div>
-                            <h3 className="font-semibold">{item.title}</h3>
-                            <p className="text-sm text-muted-foreground">{item.description}</p>
+                            <h3 className="font-semibold">{t(`legal.privacy.whatWeCollect.items.${index}.title`)}</h3>
+                            <p className="text-sm text-muted-foreground">{t(`legal.privacy.whatWeCollect.items.${index}.description`)}</p>
                           </div>
                         </div>
                       </CardContent>
@@ -203,17 +153,17 @@ export default function PrivacyPage() {
             <FadeInUp>
               <div className="mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-                  Doel
+                  {t("legal.privacy.whyWeCollect.badge")}
                 </Badge>
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                  Waarom
+                  {t("legal.privacy.whyWeCollect.title")}
                 </h2>
               </div>
             </FadeInUp>
 
             <StaggerChildren className="space-y-3" staggerDelay={0.1}>
-              {whyWeCollect.map((item, index) => (
-                <StaggerItem key={item.text}>
+              {whyWeCollectIcons.map((Icon, index) => (
+                <StaggerItem key={index}>
                   <motion.div 
                     className="flex items-center gap-4 p-4 rounded-lg bg-card border"
                     whileHover={{ x: 4 }}
@@ -221,9 +171,9 @@ export default function PrivacyPage() {
                     data-testid={`item-why-${index}`}
                   >
                     <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <item.icon className="h-5 w-5 text-primary" />
+                      <Icon className="h-5 w-5 text-primary" />
                     </div>
-                    <span className="font-medium">{item.text}</span>
+                    <span className="font-medium">{t(`legal.privacy.whyWeCollect.items.${index}`)}</span>
                   </motion.div>
                 </StaggerItem>
               ))}
@@ -238,27 +188,27 @@ export default function PrivacyPage() {
             <FadeInUp>
               <div className="mb-12">
                 <Badge variant="secondary" className="mb-4 no-default-hover-elevate no-default-active-elevate">
-                  Derden
+                  {t("legal.privacy.thirdParties.badge")}
                 </Badge>
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                  Delen met derden
+                  {t("legal.privacy.thirdParties.title")}
                 </h2>
                 <p className="text-muted-foreground">
-                  Alleen partijen die nodig zijn om de dienst te leveren. Nooit voor "zomaar marketing".
+                  {t("legal.privacy.thirdParties.description")}
                 </p>
               </div>
             </FadeInUp>
 
             <StaggerChildren className="flex flex-wrap gap-4" staggerDelay={0.1}>
-              {thirdParties.map((party) => (
-                <StaggerItem key={party.name}>
+              {thirdPartiesIcons.map((Icon, index) => (
+                <StaggerItem key={index}>
                   <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-                    <Card className="border bg-card" data-testid={`card-party-${party.name.toLowerCase()}`}>
+                    <Card className="border bg-card" data-testid={`card-party-${index}`}>
                       <CardContent className="p-4 flex items-center gap-3">
                         <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                          <party.icon className="h-4 w-4 text-primary" />
+                          <Icon className="h-4 w-4 text-primary" />
                         </div>
-                        <span className="font-medium">{party.name}</span>
+                        <span className="font-medium">{t(`legal.privacy.thirdParties.items.${index}`)}</span>
                       </CardContent>
                     </Card>
                   </motion.div>
@@ -280,22 +230,22 @@ export default function PrivacyPage() {
                       <Users className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold mb-2">Uw rechten</h2>
+                      <h2 className="text-2xl font-bold mb-2">{t("legal.privacy.yourRights.title")}</h2>
                       <p className="text-muted-foreground">
-                        Inzage, aanpassing of verwijdering van uw gegevens
+                        {t("legal.privacy.yourRights.description")}
                       </p>
                     </div>
                   </div>
                   
                   <p className="text-muted-foreground mb-6">
-                    Wilt u weten welke gegevens we van u hebben, iets aanpassen of laten verwijderen? Neem dan contact met ons op via het contactformulier.
+                    {t("legal.privacy.yourRights.text")}
                   </p>
                   
                   <Link href="/contact">
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button className="gap-2" data-testid="button-contact-privacy">
                         <MessageSquare className="h-4 w-4" />
-                        Contacteer ons
+                        {t("legal.privacy.yourRights.buttonText")}
                         <ArrowRight className="h-4 w-4" />
                       </Button>
                     </motion.div>
@@ -306,7 +256,7 @@ export default function PrivacyPage() {
 
             <FadeInUp delay={0.2}>
               <p className="text-center text-sm text-muted-foreground mt-8" data-testid="text-last-updated">
-                Laatst bijgewerkt: {lastUpdated}
+                {t("legal.privacy.lastUpdated")} {lastUpdated}
               </p>
             </FadeInUp>
           </div>
