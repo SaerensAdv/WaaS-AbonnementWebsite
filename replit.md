@@ -24,8 +24,17 @@ Preferred communication style: Simple, everyday language.
 
 **State Management**: 
 - TanStack Query (React Query) for server state and API data caching
-- React Context for authentication state
+- React Context for authentication state and internationalization (i18n)
 - Session-based authentication with HttpOnly cookies
+
+**Internationalization (i18n)**:
+- Custom React Context-based i18n system (client/src/lib/i18n-context.tsx)
+- Supports Dutch (nl) and English (en) languages
+- Browser language detection with localStorage persistence
+- Translation files: client/src/lib/translations/nl.ts and en.ts (~650 lines each)
+- LanguageSwitcher component with flag icons in header
+- SEO: hreflang tags, language-aware og:locale, translated structured data
+- All marketing pages, legal pages, footer, and navigation fully translated
 
 **Key Layout Patterns**:
 - Marketing layout for public pages (home, pricing)
