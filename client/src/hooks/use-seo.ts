@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "@/lib/i18n-context";
 
 interface SEOProps {
   title: string;
@@ -23,6 +24,7 @@ export function useSEO({
   noIndex = false,
   structuredData,
 }: SEOProps) {
+  const { language } = useTranslation();
   useEffect(() => {
     const fullTitle = `${title} | ${SITE_NAME}`;
     document.title = fullTitle;
@@ -61,7 +63,8 @@ export function useSEO({
     updateMeta("og:type", ogType, true);
     updateMeta("og:site_name", SITE_NAME, true);
     updateMeta("og:image", ogImage.startsWith("http") ? ogImage : `${BASE_URL}${ogImage}`, true);
-    updateMeta("og:locale", "nl_NL", true);
+    updateMeta("og:locale", language === "nl" ? "nl_NL" : "en_US", true);
+    updateMeta("og:locale:alternate", language === "nl" ? "en_US" : "nl_NL", true);
 
     updateMeta("twitter:card", "summary_large_image");
     updateMeta("twitter:title", fullTitle);
@@ -73,7 +76,6 @@ export function useSEO({
       updateLink("canonical", fullCanonical);
       updateMeta("og:url", fullCanonical, true);
     } else {
-      // Remove canonical and og:url when not specified to prevent stale tags
       const existingCanonical = document.querySelector('link[rel="canonical"]');
       if (existingCanonical) {
         existingCanonical.remove();
@@ -83,6 +85,23 @@ export function useSEO({
         existingOgUrl.remove();
       }
     }
+
+    const updateHreflang = (lang: string, href: string) => {
+      let link = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
+      if (!link) {
+        link = document.createElement("link");
+        link.setAttribute("rel", "alternate");
+        link.setAttribute("hreflang", lang);
+        document.head.appendChild(link);
+      }
+      link.setAttribute("href", href);
+    };
+
+    const currentPath = window.location.pathname;
+    const fullUrl = `${BASE_URL}${currentPath}`;
+    updateHreflang("nl", fullUrl);
+    updateHreflang("en", fullUrl);
+    updateHreflang("x-default", fullUrl);
 
     // Add structured data
     const existingScript = document.querySelector('script[data-seo-structured]');
@@ -105,5 +124,5 @@ export function useSEO({
         script.remove();
       }
     };
-  }, [title, description, canonical, ogImage, ogType, noIndex, structuredData]);
+  }, [title, description, canonical, ogImage, ogType, noIndex, structuredData, language]);
 }
