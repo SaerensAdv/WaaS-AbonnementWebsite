@@ -1,7 +1,9 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { useAuth } from "@/lib/auth-context";
+import { useTranslation } from "@/lib/i18n-context";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,6 +13,7 @@ import logoGif from "@assets/Untitled_design_1764969853491.gif";
 export function MarketingHeader() {
   const [location] = useLocation();
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showStaticLogo, setShowStaticLogo] = useState(false);
   
@@ -22,10 +25,10 @@ export function MarketingHeader() {
   }, []);
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/pricing", label: "Prijzen" },
-    { href: "/projecten", label: "Projecten" },
-    { href: "/about", label: "Over ons" },
+    { href: "/", label: t("common.nav.home") },
+    { href: "/pricing", label: t("common.nav.pricing") },
+    { href: "/projecten", label: t("common.nav.projects") },
+    { href: "/about", label: t("common.nav.about") },
   ];
 
   return (
@@ -71,10 +74,11 @@ export function MarketingHeader() {
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
+            <LanguageSwitcher />
             <ThemeToggle />
             {user ? (
               <Link href="/app">
-                <Button size="sm" data-testid="button-dashboard">Dashboard</Button>
+                <Button size="sm" data-testid="button-dashboard">{t("common.buttons.dashboard")}</Button>
               </Link>
             ) : (
               <>
@@ -85,7 +89,7 @@ export function MarketingHeader() {
                     className="text-muted-foreground transition-colors duration-200"
                     data-testid="button-login"
                   >
-                    Inloggen
+                    {t("common.buttons.login")}
                   </Button>
                 </Link>
                 <Link href="/signup">
@@ -94,7 +98,7 @@ export function MarketingHeader() {
                     className="shadow-sm shadow-primary/20 transition-shadow duration-200 hover:shadow-md hover:shadow-primary/30"
                     data-testid="button-signup"
                   >
-                    Aan de slag
+                    {t("common.buttons.getStarted")}
                   </Button>
                 </Link>
               </>

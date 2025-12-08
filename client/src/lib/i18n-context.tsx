@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
+import { nl } from "./translations/nl";
+import { en } from "./translations/en";
 
 export type Language = "nl" | "en";
 
@@ -11,6 +13,8 @@ interface I18nContextType {
 const I18nContext = createContext<I18nContextType | null>(null);
 
 const STORAGE_KEY = "preferred-language";
+
+const translations = { nl, en };
 
 function detectBrowserLanguage(): Language {
   if (typeof navigator === "undefined") return "nl";
@@ -37,18 +41,7 @@ function storeLanguage(lang: Language): void {
   }
 }
 
-type TranslationValue = string | Record<string, unknown>;
-type Translations = Record<string, TranslationValue>;
-
-let nlTranslations: Translations = {};
-let enTranslations: Translations = {};
-
-export function setTranslations(nl: Translations, en: Translations) {
-  nlTranslations = nl;
-  enTranslations = en;
-}
-
-function getNestedValue(obj: Translations, path: string): string | undefined {
+function getNestedValue(obj: Record<string, unknown>, path: string): string | undefined {
   const keys = path.split(".");
   let current: unknown = obj;
   
@@ -87,8 +80,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const t = useCallback((key: string, params?: Record<string, string | number>): string => {
-    const translations = language === "nl" ? nlTranslations : enTranslations;
-    const value = getNestedValue(translations, key);
+    const currentTranslations = translations[language];
+    const value = getNestedValue(currentTranslations as unknown as Record<string, unknown>, key);
     
     if (value === undefined) {
       console.warn(`Missing translation for key: ${key} in language: ${language}`);

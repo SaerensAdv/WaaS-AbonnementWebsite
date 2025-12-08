@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/lib/theme-provider";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
+import { I18nProvider } from "@/lib/i18n-context";
 import { PageLoader } from "@/components/page-loader";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
@@ -195,12 +196,14 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="light" storageKey="website-abonnementen-theme">
         <TooltipProvider>
-          <AuthProvider>
-            <ScrollToTop />
-            <PageLoader />
-            <Router />
-            <Toaster />
-          </AuthProvider>
+          <I18nProvider>
+            <AuthProvider>
+              <ScrollToTop />
+              <PageLoader />
+              <Router />
+              <Toaster />
+            </AuthProvider>
+          </I18nProvider>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>
