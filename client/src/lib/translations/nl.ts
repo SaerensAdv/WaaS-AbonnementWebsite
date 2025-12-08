@@ -187,6 +187,32 @@ export const nl = {
       avgGrowth: "Gem. groei klanten",
       happyCustomers: "Tevreden klanten",
     },
+    structuredDataFaq: [
+      {
+        question: "Wat kost een website abonnement?",
+        answer: "Onze website abonnementen starten vanaf €99 per maand. Dit is inclusief professioneel ontwerp, hosting, SSL beveiliging, maandelijkse updates en persoonlijke support.",
+      },
+      {
+        question: "Moet ik technische kennis hebben?",
+        answer: "Nee, u hoeft geen technische kennis te hebben. Wij regelen alles van A tot Z: ontwerp, hosting, updates, beveiliging en onderhoud. U focust op uw bedrijf, wij zorgen voor uw website.",
+      },
+      {
+        question: "Hoe snel is mijn website online?",
+        answer: "Na een kort kennismakingsgesprek bouwen wij uw website binnen 2-4 weken. U keurt het ontwerp goed en daarna gaat uw website direct live.",
+      },
+      {
+        question: "Wat is het verschil tussen een website abonnement en een eenmalige website?",
+        answer: "Bij een website abonnement betaalt u een vast maandbedrag en is alles inbegrepen: ontwerp, hosting, onderhoud, updates en support. Bij een eenmalige website betaalt u een grote som vooraf en komen hosting, onderhoud en updates daar nog bovenop.",
+      },
+      {
+        question: "Kan ik mijn website abonnement opzeggen?",
+        answer: "Ja, u kunt uw website abonnement maandelijks opzeggen. Er is geen lange contractduur of opzegboete. U betaalt alleen voor de maanden dat u gebruik maakt van onze diensten.",
+      },
+      {
+        question: "Is een website abonnement geschikt voor mijn bedrijf?",
+        answer: "Een website abonnement is ideaal voor ondernemers en MKB-bedrijven die een professionele website willen zonder technisch gedoe. Of u nu een ZZP'er, lokale dienstverlener of groeiend bedrijf bent - wij hebben een passend abonnement.",
+      },
+    ],
   },
 
   pricing: {

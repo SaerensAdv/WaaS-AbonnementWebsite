@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -92,7 +93,7 @@ export default function HomePage() {
   const totalRatings = testimonials.reduce((sum, t) => sum + t.rating, 0);
   const averageRating = totalRatings / testimonials.length;
   
-  const homeStructuredData = {
+  const homeStructuredData = useMemo(() => ({
     "@context": "https://schema.org",
     "@graph": [
       {
@@ -100,50 +101,50 @@ export default function HomePage() {
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Wat kost een website abonnement?",
+            "name": t("home.structuredDataFaq.0.question"),
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Onze website abonnementen starten vanaf €99 per maand. Dit is inclusief professioneel ontwerp, hosting, SSL beveiliging, maandelijkse updates en persoonlijke support."
+              "text": t("home.structuredDataFaq.0.answer")
             }
           },
           {
             "@type": "Question",
-            "name": "Moet ik technische kennis hebben?",
+            "name": t("home.structuredDataFaq.1.question"),
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Nee, u hoeft geen technische kennis te hebben. Wij regelen alles van A tot Z: ontwerp, hosting, updates, beveiliging en onderhoud. U focust op uw bedrijf, wij zorgen voor uw website."
+              "text": t("home.structuredDataFaq.1.answer")
             }
           },
           {
             "@type": "Question",
-            "name": "Hoe snel is mijn website online?",
+            "name": t("home.structuredDataFaq.2.question"),
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Na een kort kennismakingsgesprek bouwen wij uw website binnen 2-4 weken. U keurt het ontwerp goed en daarna gaat uw website direct live."
+              "text": t("home.structuredDataFaq.2.answer")
             }
           },
           {
             "@type": "Question",
-            "name": "Wat is het verschil tussen een website abonnement en een eenmalige website?",
+            "name": t("home.structuredDataFaq.3.question"),
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Bij een website abonnement betaalt u een vast maandbedrag en is alles inbegrepen: ontwerp, hosting, onderhoud, updates en support. Bij een eenmalige website betaalt u een grote som vooraf en komen hosting, onderhoud en updates daar nog bovenop."
+              "text": t("home.structuredDataFaq.3.answer")
             }
           },
           {
             "@type": "Question",
-            "name": "Kan ik mijn website abonnement opzeggen?",
+            "name": t("home.structuredDataFaq.4.question"),
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Ja, u kunt uw website abonnement maandelijks opzeggen. Er is geen lange contractduur of opzegboete. U betaalt alleen voor de maanden dat u gebruik maakt van onze diensten."
+              "text": t("home.structuredDataFaq.4.answer")
             }
           },
           {
             "@type": "Question",
-            "name": "Is een website abonnement geschikt voor mijn bedrijf?",
+            "name": t("home.structuredDataFaq.5.question"),
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Een website abonnement is ideaal voor ondernemers en MKB-bedrijven die een professionele website willen zonder technisch gedoe. Of u nu een ZZP'er, lokale dienstverlener of groeiend bedrijf bent - wij hebben een passend abonnement."
+              "text": t("home.structuredDataFaq.5.answer")
             }
           }
         ]
@@ -175,7 +176,7 @@ export default function HomePage() {
         }))
       }
     ]
-  };
+  }), [t, language, testimonials, averageRating]);
 
   useSEO({
     title: t("home.seo.title"),

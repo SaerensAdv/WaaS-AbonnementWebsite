@@ -189,6 +189,32 @@ export const en: TranslationKeys = {
       avgGrowth: "Avg. customer growth",
       happyCustomers: "Happy customers",
     },
+    structuredDataFaq: [
+      {
+        question: "What does a website subscription cost?",
+        answer: "Our website subscriptions start from €99 per month. This includes professional design, hosting, SSL security, monthly updates, and personal support.",
+      },
+      {
+        question: "Do I need technical knowledge?",
+        answer: "No, you don't need any technical knowledge. We handle everything from A to Z: design, hosting, updates, security, and maintenance. You focus on your business, we take care of your website.",
+      },
+      {
+        question: "How quickly will my website be online?",
+        answer: "After a brief introduction meeting, we build your website within 2-4 weeks. You approve the design and then your website goes live immediately.",
+      },
+      {
+        question: "What's the difference between a website subscription and a one-time website?",
+        answer: "With a website subscription, you pay a fixed monthly fee and everything is included: design, hosting, maintenance, updates, and support. With a one-time website, you pay a large sum upfront and hosting, maintenance, and updates come on top of that.",
+      },
+      {
+        question: "Can I cancel my website subscription?",
+        answer: "Yes, you can cancel your website subscription monthly. There is no long contract term or cancellation fee. You only pay for the months you use our services.",
+      },
+      {
+        question: "Is a website subscription suitable for my business?",
+        answer: "A website subscription is ideal for entrepreneurs and SMEs who want a professional website without technical hassle. Whether you're a freelancer, local service provider, or growing business - we have a suitable subscription.",
+      },
+    ],
   },
 
   pricing: {
