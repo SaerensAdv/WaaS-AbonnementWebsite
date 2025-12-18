@@ -167,11 +167,14 @@ export async function registerRoutes(
       return path.replace(/\/+$/, "");
     };
 
-    // Set headers first to ensure pure XML response
+    // Set headers for optimal Google Search Console compatibility
+    const today = new Date();
     res.set({
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, max-age=3600",
+      "Cache-Control": "public, max-age=3600, s-maxage=3600",
       "X-Content-Type-Options": "nosniff",
+      "Last-Modified": today.toUTCString(),
+      "ETag": `"sitemap-${today.toISOString().split("T")[0]}"`,
     });
 
     try {
@@ -198,7 +201,7 @@ export async function registerRoutes(
         { url: "/cookies", priority: "0.3", changefreq: "yearly" },
       ];
 
-      const today = new Date().toISOString().split("T")[0];
+      const todayStr = today.toISOString().split("T")[0];
       
       // Build XML with proper formatting
       const urlEntries: string[] = [];
@@ -208,7 +211,7 @@ export async function registerRoutes(
         urlEntries.push(
 `  <url>
     <loc>${loc}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${todayStr}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>`
@@ -223,7 +226,7 @@ export async function registerRoutes(
             ? new Date(post.updatedAt).toISOString().split("T")[0]
             : post.createdAt 
               ? new Date(post.createdAt).toISOString().split("T")[0]
-              : today;
+              : todayStr;
           const loc = escapeXml(`${baseUrl}/blog/${post.slug}`);
           urlEntries.push(
 `  <url>
