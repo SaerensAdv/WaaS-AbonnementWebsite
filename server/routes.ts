@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import session from "express-session";
 import bcrypt from "bcryptjs";
 import { storage } from "./storage";
+import { clickup, CLICKUP_LISTS, CLICKUP_PRIORITY } from "./clickup";
 import {
   loginSchema,
   signupSchema,
@@ -1222,6 +1223,121 @@ ${urlEntries.join("\n")}
       console.error("Delete blog post error:", error);
       res.status(500).json({ message: "Failed to delete blog post" });
     }
+  });
+
+  // ============================================
+  // ClickUp Integration Endpoints
+  // ============================================
+
+  // Verify ClickUp connection
+  app.get("/api/admin/clickup/status", requireRole("ADMIN"), async (_req, res) => {
+    try {
+      const result = await clickup.verifyConnection();
+      res.json(result);
+    } catch (error) {
+      console.error("ClickUp status check error:", error);
+      res.status(500).json({ success: false, error: "Failed to check ClickUp status" });
+    }
+  });
+
+  // Get tasks from a specific list
+  app.get("/api/admin/clickup/tasks/:listId", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const result = await clickup.getTasks(req.params.listId);
+      res.json(result);
+    } catch (error) {
+      console.error("ClickUp get tasks error:", error);
+      res.status(500).json({ success: false, error: "Failed to fetch tasks" });
+    }
+  });
+
+  // Create a general task
+  app.post("/api/admin/clickup/tasks", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const { listId, ...taskData } = req.body;
+      if (!listId) {
+        return res.status(400).json({ success: false, error: "listId is required" });
+      }
+      const result = await clickup.createTask(listId, taskData);
+      res.json(result);
+    } catch (error) {
+      console.error("ClickUp create task error:", error);
+      res.status(500).json({ success: false, error: "Failed to create task" });
+    }
+  });
+
+  // Create development task
+  app.post("/api/admin/clickup/tasks/development", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const { title, description, type, priority } = req.body;
+      if (!title || !description || !type) {
+        return res.status(400).json({ success: false, error: "title, description, and type are required" });
+      }
+      const result = await clickup.createDevelopmentTask({ title, description, type, priority });
+      res.json(result);
+    } catch (error) {
+      console.error("ClickUp create dev task error:", error);
+      res.status(500).json({ success: false, error: "Failed to create development task" });
+    }
+  });
+
+  // Create operations task
+  app.post("/api/admin/clickup/tasks/operations", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const { title, description, customerName, priority, dueInDays } = req.body;
+      if (!title || !description) {
+        return res.status(400).json({ success: false, error: "title and description are required" });
+      }
+      const result = await clickup.createOperationsTask({ title, description, customerName, priority, dueInDays });
+      res.json(result);
+    } catch (error) {
+      console.error("ClickUp create ops task error:", error);
+      res.status(500).json({ success: false, error: "Failed to create operations task" });
+    }
+  });
+
+  // Internal: Create task from contact form (called internally, not admin-only)
+  app.post("/api/internal/clickup/contact", async (req, res) => {
+    try {
+      const { name, email, phone, company, message } = req.body;
+      if (!name || !email || !message) {
+        return res.status(400).json({ success: false, error: "name, email, and message are required" });
+      }
+      const result = await clickup.createContactFormTask({ name, email, phone, company, message });
+      res.json(result);
+    } catch (error) {
+      console.error("ClickUp contact form task error:", error);
+      res.status(500).json({ success: false, error: "Failed to create contact task" });
+    }
+  });
+
+  // Internal: Create customer onboarding task (called after successful checkout)
+  app.post("/api/internal/clickup/onboarding", async (req, res) => {
+    try {
+      const { customerName, email, planName, subscriptionId } = req.body;
+      if (!customerName || !email || !planName) {
+        return res.status(400).json({ success: false, error: "customerName, email, and planName are required" });
+      }
+      const result = await clickup.createCustomerOnboardingTask({ customerName, email, planName, subscriptionId });
+      res.json(result);
+    } catch (error) {
+      console.error("ClickUp onboarding task error:", error);
+      res.status(500).json({ success: false, error: "Failed to create onboarding task" });
+    }
+  });
+
+  // Get available list IDs (for reference)
+  app.get("/api/admin/clickup/lists", requireRole("ADMIN"), async (_req, res) => {
+    res.json({
+      success: true,
+      lists: {
+        PRODUCT_OVERZICHT: CLICKUP_LISTS.PRODUCT_OVERZICHT,
+        DEVELOPMENT: CLICKUP_LISTS.DEVELOPMENT,
+        OPERATIONS: CLICKUP_LISTS.OPERATIONS,
+        RECURRING: CLICKUP_LISTS.RECURRING,
+        DONE_ARCHIVE: CLICKUP_LISTS.DONE_ARCHIVE,
+      },
+    });
   });
 
   return httpServer;
