@@ -1119,9 +1119,20 @@ ${urlEntries.join("\n")}
         return res.status(400).json({ message: "All fields are required" });
       }
       
-      // For now, just log the contact request
-      // In production, this would send an email or store in database
       console.log("Contact form submission:", { name, email, subject, message });
+      
+      // Create task in ClickUp Operations list
+      const clickupResult = await clickup.createContactFormTask({
+        name,
+        email,
+        message: `**Onderwerp:** ${subject}\n\n${message}`,
+      });
+      
+      if (clickupResult.success) {
+        console.log("ClickUp task created:", clickupResult.data?.id);
+      } else {
+        console.warn("ClickUp task creation failed:", clickupResult.error);
+      }
       
       res.json({ success: true, message: "Contact form submitted successfully" });
     } catch (error) {
