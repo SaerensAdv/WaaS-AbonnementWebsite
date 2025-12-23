@@ -71,6 +71,7 @@ export const templates = pgTable("templates", {
   previewImageUrl: text("preview_image_url"),
   category: text("category"),
   isActive: boolean("is_active").default(true),
+  isFeatured: boolean("is_featured").default(false),
 });
 
 // Subscriptions

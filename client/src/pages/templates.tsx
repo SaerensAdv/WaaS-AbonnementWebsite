@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,48 +26,18 @@ import {
   Briefcase,
   Heart,
   Award,
-  Smartphone,
   Zap,
   Target,
   Layout,
   Star,
+  Loader2,
 } from "lucide-react";
+import type { Template } from "@shared/schema";
 
-type FilterType = "all" | "starter" | "professional" | "popular";
+type FilterType = "all" | "starter" | "professional" | "featured";
 
-const templateIds = [
-  "zakelijkModern",
-  "warmLokaal",
-  "premiumService",
-  "bouwVakwerk",
-  "zorgVertrouwen",
-  "creatiefPortfolio",
-  "restaurantSfeer",
-  "groeiConversie",
-] as const;
-
-const templateData = [
-  { id: "zakelijk-modern", key: "zakelijkModern", tier: "starter" as const, popular: true },
-  { id: "warm-lokaal", key: "warmLokaal", tier: "starter" as const, popular: true },
-  { id: "premium-service", key: "premiumService", tier: "professional" as const, popular: true },
-  { id: "bouw-vakwerk", key: "bouwVakwerk", tier: "starter" as const, popular: false },
-  { id: "zorg-vertrouwen", key: "zorgVertrouwen", tier: "professional" as const, popular: false },
-  { id: "creatief-portfolio", key: "creatiefPortfolio", tier: "professional" as const, popular: true },
-  { id: "restaurant-sfeer", key: "restaurantSfeer", tier: "starter" as const, popular: false },
-  { id: "groei-conversie", key: "groeiConversie", tier: "professional" as const, popular: false },
-];
-
-function TemplateCard({ template, index, t }: { template: typeof templateData[0]; index: number; t: (key: string) => string }) {
-  const title = t(`templates.templates.${template.key}.title`);
-  const features = [
-    t(`templates.templates.${template.key}.features.0`),
-    t(`templates.templates.${template.key}.features.1`),
-    t(`templates.templates.${template.key}.features.2`),
-  ];
-  const sectors = [
-    t(`templates.templates.${template.key}.sectors.0`),
-    t(`templates.templates.${template.key}.sectors.1`),
-  ];
+function TemplateCard({ template, t }: { template: Template; t: (key: string) => string }) {
+  const tierLabel = template.planEligibility === "LOW" ? t("templates.badges.starter") : t("templates.badges.professional");
 
   return (
     <motion.div
@@ -78,15 +49,20 @@ function TemplateCard({ template, index, t }: { template: typeof templateData[0]
         data-testid={`card-template-${template.id}`}
       >
         <CardContent className="p-0">
-          <div className="aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 rounded-t-lg flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.15),transparent)]" />
-            <div className="text-center p-6 relative z-10">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Layout className="h-8 w-8 text-primary" />
+          <div className="aspect-[4/3] rounded-t-lg flex items-center justify-center relative overflow-hidden">
+            {template.previewImageUrl ? (
+              <img 
+                src={template.previewImageUrl} 
+                alt={template.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 flex items-center justify-center">
+                <Layout className="h-12 w-12 text-muted-foreground" />
               </div>
-              <p className="text-sm text-muted-foreground">{t("templates.preview")}</p>
-            </div>
-            {template.popular && (
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            {template.isFeatured && (
               <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
                 {t("templates.badges.popular")}
               </Badge>
@@ -95,35 +71,25 @@ function TemplateCard({ template, index, t }: { template: typeof templateData[0]
               variant="secondary" 
               className="absolute top-3 left-3 no-default-hover-elevate no-default-active-elevate"
             >
-              {template.tier === "starter" ? t("templates.badges.starter") : t("templates.badges.professional")}
+              {tierLabel}
             </Badge>
+            {template.category && (
+              <Badge 
+                variant="outline" 
+                className="absolute bottom-3 left-3 bg-white/90 dark:bg-black/90 text-foreground no-default-hover-elevate no-default-active-elevate"
+              >
+                {template.category}
+              </Badge>
+            )}
           </div>
           
           <div className="p-6">
-            <h3 className="text-lg font-semibold mb-4">{title}</h3>
-            
-            <ul className="space-y-2 mb-6">
-              {features.map((feature) => (
-                <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Check className="h-3 w-3 text-primary" />
-                  </div>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            
-            <div className="flex flex-wrap gap-1 mb-6">
-              {sectors.slice(0, 2).map((sector) => (
-                <Badge 
-                  key={sector} 
-                  variant="outline" 
-                  className="text-xs no-default-hover-elevate no-default-active-elevate"
-                >
-                  {sector}
-                </Badge>
-              ))}
-            </div>
+            <h3 className="text-lg font-semibold mb-2">{template.name}</h3>
+            {template.description && (
+              <p className="text-sm text-muted-foreground mb-6 line-clamp-3">
+                {template.description}
+              </p>
+            )}
             
             <Link href="/pricing">
               <Button className="w-full gap-2" data-testid={`button-select-${template.id}`}>
@@ -149,18 +115,22 @@ export default function TemplatesPage() {
 
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
 
+  const { data: templates = [], isLoading } = useQuery<Template[]>({
+    queryKey: ["/api/templates"],
+  });
+
   const filterOptions = [
     { id: "all" as const, label: t("templates.filters.all"), icon: Layout },
     { id: "starter" as const, label: t("templates.filters.starter"), icon: Zap },
     { id: "professional" as const, label: t("templates.filters.professional"), icon: Award },
-    { id: "popular" as const, label: t("templates.filters.popular"), icon: Star },
+    { id: "featured" as const, label: t("templates.filters.popular"), icon: Star },
   ];
 
-  const filteredTemplates = templateData.filter((template) => {
+  const filteredTemplates = templates.filter((template) => {
     if (activeFilter === "all") return true;
-    if (activeFilter === "starter") return template.tier === "starter";
-    if (activeFilter === "professional") return template.tier === "professional";
-    if (activeFilter === "popular") return template.popular;
+    if (activeFilter === "starter") return template.planEligibility === "LOW";
+    if (activeFilter === "professional") return template.planEligibility === "MEDIUM" || template.planEligibility === "HIGH";
+    if (activeFilter === "featured") return template.isFeatured;
     return true;
   });
 
@@ -267,15 +237,21 @@ export default function TemplatesPage() {
             </div>
           </FadeInUp>
 
-          <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" staggerDelay={0.1}>
-            {filteredTemplates.map((template, index) => (
-              <StaggerItem key={template.id}>
-                <TemplateCard template={template} index={index} t={t} />
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
+          {isLoading ? (
+            <div className="flex justify-center py-16">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" staggerDelay={0.1}>
+              {filteredTemplates.map((template) => (
+                <StaggerItem key={template.id}>
+                  <TemplateCard template={template} t={t} />
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          )}
 
-          {filteredTemplates.length === 0 && (
+          {!isLoading && filteredTemplates.length === 0 && (
             <FadeIn>
               <div className="text-center py-16">
                 <p className="text-muted-foreground">{t("templates.noResults")}</p>
