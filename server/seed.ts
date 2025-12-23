@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { plans, addOns, users, specialistProfiles, blogPosts } from "@shared/schema";
+import { plans, addOns, users, specialistProfiles, blogPosts, templates } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
@@ -1149,6 +1149,60 @@ async function seed() {
       },
     ]);
     console.log("Blog posts created");
+  }
+
+  // Seed templates
+  const existingTemplates = await db.select().from(templates);
+  if (existingTemplates.length === 0) {
+    console.log("Creating templates...");
+    await db.insert(templates).values([
+      {
+        name: "Horeca Starter",
+        description: "Perfect voor restaurants, cafés en hotels. Menukaart integratie, reserveringssysteem en sfeervolle foto galerij.",
+        planEligibility: "LOW",
+        previewImageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
+        category: "Horeca",
+        isActive: true,
+        isFeatured: true,
+      },
+      {
+        name: "Kapsalon Pro",
+        description: "Strak design voor kappers en beautysalons. Online afspraken, portfolio van kapsels en behandelingen overzicht.",
+        planEligibility: "LOW",
+        previewImageUrl: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=600&fit=crop",
+        category: "Beauty & Wellness",
+        isActive: true,
+        isFeatured: true,
+      },
+      {
+        name: "Bouw & Renovatie",
+        description: "Robuust template voor aannemers en renovatiebedrijven. Projecten showcase, offerte aanvraag en certificeringen.",
+        planEligibility: "MEDIUM",
+        previewImageUrl: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop",
+        category: "Bouw & Techniek",
+        isActive: true,
+        isFeatured: true,
+      },
+      {
+        name: "Medisch Praktijk",
+        description: "Professioneel en vertrouwenwekkend voor artsen, tandartsen en therapeuten. Afspraken, team presentatie en zorgaanbod.",
+        planEligibility: "MEDIUM",
+        previewImageUrl: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&h=600&fit=crop",
+        category: "Zorg & Gezondheid",
+        isActive: true,
+        isFeatured: false,
+      },
+      {
+        name: "Retail & Winkel",
+        description: "Aantrekkelijk voor lokale winkels en retailers. Productcatalogus, openingstijden en locatie met routebeschrijving.",
+        planEligibility: "LOW",
+        previewImageUrl: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop",
+        category: "Retail",
+        isActive: true,
+        isFeatured: false,
+      },
+    ]);
+    console.log("Templates created");
   }
 
   console.log("Seeding completed!");
