@@ -44,10 +44,38 @@ const howWeWorkIcons = [MessageSquare, Rocket, FileCheck, RefreshCw];
 export default function AboutPage() {
   const { t } = useTranslation();
 
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Abonnement.Website",
+    "alternateName": "WebsiteAbonnementen",
+    "url": "https://abonnement.website",
+    "logo": "https://abonnement.website/logo.png",
+    "description": t("about.seo.description"),
+    "foundingDate": "2024",
+    "areaServed": [
+      { "@type": "Country", "name": "Belgium" },
+      { "@type": "Country", "name": "Netherlands" },
+    ],
+    "knowsAbout": [
+      "Website Development",
+      "Web Design", 
+      "SEO",
+      "Digital Marketing",
+      "Website Subscriptions",
+    ],
+    "slogan": "Professionele website abonnementen zonder zorgen",
+    "sameAs": [
+      "https://linkedin.com/company/abonnementwebsite",
+      "https://twitter.com/abonnementsite",
+    ],
+  };
+
   useSEO({
     title: t("about.seo.title"),
     description: t("about.seo.description"),
     canonical: "/about",
+    structuredData: organizationSchema,
   });
 
   const whyUsReasons = [

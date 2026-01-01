@@ -106,17 +106,32 @@ function TemplateCard({ template, t }: { template: Template; t: (key: string) =>
 
 export default function TemplatesPage() {
   const { t } = useTranslation();
+  const [activeFilter, setActiveFilter] = useState<FilterType>("all");
+
+  const { data: templates = [], isLoading } = useQuery<Template[]>({
+    queryKey: ["/api/templates"],
+  });
+
+  const templatesSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Website Templates",
+    "description": t("templates.seo.description"),
+    "numberOfItems": templates.length,
+    "itemListElement": templates.slice(0, 10).map((template, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": template.name,
+      "description": template.description || "",
+      "url": `https://abonnement.website/templates#${template.slug || template.id}`,
+    })),
+  };
 
   useSEO({
     title: t("templates.seo.title"),
     description: t("templates.seo.description"),
     canonical: "/templates",
-  });
-
-  const [activeFilter, setActiveFilter] = useState<FilterType>("all");
-
-  const { data: templates = [], isLoading } = useQuery<Template[]>({
-    queryKey: ["/api/templates"],
+    structuredData: templatesSchema,
   });
 
   const filterOptions = [

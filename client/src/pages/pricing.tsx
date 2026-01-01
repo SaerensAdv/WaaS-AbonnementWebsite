@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -245,106 +245,117 @@ function PlansSkeleton() {
 export default function PricingPage() {
   const { t } = useTranslation();
 
-  const structuredData = {
+  const serviceStructuredData = useMemo(() => ({
     "@context": "https://schema.org",
-    "@graph": [
+    "@type": "Service",
+    "name": "Website Abonnement",
+    "serviceType": "Website Subscription Service",
+    "description": t("pricing.seo.description"),
+    "provider": {
+      "@type": "Organization",
+      "name": "Abonnement.Website",
+      "url": "https://abonnement.website"
+    },
+    "areaServed": [
       {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Wat kost een website abonnement?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Onze website abonnementen starten vanaf €99 per maand voor het Starter pakket. Het Professional pakket kost €199 per maand en biedt uitgebreidere functionaliteiten. Voor Enterprise oplossingen maken wij een offerte op maat."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Wat is inbegrepen in het abonnement?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Elk abonnement bevat een professionele website, beheerde hosting met SSL, regelmatige updates en backups, basis SEO optimalisatie, en ondersteuning via e-mail."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Kan ik mijn abonnement opzeggen?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Ja, u kunt maandelijks opzeggen. Na opzegging blijft uw website nog 30 dagen actief."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Kan ik later upgraden naar een hoger plan?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Ja, u kunt op elk moment upgraden. Het verschil in kosten wordt pro-rata berekend."
-            }
-          }
-        ]
+        "@type": "Country",
+        "name": "Belgium"
       },
       {
-        "@type": "Service",
-        "@id": "https://abonnement.website/pricing#starter",
-        "name": "Website Abonnement Starter",
-        "description": "Professionele website voor starters en kleine ondernemingen. Inclusief hosting, SSL en onderhoud.",
-        "provider": {
-          "@type": "Organization",
-          "name": "Abonnement.Website"
-        },
-        "offers": {
-          "@type": "Offer",
+        "@type": "Country",
+        "name": "Netherlands"
+      }
+    ],
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": t("pricing.planLabels.low"),
+        "price": "99",
+        "priceCurrency": "EUR",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
           "price": "99",
           "priceCurrency": "EUR",
-          "priceSpecification": {
-            "@type": "UnitPriceSpecification",
-            "price": "99",
-            "priceCurrency": "EUR",
-            "unitText": "maand"
+          "unitText": "MONTH",
+          "referenceQuantity": {
+            "@type": "QuantitativeValue",
+            "value": "1",
+            "unitCode": "MON"
           }
         }
       },
       {
-        "@type": "Service",
-        "@id": "https://abonnement.website/pricing#professional",
-        "name": "Website Abonnement Professional",
-        "description": "Complete website met SEO en marketing voor groeiende bedrijven. Inclusief hosting, SSL, onderhoud en rapportages.",
-        "provider": {
-          "@type": "Organization",
-          "name": "Abonnement.Website"
-        },
-        "offers": {
-          "@type": "Offer",
+        "@type": "Offer",
+        "name": t("pricing.planLabels.medium"),
+        "price": "199",
+        "priceCurrency": "EUR",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
           "price": "199",
           "priceCurrency": "EUR",
-          "priceSpecification": {
-            "@type": "UnitPriceSpecification",
-            "price": "199",
-            "priceCurrency": "EUR",
-            "unitText": "maand"
+          "unitText": "MONTH",
+          "referenceQuantity": {
+            "@type": "QuantitativeValue",
+            "value": "1",
+            "unitCode": "MON"
           }
+        }
+      }
+    ]
+  }), [t]);
+
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": t("pricing.faq.questions.0.question"),
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": t("pricing.faq.questions.0.answer")
         }
       },
       {
-        "@type": "Service",
-        "@id": "https://abonnement.website/pricing#enterprise",
-        "name": "Website Abonnement Enterprise",
-        "description": "Maatwerk website voor bedrijven met specifieke wensen. Dedicated specialist en 24/7 support.",
-        "provider": {
-          "@type": "Organization",
-          "name": "Abonnement.Website"
+        "@type": "Question",
+        "name": t("pricing.faq.questions.1.question"),
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": t("pricing.faq.questions.1.answer")
+        }
+      },
+      {
+        "@type": "Question",
+        "name": t("pricing.faq.questions.2.question"),
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": t("pricing.faq.questions.2.answer")
+        }
+      },
+      {
+        "@type": "Question",
+        "name": t("pricing.faq.questions.3.question"),
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": t("pricing.faq.questions.3.answer")
         }
       }
     ]
   };
 
+  const combinedStructuredData = useMemo(() => ({
+    "@context": "https://schema.org",
+    "@graph": [
+      faqStructuredData,
+      serviceStructuredData
+    ]
+  }), [serviceStructuredData, t]);
+
   useSEO({
     title: t("pricing.seo.title"),
     description: t("pricing.seo.description"),
     canonical: "/pricing",
-    structuredData: structuredData,
+    structuredData: combinedStructuredData,
   });
 
   const { user } = useAuth();
@@ -389,8 +400,8 @@ export default function PricingPage() {
   });
 
   const sortedPlans = plans?.sort((a, b) => {
-    const order = { LOW: 0, MEDIUM: 1, HIGH: 2 };
-    return (order[a.tier as keyof typeof order] || 0) - (order[b.tier as keyof typeof order] || 0);
+    const order: Record<string, number> = { LOW: 0, MEDIUM: 1, HIGH: 2 };
+    return (order[a.tier as string] || 0) - (order[b.tier as string] || 0);
   });
 
   return (

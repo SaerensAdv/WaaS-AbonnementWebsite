@@ -140,6 +140,90 @@ U kunt ons bereiken via e-mail, telefoon of het contactformulier. Wij reageren b
 Elke klant krijgt een vaste contactpersoon die uw project begeleidt van begin tot eind. Zo weet u altijd bij wie u terecht kunt.`,
     keywords: ["webdesigners", "developers", "online marketeers"],
   },
+  "/faq": {
+    title: "Veelgestelde Vragen | Website Abonnement FAQ",
+    description: "Antwoorden op veelgestelde vragen over website abonnementen. Alles over prijzen, opzegging, onderhoud en meer.",
+    h1: "Veelgestelde Vragen",
+    bodyText: `Hier vindt u antwoorden op de meest gestelde vragen over onze website abonnementen.
+
+Wat is een website abonnement? Een website abonnement is een all-in-one oplossing waarbij u maandelijks betaalt voor een professionele website inclusief hosting, onderhoud, updates en support.
+
+Wat kost een website abonnement? Onze abonnementen starten vanaf €99 per maand voor Starter, €199 per maand voor Professional, en Enterprise op maat.
+
+Kan ik mijn abonnement opzeggen? Ja, alle abonnementen zijn maandelijks opzegbaar. Geen langlopende contracten.
+
+Wat zit er allemaal in het abonnement? Professioneel webdesign, snelle hosting, SSL-certificaat, continue updates, onderhoud, en persoonlijke support.
+
+Hoe lang duurt het voordat mijn website online is? Gemiddeld is uw website binnen 2-4 weken live, afhankelijk van de complexiteit.`,
+    keywords: ["website abonnement faq", "veelgestelde vragen website", "website abonnement opzeggen"],
+  },
+  "/vergelijk": {
+    title: "Vergelijk Website Oplossingen | Abonnement vs Alternatieven",
+    description: "Vergelijk een website abonnement met WordPress, Wix en eenmalige websites. Ontdek welke oplossing het beste bij u past.",
+    h1: "Vergelijk Website Oplossingen",
+    bodyText: `Twijfelt u tussen een website abonnement en andere oplossingen? Wij helpen u de juiste keuze te maken.
+
+Website Abonnement: Alles-in-één oplossing met professioneel design, hosting, onderhoud en support voor een vast maandbedrag.
+
+WordPress: Flexibel maar vereist technische kennis, apart hosting contract, en regelmatig onderhoud.
+
+Wix: Doe-het-zelf website bouwer, beperkte aanpassingsmogelijkheden, en verborgen kosten.
+
+Eenmalige Website: Grote eenmalige investering plus doorlopende kosten voor hosting en onderhoud.`,
+    keywords: ["website vergelijken", "website abonnement vs wordpress", "website abonnement vs wix"],
+  },
+  "/vergelijk/wordpress": {
+    title: "Website Abonnement vs WordPress | Vergelijking 2024",
+    description: "Gedetailleerde kostenvergelijking tussen een website abonnement en WordPress over 3 jaar. Ontdek de verborgen kosten.",
+    h1: "Website Abonnement vs WordPress",
+    bodyText: `Vergelijk de totale kosten van een website abonnement met een zelf-gehoste WordPress website.
+
+WordPress kosten over 3 jaar: Hosting (€150-300/jaar), Premium theme (€50-200 eenmalig), Premium plugins (€100-300/jaar), Onderhoud en updates (tijdsinvestering), Beveiliging (extra plugins nodig).
+
+Website Abonnement voordelen: Geen technische kennis nodig, alles inclusief in één prijs, continue updates en beveiliging, professionele support.
+
+Conclusie: Een website abonnement bespaart u tijd en zorgen, terwijl u een professionele website krijgt tegen voorspelbare kosten.`,
+    keywords: ["website abonnement vs wordpress", "wordpress kosten", "wordpress alternatief"],
+  },
+  "/vergelijk/wix": {
+    title: "Website Abonnement vs Wix | Vergelijking 2024",
+    description: "Vergelijk een website abonnement met Wix. Inclusief tijdsinvestering en verborgen kosten analyse.",
+    h1: "Website Abonnement vs Wix",
+    bodyText: `Vergelijk de totale kosten en tijdsinvestering van een website abonnement met Wix.
+
+Wix nadelen: Beperkte aanpassingsmogelijkheden, advertenties op gratis versie, eigen domein alleen met betaald abonnement, geen echte SEO-optimalisatie.
+
+Website Abonnement voordelen: Professioneel op maat design, volledige SEO-optimalisatie, geen Wix-branding, persoonlijke support van experts.
+
+Tijdsinvestering: Met Wix besteedt u uren aan het zelf bouwen. Met een website abonnement doen wij al het werk.`,
+    keywords: ["website abonnement vs wix", "wix alternatief", "wix nadelen"],
+  },
+  "/vergelijk/eenmalig": {
+    title: "Website Abonnement vs Eenmalige Website | Kostenvergelijking",
+    description: "Vergelijk de totale kosten van een website abonnement met een eenmalige website over 3 jaar.",
+    h1: "Website Abonnement vs Eenmalige Website",
+    bodyText: `Vergelijk de totale kosten van een website abonnement met een traditionele eenmalige website.
+
+Eenmalige website kosten: Ontwikkeling (€3000-10000 eenmalig), Hosting (€100-200/jaar), Onderhoud en updates (€50-100/maand), Aanpassingen (extra kosten per wijziging).
+
+Website Abonnement: Starter €99/maand all-inclusive, Professional €199/maand all-inclusive, geen onverwachte kosten, maandelijks opzegbaar.
+
+Over 3 jaar: Een eenmalige website kan €6000-15000 kosten. Een website abonnement kost €3564-7164 voor dezelfde periode, met betere service en zonder grote eenmalige investering.`,
+    keywords: ["website abonnement vs eenmalig", "website laten maken kosten", "website kosten vergelijken"],
+  },
+  "/tools": {
+    title: "Gratis Tools | Website Abonnement Hulpmiddelen",
+    description: "Gratis tools om u te helpen met uw online aanwezigheid. SEO checker, website kosten calculator en meer.",
+    h1: "Gratis Tools",
+    bodyText: `Gebruik onze gratis tools om uw online aanwezigheid te verbeteren.
+
+Website Kosten Calculator: Bereken wat een website u werkelijk kost over meerdere jaren.
+
+SEO Check: Controleer hoe goed uw huidige website scoort op SEO.
+
+Abonnement Vergelijker: Vergelijk onze abonnementen en ontdek welke het beste bij u past.`,
+    keywords: ["gratis website tools", "seo checker", "website kosten calculator"],
+  },
 };
 
 export function isBot(userAgent: string): boolean {

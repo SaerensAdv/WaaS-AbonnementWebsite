@@ -60,10 +60,37 @@ type ContactFormData = {
 export default function ContactPage() {
   const { t } = useTranslation();
 
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "mainEntity": {
+      "@type": "LocalBusiness",
+      "name": "Abonnement.Website",
+      "url": "https://abonnement.website",
+      "email": "info@abonnement.website",
+      "description": t("contact.seo.description"),
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": ["BE", "NL"],
+      },
+      "areaServed": [
+        { "@type": "Country", "name": "Belgium" },
+        { "@type": "Country", "name": "Netherlands" },
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "info@abonnement.website",
+        "availableLanguage": ["Dutch", "English"],
+      },
+    },
+  };
+
   useSEO({
     title: t("contact.seo.title"),
     description: t("contact.seo.description"),
     canonical: "/contact",
+    structuredData: contactSchema,
   });
 
   const contactFormSchema = z.object({
