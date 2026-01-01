@@ -1,13 +1,22 @@
 User-agent: *
 Allow: /
 
-# Core pages
+# Core marketing pages
 Allow: /pricing
 Allow: /projecten
 Allow: /templates
 Allow: /about
 Allow: /contact
 Allow: /specialists
+Allow: /faq
+Allow: /blog
+Allow: /tools
+Allow: /vergelijk
+Allow: /vergelijk/wordpress
+Allow: /vergelijk/wix
+Allow: /vergelijk/eenmalig
+
+# Legal pages
 Allow: /privacy
 Allow: /terms
 Allow: /cookies
@@ -19,6 +28,9 @@ Disallow: /specialist
 Disallow: /auth
 Disallow: /checkout-success
 Disallow: /api
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
 
 # Sitemap location
 Sitemap: https://abonnement.website/sitemap.xml
