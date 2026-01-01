@@ -305,7 +305,6 @@ export default function PricingPage() {
   }), [t]);
 
   const faqStructuredData = {
-    "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
       {

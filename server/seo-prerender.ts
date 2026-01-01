@@ -212,17 +212,17 @@ Over 3 jaar: Een eenmalige website kan €6000-15000 kosten. Een website abonnem
     keywords: ["website abonnement vs eenmalig", "website laten maken kosten", "website kosten vergelijken"],
   },
   "/tools": {
-    title: "Gratis Tools | Website Abonnement Hulpmiddelen",
-    description: "Gratis tools om u te helpen met uw online aanwezigheid. SEO checker, website kosten calculator en meer.",
-    h1: "Gratis Tools",
-    bodyText: `Gebruik onze gratis tools om uw online aanwezigheid te verbeteren.
+    title: "Gratis Website Tools | Bereken uw Website Abonnement",
+    description: "Gratis tools voor uw website abonnement: kosten calculator, SEO checker en abonnement vergelijker. Ontdek wat het beste bij u past.",
+    h1: "Gratis Website Abonnement Tools",
+    bodyText: `Gebruik onze gratis tools om de kosten van een website abonnement te berekenen en te vergelijken.
 
-Website Kosten Calculator: Bereken wat een website u werkelijk kost over meerdere jaren.
+Website Abonnement Kosten Calculator: Bereken wat een website abonnement u werkelijk kost over meerdere jaren vergeleken met traditionele oplossingen.
 
-SEO Check: Controleer hoe goed uw huidige website scoort op SEO.
+SEO Check: Controleer hoe goed uw huidige website scoort op zoekmachines.
 
-Abonnement Vergelijker: Vergelijk onze abonnementen en ontdek welke het beste bij u past.`,
-    keywords: ["gratis website tools", "seo checker", "website kosten calculator"],
+Website Abonnement Vergelijker: Vergelijk onze abonnementen (Starter €99, Professional €199) en ontdek welk website abonnement het beste bij uw bedrijf past.`,
+    keywords: ["website abonnement calculator", "website abonnement kosten", "abonnement website vergelijken"],
   },
 };
 

@@ -48,27 +48,26 @@ export default function AboutPage() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Abonnement.Website",
-    "alternateName": "WebsiteAbonnementen",
+    "alternateName": "Website Abonnementen",
     "url": "https://abonnement.website",
-    "logo": "https://abonnement.website/logo.png",
-    "description": t("about.seo.description"),
+    "logo": "https://abonnement.website/og-image.png",
+    "description": "Professionele website abonnementen voor KMO's. Alles inclusief: webdesign, hosting, onderhoud en support voor een vaste maandprijs.",
     "foundingDate": "2024",
-    "areaServed": [
-      { "@type": "Country", "name": "Belgium" },
-      { "@type": "Country", "name": "Netherlands" },
-    ],
+    "areaServed": ["BE", "NL"],
     "knowsAbout": [
-      "Website Development",
-      "Web Design", 
-      "SEO",
-      "Digital Marketing",
-      "Website Subscriptions",
+      "Website Abonnement",
+      "Webdesign",
+      "SEO Optimalisatie",
+      "Online Marketing",
+      "Website Onderhoud",
     ],
-    "slogan": "Professionele website abonnementen zonder zorgen",
-    "sameAs": [
-      "https://linkedin.com/company/abonnementwebsite",
-      "https://twitter.com/abonnementsite",
-    ],
+    "slogan": "Uw professionele website abonnement zonder zorgen",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "email": "info@abonnement.website",
+      "availableLanguage": ["nl", "en"],
+    },
   };
 
   useSEO({

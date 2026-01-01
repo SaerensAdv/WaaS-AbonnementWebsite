@@ -112,20 +112,20 @@ export default function TemplatesPage() {
     queryKey: ["/api/templates"],
   });
 
-  const templatesSchema = {
+  const templatesSchema = templates.length > 0 ? {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "name": "Website Templates",
+    "name": "Website Abonnement Templates",
     "description": t("templates.seo.description"),
     "numberOfItems": templates.length,
     "itemListElement": templates.slice(0, 10).map((template, index) => ({
       "@type": "ListItem",
       "position": index + 1,
       "name": template.name,
-      "description": template.description || "",
-      "url": `https://abonnement.website/templates#${template.slug || template.id}`,
+      "description": template.description || `Website template voor ${template.category || 'bedrijven'}`,
+      "url": `https://abonnement.website/templates#template-${template.id}`,
     })),
-  };
+  } : undefined;
 
   useSEO({
     title: t("templates.seo.title"),
