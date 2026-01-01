@@ -49,7 +49,7 @@ export function ProductMockup({ variant = "auto", className = "" }: ProductMocku
           <div className="rounded-lg overflow-hidden bg-slate-900">
             <img
               src={getImageSrc()}
-              alt="Dashboard Preview"
+              alt="Website Abonnement Dashboard - Beheer uw website en online marketing in één overzicht"
               className="w-full h-auto object-cover"
               data-testid="mockup-image"
             />
