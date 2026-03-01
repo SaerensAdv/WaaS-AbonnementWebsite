@@ -8,8 +8,6 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import {
   Megaphone,
-  Search,
-  PenTool,
   Share2,
   ShieldCheck,
   Zap,
@@ -23,8 +21,6 @@ import type { AddOn, AddOnSelection } from "@shared/schema";
 const addOnIcons: Record<string, any> = {
   "google-ads": Megaphone,
   "meta-ads": Share2,
-  "seo": Search,
-  "content": PenTool,
   "cookie-banner": ShieldCheck,
 };
 
@@ -155,7 +151,7 @@ export default function AddOnsPage() {
           <h2 className="text-lg font-medium">Beschikbare add-ons</h2>
           {isLoading ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3, 4, 5].map((i) => (
+              {[1, 2, 3].map((i) => (
                 <Card key={i} className="border">
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">

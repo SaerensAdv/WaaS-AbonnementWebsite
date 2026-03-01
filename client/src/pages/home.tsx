@@ -14,8 +14,6 @@ import {
   Headphones,
   Megaphone,
   Share2,
-  Search,
-  PenTool,
   ShieldCheck,
   ChevronDown,
 } from "lucide-react";
@@ -33,8 +31,6 @@ const tierConfig: Record<string, { label: string; popular?: boolean }> = {
 const addOnIcons: Record<string, any> = {
   "google-ads": Megaphone,
   "meta-ads": Share2,
-  "seo": Search,
-  "content": PenTool,
   "cookie-banner": ShieldCheck,
 };
 
@@ -229,9 +225,10 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-3 gap-4">
             {addOns.map((addOn) => {
               const Icon = addOnIcons[addOn.slug] || Zap;
+              const isCookieBanner = addOn.slug === "cookie-banner";
               return (
                 <Card key={addOn.id} className="border" data-testid={`card-addon-${addOn.slug}`}>
                   <CardContent className="p-6">
@@ -242,10 +239,17 @@ export default function HomePage() {
                       <div className="flex-1">
                         <h3 className="font-semibold mb-1">{addOn.name}</h3>
                         <p className="text-sm text-muted-foreground mb-3">{addOn.description}</p>
-                        <span className="text-lg font-bold" data-testid={`text-addon-price-${addOn.slug}`}>
-                          €{(addOn.monthlyPriceCents / 100).toFixed(0)}
-                          <span className="text-sm font-normal text-muted-foreground">/maand</span>
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg font-bold" data-testid={`text-addon-price-${addOn.slug}`}>
+                            €{(addOn.monthlyPriceCents / 100).toFixed(0)}
+                            <span className="text-sm font-normal text-muted-foreground">/maand</span>
+                          </span>
+                          {isCookieBanner && (
+                            <Badge variant="secondary" className="text-xs">
+                              Gratis bij Professional+
+                            </Badge>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </CardContent>
