@@ -262,6 +262,54 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/onboarding", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const user = (req as any).user as User;
+      const project = await storage.getProject(user.id);
+
+      if (!project) {
+        return res.json({ project: null, onboardingData: null, onboardingCompleted: false });
+      }
+
+      res.json({
+        project,
+        onboardingData: project.onboardingData,
+        onboardingCompleted: project.onboardingCompleted ?? false,
+      });
+    } catch (error) {
+      console.error("Get onboarding error:", error);
+      res.status(500).json({ message: "Failed to fetch onboarding data" });
+    }
+  });
+
+  app.post("/api/onboarding", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const user = (req as any).user as User;
+      const project = await storage.getProject(user.id);
+
+      if (!project) {
+        return res.status(400).json({ message: "No project found. Please subscribe to a plan first." });
+      }
+
+      const { onboardingData } = req.body;
+
+      if (!onboardingData) {
+        return res.status(400).json({ message: "Onboarding data is required" });
+      }
+
+      const updated = await storage.updateProject(project.id, {
+        onboardingData,
+        onboardingCompleted: true,
+        companyName: onboardingData.companyName || project.companyName,
+      });
+
+      res.json({ success: true, project: updated });
+    } catch (error) {
+      console.error("Save onboarding error:", error);
+      res.status(500).json({ message: "Failed to save onboarding data" });
+    }
+  });
+
   app.get("/api/addons/my", requireRole("CUSTOMER"), async (req, res) => {
     try {
       const user = (req as any).user as User;

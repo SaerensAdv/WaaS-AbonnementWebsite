@@ -36,12 +36,13 @@ Preferred communication style: Simple, everyday language.
 - `/login`, `/signup` — Authentication pages
 - `/privacy`, `/terms` — Legal pages
 - `/checkout-success` — Post-payment confirmation
-- `/app` — Customer dashboard
+- `/app` — Customer dashboard (status, subscription, add-ons)
+- `/app/onboarding` — 5-step onboarding intake wizard
 - `/app/addons` — Add-on management
 - `/app/billing` — Billing & subscription
 - `/app/settings` — Profile settings
-- `/admin` — Admin dashboard
-- `/admin/customers` — Customer management
+- `/admin` — Admin dashboard (MRR, stats, customer count)
+- `/admin/customers` — Customer management with onboarding status
 
 **Layout Patterns**:
 - MarketingLayout: header (anchor nav: Pricing, Add-ons, FAQ) + footer
@@ -67,18 +68,22 @@ Preferred communication style: Simple, everyday language.
 - `customer_profiles` — Company info, Stripe customer ID
 - `plans` — 3 tiers (LOW=Starter €49, MEDIUM=Professional €99, HIGH=Business €199)
 - `subscriptions` — Links user to plan, tracks Stripe subscription ID
-- `projects` — Website project with status tracking (ONBOARDING → PRODUCTION → LIVE → MAINTENANCE)
-- `add_ons` — Fixed-price add-ons (Google Ads €149, Meta Ads €149, SEO €99, Content €79, Cookie Banner €9)
+- `projects` — Website project with status tracking (ONBOARDING → PRODUCTION → LIVE → MAINTENANCE), includes `onboardingData` (jsonb) and `onboardingCompleted` (boolean)
+- `add_ons` — Fixed-price add-ons (Google Ads €149, Meta Ads €149, Cookie Banner €9)
 - `add_on_selections` — Links add-on to subscription
 - `password_reset_tokens` — Password reset flow
 
+**Cookie Banner Logic**: Cookie Banner is a €9/mo add-on only for Starter plan; free/included for Professional and Business plans.
+
 **Key API Routes**:
 - `POST /api/auth/signup`, `POST /api/auth/login`, `POST /api/auth/logout`
+- `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`
 - `GET /api/me` — Current user
 - `GET /api/plans`, `GET /api/addons` — Public plan/addon listing
 - `POST /api/checkout` — Creates Stripe Checkout session
 - `POST /api/verify-checkout` — Verifies checkout and creates subscription
 - `GET /api/dashboard` — Customer dashboard data
+- `GET /api/onboarding`, `POST /api/onboarding` — Onboarding intake form
 - `GET /api/addons/my`, `POST /api/addons/select` — Customer add-on management
 - `GET /api/profile`, `PATCH /api/profile` — Customer profile
 - `GET /api/billing`, `POST /api/billing/portal` — Billing + Stripe portal
@@ -95,6 +100,8 @@ Preferred communication style: Simple, everyday language.
 
 **Database**: PostgreSQL (Neon-backed via Replit)
 
+**Admin Credentials**: admin@websiteabonnementen.nl / admin123
+
 ### Build and Deployment
 
 **Development**: `npm run dev` — runs Express server + Vite dev server on port 5000
@@ -109,4 +116,6 @@ Preferred communication style: Simple, everyday language.
 - `server/seed.ts` — Seed data (plans, add-ons, admin user)
 - `client/src/App.tsx` — Frontend routing
 - `client/src/pages/home.tsx` — Landing page
+- `client/src/pages/dashboard/onboarding.tsx` — 5-step onboarding wizard
 - `client/src/components/layout/` — Marketing header/footer, app sidebar/layout
+- `client/src/lib/translations/` — i18n translation files (nl.ts, en.ts)

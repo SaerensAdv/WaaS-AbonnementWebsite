@@ -25,18 +25,18 @@ import { apiRequest } from "@/lib/queryClient";
 const nextSteps = [
   {
     icon: Mail,
-    title: "E-mail bevestiging",
-    description: "U ontvangt direct een bevestigingsmail met uw factuur",
+    title: "Onboarding formulier",
+    description: "Vul uw bedrijfsgegevens en wensen in zodat wij direct aan de slag kunnen",
   },
   {
     icon: Clock,
     title: "Persoonlijk contact",
-    description: "Binnen 24 uur nemen wij contact met u op",
+    description: "Binnen 24 uur nemen wij contact met u op om alles te bespreken",
   },
   {
     icon: Calendar,
-    title: "Intakegesprek",
-    description: "We plannen samen een kort gesprek om uw wensen te bespreken",
+    title: "Website bouwen",
+    description: "Wij gaan voor u aan de slag. Uw website is gemiddeld binnen 5-10 werkdagen live",
   },
 ];
 
@@ -165,18 +165,18 @@ export default function CheckoutSuccessPage() {
 
             <FadeInUp delay={0.6}>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                <Link href="/app">
+                <Link href="/app/onboarding">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button size="lg" className="gap-2 w-full sm:w-auto" data-testid="button-go-dashboard">
-                      Naar mijn dashboard
+                    <Button size="lg" className="gap-2 w-full sm:w-auto" data-testid="button-start-onboarding">
+                      Start onboarding
                       <ArrowRight className="h-5 w-5" />
                     </Button>
                   </motion.div>
                 </Link>
-                <Link href="/">
+                <Link href="/app">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button size="lg" variant="outline" className="gap-2 w-full sm:w-auto border-white/20 text-white hover:bg-white/10" data-testid="button-go-home">
-                      Terug naar home
+                    <Button size="lg" variant="outline" className="gap-2 w-full sm:w-auto border-white/20 text-white hover:bg-white/10" data-testid="button-go-dashboard">
+                      Naar mijn dashboard
                     </Button>
                   </motion.div>
                 </Link>

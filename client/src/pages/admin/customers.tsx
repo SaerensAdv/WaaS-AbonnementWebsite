@@ -145,6 +145,7 @@ export default function AdminCustomersPage() {
                     <TableHead>Bedrijf</TableHead>
                     <TableHead>Project</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>Onboarding</TableHead>
                     <TableHead className="text-right">Acties</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -197,6 +198,21 @@ export default function AdminCustomersPage() {
                             {projectStatusLabels[customer.project.status] ||
                               customer.project.status}
                           </Badge>
+                        ) : (
+                          <span className="text-muted-foreground text-sm">-</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {customer.project ? (
+                          customer.project.onboardingCompleted ? (
+                            <Badge variant="secondary" className="bg-chart-2/20 text-chart-2">
+                              Afgerond
+                            </Badge>
+                          ) : (
+                            <Badge variant="secondary" className="bg-chart-4/20 text-chart-4">
+                              Open
+                            </Badge>
+                          )
                         ) : (
                           <span className="text-muted-foreground text-sm">-</span>
                         )}

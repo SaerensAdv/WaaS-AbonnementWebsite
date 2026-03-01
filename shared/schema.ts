@@ -60,6 +60,8 @@ export const projects = pgTable("projects", {
   companyName: text("company_name"),
   domain: text("domain"),
   notes: text("notes"),
+  onboardingData: jsonb("onboarding_data"),
+  onboardingCompleted: boolean("onboarding_completed").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

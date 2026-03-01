@@ -16,6 +16,7 @@ import {
   AlertCircle,
   Zap,
   ExternalLink,
+  ClipboardList,
 } from "lucide-react";
 import type { Project, Subscription, Plan, AddOnSelection, AddOn } from "@shared/schema";
 
@@ -114,6 +115,30 @@ export default function CustomerDashboard() {
             </CardContent>
           </Card>
         </div>
+
+        {project && !project.onboardingCompleted && (
+          <Card className="border border-chart-4/50 bg-chart-4/5">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-md bg-chart-4/20 flex items-center justify-center shrink-0">
+                  <ClipboardList className="h-5 w-5 text-chart-4" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium mb-1">Onboarding formulier invullen</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Vul uw bedrijfsgegevens en wensen in zodat wij direct met uw website aan de slag kunnen.
+                  </p>
+                  <Link href="/app/onboarding">
+                    <Button size="sm" className="gap-2" data-testid="button-start-onboarding">
+                      Start onboarding
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="grid gap-6 md:grid-cols-2">
           {project?.domain && (

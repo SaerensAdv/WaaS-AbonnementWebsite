@@ -30,6 +30,7 @@ import ResetPasswordPage from "@/pages/auth/reset-password";
 import CheckoutSuccessPage from "@/pages/checkout-success";
 
 import CustomerDashboard from "@/pages/dashboard/customer-dashboard";
+import OnboardingPage from "@/pages/dashboard/onboarding";
 import AddOnsPage from "@/pages/dashboard/addons";
 import BillingPage from "@/pages/dashboard/billing";
 import SettingsPage from "@/pages/dashboard/settings";
@@ -86,6 +87,9 @@ function Router() {
 
       <Route path="/app">
         <ProtectedRoute component={CustomerDashboard} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/app/onboarding">
+        <ProtectedRoute component={OnboardingPage} roles={["CUSTOMER"]} />
       </Route>
       <Route path="/app/addons">
         <ProtectedRoute component={AddOnsPage} roles={["CUSTOMER"]} />
