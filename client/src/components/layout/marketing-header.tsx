@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { useTranslation } from "@/lib/i18n-context";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 import logoGif from "@assets/Untitled_design_1764969853491.gif";
 
@@ -16,6 +16,8 @@ export function MarketingHeader() {
   const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showStaticLogo, setShowStaticLogo] = useState(false);
+  const { scrollY } = useScroll();
+  const headerBg = useTransform(scrollY, [0, 100], [0.7, 0.95]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,7 +28,12 @@ export function MarketingHeader() {
 
   return (
     <div className="sticky top-0 z-50 w-full px-4 pt-4">
-      <header className="mx-auto max-w-5xl rounded-full border border-white/20 dark:border-white/10 bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5 dark:shadow-black/20 ring-1 ring-primary/10">
+      <motion.header
+        className="mx-auto max-w-5xl rounded-full border border-border/50 backdrop-blur-2xl shadow-lg shadow-black/5 dark:shadow-black/20"
+        style={{
+          backgroundColor: `hsl(var(--background) / ${headerBg})`,
+        }}
+      >
         <div className="flex h-14 items-center justify-between gap-4 px-6">
           <Link
             href="/"
@@ -42,36 +49,22 @@ export function MarketingHeader() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-1">
-            <a href="#pricing">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground"
-                data-testid="nav-pricing"
-              >
-                Prijzen
-              </Button>
-            </a>
-            <a href="#addons">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground"
-                data-testid="nav-addons"
-              >
-                Add-ons
-              </Button>
-            </a>
-            <a href="#faq">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground"
-                data-testid="nav-faq"
-              >
-                FAQ
-              </Button>
-            </a>
+            {[
+              { href: "#pricing", label: "Prijzen", testId: "nav-pricing" },
+              { href: "#addons", label: "Add-ons", testId: "nav-addons" },
+              { href: "#faq", label: "FAQ", testId: "nav-faq" },
+            ].map((link) => (
+              <a key={link.href} href={link.href}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
+                  data-testid={link.testId}
+                >
+                  {link.label}
+                </Button>
+              </a>
+            ))}
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
@@ -87,7 +80,7 @@ export function MarketingHeader() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-muted-foreground transition-colors duration-200"
+                    className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                     data-testid="button-login"
                   >
                     {t("common.buttons.login")}
@@ -96,7 +89,7 @@ export function MarketingHeader() {
                 <a href="#pricing">
                   <Button
                     size="sm"
-                    className="shadow-sm shadow-primary/20 transition-shadow duration-200 hover:shadow-md hover:shadow-primary/30"
+                    className="shadow-sm shadow-primary/20"
                     data-testid="button-get-started"
                   >
                     {t("common.buttons.getStarted")}
@@ -140,7 +133,7 @@ export function MarketingHeader() {
             </Button>
           </div>
         </div>
-      </header>
+      </motion.header>
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -148,7 +141,7 @@ export function MarketingHeader() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="md:hidden absolute left-4 right-4 top-[calc(100%+0.5rem)] mx-auto max-w-5xl rounded-2xl border border-white/20 dark:border-white/10 bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5 dark:shadow-black/20 ring-1 ring-primary/10 overflow-hidden"
+            className="md:hidden absolute left-4 right-4 top-[calc(100%+0.5rem)] mx-auto max-w-5xl rounded-2xl border border-border/50 bg-card/95 backdrop-blur-2xl shadow-xl overflow-hidden"
           >
             <nav className="flex flex-col gap-1 p-4">
               <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>

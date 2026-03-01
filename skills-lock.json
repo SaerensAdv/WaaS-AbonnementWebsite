@@ -10,6 +10,11 @@
       "source": "anthropics/skills",
       "sourceType": "github",
       "computedHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67"
+    },
+    "visual-design-foundations": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "5c5e091d61e2f6e465b77650b99d36acfe779cb70f29e9a103b5ba443065a3a9"
     }
   }
 }

@@ -18,8 +18,9 @@ Preferred communication style: Simple, everyday language.
 
 **UI Component System**: Shadcn/ui (Radix UI primitives) with TailwindCSS
 - Light/dark mode support via ThemeProvider
-- Inter font for text, JetBrains Mono for numbers
-- framer-motion for animations
+- DM Serif Display for display headings (font-display), DM Sans for body text (font-sans), JetBrains Mono for numbers
+- Warm off-white/navy color palette (not pure white/black)
+- framer-motion for scroll-triggered reveal animations, FAQ accordion, hero entrance
 
 **State Management**: 
 - TanStack Query v5 for server state and API data caching

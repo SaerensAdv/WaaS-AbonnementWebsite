@@ -3,7 +3,6 @@ import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { useSEO } from "@/hooks/use-seo";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   Check,
@@ -16,13 +15,18 @@ import {
   Share2,
   ShieldCheck,
   ChevronDown,
+  Clock,
+  CreditCard,
+  Star,
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
+import { useRef } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import type { Plan, AddOn } from "@shared/schema";
 
-const tierConfig: Record<string, { label: string; popular?: boolean }> = {
+const tierConfig: Record<string, { label: string; popular?: boolean; accent?: string }> = {
   LOW: { label: "Starter" },
   MEDIUM: { label: "Professional", popular: true },
   HIGH: { label: "Business" },
@@ -60,6 +64,31 @@ const faqItems = [
     a: "Absoluut. U kunt op elk moment add-ons toevoegen of verwijderen via uw dashboard. De kosten worden automatisch verrekend.",
   },
 ];
+
+const trustItems = [
+  { icon: Shield, label: "SSL beveiligd" },
+  { icon: Zap, label: "99.9% uptime" },
+  { icon: Clock, label: "Maandelijks opzegbaar" },
+  { icon: Headphones, label: "Support inbegrepen" },
+  { icon: CreditCard, label: "Veilig betalen via Stripe" },
+];
+
+function ScrollReveal({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -102,194 +131,345 @@ export default function HomePage() {
 
   return (
     <MarketingLayout>
-      <section className="pt-32 pb-20 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
-          <Badge variant="secondary" className="mb-6" data-testid="badge-hero">
-            Website als abonnement
-          </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6" data-testid="text-hero-title">
-            Uw professionele website.
-            <br />
-            <span className="text-primary">Zonder gedoe.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8" data-testid="text-hero-description">
-            Geen grote eenmalige investering. Geen technische zorgen. Gewoon een professionele website vanaf €49 per maand, alles inbegrepen.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#pricing">
-              <Button size="lg" className="gap-2 text-base px-8" data-testid="button-hero-pricing">
-                Bekijk prijzen
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* HERO */}
+      <section className="relative min-h-[90vh] flex items-center pt-28 pb-20 px-4 overflow-hidden">
+        <div className="absolute inset-0 dot-grid opacity-60" />
+        <div className="absolute top-20 -right-40 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute bottom-0 -left-40 w-[500px] h-[500px] rounded-full bg-chart-4/5 blur-3xl" />
 
-      <section className="py-16 px-4 border-y bg-muted/30">
-        <div className="container mx-auto max-w-5xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { icon: Globe, label: "Hosting inbegrepen" },
-              { icon: Shield, label: "SSL & beveiliging" },
-              { icon: Zap, label: "Altijd up-to-date" },
-              { icon: Headphones, label: "Support inbegrepen" },
-            ].map((item) => (
-              <div key={item.label} className="flex flex-col items-center text-center gap-3">
-                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <item.icon className="h-6 w-6 text-primary" />
-                </div>
-                <span className="text-sm font-medium">{item.label}</span>
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Badge
+                  variant="secondary"
+                  className="mb-6 px-4 py-1.5 text-sm font-medium border border-primary/20 bg-primary/5 text-primary"
+                  data-testid="badge-hero"
+                >
+                  <Star className="h-3.5 w-3.5 mr-1.5 fill-primary" />
+                  Website als abonnement
+                </Badge>
+              </motion.div>
+
+              <motion.h1
+                className="font-display text-5xl md:text-6xl lg:text-7xl tracking-tight mb-6 leading-[1.1]"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                data-testid="text-hero-title"
+              >
+                Uw professionele website.{" "}
+                <span className="text-primary">Zonder gedoe.</span>
+              </motion.h1>
+
+              <motion.p
+                className="text-lg md:text-xl text-muted-foreground max-w-lg mb-8 leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                data-testid="text-hero-description"
+              >
+                Geen grote eenmalige investering. Geen technische zorgen. Gewoon een professionele website vanaf{" "}
+                <span className="font-semibold text-foreground">€49 per maand</span>, alles inbegrepen.
+              </motion.p>
+
+              <motion.div
+                className="flex flex-col sm:flex-row gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <a href="#pricing">
+                  <Button size="lg" className="gap-2 shadow-lg shadow-primary/20" data-testid="button-hero-pricing">
+                    Bekijk prijzen
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </a>
+                <a href="#faq">
+                  <Button size="lg" variant="outline" className="gap-2" data-testid="button-hero-faq">
+                    Hoe werkt het?
+                  </Button>
+                </a>
+              </motion.div>
+            </div>
+
+            <motion.div
+              className="hidden lg:flex flex-col gap-4 items-end"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <div className="grid grid-cols-2 gap-4 w-full max-w-md">
+                {[
+                  { value: "500+", label: "Tevreden klanten", icon: Star },
+                  { value: "99.9%", label: "Uptime garantie", icon: Zap },
+                  { value: "<48u", label: "Reactietijd", icon: Clock },
+                  { value: "€0", label: "Opstartkosten", icon: CreditCard },
+                ].map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    className="rounded-2xl border bg-card/80 backdrop-blur-sm p-5 space-y-2"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
+                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                  >
+                    <stat.icon className="h-5 w-5 text-primary" />
+                    <div className="font-mono text-2xl font-bold tracking-tight">{stat.value}</div>
+                    <div className="text-xs text-muted-foreground">{stat.label}</div>
+                  </motion.div>
+                ))}
               </div>
-            ))}
+            </motion.div>
           </div>
         </div>
       </section>
 
-      <section id="pricing" className="py-20 px-4">
-        <div className="container mx-auto max-w-5xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-pricing-title">
-              Kies uw plan
+      {/* TRUST STRIP */}
+      <section className="py-6 px-4 border-y border-border/50">
+        <div className="container mx-auto max-w-6xl">
+          <ScrollReveal>
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+              {trustItems.map((item, i) => (
+                <div key={item.label} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <item.icon className="h-4 w-4 text-primary/70" />
+                  <span>{item.label}</span>
+                  {i < trustItems.length - 1 && (
+                    <span className="hidden md:inline ml-6 text-border">|</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section id="pricing" className="py-24 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <ScrollReveal className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4 px-3 py-1 text-xs font-medium">
+              Prijzen
+            </Badge>
+            <h2 className="font-display text-3xl md:text-5xl tracking-tight mb-4" data-testid="text-pricing-title">
+              Transparant. Eerlijk. Alles inbegrepen.
             </h2>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-              Simpel, eerlijk en alles inbegrepen. Geen verborgen kosten.
+              Kies het plan dat past bij uw bedrijf. Geen verborgen kosten, geen verrassingen.
             </p>
-          </div>
+          </ScrollReveal>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {sortedPlans.map((plan) => {
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+            {sortedPlans.map((plan, index) => {
               const config = tierConfig[plan.tier] || { label: plan.name };
               return (
-                <Card
-                  key={plan.id}
-                  className={`relative border-2 transition-shadow ${
-                    config.popular ? "border-primary shadow-lg shadow-primary/10" : "border-border"
-                  }`}
-                  data-testid={`card-plan-${plan.tier.toLowerCase()}`}
-                >
-                  {config.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <Badge className="bg-primary text-primary-foreground" data-testid="badge-popular">
-                        Populairste keuze
-                      </Badge>
+                <ScrollReveal key={plan.id} delay={index * 0.1}>
+                  <motion.div
+                    className={`relative rounded-2xl border-2 p-1 h-full transition-all duration-300 ${
+                      config.popular
+                        ? "border-primary bg-gradient-to-b from-primary/5 to-transparent shadow-xl shadow-primary/10"
+                        : "border-border hover:border-primary/30"
+                    }`}
+                    whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                    data-testid={`card-plan-${plan.tier.toLowerCase()}`}
+                  >
+                    {config.popular && (
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
+                        <Badge className="bg-primary text-primary-foreground shadow-lg shadow-primary/30 px-4 py-1" data-testid="badge-popular">
+                          Populairste keuze
+                        </Badge>
+                      </div>
+                    )}
+                    <div className="rounded-xl bg-card p-6 md:p-8 h-full flex flex-col">
+                      <div className="text-center mb-6">
+                        <h3 className="text-lg font-semibold mb-4">{config.label}</h3>
+                        <div className="flex items-baseline justify-center gap-1">
+                          <span className="font-display text-5xl tracking-tight" data-testid={`text-price-${plan.tier.toLowerCase()}`}>
+                            €{(plan.monthlyPriceCents / 100).toFixed(0)}
+                          </span>
+                          <span className="text-muted-foreground text-sm">/maand</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-3">
+                          {plan.includedPages} pagina's inbegrepen
+                        </p>
+                      </div>
+                      <ul className="space-y-3 flex-1 mb-8">
+                        {(plan.features || []).map((feature, i) => (
+                          <li key={i} className="flex items-start gap-3 text-sm">
+                            <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                              <Check className="h-3 w-3 text-primary" />
+                            </div>
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <Button
+                        className={`w-full gap-2 ${
+                          config.popular ? "shadow-lg shadow-primary/20" : ""
+                        }`}
+                        variant={config.popular ? "default" : "outline"}
+                        onClick={() => handleOrder(plan.id)}
+                        disabled={checkoutMutation.isPending}
+                        data-testid={`button-order-${plan.tier.toLowerCase()}`}
+                      >
+                        {checkoutMutation.isPending ? "Bezig..." : "Bestel nu"}
+                        <ArrowRight className="h-4 w-4" />
+                      </Button>
                     </div>
-                  )}
-                  <CardHeader className="text-center pb-4">
-                    <CardTitle className="text-xl">{config.label}</CardTitle>
-                    <div className="mt-4">
-                      <span className="text-4xl font-bold" data-testid={`text-price-${plan.tier.toLowerCase()}`}>
-                        €{(plan.monthlyPriceCents / 100).toFixed(0)}
-                      </span>
-                      <span className="text-muted-foreground">/maand</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {plan.includedPages} pagina's inbegrepen
-                    </p>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <ul className="space-y-3">
-                      {(plan.features || []).map((feature, i) => (
-                        <li key={i} className="flex items-start gap-3 text-sm">
-                          <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Button
-                      className="w-full gap-2"
-                      variant={config.popular ? "default" : "outline"}
-                      onClick={() => handleOrder(plan.id)}
-                      disabled={checkoutMutation.isPending}
-                      data-testid={`button-order-${plan.tier.toLowerCase()}`}
-                    >
-                      {checkoutMutation.isPending ? "Bezig..." : "Bestel nu"}
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </CardContent>
-                </Card>
+                  </motion.div>
+                </ScrollReveal>
               );
             })}
           </div>
         </div>
       </section>
 
-      <section id="addons" className="py-20 px-4 bg-muted/30">
-        <div className="container mx-auto max-w-5xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-addons-title">
+      {/* ADD-ONS */}
+      <section id="addons" className="py-24 px-4 relative">
+        <div className="absolute inset-0 bg-muted/30" />
+        <div className="absolute inset-0 dot-grid opacity-30" />
+
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <ScrollReveal className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4 px-3 py-1 text-xs font-medium">
+              Add-ons
+            </Badge>
+            <h2 className="font-display text-3xl md:text-5xl tracking-tight mb-4" data-testid="text-addons-title">
               Groei met add-ons
             </h2>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto">
               Extra diensten om uw online aanwezigheid te versterken. Voeg toe wanneer u wilt.
             </p>
-          </div>
+          </ScrollReveal>
 
-          <div className="grid sm:grid-cols-3 gap-4">
-            {addOns.map((addOn) => {
+          <div className="grid sm:grid-cols-3 gap-6">
+            {addOns.map((addOn, index) => {
               const Icon = addOnIcons[addOn.slug] || Zap;
               const isCookieBanner = addOn.slug === "cookie-banner";
               return (
-                <Card key={addOn.id} className="border" data-testid={`card-addon-${addOn.slug}`}>
-                  <CardContent className="p-6">
-                    <div className="flex items-start gap-4">
-                      <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                        <Icon className="h-5 w-5 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold mb-1">{addOn.name}</h3>
-                        <p className="text-sm text-muted-foreground mb-3">{addOn.description}</p>
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg font-bold" data-testid={`text-addon-price-${addOn.slug}`}>
-                            €{(addOn.monthlyPriceCents / 100).toFixed(0)}
-                            <span className="text-sm font-normal text-muted-foreground">/maand</span>
-                          </span>
-                          {isCookieBanner && (
-                            <Badge variant="secondary" className="text-xs">
-                              Gratis bij Professional+
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
+                <ScrollReveal key={addOn.id} delay={index * 0.1}>
+                  <motion.div
+                    className="rounded-2xl border bg-card p-6 h-full transition-colors duration-300 hover:border-primary/30"
+                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                    data-testid={`card-addon-${addOn.slug}`}
+                  >
+                    <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                      <Icon className="h-6 w-6 text-primary" />
                     </div>
-                  </CardContent>
-                </Card>
+                    <h3 className="font-semibold text-lg mb-2">{addOn.name}</h3>
+                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{addOn.description}</p>
+                    <div className="flex items-center gap-3">
+                      <span className="font-display text-2xl" data-testid={`text-addon-price-${addOn.slug}`}>
+                        €{(addOn.monthlyPriceCents / 100).toFixed(0)}
+                        <span className="text-sm font-sans font-normal text-muted-foreground">/maand</span>
+                      </span>
+                      {isCookieBanner && (
+                        <Badge variant="secondary" className="text-xs bg-chart-2/10 text-chart-2 border-chart-2/20">
+                          Gratis bij Professional+
+                        </Badge>
+                      )}
+                    </div>
+                  </motion.div>
+                </ScrollReveal>
               );
             })}
           </div>
         </div>
       </section>
 
-      <section id="faq" className="py-20 px-4">
-        <div className="container mx-auto max-w-3xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-faq-title">
-              Veelgestelde vragen
+      {/* HOW IT WORKS */}
+      <section className="py-24 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <ScrollReveal className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4 px-3 py-1 text-xs font-medium">
+              Hoe het werkt
+            </Badge>
+            <h2 className="font-display text-3xl md:text-5xl tracking-tight mb-4">
+              In 4 stappen online
             </h2>
-          </div>
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+              Van bestelling tot live website. Simpel en snel.
+            </p>
+          </ScrollReveal>
 
-          <div className="space-y-4">
-            {faqItems.map((item, index) => (
-              <FAQItem key={index} question={item.q} answer={item.a} index={index} />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { step: "01", title: "Kies uw plan", desc: "Selecteer het abonnement dat past bij uw bedrijf en reken direct af.", icon: CreditCard },
+              { step: "02", title: "Vul de intake in", desc: "Vertel ons over uw bedrijf, wensen en doelen via ons onboarding formulier.", icon: Globe },
+              { step: "03", title: "Wij bouwen", desc: "Ons team ontwerpt en bouwt uw complete website. U hoeft niets te doen.", icon: Zap },
+              { step: "04", title: "U bent live", desc: "Uw website staat online. Volg uw groei via uw persoonlijk dashboard.", icon: Star },
+            ].map((item, i) => (
+              <ScrollReveal key={item.step} delay={i * 0.1}>
+                <div className="relative">
+                  <div className="font-mono text-6xl font-bold text-primary/8 dark:text-primary/5 absolute -top-4 -left-1">
+                    {item.step}
+                  </div>
+                  <div className="relative pt-8">
+                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                      <item.icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-4 bg-primary text-primary-foreground">
-        <div className="container mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-cta-title">
-            Klaar om te starten?
-          </h2>
-          <p className="text-lg opacity-90 mb-8">
-            Kies uw plan en wij regelen de rest. Binnen 10 dagen live.
-          </p>
-          <a href="#pricing">
-            <Button size="lg" variant="secondary" className="gap-2 text-base px-8" data-testid="button-cta-pricing">
-              Bekijk prijzen
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </a>
+      {/* FAQ */}
+      <section id="faq" className="py-24 px-4 relative">
+        <div className="absolute inset-0 bg-muted/30" />
+        <div className="container mx-auto max-w-3xl relative z-10">
+          <ScrollReveal className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4 px-3 py-1 text-xs font-medium">
+              FAQ
+            </Badge>
+            <h2 className="font-display text-3xl md:text-5xl tracking-tight mb-4" data-testid="text-faq-title">
+              Veelgestelde vragen
+            </h2>
+          </ScrollReveal>
+
+          <div className="space-y-3">
+            {faqItems.map((item, index) => (
+              <ScrollReveal key={index} delay={index * 0.05}>
+                <FAQItem question={item.q} answer={item.a} index={index} />
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24 px-4 relative overflow-hidden grain-overlay">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-blue-700" />
+        <div className="absolute inset-0 dot-grid opacity-10" />
+
+        <div className="container mx-auto max-w-3xl text-center relative z-10">
+          <ScrollReveal>
+            <h2 className="font-display text-3xl md:text-5xl tracking-tight mb-6 text-primary-foreground" data-testid="text-cta-title">
+              Klaar om te starten?
+            </h2>
+            <p className="text-lg text-primary-foreground/80 mb-10 max-w-lg mx-auto leading-relaxed">
+              Kies uw plan en wij regelen de rest. Binnen 10 dagen live. Geen opstartkosten.
+            </p>
+            <a href="#pricing">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="gap-2 shadow-xl"
+                data-testid="button-cta-pricing"
+              >
+                Bekijk prijzen
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </a>
+          </ScrollReveal>
         </div>
       </section>
     </MarketingLayout>
@@ -300,23 +480,39 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
   const [open, setOpen] = useState(false);
 
   return (
-    <div
-      className="border rounded-lg overflow-hidden"
+    <motion.div
+      className="rounded-xl border bg-card overflow-hidden transition-colors duration-200 hover:border-primary/20"
       data-testid={`faq-item-${index}`}
+      layout
     >
       <button
-        className="w-full flex items-center justify-between p-5 text-left hover:bg-muted/50 transition-colors"
+        className="w-full flex items-center justify-between p-5 md:p-6 text-left"
         onClick={() => setOpen(!open)}
         data-testid={`button-faq-${index}`}
       >
         <span className="font-medium pr-4">{question}</span>
-        <ChevronDown className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+        <motion.div
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground" />
+        </motion.div>
       </button>
-      {open && (
-        <div className="px-5 pb-5 text-sm text-muted-foreground">
-          {answer}
-        </div>
-      )}
-    </div>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 md:px-6 pb-5 md:pb-6 text-sm text-muted-foreground leading-relaxed">
+              {answer}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
