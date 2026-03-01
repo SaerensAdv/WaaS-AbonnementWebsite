@@ -23,15 +23,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   LayoutDashboard,
-  FolderKanban,
   Puzzle,
-  FileText,
   CreditCard,
   Settings,
   Users,
-  UserCog,
-  Layers,
-  ClipboardList,
   LogOut,
   ChevronUp,
 } from "lucide-react";
@@ -39,46 +34,22 @@ import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_176496919944
 
 const customerMenuItems = [
   { title: "Dashboard", url: "/app", icon: LayoutDashboard },
-  { title: "Mijn Project", url: "/app/project", icon: FolderKanban },
   { title: "Add-ons", url: "/app/addons", icon: Puzzle },
-  { title: "Rapporten", url: "/app/reports", icon: FileText },
   { title: "Facturatie", url: "/app/billing", icon: CreditCard },
+  { title: "Instellingen", url: "/app/settings", icon: Settings },
 ];
 
 const adminMenuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Klanten", url: "/admin/customers", icon: Users },
-  { title: "Projecten", url: "/admin/projects", icon: FolderKanban },
-  { title: "Specialisten", url: "/admin/specialists", icon: UserCog },
-  { title: "Plannen", url: "/admin/plans", icon: Layers },
-  { title: "Add-ons", url: "/admin/addons", icon: Puzzle },
-  { title: "Templates", url: "/admin/templates", icon: ClipboardList },
-];
-
-const specialistMenuItems = [
-  { title: "Dashboard", url: "/specialist", icon: LayoutDashboard },
-  { title: "Toewijzingen", url: "/specialist/assignments", icon: ClipboardList },
-  { title: "Rapporten", url: "/specialist/reports", icon: FileText },
-  { title: "Profiel", url: "/specialist/profile", icon: Settings },
 ];
 
 export function AppSidebar() {
   const [location] = useLocation();
   const { user, logout } = useAuth();
 
-  const getMenuItems = () => {
-    switch (user?.role) {
-      case "ADMIN":
-        return adminMenuItems;
-      case "SPECIALIST":
-        return specialistMenuItems;
-      default:
-        return customerMenuItems;
-    }
-  };
-
-  const menuItems = getMenuItems();
-  const roleLabel = user?.role === "ADMIN" ? "Admin" : user?.role === "SPECIALIST" ? "Specialist" : "Klant";
+  const menuItems = user?.role === "ADMIN" ? adminMenuItems : customerMenuItems;
+  const roleLabel = user?.role === "ADMIN" ? "Admin" : "Klant";
 
   const getInitials = (name: string) => {
     return name
@@ -93,12 +64,12 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="border-b p-4">
         <Link href="/" className="flex items-center gap-2">
-          <img 
-            src={logoImage} 
-            alt="WebsiteAbonnementen" 
+          <img
+            src={logoImage}
+            alt="WebsiteAbonnementen"
             className="h-8 w-8 rounded-md object-contain"
           />
-          <span className="font-semibold">WebsiteAbonnementen</span>
+          <span className="font-semibold">abonnement.website</span>
         </Link>
       </SidebarHeader>
       <SidebarContent>
@@ -141,7 +112,7 @@ export function AppSidebar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56">
             <DropdownMenuItem asChild>
-              <Link href="/app/settings" className="cursor-pointer">
+              <Link href={user?.role === "ADMIN" ? "/admin" : "/app/settings"} className="cursor-pointer">
                 <Settings className="mr-2 h-4 w-4" />
                 Instellingen
               </Link>

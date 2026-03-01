@@ -122,7 +122,7 @@ export default function BillingPage() {
                 U heeft nog geen abonnement. Kies een plan om te beginnen.
               </p>
               <Button asChild>
-                <a href="/pricing">Bekijk plannen</a>
+                <a href="/#pricing">Bekijk plannen</a>
               </Button>
             </CardContent>
           </Card>

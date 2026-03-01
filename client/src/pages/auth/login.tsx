@@ -31,8 +31,6 @@ export default function LoginPage() {
     switch (role) {
       case "ADMIN":
         return "/admin";
-      case "SPECIALIST":
-        return "/specialist";
       case "CUSTOMER":
       default:
         return "/app";

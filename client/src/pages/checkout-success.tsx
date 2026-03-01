@@ -31,7 +31,7 @@ const nextSteps = [
   {
     icon: Clock,
     title: "Persoonlijk contact",
-    description: "Binnen 24 uur neemt een specialist contact met u op",
+    description: "Binnen 24 uur nemen wij contact met u op",
   },
   {
     icon: Calendar,

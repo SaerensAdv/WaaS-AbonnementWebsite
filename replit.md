@@ -2,7 +2,7 @@
 
 ## Overview
 
-WebsiteAbonnementen is a B2B SaaS platform providing website subscription services with three tiers (Starter/Low, Professional/Medium, and High/Custom). The platform enables customers to select website templates, manage subscriptions, purchase add-ons (Google Ads, Meta Ads, SEO, content creation), and track project progress. Specialists can be assigned to customer accounts for advertising and SEO management, while administrators oversee all operations including customer management, specialist assignments, and platform configuration.
+WebsiteAbonnementen (abonnement.website) is a B2B SaaS platform providing professional website subscription services. The "McDonald's Strategy" approach: one strong landing page, 3 clear pricing tiers (Starter €49/mo, Professional €99/mo, Business €199/mo), instant Stripe checkout, a simple customer dashboard, and a basic admin panel. Designed to be scalable toward a future freelancer marketplace.
 
 ## User Preferences
 
@@ -14,103 +14,99 @@ Preferred communication style: Simple, everyday language.
 
 **Framework**: React with TypeScript, using Vite for development and builds
 
-**Routing**: Client-side routing via Wouter (lightweight React Router alternative)
+**Routing**: Client-side routing via Wouter
 
-**UI Component System**: Shadcn/ui (Radix UI primitives) with TailwindCSS for styling
-- Design system inspired by Linear, Stripe, and Notion
-- Custom theme configuration with light/dark mode support
-- Inter font for text, JetBrains Mono for code/numbers
-- Consistent spacing system using Tailwind units
+**UI Component System**: Shadcn/ui (Radix UI primitives) with TailwindCSS
+- Light/dark mode support via ThemeProvider
+- Inter font for text, JetBrains Mono for numbers
+- framer-motion for animations
 
 **State Management**: 
-- TanStack Query (React Query) for server state and API data caching
-- React Context for authentication state and internationalization (i18n)
+- TanStack Query v5 for server state and API data caching
+- React Context for authentication state and i18n
 - Session-based authentication with HttpOnly cookies
 
 **Internationalization (i18n)**:
-- Custom React Context-based i18n system (client/src/lib/i18n-context.tsx)
-- Supports Dutch (nl) and English (en) languages
-- Browser language detection with localStorage persistence
-- Translation files: client/src/lib/translations/nl.ts and en.ts (~650 lines each)
-- LanguageSwitcher component with flag icons in header
-- SEO: hreflang tags, language-aware og:locale, translated structured data
-- All marketing pages, legal pages, footer, and navigation fully translated
+- Custom React Context-based i18n (client/src/lib/i18n-context.tsx)
+- Dutch (nl) and English (en) languages
+- Translation files: client/src/lib/translations/nl.ts and en.ts
 
-**Key Layout Patterns**:
-- Marketing layout for public pages (home, pricing)
-- App layout with sidebar navigation for authenticated users
-- Role-based UI rendering (Customer, Specialist, Admin dashboards)
+**Key Pages**:
+- `/` — Landing page with hero, pricing, add-ons, FAQ sections
+- `/login`, `/signup` — Authentication pages
+- `/privacy`, `/terms` — Legal pages
+- `/checkout-success` — Post-payment confirmation
+- `/app` — Customer dashboard
+- `/app/addons` — Add-on management
+- `/app/billing` — Billing & subscription
+- `/app/settings` — Profile settings
+- `/admin` — Admin dashboard
+- `/admin/customers` — Customer management
+
+**Layout Patterns**:
+- MarketingLayout: header (anchor nav: Pricing, Add-ons, FAQ) + footer
+- AppLayout: sidebar navigation for authenticated users
+- Roles: ADMIN (admin sidebar) and CUSTOMER (customer sidebar)
 
 ### Backend Architecture
 
-**Framework**: Express.js server with TypeScript
+**Framework**: Express.js with TypeScript
 
-**API Design**: RESTful endpoints organized by feature
-- Session-based authentication using express-session
-- Role-based access control via middleware (requireAuth, requireRole)
-- Password hashing with SHA-256
+**API Design**: RESTful endpoints
+- Session-based auth via express-session
+- Role-based access control (requireAuth, requireRole middlewares)
+- Password hashing with bcryptjs
 
 **Database Layer**: 
-- Drizzle ORM for type-safe database queries
-- PostgreSQL as the primary database
-- Schema-first approach with Drizzle Zod for validation
-- Storage abstraction pattern for data access operations
+- Drizzle ORM with PostgreSQL
+- Schema-first approach with drizzle-zod validation
+- Storage abstraction pattern (IStorage interface)
 
 **Data Model**:
-- Users with role-based permissions (ADMIN, CUSTOMER, SPECIALIST)
-- Customer and Specialist profile extensions
-- Plans with tier-based pricing (LOW, MEDIUM, HIGH)
-- Subscriptions linked to Stripe customer IDs
-- Projects with status tracking (ONBOARDING, PRODUCTION, LIVE, MAINTENANCE)
-- Add-ons with selection tracking
-- Assignments linking specialists to customer projects
-- Reports for tracking deliverables and updates
-- Audit logs for compliance and tracking
+- `users` — ADMIN or CUSTOMER roles
+- `customer_profiles` — Company info, Stripe customer ID
+- `plans` — 3 tiers (LOW=Starter €49, MEDIUM=Professional €99, HIGH=Business €199)
+- `subscriptions` — Links user to plan, tracks Stripe subscription ID
+- `projects` — Website project with status tracking (ONBOARDING → PRODUCTION → LIVE → MAINTENANCE)
+- `add_ons` — Fixed-price add-ons (Google Ads €149, Meta Ads €149, SEO €99, Content €79, Cookie Banner €9)
+- `add_on_selections` — Links add-on to subscription
+- `password_reset_tokens` — Password reset flow
+
+**Key API Routes**:
+- `POST /api/auth/signup`, `POST /api/auth/login`, `POST /api/auth/logout`
+- `GET /api/me` — Current user
+- `GET /api/plans`, `GET /api/addons` — Public plan/addon listing
+- `POST /api/checkout` — Creates Stripe Checkout session
+- `POST /api/verify-checkout` — Verifies checkout and creates subscription
+- `GET /api/dashboard` — Customer dashboard data
+- `GET /api/addons/my`, `POST /api/addons/select` — Customer add-on management
+- `GET /api/profile`, `PATCH /api/profile` — Customer profile
+- `GET /api/billing`, `POST /api/billing/portal` — Billing + Stripe portal
+- `GET /api/admin/stats`, `GET /api/admin/customers` — Admin endpoints
+- `GET /api/admin/projects`, `PUT /api/admin/projects/:id/status` — Project management
 
 ### External Dependencies
 
 **Payment Processing**: Stripe
-- Subscription management via Stripe Customer IDs
-- Subscription status tracking (ACTIVE, PAST_DUE, CANCELED, INCOMPLETE)
-- Line items for add-on purchases
-- Webhook handler (server/webhookHandlers.ts) processes:
-  - checkout.session.completed: Creates subscription and project records
-  - customer.subscription.updated: Syncs plan changes (upgrades/downgrades) and status
-  - customer.subscription.deleted: Marks subscription as canceled
-- Stripe sync via stripe-replit-sync for data mirroring
+- Checkout Sessions for new subscriptions
+- Customer Portal for subscription management
+- Webhook handler for checkout.session.completed, subscription.updated/deleted
+- stripe-replit-sync for data mirroring
 
-**Database**: PostgreSQL
-- Hosted via environment variable (DATABASE_URL)
-- Connection pooling with node-postgres (pg)
-- Schema migrations via Drizzle Kit
-
-**Session Storage**: 
-- Express-session with either connect-pg-simple (PostgreSQL store) or memorystore
-- Configurable session duration and security settings
-
-**Development Tools**:
-- Replit-specific plugins for dev environment (cartographer, dev-banner, runtime error overlay)
-- Hot module replacement (HMR) via Vite
-- ESBuild for production server bundling
-
-**Planned Integrations** (referenced in requirements but not yet implemented):
-- Email service (Resend or Postmark) for transactional emails
-- File storage (S3-compatible: Cloudflare R2 or Supabase Storage) for logos and images
-- NextAuth or Clerk for enhanced authentication (currently using custom session auth)
+**Database**: PostgreSQL (Neon-backed via Replit)
 
 ### Build and Deployment
 
-**Development**: 
-- Vite dev server with HMR
-- Express server runs separately, proxies API requests
-- TypeScript compilation without emit (type checking only)
+**Development**: `npm run dev` — runs Express server + Vite dev server on port 5000
+**Production**: Vite builds to `dist/public`, ESBuild bundles server to `dist/index.cjs`
+**Database Operations**: `npm run db:push` to sync schema, `npx tsx server/seed.ts` to seed
 
-**Production**:
-- Client: Vite builds static assets to `dist/public`
-- Server: ESBuild bundles server code to single `dist/index.cjs` file
-- Select dependencies bundled to reduce cold start times
-- Static file serving from built client assets
+### Important Files
 
-**Database Operations**:
-- `db:push` command to sync schema changes to database
-- Seed script for initial data (plans, add-ons, admin user, templates)
+- `shared/schema.ts` — Database schema + types (source of truth)
+- `server/storage.ts` — Data access layer (IStorage interface)
+- `server/routes.ts` — All API endpoints
+- `server/seed.ts` — Seed data (plans, add-ons, admin user)
+- `client/src/App.tsx` — Frontend routing
+- `client/src/pages/home.tsx` — Landing page
+- `client/src/components/layout/` — Marketing header/footer, app sidebar/layout

@@ -12,58 +12,30 @@ import { useEffect } from "react";
 
 function ScrollToTop() {
   const [location] = useLocation();
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-  
+
   return null;
 }
 
 import HomePage from "@/pages/home";
-import PricingPage from "@/pages/pricing";
-import AboutPage from "@/pages/about";
-import TemplatesPage from "@/pages/templates";
-import ProjectenPage from "@/pages/projecten";
-import ContactPage from "@/pages/contact";
-import SpecialistsPage from "@/pages/specialists";
 import PrivacyPage from "@/pages/privacy";
 import TermsPage from "@/pages/terms";
-import CookiesPage from "@/pages/cookies";
 import LoginPage from "@/pages/auth/login";
 import SignupPage from "@/pages/auth/signup";
 import ForgotPasswordPage from "@/pages/auth/forgot-password";
 import ResetPasswordPage from "@/pages/auth/reset-password";
 import CheckoutSuccessPage from "@/pages/checkout-success";
-import BlogPage from "@/pages/blog";
-import BlogPostPage from "@/pages/blog-post";
-import ToolsPage from "@/pages/tools";
-import FAQPage from "@/pages/faq";
-import VergelijkOverviewPage from "@/pages/vergelijk/index";
-import VergelijkWordPressPage from "@/pages/vergelijk/wordpress";
-import VergelijkWixPage from "@/pages/vergelijk/wix";
-import VergelijkEenmaligPage from "@/pages/vergelijk/eenmalig";
 
 import CustomerDashboard from "@/pages/dashboard/customer-dashboard";
-import ProjectPage from "@/pages/dashboard/project";
 import AddOnsPage from "@/pages/dashboard/addons";
-import ReportsPage from "@/pages/dashboard/reports";
 import BillingPage from "@/pages/dashboard/billing";
 import SettingsPage from "@/pages/dashboard/settings";
 
 import AdminDashboard from "@/pages/admin/admin-dashboard";
 import AdminCustomersPage from "@/pages/admin/customers";
-import AdminProjectsPage from "@/pages/admin/projects";
-import AdminSpecialistsPage from "@/pages/admin/specialists";
-import AdminAssignmentsPage from "@/pages/admin/assignments";
-import AdminPlansPage from "@/pages/admin/plans";
-import AdminAddOnsPage from "@/pages/admin/addons";
-import AdminTemplatesPage from "@/pages/admin/templates";
-
-import SpecialistDashboard from "@/pages/specialist/specialist-dashboard";
-import SpecialistAssignmentsPage from "@/pages/specialist/assignments";
-import SpecialistReportsPage from "@/pages/specialist/reports";
-import SpecialistProfilePage from "@/pages/specialist/profile";
 
 import loaderGif from "@assets/Untitled_design-loader_icon_1764970117869.gif";
 
@@ -92,8 +64,6 @@ function ProtectedRoute({
   if (roles && !roles.includes(user.role)) {
     if (user.role === "ADMIN") {
       return <Redirect to="/admin" />;
-    } else if (user.role === "SPECIALIST") {
-      return <Redirect to="/specialist" />;
     } else {
       return <Redirect to="/app" />;
     }
@@ -106,40 +76,19 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
-      <Route path="/pricing" component={PricingPage} />
-      <Route path="/about" component={AboutPage} />
-      <Route path="/templates" component={TemplatesPage} />
-      <Route path="/projecten" component={ProjectenPage} />
-      <Route path="/contact" component={ContactPage} />
-      <Route path="/specialists" component={SpecialistsPage} />
       <Route path="/privacy" component={PrivacyPage} />
       <Route path="/terms" component={TermsPage} />
-      <Route path="/cookies" component={CookiesPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/signup" component={SignupPage} />
       <Route path="/forgot-password" component={ForgotPasswordPage} />
       <Route path="/reset-password" component={ResetPasswordPage} />
       <Route path="/checkout-success" component={CheckoutSuccessPage} />
-      <Route path="/blog" component={BlogPage} />
-      <Route path="/blog/:slug" component={BlogPostPage} />
-      <Route path="/tools" component={ToolsPage} />
-      <Route path="/faq" component={FAQPage} />
-      <Route path="/vergelijk" component={VergelijkOverviewPage} />
-      <Route path="/vergelijk/wordpress" component={VergelijkWordPressPage} />
-      <Route path="/vergelijk/wix" component={VergelijkWixPage} />
-      <Route path="/vergelijk/eenmalig" component={VergelijkEenmaligPage} />
 
       <Route path="/app">
         <ProtectedRoute component={CustomerDashboard} roles={["CUSTOMER"]} />
       </Route>
-      <Route path="/app/project">
-        <ProtectedRoute component={ProjectPage} roles={["CUSTOMER"]} />
-      </Route>
       <Route path="/app/addons">
         <ProtectedRoute component={AddOnsPage} roles={["CUSTOMER"]} />
-      </Route>
-      <Route path="/app/reports">
-        <ProtectedRoute component={ReportsPage} roles={["CUSTOMER"]} />
       </Route>
       <Route path="/app/billing">
         <ProtectedRoute component={BillingPage} roles={["CUSTOMER"]} />
@@ -153,37 +102,6 @@ function Router() {
       </Route>
       <Route path="/admin/customers">
         <ProtectedRoute component={AdminCustomersPage} roles={["ADMIN"]} />
-      </Route>
-      <Route path="/admin/projects">
-        <ProtectedRoute component={AdminProjectsPage} roles={["ADMIN"]} />
-      </Route>
-      <Route path="/admin/specialists">
-        <ProtectedRoute component={AdminSpecialistsPage} roles={["ADMIN"]} />
-      </Route>
-      <Route path="/admin/assignments">
-        <ProtectedRoute component={AdminAssignmentsPage} roles={["ADMIN"]} />
-      </Route>
-      <Route path="/admin/plans">
-        <ProtectedRoute component={AdminPlansPage} roles={["ADMIN"]} />
-      </Route>
-      <Route path="/admin/addons">
-        <ProtectedRoute component={AdminAddOnsPage} roles={["ADMIN"]} />
-      </Route>
-      <Route path="/admin/templates">
-        <ProtectedRoute component={AdminTemplatesPage} roles={["ADMIN"]} />
-      </Route>
-
-      <Route path="/specialist">
-        <ProtectedRoute component={SpecialistDashboard} roles={["SPECIALIST"]} />
-      </Route>
-      <Route path="/specialist/assignments">
-        <ProtectedRoute component={SpecialistAssignmentsPage} roles={["SPECIALIST"]} />
-      </Route>
-      <Route path="/specialist/reports">
-        <ProtectedRoute component={SpecialistReportsPage} roles={["SPECIALIST"]} />
-      </Route>
-      <Route path="/specialist/profile">
-        <ProtectedRoute component={SpecialistProfilePage} roles={["SPECIALIST"]} />
       </Route>
 
       <Route component={NotFound} />

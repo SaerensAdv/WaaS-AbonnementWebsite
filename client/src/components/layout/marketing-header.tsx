@@ -16,7 +16,7 @@ export function MarketingHeader() {
   const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showStaticLogo, setShowStaticLogo] = useState(false);
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowStaticLogo(true);
@@ -24,67 +24,68 @@ export function MarketingHeader() {
     return () => clearTimeout(timer);
   }, []);
 
-  const navLinks = [
-    { href: "/", label: t("common.nav.home") },
-    { href: "/pricing", label: t("common.nav.pricing") },
-    { href: "/projecten", label: t("common.nav.projects") },
-    { href: "/about", label: t("common.nav.about") },
-  ];
-
   return (
     <div className="sticky top-0 z-50 w-full px-4 pt-4">
       <header className="mx-auto max-w-5xl rounded-full border border-white/20 dark:border-white/10 bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5 dark:shadow-black/20 ring-1 ring-primary/10">
         <div className="flex h-14 items-center justify-between gap-4 px-6">
-          <Link 
-            href="/" 
-            className="flex items-center gap-3 group transition-opacity duration-200 hover:opacity-80" 
+          <Link
+            href="/"
+            className="flex items-center gap-3 group transition-opacity duration-200 hover:opacity-80"
             data-testid="link-logo"
           >
-            <img 
-              src={showStaticLogo ? logoImage : logoGif} 
-              alt="WebsiteAbonnementen" 
+            <img
+              src={showStaticLogo ? logoImage : logoGif}
+              alt="WebsiteAbonnementen"
               className="h-10 w-10 rounded-lg transition-transform duration-200 group-hover:scale-105 object-contain"
             />
             <span className="text-lg font-semibold tracking-tight hidden sm:inline">abo.web</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const isActive = location === link.href;
-              return (
-                <Link key={link.href} href={link.href}>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className={`relative transition-all duration-200 ${
-                      isActive 
-                        ? "text-foreground font-medium" 
-                        : "text-muted-foreground"
-                    }`}
-                    data-testid={`nav-${link.label.toLowerCase()}`}
-                  >
-                    {link.label}
-                    {isActive && (
-                      <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />
-                    )}
-                  </Button>
-                </Link>
-              );
-            })}
+            <a href="#pricing">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground"
+                data-testid="nav-pricing"
+              >
+                Prijzen
+              </Button>
+            </a>
+            <a href="#addons">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground"
+                data-testid="nav-addons"
+              >
+                Add-ons
+              </Button>
+            </a>
+            <a href="#faq">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground"
+                data-testid="nav-faq"
+              >
+                FAQ
+              </Button>
+            </a>
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
             <LanguageSwitcher />
             <ThemeToggle />
             {user ? (
-              <Link href="/app">
+              <Link href={user.role === "ADMIN" ? "/admin" : "/app"}>
                 <Button size="sm" data-testid="button-dashboard">{t("common.buttons.dashboard")}</Button>
               </Link>
             ) : (
               <>
                 <Link href="/login">
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     size="sm"
                     className="text-muted-foreground transition-colors duration-200"
                     data-testid="button-login"
@@ -92,15 +93,15 @@ export function MarketingHeader() {
                     {t("common.buttons.login")}
                   </Button>
                 </Link>
-                <Link href="/signup">
-                  <Button 
+                <a href="#pricing">
+                  <Button
                     size="sm"
                     className="shadow-sm shadow-primary/20 transition-shadow duration-200 hover:shadow-md hover:shadow-primary/30"
-                    data-testid="button-signup"
+                    data-testid="button-get-started"
                   >
                     {t("common.buttons.getStarted")}
                   </Button>
-                </Link>
+                </a>
               </>
             )}
           </div>
@@ -150,82 +151,36 @@ export function MarketingHeader() {
             className="md:hidden absolute left-4 right-4 top-[calc(100%+0.5rem)] mx-auto max-w-5xl rounded-2xl border border-white/20 dark:border-white/10 bg-background/60 backdrop-blur-2xl shadow-lg shadow-black/5 dark:shadow-black/20 ring-1 ring-primary/10 overflow-hidden"
           >
             <nav className="flex flex-col gap-1 p-4">
-              {navLinks.map((link, index) => {
-                const isActive = location === link.href;
-                return (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.2, delay: index * 0.05 }}
-                  >
-                    <Link href={link.href}>
-                      <Button
-                        variant="ghost"
-                        className={`w-full justify-start transition-all duration-200 ${
-                          isActive 
-                            ? "text-foreground font-medium bg-accent/50" 
-                            : "text-muted-foreground"
-                        }`}
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {link.label}
-                      </Button>
-                    </Link>
-                  </motion.div>
-                );
-              })}
-              
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.2, delay: 0.15 }}
-                className="border-t border-border/50 my-3" 
-              />
-              
+              <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-muted-foreground">Prijzen</Button>
+              </a>
+              <a href="#addons" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-muted-foreground">Add-ons</Button>
+              </a>
+              <a href="#faq" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-muted-foreground">FAQ</Button>
+              </a>
+
+              <div className="border-t border-border/50 my-3" />
+
               {user ? (
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.2, delay: 0.2 }}
-                >
-                  <Link href="/app">
-                    <Button className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                      Dashboard
-                    </Button>
-                  </Link>
-                </motion.div>
+                <Link href={user.role === "ADMIN" ? "/admin" : "/app"}>
+                  <Button className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                    Dashboard
+                  </Button>
+                </Link>
               ) : (
                 <>
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.2, delay: 0.2 }}
-                  >
-                    <Link href="/login">
-                      <Button 
-                        variant="ghost" 
-                        className="w-full text-muted-foreground" 
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Inloggen
-                      </Button>
-                    </Link>
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.2, delay: 0.25 }}
-                  >
-                    <Link href="/signup">
-                      <Button 
-                        className="w-full shadow-sm shadow-primary/20" 
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Aan de slag
-                      </Button>
-                    </Link>
-                  </motion.div>
+                  <Link href="/login">
+                    <Button variant="ghost" className="w-full text-muted-foreground" onClick={() => setMobileMenuOpen(false)}>
+                      Inloggen
+                    </Button>
+                  </Link>
+                  <a href="#pricing">
+                    <Button className="w-full shadow-sm shadow-primary/20" onClick={() => setMobileMenuOpen(false)}>
+                      Aan de slag
+                    </Button>
+                  </a>
                 </>
               )}
             </nav>

@@ -252,7 +252,7 @@ export default function TermsPage() {
                     {t("legal.terms.responsibility.text")}
                   </p>
                   
-                  <Link href="/contact">
+                  <a href="mailto:info@abonnement.website">
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button className="gap-2" data-testid="button-contact-terms">
                         <MessageSquare className="h-4 w-4" />
@@ -260,7 +260,7 @@ export default function TermsPage() {
                         <ArrowRight className="h-4 w-4" />
                       </Button>
                     </motion.div>
-                  </Link>
+                  </a>
                 </CardContent>
               </Card>
             </FadeInUp>
