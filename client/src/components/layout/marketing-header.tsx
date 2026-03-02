@@ -29,6 +29,13 @@ export function MarketingHeader() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleScroll = () => setMobileMenuOpen(false);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [mobileMenuOpen]);
+
   return (
     <div className="sticky top-0 z-50 w-full px-4 pt-4">
       <motion.header

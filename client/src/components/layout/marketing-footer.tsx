@@ -58,7 +58,7 @@ export function MarketingFooter() {
               </li>
             </ul>
 
-            <div className="flex items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               {[
                 { icon: ShieldCheck, label: "SSL" },
                 { icon: Lock, label: "GDPR" },
@@ -73,7 +73,7 @@ export function MarketingFooter() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-border/40 pt-6 text-center">
+        <div className="mt-10 border-t border-border/40 pt-6 pb-16 md:pb-0 text-center">
           <p className="text-xs text-muted-foreground" data-testid="text-copyright">
             © {currentYear} abonnement.website — Alle rechten voorbehouden.
           </p>

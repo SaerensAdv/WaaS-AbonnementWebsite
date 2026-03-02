@@ -21,7 +21,7 @@ import {
 import { apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
 import { useRef } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView, useScroll, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import type { Plan, AddOn } from "@shared/schema";
 
@@ -145,10 +145,16 @@ export default function HomePage() {
 
   const sortedPlans = [...plans].sort((a, b) => a.monthlyPriceCents - b.monthlyPriceCents);
 
+  const heroRef = useRef<HTMLElement>(null);
+  const pricingRef = useRef<HTMLElement>(null);
+  const heroInView = useInView(heroRef, { margin: "0px" });
+  const pricingInView = useInView(pricingRef, { margin: "100px" });
+  const showStickyCta = !heroInView && !pricingInView;
+
   return (
     <MarketingLayout>
       {/* HERO */}
-      <section className="relative min-h-[90vh] flex items-center pt-32 pb-24 px-4 overflow-hidden">
+      <section ref={heroRef} className="relative min-h-[90dvh] flex items-center pt-32 pb-24 px-4 overflow-hidden">
         <div className="absolute inset-0 dot-grid opacity-60" />
         <div className="absolute top-20 -right-40 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl" />
         <div className="absolute bottom-0 -left-40 w-[500px] h-[500px] rounded-full bg-chart-4/5 blur-3xl" />
@@ -199,14 +205,14 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <a href="#pricing">
-                  <Button size="lg" className="gap-2 shadow-lg shadow-primary/20" data-testid="button-hero-pricing">
+                <a href="#pricing" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto gap-2 shadow-lg shadow-primary/20" data-testid="button-hero-pricing">
                     Bekijk prijzen
                     <ArrowRight size={16} weight={ICON_WEIGHT} />
                   </Button>
                 </a>
-                <a href="#faq">
-                  <Button size="lg" variant="outline" className="gap-2" data-testid="button-hero-faq">
+                <a href="#faq" className="w-full sm:w-auto">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2" data-testid="button-hero-faq">
                     Hoe werkt het?
                   </Button>
                 </a>
@@ -242,6 +248,33 @@ export default function HomePage() {
               </div>
             </motion.div>
           </div>
+
+          <motion.div
+            className="flex lg:hidden overflow-x-auto gap-3 mt-10 pb-2 -mx-4 px-4 scrollbar-hide"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            data-testid="mobile-stat-strip"
+          >
+            {[
+              { value: "500+", label: "Klanten", icon: Star, slug: "clients" },
+              { value: "99.9%", label: "Uptime", icon: Lightning, slug: "uptime" },
+              { value: "<48u", label: "Reactietijd", icon: Clock, slug: "response" },
+              { value: "€0", label: "Opstartkosten", icon: CreditCard, slug: "setup" },
+            ].map((stat) => (
+              <div
+                key={stat.label}
+                className="flex items-center gap-3 rounded-xl border bg-card/80 backdrop-blur-sm px-4 py-3 shrink-0"
+                data-testid={`stat-mobile-${stat.slug}`}
+              >
+                <stat.icon size={18} weight={ICON_WEIGHT} className="text-primary shrink-0" />
+                <div>
+                  <div className="font-mono text-base font-bold tracking-tight leading-none" data-testid={`text-stat-value-${stat.slug}`}>{stat.value}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{stat.label}</div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -265,7 +298,7 @@ export default function HomePage() {
       </section>
 
       {/* PRICING */}
-      <section id="pricing" className="py-24 px-4">
+      <section ref={pricingRef} id="pricing" className="py-24 px-4">
         <div className="container mx-auto max-w-6xl">
           <ScrollReveal className="text-center mb-16">
             <Badge variant="secondary" className="mb-4">
@@ -291,6 +324,7 @@ export default function HomePage() {
                         : "border-border"
                     }`}
                     whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                    whileTap={{ scale: 0.98 }}
                     data-testid={`card-plan-${plan.tier.toLowerCase()}`}
                   >
                     {config.popular && (
@@ -362,7 +396,7 @@ export default function HomePage() {
             </p>
           </ScrollReveal>
 
-          <div className="grid sm:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             {addOns.map((addOn, index) => {
               const Icon = addOnIcons[addOn.slug] || Lightning;
               const isCookieBanner = addOn.slug === "cookie-banner";
@@ -371,6 +405,7 @@ export default function HomePage() {
                   <motion.div
                     className="rounded-2xl border bg-card p-6 h-full"
                     whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                    whileTap={{ scale: 0.98 }}
                     data-testid={`card-addon-${addOn.slug}`}
                   >
                     <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
@@ -488,6 +523,28 @@ export default function HomePage() {
           </ScrollReveal>
         </div>
       </section>
+
+      <AnimatePresence>
+        {showStickyCta && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="fixed bottom-0 left-0 right-0 z-40 md:hidden"
+            data-testid="sticky-mobile-cta"
+          >
+            <div className="bg-background/95 backdrop-blur-lg border-t border-border/50 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+              <a href="#pricing" className="block" data-testid="link-sticky-cta">
+                <Button className="w-full gap-2 shadow-lg shadow-primary/20" size="lg" data-testid="button-sticky-cta">
+                  Bekijk prijzen
+                  <ArrowRight size={16} weight={ICON_WEIGHT} />
+                </Button>
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </MarketingLayout>
   );
 }
@@ -499,6 +556,7 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
     <motion.div
       className="rounded-xl border bg-card overflow-hidden"
       data-testid={`faq-item-${index}`}
+      whileTap={{ scale: 0.99 }}
       layout
     >
       <button

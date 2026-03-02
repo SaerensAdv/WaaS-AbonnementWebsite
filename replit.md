@@ -21,7 +21,8 @@ Preferred communication style: Simple, everyday language.
 - DM Serif Display for display headings (font-display), DM Sans for body text (font-sans), JetBrains Mono for numbers
 - Warm off-white/navy color palette (not pure white/black)
 - Phosphor Icons (duotone weight) for marketing pages (homepage, header, footer); Lucide React for shadcn UI components and dashboard
-- framer-motion for scroll-triggered reveal animations, FAQ accordion, hero entrance
+- framer-motion for scroll-triggered reveal animations, FAQ accordion, hero entrance, sticky mobile CTA
+- Mobile optimizations: `dvh` viewport units, horizontal stat scroll-strip (lg:hidden), `whileTap` touch feedback on cards, sticky "Bekijk prijzen" CTA bar (md:hidden, appears after hero, hides at pricing), auto-close mobile menu on scroll, safe-area-inset-bottom padding, `scrollbar-hide` utility in CSS
 
 **State Management**: 
 - TanStack Query v5 for server state and API data caching

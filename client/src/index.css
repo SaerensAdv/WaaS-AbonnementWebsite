@@ -497,3 +497,12 @@
 .dark .grain-overlay::before {
   opacity: 0.15;
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
