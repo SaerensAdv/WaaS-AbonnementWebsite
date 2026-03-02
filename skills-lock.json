@@ -16,6 +16,11 @@
       "sourceType": "github",
       "computedHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67"
     },
+    "responsive-design": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "9df1908623814c4c93cc1fde25caa211b2d28c8ffcdc2b5a12c6b7ae456f0f89"
+    },
     "schema-markup": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
@@ -25,6 +30,11 @@
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
       "computedHash": "27156d103697411bba81520fef469e77bfba4c65d904c841e4965a158d531fbd"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "computedHash": "e688fcd4c5693e14ebd00d48e982dbd2be060fbea89f5f60531e79c704a1bc28"
     },
     "visual-design-foundations": {
       "source": "wshobson/agents",
