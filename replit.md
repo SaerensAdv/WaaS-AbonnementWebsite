@@ -20,6 +20,7 @@ Preferred communication style: Simple, everyday language.
 - Light/dark mode support via ThemeProvider
 - DM Serif Display for display headings (font-display), DM Sans for body text (font-sans), JetBrains Mono for numbers
 - Warm off-white/navy color palette (not pure white/black)
+- Phosphor Icons (duotone weight) for marketing pages (homepage, header, footer); Lucide React for shadcn UI components and dashboard
 - framer-motion for scroll-triggered reveal animations, FAQ accordion, hero entrance
 
 **State Management**: 

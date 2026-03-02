@@ -4,11 +4,14 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { useAuth } from "@/lib/auth-context";
 import { useTranslation } from "@/lib/i18n-context";
-import { Menu, X } from "lucide-react";
+import { List, X } from "@phosphor-icons/react";
 import { useState, useEffect } from "react";
+
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 import logoGif from "@assets/Untitled_design_1764969853491.gif";
+
+const ICON_WEIGHT = "duotone" as const;
 
 export function MarketingHeader() {
   const [location] = useLocation();
@@ -116,7 +119,7 @@ export function MarketingHeader() {
                     exit={{ opacity: 0, rotate: 90 }}
                     transition={{ duration: 0.15 }}
                   >
-                    <X className="h-5 w-5" />
+                    <X size={20} weight={ICON_WEIGHT} />
                   </motion.div>
                 ) : (
                   <motion.div
@@ -126,7 +129,7 @@ export function MarketingHeader() {
                     exit={{ opacity: 0, rotate: -90 }}
                     transition={{ duration: 0.15 }}
                   >
-                    <Menu className="h-5 w-5" />
+                    <List size={20} weight={ICON_WEIGHT} />
                   </motion.div>
                 )}
               </AnimatePresence>

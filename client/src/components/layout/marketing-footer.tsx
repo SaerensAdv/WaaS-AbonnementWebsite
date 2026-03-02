@@ -1,8 +1,10 @@
 import { Link } from "wouter";
-import { Mail, ShieldCheck, CreditCard, Lock } from "lucide-react";
+import { Envelope, ShieldCheck, CreditCard, Lock } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/lib/i18n-context";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
+
+const ICON_WEIGHT = "duotone" as const;
 
 export function MarketingFooter() {
   const currentYear = new Date().getFullYear();
@@ -28,7 +30,7 @@ export function MarketingFooter() {
             </p>
             <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-primary/10 hover:text-primary transition-colors" data-testid="link-social-email">
               <a href="mailto:info@abonnement.website" aria-label="Email">
-                <Mail className="h-5 w-5" />
+                <Envelope size={20} weight={ICON_WEIGHT} />
               </a>
             </Button>
           </div>
@@ -63,7 +65,7 @@ export function MarketingFooter() {
                 { icon: CreditCard, label: "Stripe" },
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <item.icon className="h-4 w-4" />
+                  <item.icon size={16} weight={ICON_WEIGHT} />
                   <span>{item.label}</span>
                 </div>
               ))}

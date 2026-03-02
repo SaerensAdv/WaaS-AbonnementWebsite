@@ -8,23 +8,24 @@ import {
   Check,
   ArrowRight,
   Globe,
-  Shield,
-  Zap,
-  Headphones,
-  Megaphone,
-  Share2,
   ShieldCheck,
-  ChevronDown,
+  Lightning,
+  Headset,
+  Megaphone,
+  ShareNetwork,
+  CaretDown,
   Clock,
   CreditCard,
   Star,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
 import { useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import type { Plan, AddOn } from "@shared/schema";
+
+const ICON_WEIGHT = "duotone" as const;
 
 const tierConfig: Record<string, { label: string; popular?: boolean }> = {
   LOW: { label: "Starter" },
@@ -34,7 +35,7 @@ const tierConfig: Record<string, { label: string; popular?: boolean }> = {
 
 const addOnIcons: Record<string, any> = {
   "google-ads": Megaphone,
-  "meta-ads": Share2,
+  "meta-ads": ShareNetwork,
   "cookie-banner": ShieldCheck,
 };
 
@@ -66,10 +67,10 @@ const faqItems = [
 ];
 
 const trustItems = [
-  { icon: Shield, label: "SSL beveiligd" },
-  { icon: Zap, label: "99.9% uptime" },
+  { icon: ShieldCheck, label: "SSL beveiligd" },
+  { icon: Lightning, label: "99.9% uptime" },
   { icon: Clock, label: "Maandelijks opzegbaar" },
-  { icon: Headphones, label: "Support inbegrepen" },
+  { icon: Headset, label: "Support inbegrepen" },
   { icon: CreditCard, label: "Veilig betalen via Stripe" },
 ];
 
@@ -131,7 +132,7 @@ export default function HomePage() {
 
   return (
     <MarketingLayout>
-      {/* HERO — near full viewport, fluid type, asymmetric grid */}
+      {/* HERO */}
       <section className="relative min-h-[90vh] flex items-center pt-32 pb-24 px-4 overflow-hidden">
         <div className="absolute inset-0 dot-grid opacity-60" />
         <div className="absolute top-20 -right-40 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl" />
@@ -150,7 +151,7 @@ export default function HomePage() {
                   className="mb-8 border border-primary/20 bg-primary/5 text-primary"
                   data-testid="badge-hero"
                 >
-                  <Star className="h-4 w-4 mr-1.5 fill-primary" />
+                  <Star size={16} weight={ICON_WEIGHT} className="mr-1.5" />
                   Website als abonnement
                 </Badge>
               </motion.div>
@@ -186,7 +187,7 @@ export default function HomePage() {
                 <a href="#pricing">
                   <Button size="lg" className="gap-2 shadow-lg shadow-primary/20" data-testid="button-hero-pricing">
                     Bekijk prijzen
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight size={16} weight={ICON_WEIGHT} />
                   </Button>
                 </a>
                 <a href="#faq">
@@ -197,7 +198,6 @@ export default function HomePage() {
               </motion.div>
             </div>
 
-            {/* Stats grid — visual weight on the right */}
             <motion.div
               className="hidden lg:flex flex-col gap-4 items-end"
               initial={{ opacity: 0, x: 32 }}
@@ -207,7 +207,7 @@ export default function HomePage() {
               <div className="grid grid-cols-2 gap-4 w-full max-w-md">
                 {[
                   { value: "500+", label: "Tevreden klanten", icon: Star },
-                  { value: "99.9%", label: "Uptime garantie", icon: Zap },
+                  { value: "99.9%", label: "Uptime garantie", icon: Lightning },
                   { value: "<48u", label: "Reactietijd", icon: Clock },
                   { value: "€0", label: "Opstartkosten", icon: CreditCard },
                 ].map((stat, i) => (
@@ -219,7 +219,7 @@ export default function HomePage() {
                     transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
                     whileHover={{ y: -4, transition: { duration: 0.2 } }}
                   >
-                    <stat.icon className="h-5 w-5 text-primary" />
+                    <stat.icon size={20} weight={ICON_WEIGHT} className="text-primary" />
                     <div className="font-mono text-2xl font-bold tracking-tight leading-none">{stat.value}</div>
                     <div className="text-sm text-muted-foreground leading-snug">{stat.label}</div>
                   </motion.div>
@@ -230,14 +230,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TRUST STRIP — horizontal visual rhythm */}
+      {/* TRUST STRIP */}
       <section className="py-5 px-4 border-y border-border/50">
         <div className="container mx-auto max-w-6xl">
           <ScrollReveal>
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
               {trustItems.map((item, i) => (
                 <div key={item.label} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <item.icon className="h-4 w-4 text-primary/70" />
+                  <item.icon size={16} weight={ICON_WEIGHT} className="text-primary/70" />
                   <span>{item.label}</span>
                   {i < trustItems.length - 1 && (
                     <span className="hidden md:inline ml-6 text-border/80">|</span>
@@ -249,7 +249,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PRICING — 8pt grid spacing, consistent card anatomy */}
+      {/* PRICING */}
       <section id="pricing" className="py-24 px-4">
         <div className="container mx-auto max-w-6xl">
           <ScrollReveal className="text-center mb-16">
@@ -302,7 +302,7 @@ export default function HomePage() {
                         {(plan.features || []).map((feature, i) => (
                           <li key={i} className="flex items-start gap-3 text-sm leading-relaxed">
                             <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                              <Check className="h-3 w-3 text-primary" />
+                              <Check size={12} weight={ICON_WEIGHT} className="text-primary" />
                             </div>
                             <span>{feature}</span>
                           </li>
@@ -318,7 +318,7 @@ export default function HomePage() {
                         data-testid={`button-order-${plan.tier.toLowerCase()}`}
                       >
                         {checkoutMutation.isPending ? "Bezig..." : "Bestel nu"}
-                        <ArrowRight className="h-4 w-4" />
+                        <ArrowRight size={16} weight={ICON_WEIGHT} />
                       </Button>
                     </div>
                   </motion.div>
@@ -329,7 +329,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ADD-ONS — consistent card anatomy, standardized icon size */}
+      {/* ADD-ONS */}
       <section id="addons" className="py-24 px-4 relative">
         <div className="absolute inset-0 bg-muted/30" />
         <div className="absolute inset-0 dot-grid opacity-30" />
@@ -349,7 +349,7 @@ export default function HomePage() {
 
           <div className="grid sm:grid-cols-3 gap-6">
             {addOns.map((addOn, index) => {
-              const Icon = addOnIcons[addOn.slug] || Zap;
+              const Icon = addOnIcons[addOn.slug] || Lightning;
               const isCookieBanner = addOn.slug === "cookie-banner";
               return (
                 <ScrollReveal key={addOn.id} delay={index * 0.1}>
@@ -359,7 +359,7 @@ export default function HomePage() {
                     data-testid={`card-addon-${addOn.slug}`}
                   >
                     <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-                      <Icon className="h-6 w-6 text-primary" />
+                      <Icon size={24} weight={ICON_WEIGHT} className="text-primary" />
                     </div>
                     <h3 className="font-semibold text-lg mb-2 leading-snug">{addOn.name}</h3>
                     <p className="text-sm text-muted-foreground mb-6 leading-relaxed max-w-[45ch]">{addOn.description}</p>
@@ -382,7 +382,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* HOW IT WORKS — 4-column with visual numbering */}
+      {/* HOW IT WORKS */}
       <section className="py-24 px-4">
         <div className="container mx-auto max-w-6xl">
           <ScrollReveal className="text-center mb-16">
@@ -401,7 +401,7 @@ export default function HomePage() {
             {[
               { step: "01", title: "Kies uw plan", desc: "Selecteer het abonnement dat past bij uw bedrijf en reken direct af.", icon: CreditCard },
               { step: "02", title: "Vul de intake in", desc: "Vertel ons over uw bedrijf, wensen en doelen via ons onboarding formulier.", icon: Globe },
-              { step: "03", title: "Wij bouwen", desc: "Ons team ontwerpt en bouwt uw complete website. U hoeft niets te doen.", icon: Zap },
+              { step: "03", title: "Wij bouwen", desc: "Ons team ontwerpt en bouwt uw complete website. U hoeft niets te doen.", icon: Lightning },
               { step: "04", title: "U bent live", desc: "Uw website staat online. Volg uw groei via uw persoonlijk dashboard.", icon: Star },
             ].map((item, i) => (
               <ScrollReveal key={item.step} delay={i * 0.1}>
@@ -411,7 +411,7 @@ export default function HomePage() {
                   </div>
                   <div className="relative pt-10">
                     <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                      <item.icon className="h-5 w-5 text-primary" />
+                      <item.icon size={20} weight={ICON_WEIGHT} className="text-primary" />
                     </div>
                     <h3 className="font-semibold text-lg mb-2 leading-snug">{item.title}</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed max-w-[35ch]">{item.desc}</p>
@@ -423,7 +423,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FAQ — constrained reading width, smooth accordion */}
+      {/* FAQ */}
       <section id="faq" className="py-24 px-4 relative">
         <div className="absolute inset-0 bg-muted/30" />
         <div className="container mx-auto max-w-3xl relative z-10">
@@ -446,7 +446,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA — gradient with grain texture */}
+      {/* CTA */}
       <section className="py-24 px-4 relative overflow-hidden grain-overlay">
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-blue-700" />
         <div className="absolute inset-0 dot-grid opacity-10" />
@@ -467,7 +467,7 @@ export default function HomePage() {
                 data-testid="button-cta-pricing"
               >
                 Bekijk prijzen
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight size={16} weight={ICON_WEIGHT} />
               </Button>
             </a>
           </ScrollReveal>
@@ -498,7 +498,7 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
           transition={{ duration: 0.25 }}
           className="shrink-0"
         >
-          <ChevronDown className="h-5 w-5 text-muted-foreground" />
+          <CaretDown size={20} weight={ICON_WEIGHT} className="text-muted-foreground" />
         </motion.div>
       </button>
       <AnimatePresence initial={false}>
