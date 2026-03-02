@@ -41,36 +41,40 @@ const addOnIcons: Record<string, any> = {
 
 const faqItems = [
   {
-    q: "Hoe snel is mijn website klaar?",
-    a: "Na uw bestelling nemen we binnen 24 uur contact op. Uw website is gemiddeld binnen 5-10 werkdagen live, afhankelijk van de complexiteit en het aanleveren van content.",
+    q: "Hoe snel staat mijn website online?",
+    a: "Snel. Na uw bestelling nemen we binnen 24 uur contact op. De meeste websites zijn binnen 5 tot 10 werkdagen live. U hoeft alleen uw content aan te leveren — wij doen de rest.",
   },
   {
-    q: "Wat als ik wil opzeggen?",
-    a: "U kunt op elk moment opzeggen via uw Stripe dashboard. Er is geen minimale looptijd. Na opzegging blijft uw website actief tot het einde van de betaalperiode.",
+    q: "Zit ik ergens aan vast?",
+    a: "Nee. Er is geen minimale looptijd en geen opzegboete. U kunt op elk moment opzeggen via uw dashboard. Uw website blijft actief tot het einde van de betaalperiode. Zo simpel is het.",
   },
   {
-    q: "Wat is inbegrepen in het abonnement?",
-    a: "Alles wat u nodig heeft: professioneel design, hosting, SSL certificaat, onderhoud, beveiligingsupdates, en email support. Geen verrassingen.",
+    q: "Wat zit er allemaal in het abonnement?",
+    a: "Alles wat u nodig heeft om online professioneel over te komen: op maat gemaakt design, snelle hosting, SSL certificaat, maandelijks onderhoud, beveiligingsupdates en persoonlijke support. Geen verborgen kosten, geen verrassingen achteraf.",
   },
   {
-    q: "Kan ik later upgraden?",
-    a: "Ja, u kunt op elk moment upgraden naar een hoger plan. Het prijsverschil wordt automatisch verrekend via Stripe.",
+    q: "Kan ik later upgraden of downgraden?",
+    a: "Ja, op elk moment. Uw plan aanpassen kan met één klik in uw dashboard. Het prijsverschil wordt automatisch verrekend — u betaalt nooit dubbel.",
   },
   {
-    q: "Wie is eigenaar van de website?",
-    a: "De content (teksten, afbeeldingen) is altijd van u. Het design en de technische opzet worden beheerd als onderdeel van het abonnement.",
+    q: "Wie is eigenaar van mijn content?",
+    a: "Uw teksten, afbeeldingen en bedrijfsdata zijn altijd van u. Het technische ontwerp en de hosting worden beheerd als onderdeel van uw abonnement, zodat u zich daar geen zorgen over hoeft te maken.",
   },
   {
-    q: "Kan ik add-ons later toevoegen?",
-    a: "Absoluut. U kunt op elk moment add-ons toevoegen of verwijderen via uw dashboard. De kosten worden automatisch verrekend.",
+    q: "Wat als ik niet tevreden ben?",
+    a: "Dan horen we dat graag. We werken samen aan aanpassingen tot het design past bij uw wensen. En omdat er geen contract of minimale looptijd is, kunt u op elk moment stoppen — u betaalt alleen zolang u waarde ervaart.",
+  },
+  {
+    q: "Kan ik add-ons later toevoegen of verwijderen?",
+    a: "Absoluut. U kunt op elk moment add-ons activeren of pauzeren via uw dashboard. De kosten worden direct verrekend. Geen gedoe, geen wachttijden.",
   },
 ];
 
 const trustItems = [
   { icon: ShieldCheck, label: "SSL beveiligd" },
-  { icon: Lightning, label: "99.9% uptime" },
+  { icon: Lightning, label: "99.9% uptime garantie" },
   { icon: Clock, label: "Maandelijks opzegbaar" },
-  { icon: Headset, label: "Support inbegrepen" },
+  { icon: Headset, label: "Persoonlijke support" },
   { icon: CreditCard, label: "Veilig betalen via Stripe" },
 ];
 
@@ -109,8 +113,8 @@ export default function HomePage() {
   };
 
   useSEO({
-    title: "Professionele Website als Abonnement",
-    description: "Professionele websites vanaf €49/maand. Alles inbegrepen: design, hosting, onderhoud en support. Geen eenmalige kosten, direct online.",
+    title: "Professionele Website als Abonnement | Vanaf €49/maand",
+    description: "Professionele website binnen 10 werkdagen live. Vanaf €49/maand, alles inbegrepen: design, hosting, onderhoud en support. Geen opstartkosten, maandelijks opzegbaar.",
     canonical: "/",
     structuredData: faqStructuredData,
   });
@@ -173,7 +177,7 @@ export default function HomePage() {
                   data-testid="badge-hero"
                 >
                   <Star size={16} weight={ICON_WEIGHT} className="mr-1.5" />
-                  Website als abonnement
+                  Geen opstartkosten, geen contract
                 </Badge>
               </motion.div>
 
@@ -184,8 +188,8 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 data-testid="text-hero-title"
               >
-                Uw professionele website.{" "}
-                <span className="text-primary">Zonder gedoe.</span>
+                Binnen 10 dagen een professionele website.{" "}
+                <span className="text-primary">Zonder opstartkosten.</span>
               </motion.h1>
 
               <motion.p
@@ -195,8 +199,8 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 data-testid="text-hero-description"
               >
-                Geen grote eenmalige investering. Geen technische zorgen. Gewoon een professionele website vanaf{" "}
-                <span className="font-semibold text-foreground">€49 per maand</span>, alles inbegrepen.
+                Design, hosting, onderhoud en support in één vast maandbedrag vanaf{" "}
+                <span className="font-semibold text-foreground">€49 per maand</span>. Maandelijks opzegbaar, geen verplichtingen.
               </motion.p>
 
               <motion.div
@@ -207,7 +211,7 @@ export default function HomePage() {
               >
                 <a href="#pricing" className="w-full sm:w-auto">
                   <Button size="lg" className="w-full sm:w-auto gap-2 shadow-lg shadow-primary/20" data-testid="button-hero-pricing">
-                    Bekijk prijzen
+                    Start uw website
                     <ArrowRight size={16} weight={ICON_WEIGHT} />
                   </Button>
                 </a>
@@ -227,9 +231,9 @@ export default function HomePage() {
             >
               <div className="grid grid-cols-2 gap-4 w-full max-w-md">
                 {[
-                  { value: "500+", label: "Tevreden klanten", icon: Star },
+                  { value: "500+", label: "Websites gebouwd", icon: Star },
                   { value: "99.9%", label: "Uptime garantie", icon: Lightning },
-                  { value: "<48u", label: "Reactietijd", icon: Clock },
+                  { value: "<24u", label: "Reactietijd support", icon: Clock },
                   { value: "€0", label: "Opstartkosten", icon: CreditCard },
                 ].map((stat, i) => (
                   <motion.div
@@ -257,9 +261,9 @@ export default function HomePage() {
             data-testid="mobile-stat-strip"
           >
             {[
-              { value: "500+", label: "Klanten", icon: Star, slug: "clients" },
+              { value: "500+", label: "Websites", icon: Star, slug: "clients" },
               { value: "99.9%", label: "Uptime", icon: Lightning, slug: "uptime" },
-              { value: "<48u", label: "Reactietijd", icon: Clock, slug: "response" },
+              { value: "<24u", label: "Support", icon: Clock, slug: "response" },
               { value: "€0", label: "Opstartkosten", icon: CreditCard, slug: "setup" },
             ].map((stat) => (
               <div
@@ -305,10 +309,10 @@ export default function HomePage() {
               Prijzen
             </Badge>
             <h2 className="font-display text-[clamp(1.875rem,3vw+0.5rem,3rem)] tracking-tight mb-4 leading-[1.15]" data-testid="text-pricing-title">
-              Transparant. Eerlijk. Alles inbegrepen.
+              Kies het plan dat bij u past
             </h2>
             <p className="text-lg text-muted-foreground max-w-[50ch] mx-auto leading-relaxed">
-              Kies het plan dat past bij uw bedrijf. Geen verborgen kosten, geen verrassingen.
+              Elk plan bevat design, hosting, onderhoud en support. Het verschil? Het aantal pagina's en extra mogelijkheden.
             </p>
           </ScrollReveal>
 
@@ -330,7 +334,7 @@ export default function HomePage() {
                     {config.popular && (
                       <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
                         <Badge className="bg-primary text-primary-foreground shadow-lg shadow-primary/30" data-testid="badge-popular">
-                          Populairste keuze
+                          Meest gekozen
                         </Badge>
                       </div>
                     )}
@@ -366,7 +370,7 @@ export default function HomePage() {
                         disabled={checkoutMutation.isPending}
                         data-testid={`button-order-${plan.tier.toLowerCase()}`}
                       >
-                        {checkoutMutation.isPending ? "Bezig..." : "Bestel nu"}
+                        {checkoutMutation.isPending ? "Bezig..." : `Start met ${config.label}`}
                         <ArrowRight size={16} weight={ICON_WEIGHT} />
                       </Button>
                     </div>
@@ -389,10 +393,10 @@ export default function HomePage() {
               Add-ons
             </Badge>
             <h2 className="font-display text-[clamp(1.875rem,3vw+0.5rem,3rem)] tracking-tight mb-4 leading-[1.15]" data-testid="text-addons-title">
-              Groei met add-ons
+              Meer bezoekers, meer klanten
             </h2>
             <p className="text-lg text-muted-foreground max-w-[50ch] mx-auto leading-relaxed">
-              Extra diensten om uw online aanwezigheid te versterken. Voeg toe wanneer u wilt.
+              Breid uw website uit met bewezen diensten. Activeer of pauzeer wanneer u wilt — geen extra contract.
             </p>
           </ScrollReveal>
 
@@ -440,19 +444,19 @@ export default function HomePage() {
               Hoe het werkt
             </Badge>
             <h2 className="font-display text-[clamp(1.875rem,3vw+0.5rem,3rem)] tracking-tight mb-4 leading-[1.15]">
-              In 4 stappen online
+              Van bestelling tot live in 10 dagen
             </h2>
             <p className="text-lg text-muted-foreground max-w-[50ch] mx-auto leading-relaxed">
-              Van bestelling tot live website. Simpel en snel.
+              U kiest, wij bouwen. Vier stappen, geen technische kennis nodig.
             </p>
           </ScrollReveal>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { step: "01", title: "Kies uw plan", desc: "Selecteer het abonnement dat past bij uw bedrijf en reken direct af.", icon: CreditCard },
-              { step: "02", title: "Vul de intake in", desc: "Vertel ons over uw bedrijf, wensen en doelen via ons onboarding formulier.", icon: Globe },
-              { step: "03", title: "Wij bouwen", desc: "Ons team ontwerpt en bouwt uw complete website. U hoeft niets te doen.", icon: Lightning },
-              { step: "04", title: "U bent live", desc: "Uw website staat online. Volg uw groei via uw persoonlijk dashboard.", icon: Star },
+              { step: "01", title: "Kies uw plan", desc: "Selecteer het abonnement dat bij u past. Afrekenen duurt 2 minuten.", icon: CreditCard },
+              { step: "02", title: "Deel uw wensen", desc: "Vertel over uw bedrijf, doelen en huisstijl. Wij stellen de juiste vragen.", icon: Globe },
+              { step: "03", title: "Wij bouwen", desc: "Binnen 10 werkdagen ontvangt u uw complete website, klaar voor lancering.", icon: Lightning },
+              { step: "04", title: "U bent online", desc: "Uw website is live. Volg bezoekers en resultaten via uw persoonlijke dashboard.", icon: Star },
             ].map((item, i) => (
               <ScrollReveal key={item.step} delay={i * 0.1}>
                 <div className="relative">
@@ -504,10 +508,10 @@ export default function HomePage() {
         <div className="container mx-auto max-w-3xl text-center relative z-10">
           <ScrollReveal>
             <h2 className="font-display text-[clamp(1.875rem,3vw+0.5rem,3rem)] tracking-tight mb-6 text-primary-foreground leading-[1.15]" data-testid="text-cta-title">
-              Klaar om te starten?
+              Uw website kan volgende week al live staan
             </h2>
             <p className="text-lg text-primary-foreground/80 mb-10 max-w-[50ch] mx-auto leading-relaxed">
-              Kies uw plan en wij regelen de rest. Binnen 10 dagen live. Geen opstartkosten.
+              Geen opstartkosten. Geen contract. Binnen 10 dagen online. Kies uw plan en wij regelen de rest.
             </p>
             <a href="#pricing">
               <Button
@@ -516,7 +520,7 @@ export default function HomePage() {
                 className="gap-2 shadow-xl"
                 data-testid="button-cta-pricing"
               >
-                Bekijk prijzen
+                Start uw website
                 <ArrowRight size={16} weight={ICON_WEIGHT} />
               </Button>
             </a>
@@ -537,7 +541,7 @@ export default function HomePage() {
             <div className="bg-background/95 backdrop-blur-lg border-t border-border/50 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
               <a href="#pricing" className="block" data-testid="link-sticky-cta">
                 <Button className="w-full gap-2 shadow-lg shadow-primary/20" size="lg" data-testid="button-sticky-cta">
-                  Bekijk prijzen
+                  Start uw website
                   <ArrowRight size={16} weight={ICON_WEIGHT} />
                 </Button>
               </a>
