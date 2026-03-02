@@ -13,6 +13,7 @@ import { z } from "zod";
 import { Loader2, ArrowLeft, Mail, CheckCircle } from "lucide-react";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useSEO } from "@/hooks/use-seo";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Voer een geldig e-mailadres in"),
@@ -24,6 +25,12 @@ export default function ForgotPasswordPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useSEO({
+    title: "Wachtwoord vergeten",
+    description: "Vraag een nieuw wachtwoord aan voor uw account.",
+    noIndex: true,
+  });
 
   const form = useForm<ForgotPasswordInput>({
     resolver: zodResolver(forgotPasswordSchema),

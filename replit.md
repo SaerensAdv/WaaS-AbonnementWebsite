@@ -77,6 +77,14 @@ Preferred communication style: Simple, everyday language.
 
 **Cookie Banner Logic**: Cookie Banner is a €9/mo add-on only for Starter plan; free/included for Professional and Business plans.
 
+**SEO & Schema Markup**:
+- `client/index.html` — Static OG tags, canonical, and consolidated `@graph` JSON-LD (Organization, WebSite, ProfessionalService with all 3 pricing tiers)
+- `client/src/hooks/use-seo.ts` — Dynamic per-page SEO (title, description, canonical, OG, Twitter, hreflang, structured data injection)
+- Homepage injects FAQPage schema (6 Q&A pairs) via `useSEO({ structuredData })`
+- Auth pages (login, signup, forgot-password, reset-password) and 404 set `noIndex: true`
+- `GET /robots.txt` — Allows `/`, disallows `/app/`, `/admin/`, `/api/`, auth pages
+- `GET /sitemap.xml` — Lists `/`, `/privacy`, `/terms`
+
 **Key API Routes**:
 - `POST /api/auth/signup`, `POST /api/auth/login`, `POST /api/auth/logout`
 - `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`

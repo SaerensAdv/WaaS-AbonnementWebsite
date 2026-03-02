@@ -95,9 +95,24 @@ export default function HomePage() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
 
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map((item) => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.a,
+      },
+    })),
+  };
+
   useSEO({
     title: "Professionele Website als Abonnement",
     description: "Professionele websites vanaf €49/maand. Alles inbegrepen: design, hosting, onderhoud en support. Geen eenmalige kosten, direct online.",
+    canonical: "/",
+    structuredData: faqStructuredData,
   });
 
   const { data: plans = [] } = useQuery<Plan[]>({

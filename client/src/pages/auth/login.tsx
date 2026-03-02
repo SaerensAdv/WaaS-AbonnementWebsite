@@ -12,12 +12,19 @@ import { loginSchema, type LoginInput } from "@shared/schema";
 import { Loader2, ArrowLeft } from "lucide-react";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useSEO } from "@/hooks/use-seo";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
   const { login } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+
+  useSEO({
+    title: "Inloggen",
+    description: "Log in op uw Abonnement.Website dashboard.",
+    noIndex: true,
+  });
 
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),

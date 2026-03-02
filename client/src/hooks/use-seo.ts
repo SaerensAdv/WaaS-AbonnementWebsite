@@ -71,20 +71,12 @@ export function useSEO({
     updateMeta("twitter:description", description);
     updateMeta("twitter:image", ogImage.startsWith("http") ? ogImage : `${BASE_URL}${ogImage}`);
 
-    if (canonical) {
-      const fullCanonical = canonical.startsWith("http") ? canonical : `${BASE_URL}${canonical}`;
-      updateLink("canonical", fullCanonical);
-      updateMeta("og:url", fullCanonical, true);
-    } else {
-      const existingCanonical = document.querySelector('link[rel="canonical"]');
-      if (existingCanonical) {
-        existingCanonical.remove();
-      }
-      const existingOgUrl = document.querySelector('meta[property="og:url"]');
-      if (existingOgUrl) {
-        existingOgUrl.remove();
-      }
-    }
+    const currentPath = window.location.pathname;
+    const resolvedCanonical = canonical
+      ? (canonical.startsWith("http") ? canonical : `${BASE_URL}${canonical}`)
+      : `${BASE_URL}${currentPath}`;
+    updateLink("canonical", resolvedCanonical);
+    updateMeta("og:url", resolvedCanonical, true);
 
     const updateHreflang = (lang: string, href: string) => {
       let link = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
@@ -97,7 +89,6 @@ export function useSEO({
       link.setAttribute("href", href);
     };
 
-    const currentPath = window.location.pathname;
     const fullUrl = `${BASE_URL}${currentPath}`;
     updateHreflang("nl", fullUrl);
     updateHreflang("en", fullUrl);

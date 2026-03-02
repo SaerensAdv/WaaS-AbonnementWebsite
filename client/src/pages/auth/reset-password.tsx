@@ -13,6 +13,7 @@ import { Loader2, ArrowLeft, Lock, CheckCircle, XCircle } from "lucide-react";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSEO } from "@/hooks/use-seo";
 
 const resetPasswordSchema = z.object({
   password: z.string().min(8, "Wachtwoord moet minimaal 8 tekens bevatten"),
@@ -32,6 +33,12 @@ export default function ResetPasswordPage() {
   const [isValidating, setIsValidating] = useState(true);
   const [isValidToken, setIsValidToken] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  useSEO({
+    title: "Wachtwoord herstellen",
+    description: "Stel een nieuw wachtwoord in voor uw account.",
+    noIndex: true,
+  });
 
   const token = new URLSearchParams(searchString).get('token');
 

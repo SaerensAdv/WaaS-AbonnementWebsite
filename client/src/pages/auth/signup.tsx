@@ -13,6 +13,7 @@ import { signupSchema } from "@shared/schema";
 import { Loader2, ArrowLeft } from "lucide-react";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useSEO } from "@/hooks/use-seo";
 import { z } from "zod";
 
 const extendedSignupSchema = signupSchema.extend({
@@ -30,6 +31,12 @@ export default function SignupPage() {
   const { signup } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+
+  useSEO({
+    title: "Account aanmaken",
+    description: "Maak een account aan bij Abonnement.Website.",
+    noIndex: true,
+  });
 
   const planId = new URLSearchParams(searchString).get('plan');
 

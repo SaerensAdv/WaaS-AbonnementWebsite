@@ -666,5 +666,41 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/robots.txt", (_req, res) => {
+    res.type("text/plain").send(`User-agent: *
+Allow: /
+Disallow: /app/
+Disallow: /admin/
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /checkout-success
+Disallow: /api/
+
+Sitemap: https://abonnement.website/sitemap.xml
+`);
+  });
+
+  app.get("/sitemap.xml", (_req, res) => {
+    const baseUrl = "https://abonnement.website";
+    const pages = [
+      { loc: "/", priority: "1.0", changefreq: "weekly" },
+      { loc: "/privacy", priority: "0.3", changefreq: "yearly" },
+      { loc: "/terms", priority: "0.3", changefreq: "yearly" },
+    ];
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pages.map((p) => `  <url>
+    <loc>${baseUrl}${p.loc}</loc>
+    <changefreq>${p.changefreq}</changefreq>
+    <priority>${p.priority}</priority>
+  </url>`).join("\n")}
+</urlset>`;
+
+    res.type("application/xml").send(xml);
+  });
+
   return httpServer;
 }
