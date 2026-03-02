@@ -65,6 +65,8 @@ Preferred communication style: Simple, everyday language.
 - Drizzle ORM with PostgreSQL
 - Schema-first approach with drizzle-zod validation
 - Storage abstraction pattern (IStorage interface)
+- One-time schema cleanup migration runs on startup (tracked in `_schema_migrations` table, skips if already applied)
+- Enums: `user_role` (ADMIN, CUSTOMER), `subscription_status` (ACTIVE, PAST_DUE, CANCELED, INCOMPLETE), `plan_tier` (LOW, MEDIUM, HIGH), `project_status` (ONBOARDING, PRODUCTION, LIVE, MAINTENANCE), `addon_status` (REQUESTED, ACTIVE, PAUSED)
 
 **Data Model**:
 - `users` — ADMIN or CUSTOMER roles

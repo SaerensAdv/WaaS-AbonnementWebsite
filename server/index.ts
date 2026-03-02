@@ -6,6 +6,7 @@ import { runMigrations } from 'stripe-replit-sync';
 import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
 import path from "path";
+import { pool } from "./db";
 
 const app = express();
 
@@ -27,6 +28,76 @@ export function log(message: string, source = "express") {
   });
 
   console.log(`${formattedTime} [${source}] ${message}`);
+}
+
+async function runSchemaCleanup() {
+  const client = await pool.connect();
+  try {
+    const migrationCheck = await client.query(
+      `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = '_schema_migrations') as exists`
+    );
+    if (!migrationCheck.rows[0].exists) {
+      await client.query(`CREATE TABLE _schema_migrations (id TEXT PRIMARY KEY, applied_at TIMESTAMP DEFAULT NOW())`);
+    }
+    const alreadyRan = await client.query(
+      `SELECT 1 FROM _schema_migrations WHERE id = 'cleanup_orphaned_v1'`
+    );
+    if (alreadyRan.rows.length > 0) {
+      log('Schema cleanup already applied, skipping', 'migration');
+      return;
+    }
+
+    log('Running schema cleanup...', 'migration');
+    await client.query('BEGIN');
+
+    await client.query(`ALTER TABLE users ALTER COLUMN role TYPE text`);
+    await client.query(`UPDATE users SET role = 'CUSTOMER' WHERE role NOT IN ('ADMIN', 'CUSTOMER')`);
+
+    await client.query(`
+      ALTER TABLE subscriptions ALTER COLUMN status TYPE text;
+      UPDATE subscriptions SET status = 'ACTIVE' WHERE status IN ('active', 'trialing');
+      UPDATE subscriptions SET status = 'PAST_DUE' WHERE status IN ('past_due', 'unpaid');
+      UPDATE subscriptions SET status = 'CANCELED' WHERE status IN ('canceled', 'incomplete_expired', 'paused');
+      UPDATE subscriptions SET status = 'INCOMPLETE' WHERE status IN ('incomplete');
+    `);
+
+    const orphanedTables = [
+      'assignments', 'audit_logs', 'blog_posts', 'reports',
+      'specialist_profiles', 'system_config', 'templates'
+    ];
+    for (const table of orphanedTables) {
+      await client.query(`DROP TABLE IF EXISTS "${table}" CASCADE`);
+    }
+
+    const orphanedEnums = [
+      'assignment_status', 'blog_status', 'showcase_opt_in'
+    ];
+    for (const enumType of orphanedEnums) {
+      await client.query(`DROP TYPE IF EXISTS "${enumType}" CASCADE`);
+    }
+
+    const enumCleanups = [
+      { name: 'user_role', validValues: ['ADMIN', 'CUSTOMER'], column: 'role', table: 'users' },
+      { name: 'subscription_status', validValues: ['ACTIVE', 'PAST_DUE', 'CANCELED', 'INCOMPLETE'], column: 'status', table: 'subscriptions' }
+    ];
+
+    for (const { name, validValues, column, table } of enumCleanups) {
+      await client.query(`DROP TYPE IF EXISTS "${name}" CASCADE`);
+      const valuesStr = validValues.map(v => `'${v}'`).join(', ');
+      await client.query(`CREATE TYPE "${name}" AS ENUM (${valuesStr})`);
+      await client.query(`ALTER TABLE "${table}" ALTER COLUMN "${column}" TYPE "${name}" USING "${column}"::"${name}"`);
+    }
+
+    await client.query(`INSERT INTO _schema_migrations (id) VALUES ('cleanup_orphaned_v1')`);
+    await client.query('COMMIT');
+    log('Schema cleanup completed', 'migration');
+  } catch (error: any) {
+    await client.query('ROLLBACK').catch(() => {});
+    log(`Schema cleanup failed, rolled back: ${error.message}`, 'migration');
+    throw error;
+  } finally {
+    client.release();
+  }
 }
 
 async function initStripe() {
@@ -87,6 +158,8 @@ async function initStripe() {
 }
 
 (async () => {
+  await runSchemaCleanup();
+
   let stripeWebhookUuid: string | null = null;
   
   try {
