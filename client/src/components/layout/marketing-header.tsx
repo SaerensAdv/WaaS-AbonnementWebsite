@@ -55,7 +55,7 @@ export function MarketingHeader() {
               alt="WebsiteAbonnementen"
               className="h-10 w-10 rounded-lg transition-transform duration-200 group-hover:scale-105 object-contain"
             />
-            <span className="text-lg font-semibold tracking-tight hidden sm:inline">abo.web</span>
+
           </Link>
 
           <nav className="hidden md:flex items-center gap-1">
