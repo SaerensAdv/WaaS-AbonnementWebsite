@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "szuqZ2Jsh84cyZLAn2mQ2"
+uri = "file://docs/ecosysteem-dossier-abonnement-website.md"
+type = "text"
+title = "Ecosysteem Dossier: Abonnement.website"
