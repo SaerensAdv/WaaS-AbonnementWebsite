@@ -11,6 +11,7 @@ import type { User } from "@shared/schema";
 import { z } from "zod";
 import {
   createAanvraagTask,
+  createKlantTask,
   createOnboardingSprintTask,
   createSupportTicketTask,
   getTasksByTag,
@@ -622,6 +623,26 @@ export async function registerRoutes(
 
       const subscription = await storage.getSubscription(userId);
       const project = await storage.getProject(userId);
+
+      if (isClickUpConfigured()) {
+        try {
+          const user = await storage.getUser(userId);
+          const plan = await storage.getPlan(planId);
+          const profile = await storage.getCustomerProfile(userId);
+          if (user && plan) {
+            createKlantTask(
+              user.name,
+              user.email,
+              plan.name,
+              profile?.companyName || undefined,
+            ).catch((err) =>
+              console.error("ClickUp klant task error (non-blocking):", err.message)
+            );
+          }
+        } catch (clickupError: any) {
+          console.error("ClickUp klant task error (non-blocking):", clickupError.message);
+        }
+      }
 
       res.json({ success: true, subscription, project });
     } catch (error: any) {
