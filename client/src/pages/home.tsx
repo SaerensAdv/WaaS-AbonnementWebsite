@@ -1000,8 +1000,10 @@ export default function HomePage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="py-24 px-4">
-        <div className="container mx-auto max-w-6xl">
+      <section className="py-28 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_80%,hsl(var(--primary)/0.03)_0%,transparent_50%)]" />
+
+        <div className="container mx-auto max-w-5xl relative z-10">
           <ScrollReveal className="text-center mb-16">
             <Badge variant="secondary" className="mb-4">
               Hoe het werkt
@@ -1014,29 +1016,44 @@ export default function HomePage() {
             </p>
           </ScrollReveal>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { step: "01", title: "Kies uw plan", desc: "Selecteer het abonnement dat bij u past. Afrekenen duurt 2 minuten.", icon: CreditCard },
-              { step: "02", title: "Deel uw wensen", desc: "Vertel over uw bedrijf, doelen en huisstijl. Wij stellen de juiste vragen.", icon: Globe },
-              { step: "03", title: "Wij bouwen", desc: "Binnen 10 werkdagen ontvangt u uw complete website, klaar voor lancering.", icon: Lightning },
-              { step: "04", title: "U bent online", desc: "Uw website is live. Volg bezoekers en resultaten via uw persoonlijke dashboard.", icon: Star },
-            ].map((item, i) => (
-              <ScrollReveal key={item.step} delay={i * 0.1}>
-                <div className="relative">
-                  <div className="font-mono text-6xl font-bold text-primary/[0.07] dark:text-primary/[0.04] absolute -top-4 -left-1 leading-none select-none">
-                    {item.step}
-                  </div>
-                  <div className="relative pt-10">
-                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                      <item.icon size={20} weight={ICON_WEIGHT} className="text-primary" />
+          <div className="relative">
+            <div className="hidden lg:block absolute top-[2.75rem] left-[calc(12.5%+1.25rem)] right-[calc(12.5%+1.25rem)] h-px bg-gradient-to-r from-border via-primary/20 to-border" />
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6">
+              {[
+                { step: "01", title: "Kies uw plan", desc: "Selecteer het abonnement dat bij u past. Afrekenen duurt 2 minuten.", icon: CreditCard },
+                { step: "02", title: "Deel uw wensen", desc: "Vertel over uw bedrijf, doelen en huisstijl. Wij stellen de juiste vragen.", icon: Globe },
+                { step: "03", title: "Wij bouwen", desc: "Binnen 10 werkdagen ontvangt u uw complete website, klaar voor lancering.", icon: Lightning },
+                { step: "04", title: "U bent online", desc: "Uw website is live. Volg bezoekers en resultaten via uw persoonlijke dashboard.", icon: Star },
+              ].map((item, i) => (
+                <ScrollReveal key={item.step} delay={i * 0.12}>
+                  <div className="text-center relative">
+                    <div className="relative inline-flex mb-6">
+                      <div className="h-[3.5rem] w-[3.5rem] rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 border border-primary/10 flex items-center justify-center relative z-10">
+                        <item.icon size={24} weight={ICON_WEIGHT} className="text-primary" />
+                      </div>
+                      <span className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center z-20 shadow-sm">
+                        {item.step.replace(/^0/, '')}
+                      </span>
                     </div>
                     <h3 className="font-semibold text-lg mb-2 leading-snug">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed max-w-[35ch]">{item.desc}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed max-w-[28ch] mx-auto">{item.desc}</p>
                   </div>
-                </div>
-              </ScrollReveal>
-            ))}
+                </ScrollReveal>
+              ))}
+            </div>
           </div>
+
+          <ScrollReveal delay={0.5}>
+            <div className="mt-14 flex items-center justify-center">
+              <Button size="lg" className="gap-2 rounded-full shadow-lg shadow-primary/20" asChild data-testid="button-hiw-cta">
+                <a href="#pricing">
+                  Bekijk de plannen
+                  <ArrowRight size={16} weight={ICON_WEIGHT} />
+                </a>
+              </Button>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
