@@ -177,26 +177,79 @@ export async function createOnboardingSprintTask(
   onboardingData: any,
 ): Promise<any> {
   const data = onboardingData || {};
+
+  const goalLabels: Record<string, string> = {
+    "more-customers": "Meer klanten aantrekken",
+    "information": "Informatie verstrekken",
+    "online-sales": "Online verkoop / reserveringen",
+    "portfolio": "Portfolio / showcase",
+    "branding": "Merkbekendheid vergroten",
+    "other": "Anders",
+  };
+
+  const styleLabels: Record<string, string> = {
+    "modern": "Modern / Minimalistisch",
+    "classic": "Klassiek / Traditioneel",
+    "playful": "Speels / Creatief",
+    "corporate": "Zakelijk / Corporate",
+  };
+
+  const contentLabels: Record<string, string> = {
+    "yes": "Ja",
+    "partial": "Gedeeltelijk",
+    "no": "Nee",
+  };
+
   const lines = [
     `**Klant:** ${customerName}`,
     `**Plan:** ${planName}`,
     "",
-    "## Onboarding Details",
+    "---",
+    "",
+    "## 1. Bedrijfsgegevens",
   ];
 
   if (data.companyName) lines.push(`**Bedrijfsnaam:** ${data.companyName}`);
+  if (data.country) lines.push(`**Land:** ${data.country === "NL" ? "Nederland" : data.country === "BE" ? "België" : data.country}`);
+  if (data.kvkNumber) lines.push(`**KVK-nummer:** ${data.kvkNumber}`);
+  if (data.btwNumber) lines.push(`**BTW-nummer:** ${data.btwNumber}`);
   if (data.industry) lines.push(`**Branche:** ${data.industry}`);
-  if (data.website) lines.push(`**Huidig website:** ${data.website}`);
-  if (data.goals) lines.push(`**Doelen:** ${data.goals}`);
-  if (data.targetAudience) lines.push(`**Doelgroep:** ${data.targetAudience}`);
-  if (data.designPreferences) lines.push(`**Design voorkeuren:** ${data.designPreferences}`);
-  if (data.content) lines.push(`**Content:** ${data.content}`);
-  if (data.additionalNotes) lines.push(`**Opmerkingen:** ${data.additionalNotes}`);
+  if (data.existingWebsite) lines.push(`**Bestaande website:** ${data.existingWebsite}`);
+  if (data.phone) lines.push(`**Telefoon:** ${data.phone}`);
+  if (data.address) lines.push(`**Adres:** ${data.address}`);
 
-  lines.push("", `Onboarding afgerond op: ${new Date().toLocaleDateString("nl-NL")}`);
+  lines.push("", "## 2. Website doelen");
+
+  if (data.websiteGoals && Array.isArray(data.websiteGoals) && data.websiteGoals.length > 0) {
+    const goals = data.websiteGoals.map((g: string) => goalLabels[g] || g);
+    lines.push(`**Doelen:** ${goals.join(", ")}`);
+  }
+  if (data.targetAudience) lines.push(`**Doelgroep:** ${data.targetAudience}`);
+  if (data.competitors) lines.push(`**Concurrenten:** ${data.competitors}`);
+
+  lines.push("", "## 3. Content");
+
+  if (data.hasTexts) lines.push(`**Teksten beschikbaar:** ${contentLabels[data.hasTexts] || data.hasTexts}`);
+  if (data.hasLogo) lines.push(`**Logo beschikbaar:** ${contentLabels[data.hasLogo] || data.hasLogo}`);
+  if (data.hasPhotos) lines.push(`**Foto's beschikbaar:** ${contentLabels[data.hasPhotos] || data.hasPhotos}`);
+
+  lines.push("", "## 4. Design");
+
+  if (data.colorPreference) lines.push(`**Kleurvoorkeur:** ${data.colorPreference}`);
+  if (data.stylePreference) lines.push(`**Stijlvoorkeur:** ${styleLabels[data.stylePreference] || data.stylePreference}`);
+  if (data.exampleWebsites) lines.push(`**Voorbeeldwebsites:** ${data.exampleWebsites}`);
+
+  lines.push("", "## 5. Social media & opmerkingen");
+
+  if (data.facebookUrl) lines.push(`**Facebook:** ${data.facebookUrl}`);
+  if (data.instagramUrl) lines.push(`**Instagram:** ${data.instagramUrl}`);
+  if (data.linkedinUrl) lines.push(`**LinkedIn:** ${data.linkedinUrl}`);
+  if (data.notes) lines.push(`**Opmerkingen:** ${data.notes}`);
+
+  lines.push("", "---", `Onboarding afgerond op: ${new Date().toLocaleDateString("nl-NL")}`);
 
   return createTask(CLICKUP_LISTS.SPRINT, {
-    name: `Website bouwen — ${customerName}`,
+    name: `Website bouwen — ${data.companyName || customerName}`,
     description: lines.join("\n"),
     tags: ["onboarding", "website-build"],
     priority: 2,
