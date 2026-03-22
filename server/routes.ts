@@ -882,14 +882,15 @@ ${pages.map((p) => `  <url>
       if (isClickUpConfigured()) {
         try {
           const task = await createMaatwerkQuoteTask(
-            parsed.data.companyName,
-            parsed.data.contactName,
-            parsed.data.email,
-            parsed.data.phone || null,
-            parsed.data.projectType,
-            parsed.data.budgetRange || null,
-            parsed.data.description,
-            parsed.data.currentWebsite || null,
+            data.companyName,
+            data.contactName,
+            data.email,
+            data.phone || null,
+            data.projectType,
+            data.budgetRange || null,
+            data.description,
+            data.currentWebsite || null,
+            data.details as Record<string, any> | null,
           );
           await storage.updateQuoteRequest(quoteRequest.id, { clickupTaskId: task.id });
         } catch (clickupError) {

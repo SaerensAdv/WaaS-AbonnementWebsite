@@ -97,6 +97,7 @@ export const quoteRequests = pgTable("quote_requests", {
   budgetRange: text("budget_range"),
   description: text("description").notNull(),
   currentWebsite: text("current_website"),
+  details: jsonb("details"),
   status: quoteRequestStatusEnum("status").default("NEW"),
   clickupTaskId: text("clickup_task_id"),
   createdAt: timestamp("created_at").defaultNow(),

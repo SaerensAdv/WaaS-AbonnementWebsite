@@ -138,29 +138,38 @@ async function ensureQuoteRequestsTable() {
     const tableExists = await client.query(
       `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'quote_requests') as exists`
     );
-    if (tableExists.rows[0].exists) return;
-
-    log('Creating quote_requests table...', 'migration');
-    await client.query(`
-      DO $$ BEGIN
-        CREATE TYPE quote_request_status AS ENUM ('NEW', 'CONTACTED', 'QUOTED', 'ACCEPTED', 'DECLINED');
-      EXCEPTION WHEN duplicate_object THEN null; END $$;
-      CREATE TABLE IF NOT EXISTS quote_requests (
-        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-        company_name TEXT NOT NULL,
-        contact_name TEXT NOT NULL,
-        email TEXT NOT NULL,
-        phone TEXT,
-        project_type TEXT NOT NULL,
-        budget_range TEXT,
-        description TEXT NOT NULL,
-        current_website TEXT,
-        status quote_request_status DEFAULT 'NEW',
-        clickup_task_id TEXT,
-        created_at TIMESTAMP DEFAULT NOW()
+    if (!tableExists.rows[0].exists) {
+      log('Creating quote_requests table...', 'migration');
+      await client.query(`
+        DO $$ BEGIN
+          CREATE TYPE quote_request_status AS ENUM ('NEW', 'CONTACTED', 'QUOTED', 'ACCEPTED', 'DECLINED');
+        EXCEPTION WHEN duplicate_object THEN null; END $$;
+        CREATE TABLE IF NOT EXISTS quote_requests (
+          id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+          company_name TEXT NOT NULL,
+          contact_name TEXT NOT NULL,
+          email TEXT NOT NULL,
+          phone TEXT,
+          project_type TEXT NOT NULL,
+          budget_range TEXT,
+          description TEXT NOT NULL,
+          current_website TEXT,
+          details JSONB,
+          status quote_request_status DEFAULT 'NEW',
+          clickup_task_id TEXT,
+          created_at TIMESTAMP DEFAULT NOW()
+        );
+      `);
+      log('quote_requests table created', 'migration');
+    } else {
+      const detailsCheck = await client.query(
+        `SELECT 1 FROM information_schema.columns WHERE table_name = 'quote_requests' AND column_name = 'details'`
       );
-    `);
-    log('quote_requests table created', 'migration');
+      if (detailsCheck.rows.length === 0) {
+        await client.query(`ALTER TABLE quote_requests ADD COLUMN details JSONB`);
+        log('Added details column to quote_requests', 'migration');
+      }
+    }
   } finally {
     client.release();
   }
