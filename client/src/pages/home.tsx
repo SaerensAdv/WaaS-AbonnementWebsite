@@ -97,7 +97,7 @@ function HeroGridBackground() {
       <motion.div
         animate={{ y: [0, 30, 0], opacity: [0.2, 0.4, 0.2], scale: [1, 1.2, 1] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute bottom-[10%] right-[30%] w-[300px] h-[300px] bg-amber-500/10 rounded-full blur-[80px] mix-blend-screen"
+        className="absolute bottom-[10%] right-[30%] w-[300px] h-[300px] bg-[#f3a427]/10 rounded-full blur-[80px] mix-blend-screen"
       />
     </div>
   );
@@ -454,10 +454,10 @@ export default function HomePage() {
             >
               <Badge
                 variant="secondary"
-                className="mb-8 bg-white/5 border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.2)] text-amber-300 backdrop-blur-md"
+                className="mb-8 bg-white/5 border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.2)] text-[#f3a427] backdrop-blur-md"
                 data-testid="badge-hero"
               >
-                <Star size={16} weight="fill" className="mr-1.5 text-amber-300" />
+                <Star size={16} weight="fill" className="mr-1.5 text-[#f3a427]" />
                 <span className="tracking-wide text-xs sm:text-sm">PREMIUM WEBSITES VOOR MKB</span>
               </Badge>
             </motion.div>
@@ -484,7 +484,7 @@ export default function HomePage() {
               data-testid="text-hero-description"
             >
               Design, hosting, onderhoud en support in één vast maandbedrag vanaf <span className="text-white font-medium px-1 py-0.5 bg-white/10 rounded">€49/mnd</span>. Maandelijks opzegbaar.
-              <span className="block mt-4 font-medium text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-400 text-xl">
+              <span className="block mt-4 font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#f3a427] to-[#f3a427] text-xl">
                 Zonder opstartkosten.
               </span>
             </motion.div>
@@ -708,20 +708,20 @@ export default function HomePage() {
 
             <ScrollReveal delay={0.3}>
               <motion.div
-                className="relative rounded-2xl p-[2px] h-full bg-gradient-to-b from-amber-400/40 via-amber-400/20 to-amber-400/5"
+                className="relative rounded-2xl p-[2px] h-full bg-gradient-to-b from-[#f3a427]/40 via-[#f3a427]/20 to-[#f3a427]/5"
                 whileHover={{ y: -6, transition: { duration: 0.25 } }}
                 whileTap={{ scale: 0.98 }}
                 data-testid="card-plan-custom"
               >
                 <div className="rounded-[14px] bg-card p-6 md:p-7 h-full flex flex-col">
                   <div className="text-center mb-6">
-                    <h3 className="text-sm font-semibold mb-4 tracking-widest uppercase text-amber-600 dark:text-amber-400">Op Maat</h3>
+                    <h3 className="text-sm font-semibold mb-4 tracking-widest uppercase text-[#f3a427]">Op Maat</h3>
                     <div className="flex items-baseline justify-center gap-1">
                       <span className="font-display text-[clamp(1.5rem,2.5vw,2rem)] tracking-tight leading-none" data-testid="text-price-custom">
                         Op aanvraag
                       </span>
                     </div>
-                    <div className="mt-3 inline-flex items-center gap-1.5 bg-amber-500/10 rounded-full px-3 py-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+                    <div className="mt-3 inline-flex items-center gap-1.5 bg-[#f3a427]/10 rounded-full px-3 py-1 text-xs font-medium text-[#f3a427]">
                       <Star size={12} weight="fill" />
                       Volledig op maat
                     </div>
@@ -739,7 +739,7 @@ export default function HomePage() {
                       "Dedicated projectmanager",
                     ].map((feature, i) => (
                       <li key={i} className="flex items-start gap-2.5 text-sm leading-relaxed">
-                        <Star size={14} weight="fill" className="text-amber-500 shrink-0 mt-0.5" />
+                        <Star size={14} weight="fill" className="text-[#f3a427] shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -793,12 +793,12 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#080c18] via-[#0a1020] to-[#080c18]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_70%_50%_at_50%_50%,#000_60%,transparent_100%)] opacity-40" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/[0.06] rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-amber-500/[0.03] rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#f3a427]/[0.03] rounded-full blur-[100px]" />
 
         <div className="container mx-auto max-w-6xl relative z-10">
           <ScrollReveal className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4 bg-amber-500/10 border-amber-500/20 text-amber-300">
-              <Star size={14} weight="fill" className="mr-1.5 text-amber-400" />
+            <Badge variant="secondary" className="mb-4 bg-[#f3a427]/10 border-[#f3a427]/20 text-[#f3a427]">
+              <Star size={14} weight="fill" className="mr-1.5 text-[#f3a427]" />
               Op Maat
             </Badge>
             <h2 className="font-display text-[clamp(2rem,3.5vw+0.5rem,3.25rem)] tracking-tight mb-5 leading-[1.1] text-white" data-testid="text-maatwerk-title">
@@ -871,7 +871,7 @@ export default function HomePage() {
                   { step: "03", title: "Wij bouwen & lanceren", desc: "Na akkoord starten wij direct. U volgt de voortgang en geeft feedback via uw dashboard." },
                 ].map((item, i) => (
                   <div key={item.step} className="relative text-center">
-                    <div className="font-mono text-5xl font-bold text-amber-400/[0.08] absolute top-0 left-1/2 -translate-x-1/2 leading-none select-none">
+                    <div className="font-mono text-5xl font-bold text-[#f3a427]/[0.08] absolute top-0 left-1/2 -translate-x-1/2 leading-none select-none">
                       {item.step}
                     </div>
                     <div className="relative pt-10">

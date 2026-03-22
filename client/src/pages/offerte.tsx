@@ -409,7 +409,7 @@ export default function OffertePage() {
       <section className="pt-32 pb-16 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-8">
-            <Badge variant="secondary" className="mb-4 bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-300">
+            <Badge variant="secondary" className="mb-4 bg-[#f3a427]/10 border-[#f3a427]/20 text-[#f3a427] dark:text-[#f3a427]">
               <Star size={14} weight="fill" className="mr-1.5" />
               Op Maat
             </Badge>
