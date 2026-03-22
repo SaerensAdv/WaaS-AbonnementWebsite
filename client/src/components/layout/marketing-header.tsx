@@ -37,7 +37,7 @@ export function MarketingHeader() {
   }, [mobileMenuOpen]);
 
   return (
-    <div className="sticky top-0 z-50 w-full px-4 pt-4">
+    <div className="sticky top-0 z-50 w-full px-4 pt-4 bg-transparent">
       <motion.header
         className="mx-auto max-w-5xl rounded-full border border-border/50 backdrop-blur-2xl shadow-lg shadow-black/5 dark:shadow-black/20"
         style={{

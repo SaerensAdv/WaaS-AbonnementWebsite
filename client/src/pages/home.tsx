@@ -439,7 +439,7 @@ export default function HomePage() {
   return (
     <MarketingLayout>
       {/* HERO — Split Reveal */}
-      <section ref={heroRef} className="relative w-full overflow-hidden flex flex-col lg:flex-row lg:min-h-screen" data-testid="hero-section">
+      <section ref={heroRef} className="relative w-full overflow-hidden flex flex-col lg:flex-row lg:min-h-screen bg-[#0a0f1c]" data-testid="hero-section">
 
         {/* Left Dark Panel */}
         <motion.div
