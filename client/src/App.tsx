@@ -42,6 +42,7 @@ import OffertePage from "@/pages/offerte";
 import CustomerDashboard from "@/pages/dashboard/customer-dashboard";
 import OnboardingPage from "@/pages/dashboard/onboarding";
 import AddOnsPage from "@/pages/dashboard/addons";
+import AnalyticsPage from "@/pages/dashboard/analytics";
 import BillingPage from "@/pages/dashboard/billing";
 import SettingsPage from "@/pages/dashboard/settings";
 
@@ -106,6 +107,9 @@ function Router() {
       </Route>
       <Route path="/app/addons">
         <ProtectedRoute component={AddOnsPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/app/analytics">
+        <ProtectedRoute component={AnalyticsPage} roles={["CUSTOMER"]} />
       </Route>
       <Route path="/app/billing">
         <ProtectedRoute component={BillingPage} roles={["CUSTOMER"]} />

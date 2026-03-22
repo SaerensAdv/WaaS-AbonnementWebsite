@@ -31,11 +31,13 @@ import {
   ChevronUp,
   MessageSquare,
   ClipboardList,
+  BarChart3,
 } from "lucide-react";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 
 const customerMenuItems = [
   { title: "Dashboard", url: "/app", icon: LayoutDashboard },
+  { title: "Analytics", url: "/app/analytics", icon: BarChart3 },
   { title: "Add-ons", url: "/app/addons", icon: Puzzle },
   { title: "Support", url: "/app/support", icon: MessageSquare },
   { title: "Facturatie", url: "/app/billing", icon: CreditCard },

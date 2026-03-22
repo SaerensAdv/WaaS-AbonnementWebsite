@@ -43,6 +43,7 @@ Preferred communication style: Simple, everyday language.
 - `/offerte` — Quote request form for maatwerk/custom projects (submits to quote_requests DB + ClickUp task in AANVRAGEN list)
 - `/app` — Customer dashboard (status, subscription, add-ons)
 - `/app/onboarding` — 5-step onboarding intake wizard
+- `/app/analytics` — Analytics dashboard (Search Console, GA4, PageSpeed) — frontend only, mock data, ready for API integration
 - `/app/addons` — Add-on management
 - `/app/billing` — Billing & subscription
 - `/app/settings` — Profile settings
