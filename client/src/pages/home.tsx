@@ -925,12 +925,12 @@ export default function HomePage() {
       </section>
 
       {/* ADD-ONS */}
-      <section id="addons" className="py-24 px-4 relative">
-        <div className="absolute inset-0 bg-muted/30" />
-        <div className="absolute inset-0 dot-grid opacity-30" />
+      <section id="addons" className="py-24 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-muted/50 via-muted/20 to-muted/40" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,hsl(var(--primary)/0.04)_0%,transparent_50%)]" />
 
         <div className="container mx-auto max-w-6xl relative z-10">
-          <ScrollReveal className="text-center mb-16">
+          <ScrollReveal className="text-center mb-6">
             <Badge variant="secondary" className="mb-4">
               Add-ons
             </Badge>
@@ -942,26 +942,53 @@ export default function HomePage() {
             </p>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <ScrollReveal delay={0.05}>
+            <div className="flex items-center justify-center gap-4 mb-14 text-sm text-muted-foreground">
+              <div className="flex items-center gap-1.5">
+                <Lightning size={15} weight={ICON_WEIGHT} className="text-primary" />
+                <span>Direct activeren</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Clock size={15} weight={ICON_WEIGHT} className="text-primary" />
+                <span>Maandelijks opzegbaar</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle size={15} weight={ICON_WEIGHT} className="text-primary" />
+                <span>Combineerbaar met elk plan</span>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {addOns.map((addOn, index) => {
               const Icon = addOnIcons[addOn.slug] || Lightning;
               return (
-                <ScrollReveal key={addOn.id} delay={index * 0.1}>
+                <ScrollReveal key={addOn.id} delay={index * 0.08}>
                   <motion.div
-                    className="rounded-2xl border bg-card p-6 h-full"
+                    className="group rounded-2xl border bg-card h-full overflow-hidden"
                     whileHover={{ y: -4, transition: { duration: 0.2 } }}
                     whileTap={{ scale: 0.98 }}
                     data-testid={`card-addon-${addOn.slug}`}
                   >
-                    <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-                      <Icon size={24} weight={ICON_WEIGHT} className="text-primary" />
+                    <div className="p-6 flex gap-4">
+                      <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 border border-primary/10 flex items-center justify-center shrink-0">
+                        <Icon size={22} weight={ICON_WEIGHT} className="text-primary" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-base mb-1 leading-snug">{addOn.name}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{addOn.description}</p>
+                      </div>
                     </div>
-                    <h3 className="font-semibold text-lg mb-2 leading-snug">{addOn.name}</h3>
-                    <p className="text-sm text-muted-foreground mb-6 leading-relaxed max-w-[45ch]">{addOn.description}</p>
-                    <div className="flex items-center gap-3">
-                      <span className="font-display text-2xl leading-none" data-testid={`text-addon-price-${addOn.slug}`}>
-                        €{(addOn.monthlyPriceCents / 100).toFixed(0)}
-                        <span className="text-sm font-sans font-normal text-muted-foreground">/maand</span>
+                    <div className="border-t border-border/60 bg-muted/20 px-6 py-3.5 flex items-center justify-between">
+                      <div className="flex items-baseline gap-1" data-testid={`text-addon-price-${addOn.slug}`}>
+                        <span className="font-display text-xl leading-none">
+                          €{(addOn.monthlyPriceCents / 100).toFixed(0)}
+                        </span>
+                        <span className="text-xs text-muted-foreground">/maand</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        <ArrowRight size={12} weight={ICON_WEIGHT} />
+                        Activeer via dashboard
                       </span>
                     </div>
                   </motion.div>
