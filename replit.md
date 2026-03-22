@@ -74,7 +74,7 @@ Preferred communication style: Simple, everyday language.
 - `users` — ADMIN or CUSTOMER roles
 - `customer_profiles` — Company info, Stripe customer ID
 - `plans` — 3 tiers (LOW=Starter €49, MEDIUM=Professional €99, HIGH=Business €199)
-- `subscriptions` — Links user to plan, tracks Stripe subscription ID
+- `subscriptions` — Links user to plan, tracks Stripe subscription ID and `currentPeriodEnd` (populated by webhook handlers, verify-checkout, and Stripe subscription sync)
 - `projects` — Website project with status tracking (ONBOARDING → PRODUCTION → LIVE → MAINTENANCE), includes `onboardingData` (jsonb) and `onboardingCompleted` (boolean)
 - `add_ons` — Google Ads Beheer €249, Meta Ads Beheer €249, Extra Content Wijzigingen €29, E-commerce Module €79, Social Media Beheer €199, Booking/Reserveringssysteem €39
 - `add_on_selections` — Links add-on to subscription
@@ -101,13 +101,14 @@ Preferred communication style: Simple, everyday language.
 - `GET /api/me` — Current user
 - `GET /api/plans`, `GET /api/addons` — Public plan/addon listing
 - `POST /api/popup-lead` — Lead capture popup submission (rate-limited, stores in DB + ClickUp AANVRAGEN list)
-- `POST /api/checkout` — Creates Stripe Checkout session
+- `POST /api/checkout` — Creates Stripe Checkout session (requires authentication)
 - `POST /api/verify-checkout` — Verifies checkout and creates subscription
 - `GET /api/dashboard` — Customer dashboard data
 - `GET /api/onboarding`, `POST /api/onboarding` — Onboarding intake form
 - `GET /api/addons/my`, `POST /api/addons/select` — Customer add-on management
 - `GET /api/profile`, `PATCH /api/profile` — Customer profile
-- `GET /api/billing`, `POST /api/billing/portal` — Billing + Stripe portal
+- `GET /api/billing` — Billing data with upcoming Stripe invoice (amount + due date)
+- `POST /api/billing/portal` — Creates Stripe Customer Portal session
 - `GET /api/admin/stats`, `GET /api/admin/customers` — Admin endpoints
 - `GET /api/admin/projects`, `PUT /api/admin/projects/:id/status` — Project management
 

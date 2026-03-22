@@ -440,7 +440,33 @@ export async function registerRoutes(
     try {
       const user = (req as any).user as User;
       const subscription = await storage.getSubscriptionWithPlan(user.id);
-      res.json({ subscription });
+
+      let upcomingInvoice: { amount: number; dueDate: string } | undefined;
+
+      if (subscription?.stripeSubscriptionId) {
+        try {
+          const { getUncachableStripeClient } = await import("./stripeClient");
+          const stripe = await getUncachableStripeClient();
+          const invoice = await stripe.invoices.retrieveUpcoming({
+            subscription: subscription.stripeSubscriptionId,
+          });
+          if (invoice) {
+            const dueDateTs = invoice.next_payment_attempt || invoice.period_end;
+            if (dueDateTs) {
+              upcomingInvoice = {
+                amount: invoice.amount_due,
+                dueDate: new Date(dueDateTs * 1000).toISOString(),
+              };
+            }
+          }
+        } catch (stripeError: any) {
+          if (stripeError?.code !== 'invoice_upcoming_none') {
+            console.error("Upcoming invoice fetch error:", stripeError.message);
+          }
+        }
+      }
+
+      res.json({ subscription, upcomingInvoice });
     } catch (error) {
       console.error("Get billing error:", error);
       res.status(500).json({ message: "Failed to fetch billing data" });
@@ -475,9 +501,10 @@ export async function registerRoutes(
     }
   });
 
-  app.post("/api/checkout", async (req, res) => {
+  app.post("/api/checkout", requireAuth, async (req, res) => {
     try {
-      const { planId, email, name } = req.body;
+      const { planId } = req.body;
+      const userId = req.session.userId!;
 
       if (!planId) {
         return res.status(400).json({ message: "Plan ID is required" });
@@ -488,28 +515,28 @@ export async function registerRoutes(
         return res.status(404).json({ message: "Plan not found" });
       }
 
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+
       const { getUncachableStripeClient } = await import("./stripeClient");
       const stripe = await getUncachableStripeClient();
 
-      let userId: string | undefined;
       let customerId: string | undefined;
 
-      if (req.session.userId) {
-        const user = await storage.getUser(req.session.userId);
-        if (user) {
-          userId = user.id;
-          const existingSubscription = await storage.getSubscription(user.id);
-          if (existingSubscription?.stripeCustomerId) {
-            customerId = existingSubscription.stripeCustomerId;
-          }
-        }
+      const existingSubscription = await storage.getSubscription(userId);
+      if (existingSubscription?.stripeCustomerId) {
+        customerId = existingSubscription.stripeCustomerId;
       }
 
       if (!customerId) {
+        const profile = await storage.getCustomerProfile(userId);
         const customer = await stripe.customers.create({
-          email: email || undefined,
-          name: name || undefined,
-          metadata: userId ? { userId } : {},
+          email: user.email,
+          name: user.name,
+          metadata: { userId },
+          ...(profile?.companyName ? { description: profile.companyName } : {}),
         });
         customerId = customer.id;
       }
@@ -530,7 +557,7 @@ export async function registerRoutes(
         success_url: successUrl,
         cancel_url: cancelUrl,
         metadata: {
-          userId: userId || '',
+          userId,
           planId: plan.id,
         },
       };
@@ -595,6 +622,16 @@ export async function registerRoutes(
         return res.status(400).json({ message: "User not found. Please log in first." });
       }
 
+      let currentPeriodEnd: Date | undefined;
+      if (stripeSubscriptionId) {
+        try {
+          const stripeSub = await stripe.subscriptions.retrieve(stripeSubscriptionId);
+          currentPeriodEnd = new Date(stripeSub.current_period_end * 1000);
+        } catch (e: any) {
+          console.error("Could not retrieve subscription period:", e.message);
+        }
+      }
+
       const existingSubscription = await storage.getSubscription(userId);
 
       if (existingSubscription) {
@@ -603,6 +640,7 @@ export async function registerRoutes(
           stripeCustomerId,
           stripeSubscriptionId,
           status: 'ACTIVE',
+          ...(currentPeriodEnd ? { currentPeriodEnd } : {}),
         });
       } else {
         await storage.createSubscription({
@@ -611,6 +649,7 @@ export async function registerRoutes(
           stripeCustomerId,
           stripeSubscriptionId,
           status: 'ACTIVE',
+          ...(currentPeriodEnd ? { currentPeriodEnd } : {}),
         });
       }
 

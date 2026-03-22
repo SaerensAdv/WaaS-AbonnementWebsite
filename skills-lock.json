@@ -6,6 +6,11 @@
       "sourceType": "github",
       "computedHash": "220054a640e514d0bb5be4af7eb9b54f2205b2f6de6a85bd1561f0b0b06d6013"
     },
+    "billing-automation": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "2d496e36801e17d2ec2951859592b7fe5e80643c02384a98425672800389b282"
+    },
     "brainstorming": {
       "source": "obra/superpowers",
       "sourceType": "github",
@@ -26,10 +31,25 @@
       "sourceType": "github",
       "computedHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67"
     },
+    "frontend-testing": {
+      "source": "langgenius/dify",
+      "sourceType": "github",
+      "computedHash": "65108c13f0017191543bec88645f29a5665fa8daec4ab67ce1f1563d1ecf7f3f"
+    },
     "implement-design": {
       "source": "figma/mcp-server-guide",
       "sourceType": "github",
       "computedHash": "2e87927b93592fbc1cf48a58d6359d2894ad5e7611f7e824233bf4f6bb84db61"
+    },
+    "interface-design": {
+      "source": "dammyjay93/interface-design",
+      "sourceType": "github",
+      "computedHash": "d004c5e5e2e7132e1d64e9c2a339db7f7aaa69053a5c19cddc210dd35dd6fff5"
+    },
+    "kpi-dashboard-design": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "794d224f736d59551566cd604fc528b6cc1d638569652829b4b0a9b7ee6d7b24"
     },
     "landing-page-design": {
       "source": "skill-zero/s",
@@ -61,10 +81,20 @@
       "sourceType": "github",
       "computedHash": "27156d103697411bba81520fef469e77bfba4c65d904c841e4965a158d531fbd"
     },
+    "shadcn-ui": {
+      "source": "giuseppe-trisciuoglio/developer-kit",
+      "sourceType": "github",
+      "computedHash": "a331020aafd60a60221a03c1864cf860be408709776b6afb593ec551be02fcd2"
+    },
     "signup-flow-cro": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
       "computedHash": "8c4b9ce342ccb721eed9a4c1eb0d1ea647e5f1a77db8609509181c62636acf61"
+    },
+    "stripe-integration": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "2ea87d17f71bbc8fb206af2e90d8345c9a978ee36c7874bcccdb0fdd8cdd745c"
     },
     "threejs-animation": {
       "source": "cloudai-x/threejs-skills",
@@ -125,6 +155,16 @@
       "source": "wshobson/agents",
       "sourceType": "github",
       "computedHash": "5c5e091d61e2f6e465b77650b99d36acfe779cb70f29e9a103b5ba443065a3a9"
+    },
+    "web-artifacts-builder": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "143730c6db11d82d8c5db4d0cf8f435421983f1fc510b24f77ee9a0e8bae7704"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
     }
   }
 }

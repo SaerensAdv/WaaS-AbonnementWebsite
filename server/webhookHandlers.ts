@@ -54,6 +54,18 @@ export class WebhookHandlers {
     log(`Processing checkout for user ${userId}, plan ${planId}`, 'stripe');
 
     try {
+      const stripe = await getUncachableStripeClient();
+      let currentPeriodEnd: Date | undefined;
+
+      if (stripeSubscriptionId) {
+        try {
+          const stripeSub = await stripe.subscriptions.retrieve(stripeSubscriptionId);
+          currentPeriodEnd = new Date(stripeSub.current_period_end * 1000);
+        } catch (e: any) {
+          log(`Could not retrieve subscription period: ${e.message}`, 'stripe');
+        }
+      }
+
       const existingSubscription = await storage.getSubscription(userId);
       
       if (existingSubscription) {
@@ -62,6 +74,7 @@ export class WebhookHandlers {
           stripeCustomerId,
           stripeSubscriptionId,
           status: 'ACTIVE',
+          ...(currentPeriodEnd ? { currentPeriodEnd } : {}),
         });
         log(`Updated subscription for user ${userId}`, 'stripe');
       } else {
@@ -71,6 +84,7 @@ export class WebhookHandlers {
           stripeCustomerId,
           stripeSubscriptionId,
           status: 'ACTIVE',
+          ...(currentPeriodEnd ? { currentPeriodEnd } : {}),
         });
         log(`Created subscription for user ${userId}`, 'stripe');
       }
@@ -126,8 +140,9 @@ export class WebhookHandlers {
         expand: ['items.data.price'],
       });
 
-      const updateData: { status: 'ACTIVE' | 'PAST_DUE' | 'CANCELED' | 'INCOMPLETE'; planId?: string } = { 
-        status: WebhookHandlers.mapStripeStatus(liveSubscription.status) 
+      const updateData: { status: 'ACTIVE' | 'PAST_DUE' | 'CANCELED' | 'INCOMPLETE'; planId?: string; currentPeriodEnd?: Date } = { 
+        status: WebhookHandlers.mapStripeStatus(liveSubscription.status),
+        currentPeriodEnd: new Date(liveSubscription.current_period_end * 1000),
       };
 
       const items = liveSubscription.items?.data || [];
