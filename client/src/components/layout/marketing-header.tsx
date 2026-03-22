@@ -1,4 +1,4 @@
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -14,7 +14,6 @@ import logoGif from "@assets/Untitled_design_1764969853491.gif";
 const ICON_WEIGHT = "duotone" as const;
 
 export function MarketingHeader() {
-  const [location] = useLocation();
   const { user } = useAuth();
   const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -61,6 +60,7 @@ export function MarketingHeader() {
           <nav className="hidden md:flex items-center gap-1">
             {[
               { href: "#pricing", label: "Prijzen", testId: "nav-pricing" },
+              { href: "#maatwerk", label: "Op Maat", testId: "nav-maatwerk" },
               { href: "#addons", label: "Add-ons", testId: "nav-addons" },
               { href: "#faq", label: "FAQ", testId: "nav-faq" },
             ].map((link) => (
@@ -156,6 +156,9 @@ export function MarketingHeader() {
             <nav className="flex flex-col gap-1 p-4">
               <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" className="w-full justify-start text-muted-foreground">Prijzen</Button>
+              </a>
+              <a href="#maatwerk" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-muted-foreground">Op Maat</Button>
               </a>
               <a href="#addons" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" className="w-full justify-start text-muted-foreground">Add-ons</Button>

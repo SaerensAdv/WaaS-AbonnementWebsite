@@ -23,6 +23,7 @@ import {
   CalendarCheck,
   Lock,
   CheckCircle,
+  Gear,
 } from "@phosphor-icons/react";
 import { apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
@@ -83,13 +84,6 @@ const faqItems = [
   },
 ];
 
-const trustItems = [
-  { icon: ShieldCheck, label: "SSL beveiligd" },
-  { icon: Lightning, label: "99.9% uptime garantie" },
-  { icon: Clock, label: "Maandelijks opzegbaar" },
-  { icon: Headset, label: "Persoonlijke support" },
-  { icon: CreditCard, label: "Veilig betalen via Stripe" },
-];
 
 function HeroGridBackground() {
   return (
@@ -235,7 +229,7 @@ function HeroInteractiveCards({
     id: plan.id,
     title: tierConfig[plan.tier]?.label || plan.name,
     price: `€${(plan.monthlyPriceCents / 100).toFixed(0)}`,
-    pages: plan.includedPages,
+    pages: plan.includedPages ?? 0,
     color: cardColorMap[plan.tier] || "from-blue-500 to-cyan-500",
   }));
 
@@ -623,7 +617,7 @@ export default function HomePage() {
             </p>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-6">
             {sortedPlans.map((plan, index) => {
               const config = tierConfig[plan.tier] || { label: plan.name };
               return (
@@ -685,7 +679,149 @@ export default function HomePage() {
                 </ScrollReveal>
               );
             })}
+
+            <ScrollReveal delay={0.3}>
+              <motion.div
+                className="relative rounded-2xl border-2 border-dashed border-border p-1 h-full bg-gradient-to-b from-muted/30 to-transparent"
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                whileTap={{ scale: 0.98 }}
+                data-testid="card-plan-custom"
+              >
+                <div className="rounded-xl bg-card p-6 md:p-8 h-full flex flex-col">
+                  <div className="text-center mb-8">
+                    <h3 className="text-base font-semibold mb-4 tracking-wide uppercase text-muted-foreground">Op Maat</h3>
+                    <div className="flex items-baseline justify-center gap-1">
+                      <span className="font-display text-[clamp(1.5rem,3vw,2.25rem)] tracking-tight leading-none" data-testid="text-price-custom">
+                        Op aanvraag
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-3">
+                      Voor grotere of complexe projecten
+                    </p>
+                  </div>
+                  <ul className="space-y-3 flex-1 mb-8">
+                    {[
+                      "Alles in Business, plus:",
+                      "Onbeperkt aantal pagina's",
+                      "E-commerce (100+ producten)",
+                      "Meertalig (5+ talen)",
+                      "Complexe integraties op maat",
+                      "Custom boekingssystemen",
+                      "Eenmalige opstartkosten + maandelijkse fee",
+                      "Dedicated projectmanager",
+                    ].map((feature, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm leading-relaxed">
+                        <div className="h-5 w-5 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                          <Star size={12} weight={ICON_WEIGHT} className="text-amber-500" />
+                        </div>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button
+                    className="w-full gap-2"
+                    variant="outline"
+                    data-testid="button-order-custom"
+                    asChild
+                  >
+                    <a href="#maatwerk">
+                      Vraag een offerte aan
+                      <ArrowRight size={16} weight={ICON_WEIGHT} />
+                    </a>
+                  </Button>
+                </div>
+              </motion.div>
+            </ScrollReveal>
           </div>
+        </div>
+      </section>
+
+      {/* MAATWERK */}
+      <section id="maatwerk" className="py-24 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f1c] via-[#0d1425] to-[#0a0f1c]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
+
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <ScrollReveal className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4 bg-white/5 border-white/10 text-amber-300">
+              <Star size={14} weight="fill" className="mr-1.5 text-amber-300" />
+              Op Maat
+            </Badge>
+            <h2 className="font-display text-[clamp(1.875rem,3vw+0.5rem,3rem)] tracking-tight mb-4 leading-[1.15] text-white" data-testid="text-maatwerk-title">
+              Meer nodig? Wij werken ook op maat.
+            </h2>
+            <p className="text-lg text-slate-300 max-w-[55ch] mx-auto leading-relaxed">
+              Voor bedrijven die een uitgebreider of complexer project nodig hebben. Eenmalige opstartkosten gecombineerd met een vast maandbedrag voor hosting, onderhoud en support.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            {[
+              {
+                icon: ShoppingCart,
+                title: "E-commerce",
+                description: "Webshops met 100+ producten, voorraadbeheer, betaalintegraties en verzendopties.",
+              },
+              {
+                icon: Globe,
+                title: "Meertalig",
+                description: "Websites in 5+ talen met professionele vertalingen en taalspecifieke SEO.",
+              },
+              {
+                icon: CalendarCheck,
+                title: "Complexe boekingen",
+                description: "Geavanceerde reserveringssystemen, agenda-koppelingen en automatische workflows.",
+              },
+              {
+                icon: Gear,
+                title: "Custom integraties",
+                description: "Koppelingen met uw bestaande systemen, API's, CRM's en andere bedrijfssoftware.",
+              },
+            ].map((item, index) => (
+              <ScrollReveal key={item.title} delay={index * 0.1}>
+                <motion.div
+                  className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 h-full"
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                  data-testid={`card-maatwerk-${index}`}
+                >
+                  <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <item.icon size={20} weight={ICON_WEIGHT} className="text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
+                  <p className="text-sm text-slate-400 leading-relaxed">{item.description}</p>
+                </motion.div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal>
+            <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-8 md:p-12 text-center max-w-3xl mx-auto">
+              <h3 className="text-2xl font-bold text-white mb-3" data-testid="text-maatwerk-cta-title">
+                Vertel ons over uw project
+              </h3>
+              <p className="text-slate-300 mb-8 max-w-lg mx-auto leading-relaxed">
+                Vul het aanvraagformulier in en ontvang binnen 48 uur een vrijblijvende offerte op maat. Geen verplichtingen, geen verrassingen.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Button
+                  size="lg"
+                  className="h-14 px-8 text-base bg-gradient-to-r from-[hsl(var(--primary))] to-blue-600 hover:from-[hsl(var(--primary)/0.9)] hover:to-blue-500 text-white transition-all rounded-full group shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_40px_hsl(var(--primary)/0.5)] border-0"
+                  data-testid="button-maatwerk-offerte"
+                  asChild
+                >
+                  <a href="mailto:info@abonnement.website?subject=Aanvraag%20maatwerk%20project">
+                    Vraag een offerte aan
+                    <ArrowRight size={16} weight={ICON_WEIGHT} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </Button>
+                <div className="flex items-center gap-2 text-sm text-slate-400">
+                  <CheckCircle size={16} weight={ICON_WEIGHT} className="text-emerald-400" />
+                  Vrijblijvend & binnen 48 uur reactie
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 

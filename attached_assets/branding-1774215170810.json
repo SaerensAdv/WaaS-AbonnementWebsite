@@ -1,0 +1,136 @@
+{
+  "colorScheme": "light",
+  "fonts": [
+    {
+      "family": "DM Sans",
+      "role": "body"
+    },
+    {
+      "family": "DM Serif Display",
+      "role": "heading"
+    }
+  ],
+  "colors": {
+    "primary": "#4F5664",
+    "accent": "#0B60EA",
+    "background": "#FDFDFC",
+    "textPrimary": "#131720",
+    "link": "#0B60EA"
+  },
+  "typography": {
+    "fontFamilies": {
+      "primary": "DM Sans",
+      "heading": "DM Serif Display"
+    },
+    "fontStacks": {
+      "heading": [
+        "DM Serif Display",
+        "Georgia",
+        "serif"
+      ],
+      "body": [
+        "DM Sans",
+        "system-ui",
+        "sans-serif"
+      ],
+      "paragraph": [
+        "DM Sans",
+        "system-ui",
+        "sans-serif"
+      ]
+    },
+    "fontSizes": {
+      "h1": "72px",
+      "h2": "48px",
+      "body": "20px"
+    }
+  },
+  "spacing": {
+    "baseUnit": 4,
+    "borderRadius": "6px"
+  },
+  "components": {
+    "buttonPrimary": {
+      "background": "#0B60EA",
+      "textColor": "#FAFAFA",
+      "borderColor": "#0950C3",
+      "borderRadius": "6px",
+      "borderRadiusCorners": {
+        "topLeft": "6px",
+        "topRight": "6px",
+        "bottomRight": "6px",
+        "bottomLeft": "6px"
+      },
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(11, 96, 234, 0.2) 0px 10px 15px -3px, rgba(11, 96, 234, 0.2) 0px 4px 6px -4px"
+    },
+    "buttonSecondary": {
+      "background": "#F9F8F6",
+      "textColor": "#131720",
+      "borderColor": "#E4E4E3",
+      "borderRadius": "6px",
+      "borderRadiusCorners": {
+        "topLeft": "6px",
+        "topRight": "6px",
+        "bottomRight": "6px",
+        "bottomLeft": "6px"
+      },
+      "shadow": "none"
+    }
+  },
+  "images": {
+    "logo": "https://abonnement.website/assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445-D6C3jHmn.png",
+    "favicon": "https://abonnement.website/favicon.png",
+    "ogImage": "https://abonnement.website/og-image.png",
+    "logoHref": "File saved at: attached_assets/logoHref.html",
+    "logoAlt": "WebsiteAbonnementen"
+  },
+  "__llm_logo_reasoning": {
+    "selectedIndex": 0,
+    "reasoning": "Selected #0 because it is located in the header, is visible, and links to the homepage, which is typical for a brand logo.",
+    "confidence": 0.9,
+    "source": "llm"
+  },
+  "__llm_button_reasoning": {
+    "primary": {
+      "index": 3,
+      "text": "Start uw website",
+      "reasoning": "Button #3 ('Start uw website') uses the vibrant brand color #0B60EA, which aligns with the site's primary accent color, making it the main call-to-action."
+    },
+    "secondary": {
+      "index": 1,
+      "text": "Start met Starter",
+      "reasoning": "Button #1 ('Start met Starter') has a different background color (#F9F8F6) and serves as a secondary option with less emphasis than the primary CTA."
+    },
+    "confidence": 0.95
+  },
+  "personality": {
+    "tone": "professional",
+    "energy": "medium",
+    "targetAudience": "businesses looking for subscription-based website services"
+  },
+  "designSystem": {
+    "framework": "tailwind",
+    "componentLibrary": ""
+  },
+  "confidence": {
+    "buttons": 0.95,
+    "colors": 0.9,
+    "overall": 0.925
+  },
+  "__llm_metadata": {
+    "logoSelection": {
+      "llmCalled": true,
+      "llmSucceeded": true,
+      "finalSource": "llm",
+      "rawLogoSelection": {
+        "selectedLogoIndex": 0,
+        "selectedLogoReasoning": "Selected #0 because it is located in the header, is visible, and links to the homepage, which is typical for a brand logo.",
+        "confidence": 0.9
+      }
+    },
+    "buttonClassification": {
+      "llmCalled": true,
+      "llmSucceeded": true
+    }
+  }
+}
