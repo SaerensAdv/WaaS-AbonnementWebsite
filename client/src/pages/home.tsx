@@ -240,54 +240,122 @@ function HeroInteractiveCards({
   }));
 
   return (
-    <div
-      className="relative h-[420px] sm:h-[500px] lg:h-[550px] w-full flex items-center justify-center [perspective:1200px]"
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onMouseEnter={() => setIsHovering(true)}
-      data-testid="hero-interactive-cards"
-    >
-      {cards.map((card, index) => {
-        const offset = index - activeCard;
-        const isCenter = index === activeCard;
-        let z = isCenter ? 50 : -100 - Math.abs(offset) * 50;
-        let x = offset * 40;
-        let y = offset * 20;
+    <>
+      {/* Desktop: 3D interactive perspective cards */}
+      <div
+        className="hidden lg:flex relative h-[550px] w-full items-center justify-center [perspective:1200px]"
+        ref={containerRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onMouseEnter={() => setIsHovering(true)}
+        data-testid="hero-interactive-cards"
+      >
+        {cards.map((card, index) => {
+          const offset = index - activeCard;
+          const isCenter = index === activeCard;
+          let z = isCenter ? 50 : -100 - Math.abs(offset) * 50;
+          let x = offset * 40;
+          let y = offset * 20;
 
-        if (isHovering) {
-          x = offset * 120;
-          y = offset * -20;
-          z = isCenter ? 80 : -50;
-        }
+          if (isHovering) {
+            x = offset * 120;
+            y = offset * -20;
+            z = isCenter ? 80 : -50;
+          }
 
-        return (
-          <motion.div
-            key={card.title}
-            className="absolute left-0 right-0 mx-auto w-full max-w-[280px] sm:max-w-sm"
-            animate={{ x, y, z, scale: isCenter ? 1 : 0.9 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            style={{
-              transformStyle: "preserve-3d",
-              zIndex: isCenter ? 30 : 10 - Math.abs(offset),
-            }}
-          >
-            <HeroPricingCard
-              title={card.title}
-              price={card.price}
-              pages={card.pages}
-              color={card.color}
-              rotateX={rotateX}
-              rotateY={rotateY}
-              depth={isHovering ? (isCenter ? 40 : 10) : 0}
-              isActive={isCenter}
-              onMouseEnter={() => setActiveCard(index)}
-              onClick={() => onOrder(sortedPlans[index].id)}
-            />
-          </motion.div>
-        );
-      })}
-    </div>
+          return (
+            <motion.div
+              key={card.title}
+              className="absolute left-0 right-0 mx-auto w-full max-w-sm"
+              animate={{ x, y, z, scale: isCenter ? 1 : 0.9 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              style={{
+                transformStyle: "preserve-3d",
+                zIndex: isCenter ? 30 : 10 - Math.abs(offset),
+              }}
+            >
+              <HeroPricingCard
+                title={card.title}
+                price={card.price}
+                pages={card.pages}
+                color={card.color}
+                rotateX={rotateX}
+                rotateY={rotateY}
+                depth={isHovering ? (isCenter ? 40 : 10) : 0}
+                isActive={isCenter}
+                onMouseEnter={() => setActiveCard(index)}
+                onClick={() => onOrder(sortedPlans[index].id)}
+              />
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Mobile/Tablet: Horizontal scrollable cards */}
+      <div className="lg:hidden w-full relative" data-testid="hero-mobile-cards">
+        <div className="absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        <div className="flex gap-4 overflow-x-auto pb-4 px-1 snap-x snap-mandatory scrollbar-hide">
+          {cards.map((card, index) => {
+            const isPopular = sortedPlans[index]?.tier === "MEDIUM";
+            return (
+              <motion.div
+                key={card.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                className={`relative snap-center shrink-0 w-[260px] rounded-2xl border p-5 bg-card/90 backdrop-blur-xl shadow-lg overflow-hidden
+                  ${isPopular ? 'border-primary/50 ring-2 ring-primary/20' : 'border-border'}`}
+              >
+                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${card.color} opacity-5 pointer-events-none`} />
+                <div className="relative z-10">
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-lg font-bold text-foreground">{card.title}</h3>
+                    {isPopular && (
+                      <span className="px-2 py-0.5 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+                        Populair
+                      </span>
+                    )}
+                  </div>
+                  <div className="mb-4 flex items-baseline gap-1">
+                    <span className="font-display text-3xl text-foreground">{card.price}</span>
+                    <span className="text-muted-foreground font-medium text-sm">/mnd</span>
+                  </div>
+                  <ul className="space-y-2 mb-4">
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="p-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+                        <Check size={12} weight={ICON_WEIGHT} />
+                      </div>
+                      {card.pages} Pagina's
+                    </li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="p-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+                        <Check size={12} weight={ICON_WEIGHT} />
+                      </div>
+                      Hosting & SSL
+                    </li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="p-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+                        <Check size={12} weight={ICON_WEIGHT} />
+                      </div>
+                      Support
+                    </li>
+                  </ul>
+                  <Button
+                    className={`w-full transition-all text-sm ${isPopular ? 'shadow-lg shadow-primary/25' : 'bg-muted text-foreground hover:bg-muted/80'}`}
+                    variant={isPopular ? "default" : "secondary"}
+                    size="sm"
+                    onClick={() => onOrder(sortedPlans[index].id)}
+                    data-testid={`button-hero-mobile-card-${card.title.toLowerCase()}`}
+                  >
+                    Kies {card.title}
+                  </Button>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -371,17 +439,16 @@ export default function HomePage() {
   return (
     <MarketingLayout>
       {/* HERO — Split Reveal */}
-      <section ref={heroRef} className="relative min-h-screen w-full overflow-hidden flex flex-col lg:flex-row" data-testid="hero-section">
+      <section ref={heroRef} className="relative w-full overflow-hidden flex flex-col lg:flex-row lg:min-h-screen" data-testid="hero-section">
 
         {/* Left Dark Panel */}
         <motion.div
           initial={{ x: '-100%' }}
           animate={{ x: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full lg:w-[52%] min-h-[70vh] lg:min-h-screen bg-[#0a0f1c] text-white z-20 flex flex-col justify-center pb-12 lg:pb-0"
-          style={{ clipPath: 'polygon(0 0, 100% 0, 92% 100%, 0 100%)' }}
+          className="relative w-full lg:w-[52%] min-h-[auto] lg:min-h-screen bg-[#0a0f1c] text-white z-20 flex flex-col justify-center pb-8 lg:pb-0 lg:[clip-path:polygon(0_0,100%_0,92%_100%,0_100%)]"
         >
-          <div className="absolute right-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[hsl(var(--primary)/0.5)] to-transparent shadow-[0_0_15px_hsl(var(--primary)/0.5)] z-30" style={{ transform: 'translateX(8vw) skewX(-4.5deg)' }} />
+          <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[hsl(var(--primary)/0.5)] to-transparent shadow-[0_0_15px_hsl(var(--primary)/0.5)] z-30" style={{ transform: 'translateX(8vw) skewX(-4.5deg)' }} />
 
           <HeroGridBackground />
 
@@ -469,17 +536,17 @@ export default function HomePage() {
           </div>
         </motion.div>
 
-        {/* Right Light Panel — Interactive 3D Pricing Cards */}
+        {/* Right Light Panel — Interactive 3D Pricing Cards (desktop only as separate panel) */}
         <motion.div
           initial={{ x: '100%' }}
           animate={{ x: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full lg:w-[55%] min-h-[50vh] lg:min-h-screen bg-background text-foreground z-10 lg:-ml-[7%] flex flex-col"
+          className="relative hidden lg:flex w-[55%] min-h-screen bg-background text-foreground z-10 -ml-[7%] flex-col"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_hsl(var(--primary)/0.05)_0%,_transparent_100%)] pointer-events-none" />
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
 
-          <div className="relative z-10 flex-1 flex flex-col lg:justify-center p-6 sm:p-12 lg:p-16 pt-12 lg:pt-0 lg:pl-24 xl:pl-32">
+          <div className="relative z-10 flex-1 flex flex-col justify-center p-16 pl-24 xl:pl-32">
             {sortedPlans.length > 0 && (
               <HeroInteractiveCards plans={sortedPlans} onOrder={handleOrder} />
             )}
@@ -490,24 +557,31 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2, duration: 1 }}
-            className="w-full mt-auto border-t border-border/60 bg-card/50 backdrop-blur-md py-4 px-6 sm:px-12 flex flex-wrap items-center justify-center lg:justify-start gap-x-8 gap-y-2 text-sm text-muted-foreground font-medium"
+            className="w-full mt-auto border-t border-border/60 bg-card/50 backdrop-blur-md py-4 px-12 flex flex-wrap items-center justify-start gap-x-8 gap-y-2 text-sm text-muted-foreground font-medium"
           >
             <div className="flex items-center gap-2">
               <Lock size={16} weight={ICON_WEIGHT} className="text-muted-foreground" />
               Geen opstartkosten, geen contract
             </div>
-            <div className="w-1 h-1 rounded-full bg-border hidden sm:block" />
+            <div className="w-1 h-1 rounded-full bg-border" />
             <div className="flex items-center gap-2">
               <ShieldCheck size={16} weight={ICON_WEIGHT} className="text-muted-foreground" />
               100% Eigendom content
             </div>
-            <div className="w-1 h-1 rounded-full bg-border hidden sm:block" />
+            <div className="w-1 h-1 rounded-full bg-border" />
             <div className="flex items-center gap-2">
               <Check size={16} weight={ICON_WEIGHT} className="text-muted-foreground" />
               Inclusief SSL & Hosting
             </div>
           </motion.div>
         </motion.div>
+
+        {/* Mobile: Scrollable pricing cards below dark panel */}
+        <div className="lg:hidden bg-background py-6 px-4">
+          {sortedPlans.length > 0 && (
+            <HeroInteractiveCards plans={sortedPlans} onOrder={handleOrder} />
+          )}
+        </div>
 
         {/* Mobile stat strip (visible below hero on small screens) */}
         <div className="lg:hidden bg-background px-4 py-6" data-testid="mobile-stat-strip">
