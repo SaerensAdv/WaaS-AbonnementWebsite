@@ -2,6 +2,7 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import session from "express-session";
 import bcrypt from "bcryptjs";
+import rateLimit from "express-rate-limit";
 import { storage } from "./storage";
 import {
   loginSchema,
@@ -22,6 +23,22 @@ import {
   getTasks,
 } from "./clickup";
 import { insertQuoteRequestSchema } from "@shared/schema";
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { message: "Te veel pogingen. Probeer het over 15 minuten opnieuw." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const forgotPasswordLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  message: { message: "Te veel wachtwoord reset verzoeken. Probeer het later opnieuw." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 declare module "express-session" {
   interface SessionData {
@@ -87,7 +104,7 @@ export async function registerRoutes(
     })
   );
 
-  app.post("/api/auth/signup", async (req, res) => {
+  app.post("/api/auth/signup", authLimiter, async (req, res) => {
     try {
       const data = signupSchema.parse(req.body);
 
@@ -117,11 +134,15 @@ export async function registerRoutes(
       res.json({ user: { ...user, passwordHash: undefined } });
     } catch (error: any) {
       console.error("Signup error:", error);
-      res.status(400).json({ message: error.message || "Signup failed" });
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0]?.message || "Ongeldige invoer";
+        return res.status(400).json({ message: firstError });
+      }
+      res.status(400).json({ message: "Registratie mislukt. Probeer het opnieuw." });
     }
   });
 
-  app.post("/api/auth/login", async (req, res) => {
+  app.post("/api/auth/login", authLimiter, async (req, res) => {
     try {
       const data = loginSchema.parse(req.body);
 
@@ -169,7 +190,7 @@ export async function registerRoutes(
     }
   });
 
-  app.post("/api/auth/forgot-password", async (req, res) => {
+  app.post("/api/auth/forgot-password", forgotPasswordLimiter, async (req, res) => {
     try {
       const { email } = req.body;
 
@@ -194,7 +215,7 @@ export async function registerRoutes(
     }
   });
 
-  app.post("/api/auth/reset-password", async (req, res) => {
+  app.post("/api/auth/reset-password", authLimiter, async (req, res) => {
     try {
       const { token, password } = req.body;
 
@@ -204,6 +225,12 @@ export async function registerRoutes(
 
       if (password.length < 8) {
         return res.status(400).json({ message: "Wachtwoord moet minimaal 8 tekens bevatten" });
+      }
+      if (!/[A-Z]/.test(password)) {
+        return res.status(400).json({ message: "Wachtwoord moet minimaal 1 hoofdletter bevatten" });
+      }
+      if (!/[0-9]/.test(password)) {
+        return res.status(400).json({ message: "Wachtwoord moet minimaal 1 cijfer bevatten" });
       }
 
       const tokenData = await storage.getValidPasswordResetToken(token);

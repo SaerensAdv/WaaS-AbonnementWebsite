@@ -61,7 +61,11 @@ Preferred communication style: Simple, everyday language.
 **API Design**: RESTful endpoints
 - Session-based auth via express-session
 - Role-based access control (requireAuth, requireRole middlewares)
-- Password hashing with bcryptjs
+- Password hashing with bcryptjs (12 salt rounds)
+- Rate limiting on auth routes (express-rate-limit): login/signup 10 req/15min, forgot-password 5 req/hr
+- Security headers via helmet (HSTS, X-Content-Type-Options, X-Frame-Options, etc.)
+- Password requirements: min 8 chars, 1 uppercase, 1 digit
+- React ErrorBoundary wraps entire app (client/src/components/error-boundary.tsx)
 
 **Database Layer**: 
 - Drizzle ORM with PostgreSQL

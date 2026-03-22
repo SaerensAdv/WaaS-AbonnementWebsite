@@ -16,7 +16,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSEO } from "@/hooks/use-seo";
 
 const resetPasswordSchema = z.object({
-  password: z.string().min(8, "Wachtwoord moet minimaal 8 tekens bevatten"),
+  password: z.string()
+    .min(8, "Wachtwoord moet minimaal 8 tekens bevatten")
+    .regex(/[A-Z]/, "Wachtwoord moet minimaal 1 hoofdletter bevatten")
+    .regex(/[0-9]/, "Wachtwoord moet minimaal 1 cijfer bevatten"),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Wachtwoorden komen niet overeen",

@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/lib/theme-provider";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { I18nProvider } from "@/lib/i18n-context";
 import { PageLoader } from "@/components/page-loader";
+import { ErrorBoundary } from "@/components/error-boundary";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
 
@@ -125,20 +126,22 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="light" storageKey="website-abonnementen-theme">
-        <TooltipProvider>
-          <I18nProvider>
-            <AuthProvider>
-              <ScrollToTop />
-              <PageLoader />
-              <Router />
-              <Toaster />
-            </AuthProvider>
-          </I18nProvider>
-        </TooltipProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider defaultTheme="light" storageKey="website-abonnementen-theme">
+          <TooltipProvider>
+            <I18nProvider>
+              <AuthProvider>
+                <ScrollToTop />
+                <PageLoader />
+                <Router />
+                <Toaster />
+              </AuthProvider>
+            </I18nProvider>
+          </TooltipProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

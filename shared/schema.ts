@@ -240,7 +240,10 @@ export const loginSchema = z.object({
 export const signupSchema = z.object({
   email: z.string().email("Invalid email address"),
   name: z.string().min(2, "Name must be at least 2 characters"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string()
+    .min(8, "Wachtwoord moet minimaal 8 tekens bevatten")
+    .regex(/[A-Z]/, "Wachtwoord moet minimaal 1 hoofdletter bevatten")
+    .regex(/[0-9]/, "Wachtwoord moet minimaal 1 cijfer bevatten"),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;

@@ -7,8 +7,16 @@ import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
 import path from "path";
 import { pool } from "./db";
+import helmet from "helmet";
 
 const app = express();
+
+app.set('trust proxy', 1);
+
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+}));
 
 app.use('/assets', express.static(path.resolve(process.cwd(), 'attached_assets')));
 const httpServer = createServer(app);
@@ -313,10 +321,12 @@ async function initStripe() {
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+    const message = process.env.NODE_ENV === "production"
+      ? "Internal Server Error"
+      : (err.message || "Internal Server Error");
 
+    log(`Error: ${err.message || err}`, 'error');
     res.status(status).json({ message });
-    throw err;
   });
 
   if (process.env.NODE_ENV === "production") {
