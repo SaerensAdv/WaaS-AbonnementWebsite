@@ -6,3 +6,9 @@ id = "szuqZ2Jsh84cyZLAn2mQ2"
 uri = "file://docs/ecosysteem-dossier-abonnement-website.md"
 type = "text"
 title = "Ecosysteem Dossier: Abonnement.website"
+
+[[outputs]]
+id = "RWrRf3mJ-2utZHQOiRcEL"
+uri = "file://docs/clickup-super-agents-setup.md"
+type = "text"
+title = "ClickUp Super Agents Setup Handleiding"
