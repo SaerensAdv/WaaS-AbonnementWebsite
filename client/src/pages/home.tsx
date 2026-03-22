@@ -27,7 +27,8 @@ import {
 } from "@phosphor-icons/react";
 import { apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
+import { LeadPopup } from "@/components/lead-popup";
 import { motion, useInView, useScroll, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import type { Plan, AddOn } from "@shared/schema";
@@ -426,6 +427,7 @@ export default function HomePage() {
 
   return (
     <MarketingLayout>
+      <LeadPopup />
       {/* HERO — Split Reveal */}
       <section ref={heroRef} className="relative w-full overflow-hidden flex flex-col lg:flex-row lg:min-h-screen bg-[#0a0f1c]" data-testid="hero-section">
 
@@ -1080,11 +1082,14 @@ export default function HomePage() {
           <ScrollReveal delay={0.3}>
             <div className="mt-10 text-center">
               <p className="text-sm text-muted-foreground mb-3">Nog een vraag?</p>
-              <Button variant="outline" className="gap-2 rounded-full" asChild data-testid="button-faq-contact">
-                <a href="mailto:info@abonnement.website">
-                  <Headset size={16} weight={ICON_WEIGHT} />
-                  Stel uw vraag
-                </a>
+              <Button
+                variant="outline"
+                className="gap-2 rounded-full"
+                data-testid="button-faq-contact"
+                onClick={() => window.dispatchEvent(new CustomEvent("open-lead-popup"))}
+              >
+                <Headset size={16} weight={ICON_WEIGHT} />
+                Stel uw vraag
               </Button>
             </div>
           </ScrollReveal>

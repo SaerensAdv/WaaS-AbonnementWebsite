@@ -15,6 +15,7 @@ import {
   createOnboardingSprintTask,
   createSupportTicketTask,
   createMaatwerkQuoteTask,
+  createPopupLeadTask,
   getTasksByTag,
   isClickUpConfigured,
   CLICKUP_LISTS,
@@ -854,6 +855,62 @@ ${pages.map((p) => `  <url>
 </urlset>`;
 
     res.type("application/xml").send(xml);
+  });
+
+  const popupLeadSchema = z.object({
+    name: z.string().min(2, "Naam is verplicht").max(100),
+    email: z.string().email("Ongeldig e-mailadres").max(254),
+    message: z.string().max(1000).optional(),
+  });
+
+  const popupLeadRateMap = new Map<string, { count: number; resetAt: number }>();
+
+  app.post("/api/popup-lead", async (req, res) => {
+    try {
+      const ip = req.ip || req.socket.remoteAddress || "unknown";
+      const now = Date.now();
+      const rateEntry = popupLeadRateMap.get(ip);
+      if (rateEntry && rateEntry.resetAt > now) {
+        if (rateEntry.count >= 5) {
+          return res.status(429).json({ message: "Te veel aanvragen. Probeer het later opnieuw." });
+        }
+        rateEntry.count++;
+      } else {
+        popupLeadRateMap.set(ip, { count: 1, resetAt: now + 15 * 60 * 1000 });
+      }
+
+      const parsed = popupLeadSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ message: "Ongeldige invoer", errors: parsed.error.flatten().fieldErrors });
+      }
+
+      const { name, email, message } = parsed.data;
+
+      await storage.createQuoteRequest({
+        companyName: name,
+        contactName: name,
+        email,
+        description: message || "Popup lead — geen vraag ingevuld",
+        projectType: "popup-lead",
+        phone: null,
+        budgetRange: null,
+        currentWebsite: null,
+        details: { source: "popup", submittedAt: new Date().toISOString() },
+      });
+
+      if (isClickUpConfigured()) {
+        try {
+          await createPopupLeadTask(name, email, message);
+        } catch (clickupError) {
+          console.error("ClickUp popup lead task creation failed:", clickupError);
+        }
+      }
+
+      res.json({ success: true });
+    } catch (error: any) {
+      console.error("Popup lead error:", error);
+      res.status(500).json({ message: "Er ging iets mis bij het versturen" });
+    }
   });
 
   app.post("/api/quote-requests", async (req, res) => {

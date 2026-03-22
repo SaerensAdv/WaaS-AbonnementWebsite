@@ -362,6 +362,31 @@ export async function createSupportTicketTask(
   });
 }
 
+export async function createPopupLeadTask(
+  name: string,
+  email: string,
+  message?: string,
+): Promise<any> {
+  const description = [
+    `**Naam:** ${name}`,
+    `**Email:** ${email}`,
+    "",
+    "## Vraag",
+    message || "_Geen vraag ingevuld_",
+    "",
+    "---",
+    `Bron: Website popup formulier`,
+    `Ingediend op: ${new Date().toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}`,
+  ].join("\n");
+
+  return createTask(CLICKUP_LISTS.AANVRAGEN, {
+    name: `Lead: ${name} — ${email}`,
+    description,
+    tags: ["popup-lead", "website"],
+    priority: 3,
+  });
+}
+
 export async function getTasksByTag(listId: string, tag: string): Promise<any[]> {
   const result = await getTasks(listId);
   const tasks = result.tasks || [];

@@ -21,7 +21,8 @@ Preferred communication style: Simple, everyday language.
 - DM Serif Display for display headings (font-display), DM Sans for body text (font-sans), JetBrains Mono for numbers
 - Warm off-white/navy color palette (not pure white/black)
 - Phosphor Icons (duotone weight) for marketing pages (homepage, header, footer); Lucide React for shadcn UI components and dashboard
-- framer-motion for scroll-triggered reveal animations, FAQ accordion, hero entrance, sticky mobile CTA
+- framer-motion for scroll-triggered reveal animations, FAQ accordion, hero entrance, sticky mobile CTA, lead popup
+- CRO lead popup (`client/src/components/lead-popup.tsx`): exit-intent (desktop), scroll depth (65%), time delay (20s) triggers. 3 fields (naam, email, optioneel vraag). Cookie suppression (7d dismiss, 90d submit). FAQ "Stel uw vraag" button also opens popup via `open-lead-popup` custom event. Fully accessible: focus trap, Escape close, aria-modal, aria-invalid.
 - Mobile optimizations: `dvh` viewport units, horizontal stat scroll-strip (lg:hidden), `whileTap` touch feedback on cards, sticky "Bekijk prijzen" CTA bar (md:hidden, appears after hero, hides at pricing), auto-close mobile menu on scroll, safe-area-inset-bottom padding, `scrollbar-hide` utility in CSS
 
 **State Management**: 
@@ -99,6 +100,7 @@ Preferred communication style: Simple, everyday language.
 - `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`
 - `GET /api/me` — Current user
 - `GET /api/plans`, `GET /api/addons` — Public plan/addon listing
+- `POST /api/popup-lead` — Lead capture popup submission (rate-limited, stores in DB + ClickUp AANVRAGEN list)
 - `POST /api/checkout` — Creates Stripe Checkout session
 - `POST /api/verify-checkout` — Verifies checkout and creates subscription
 - `GET /api/dashboard` — Customer dashboard data
