@@ -83,6 +83,7 @@ Preferred communication style: Simple, everyday language.
 - `add_ons` — Google Ads Beheer €249, Meta Ads Beheer €249, Extra Content Wijzigingen €29, E-commerce Module €79, Social Media Beheer €199, Booking/Reserveringssysteem €39
 - `add_on_selections` — Links add-on to subscription
 - `password_reset_tokens` — Password reset flow
+- `processed_webhook_events` — Idempotency tracking for Stripe webhook events (prevents duplicate processing)
 
 **Cookie Banner**: ConsentEase cookie banner is included in ALL plans at no extra cost (agency account). No separate add-on.
 
@@ -121,7 +122,8 @@ Preferred communication style: Simple, everyday language.
 **Payment Processing**: Stripe
 - Checkout Sessions for new subscriptions
 - Customer Portal for subscription management
-- Webhook handler for checkout.session.completed, subscription.updated/deleted
+- Webhook handler for checkout.session.completed, subscription.updated/deleted, invoice.payment_failed
+- Idempotency guard on webhook processing (tracks event IDs in `processed_webhook_events` table)
 - stripe-replit-sync for data mirroring
 
 **Project Management**: ClickUp API v2

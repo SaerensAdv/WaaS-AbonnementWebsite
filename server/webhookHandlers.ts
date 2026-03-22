@@ -3,8 +3,34 @@ import { storage } from './storage';
 import { log } from './index';
 import Stripe from 'stripe';
 import { createKlantTask, isClickUpConfigured } from './clickup';
+import { pool } from './db';
 
 export class WebhookHandlers {
+  static async claimEvent(eventId: string, eventType: string): Promise<boolean> {
+    const client = await pool.connect();
+    try {
+      const result = await client.query(
+        'INSERT INTO processed_webhook_events (event_id, event_type) VALUES ($1, $2) ON CONFLICT (event_id) DO NOTHING RETURNING event_id',
+        [eventId, eventType]
+      );
+      return result.rows.length > 0;
+    } finally {
+      client.release();
+    }
+  }
+
+  static async unclaimEvent(eventId: string): Promise<void> {
+    const client = await pool.connect();
+    try {
+      await client.query(
+        'DELETE FROM processed_webhook_events WHERE event_id = $1',
+        [eventId]
+      );
+    } finally {
+      client.release();
+    }
+  }
+
   static async processWebhook(payload: Buffer, signature: string, uuid: string): Promise<void> {
     if (!Buffer.isBuffer(payload)) {
       throw new Error(
@@ -20,7 +46,19 @@ export class WebhookHandlers {
 
     try {
       const event = JSON.parse(payload.toString()) as Stripe.Event;
-      await WebhookHandlers.handleCustomEvents(event);
+
+      const claimed = await WebhookHandlers.claimEvent(event.id, event.type);
+      if (!claimed) {
+        log(`Skipping already-processed event ${event.id} (${event.type})`, 'stripe');
+        return;
+      }
+
+      try {
+        await WebhookHandlers.handleCustomEvents(event);
+      } catch (handlerError: any) {
+        await WebhookHandlers.unclaimEvent(event.id);
+        throw handlerError;
+      }
     } catch (error: any) {
       log(`Custom event handling error: ${error.message}`, 'stripe');
     }
@@ -36,6 +74,9 @@ export class WebhookHandlers {
         break;
       case 'customer.subscription.deleted':
         await WebhookHandlers.handleSubscriptionDeleted(event.data.object as Stripe.Subscription);
+        break;
+      case 'invoice.payment_failed':
+        await WebhookHandlers.handlePaymentFailed(event.data.object as Stripe.Invoice);
         break;
     }
   }
@@ -197,6 +238,45 @@ export class WebhookHandlers {
       log(`Canceled subscription ${stripeSubscriptionId}`, 'stripe');
     } catch (error: any) {
       log(`Error canceling subscription: ${error.message}`, 'stripe');
+    }
+  }
+
+  static async handlePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
+    const stripeSubscriptionId = typeof invoice.subscription === 'string'
+      ? invoice.subscription
+      : invoice.subscription?.id;
+    const stripeCustomerId = typeof invoice.customer === 'string'
+      ? invoice.customer
+      : invoice.customer?.id;
+
+    if (!stripeSubscriptionId) {
+      log('Payment failed invoice has no subscription ID', 'stripe');
+      return;
+    }
+
+    try {
+      const existingSub = await storage.getSubscriptionByStripeId(stripeSubscriptionId);
+
+      if (!existingSub) {
+        log(`No subscription found for Stripe ID ${stripeSubscriptionId} (payment failed)`, 'stripe');
+        return;
+      }
+
+      await storage.updateSubscription(existingSub.id, { status: 'PAST_DUE' });
+
+      const user = await storage.getUser(existingSub.userId);
+      const attemptCount = invoice.attempt_count || 1;
+      const amountDue = invoice.amount_due != null ? `€${(invoice.amount_due / 100).toFixed(2)}` : 'onbekend';
+
+      log(
+        `Payment failed for user ${user?.email || existingSub.userId} ` +
+        `(customer ${stripeCustomerId}) - ` +
+        `attempt ${attemptCount}, amount ${amountDue}. ` +
+        `Subscription ${stripeSubscriptionId} set to PAST_DUE.`,
+        'stripe'
+      );
+    } catch (error: any) {
+      log(`Error handling payment failure: ${error.message}`, 'stripe');
     }
   }
 

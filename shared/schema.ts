@@ -1,5 +1,5 @@
 import { sql, relations } from "drizzle-orm";
-import { pgTable, text, varchar, integer, boolean, timestamp, jsonb, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, boolean, timestamp, jsonb, pgEnum, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -49,7 +49,10 @@ export const subscriptions = pgTable("subscriptions", {
   status: subscriptionStatusEnum("status").default("INCOMPLETE"),
   currentPeriodEnd: timestamp("current_period_end"),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => [
+  index("idx_subscriptions_user_id").on(table.userId),
+  index("idx_subscriptions_stripe_sub_id").on(table.stripeSubscriptionId),
+]);
 
 export const projects = pgTable("projects", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -63,7 +66,9 @@ export const projects = pgTable("projects", {
   onboardingData: jsonb("onboarding_data"),
   onboardingCompleted: boolean("onboarding_completed").default(false),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => [
+  index("idx_projects_user_id").on(table.userId),
+]);
 
 export const addOns = pgTable("add_ons", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -83,7 +88,9 @@ export const addOnSelections = pgTable("add_on_selections", {
   stripeItemId: text("stripe_item_id"),
   status: addOnStatusEnum("status").default("ACTIVE"),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => [
+  index("idx_addon_selections_subscription_id").on(table.subscriptionId),
+]);
 
 export const quoteRequestStatusEnum = pgEnum("quote_request_status", ["NEW", "CONTACTED", "QUOTED", "ACCEPTED", "DECLINED"]);
 
@@ -110,6 +117,15 @@ export const passwordResetTokens = pgTable("password_reset_tokens", {
   expiresAt: timestamp("expires_at").notNull(),
   usedAt: timestamp("used_at"),
   createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+  index("idx_password_reset_tokens_user_id").on(table.userId),
+]);
+
+export const processedWebhookEvents = pgTable("processed_webhook_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  eventId: text("event_id").notNull().unique(),
+  eventType: text("event_type").notNull(),
+  processedAt: timestamp("processed_at").defaultNow(),
 });
 
 export const usersRelations = relations(users, ({ one, many }) => ({
