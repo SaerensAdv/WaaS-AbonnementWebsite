@@ -108,8 +108,8 @@ export function GradientFlow() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.1] mb-6"
           >
-            Binnen 10 dagen een <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-600 to-indigo-600">professionele website.</span>
+            Binnen 10 dagen een professionele website. <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-600 to-indigo-600">Zonder opstartkosten.</span>
           </motion.h1>
 
           <motion.p 
