@@ -21,10 +21,14 @@ import {
   ShoppingCart,
   UsersThree,
   CalendarCheck,
+  Lock,
+  Layout,
+  ArrowUpRight,
+  CheckCircle,
 } from "@phosphor-icons/react";
 import { apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useInView, useScroll, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import type { Plan, AddOn } from "@shared/schema";
@@ -88,6 +92,106 @@ const trustItems = [
   { icon: Headset, label: "Persoonlijke support" },
   { icon: CreditCard, label: "Veilig betalen via Stripe" },
 ];
+
+function CountUp({ end, duration = 2, suffix = '', prefix = '', decimals = 0 }: { end: number, duration?: number, suffix?: string, prefix?: string, decimals?: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (!inView) return;
+    let startTime: number;
+    let animationFrame: number;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      setCount(end * easeOutQuart);
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [end, duration, inView]);
+
+  return (
+    <span ref={ref} className="tabular-nums font-bold">
+      {prefix}{count.toFixed(decimals)}{suffix}
+    </span>
+  );
+}
+
+function HeroGridBackground() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30 mix-blend-overlay" />
+      <motion.div
+        animate={{ y: [0, -20, 0], opacity: [0.3, 0.5, 0.3], scale: [1, 1.1, 1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[20%] left-[10%] w-[400px] h-[400px] bg-[hsl(var(--primary)/0.2)] rounded-full blur-[100px] mix-blend-screen"
+      />
+      <motion.div
+        animate={{ y: [0, 30, 0], opacity: [0.2, 0.4, 0.2], scale: [1, 1.2, 1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute bottom-[10%] right-[30%] w-[300px] h-[300px] bg-amber-500/10 rounded-full blur-[80px] mix-blend-screen"
+      />
+    </div>
+  );
+}
+
+function HeroBrowserMockup() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40, rotateX: 10 }}
+      animate={{ opacity: 1, y: 0, rotateX: 0 }}
+      transition={{ duration: 1, delay: 0.8, type: "spring", stiffness: 50 }}
+      className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-2xl shadow-primary/10 border border-border/50 bg-card"
+      style={{ transformPerspective: 1000 }}
+    >
+      <div className="h-10 bg-muted/50 border-b border-border/60 flex items-center px-4 gap-2">
+        <div className="flex gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-red-400" />
+          <div className="w-3 h-3 rounded-full bg-amber-400" />
+          <div className="w-3 h-3 rounded-full bg-emerald-400" />
+        </div>
+        <div className="mx-auto bg-card rounded-md h-6 w-1/2 max-w-[200px] border border-border flex items-center px-3 gap-2 shadow-sm">
+          <Lock size={12} weight={ICON_WEIGHT} className="text-muted-foreground" />
+          <div className="h-1.5 w-1/2 bg-muted rounded-full" />
+        </div>
+      </div>
+      <div className="relative aspect-[4/3] bg-muted/30 overflow-hidden">
+        <div className="absolute inset-0 flex flex-col">
+          <div className="h-14 bg-card border-b border-border/30 flex items-center px-6 justify-between shrink-0">
+            <div className="w-24 h-4 bg-muted rounded-sm" />
+            <div className="flex gap-4">
+              <div className="w-12 h-2 bg-muted/60 rounded-full" />
+              <div className="w-12 h-2 bg-muted/60 rounded-full" />
+              <div className="w-12 h-2 bg-muted/60 rounded-full" />
+            </div>
+          </div>
+          <div className="flex-1 p-8 flex flex-col justify-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
+            <div className="absolute right-0 top-0 w-1/2 h-full bg-primary/[0.03] rounded-l-3xl transform translate-x-1/4 -translate-y-1/4" />
+            <div className="relative z-10 max-w-[60%] space-y-4">
+              <div className="w-16 h-4 bg-primary/20 rounded-full mb-6" />
+              <div className="w-full h-8 bg-foreground/80 rounded-md" />
+              <div className="w-4/5 h-8 bg-foreground/80 rounded-md" />
+              <div className="w-full h-3 bg-muted-foreground/30 rounded-full mt-4" />
+              <div className="w-2/3 h-3 bg-muted-foreground/30 rounded-full" />
+              <div className="flex gap-3 mt-8">
+                <div className="w-24 h-10 bg-primary rounded-lg" />
+                <div className="w-24 h-10 bg-card border border-border rounded-lg" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 function ScrollReveal({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef(null);
@@ -168,109 +272,217 @@ export default function HomePage() {
 
   return (
     <MarketingLayout>
-      {/* HERO */}
-      <section ref={heroRef} className="relative min-h-[90dvh] flex items-center pt-32 pb-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 dot-grid opacity-60" />
-        <div className="absolute top-20 -right-40 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute bottom-0 -left-40 w-[500px] h-[500px] rounded-full bg-chart-4/5 blur-3xl" />
+      {/* HERO — Split Reveal */}
+      <section ref={heroRef} className="relative min-h-screen w-full overflow-hidden flex flex-col lg:flex-row" data-testid="hero-section">
 
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Badge
-                  variant="secondary"
-                  className="mb-8 border border-primary/20 bg-primary/5 text-primary"
-                  data-testid="badge-hero"
-                >
-                  <Star size={16} weight={ICON_WEIGHT} className="mr-1.5" />
-                  Geen opstartkosten, geen contract
-                </Badge>
-              </motion.div>
+        {/* Left Dark Panel */}
+        <motion.div
+          initial={{ x: '-100%' }}
+          animate={{ x: 0 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full lg:w-[52%] min-h-[70vh] lg:min-h-screen bg-[#0a0f1c] text-white z-20 flex flex-col justify-center pb-12 lg:pb-0"
+          style={{ clipPath: 'polygon(0 0, 100% 0, 92% 100%, 0 100%)' }}
+        >
+          <div className="absolute right-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[hsl(var(--primary)/0.5)] to-transparent shadow-[0_0_15px_hsl(var(--primary)/0.5)] z-30" style={{ transform: 'translateX(8vw) skewX(-4.5deg)' }} />
 
-              <motion.h1
-                className="font-display text-[clamp(2.5rem,5vw+1rem,4.5rem)] tracking-tight mb-6 leading-[1.1]"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                data-testid="text-hero-title"
-              >
-                Binnen 10 dagen een professionele website.{" "}
-                <span className="text-primary">Zonder opstartkosten.</span>
-              </motion.h1>
+          <HeroGridBackground />
 
-              <motion.p
-                className="text-[clamp(1rem,1.5vw+0.5rem,1.25rem)] text-muted-foreground max-w-[55ch] mb-10 leading-relaxed"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                data-testid="text-hero-description"
+          <div className="relative z-10 p-6 sm:p-12 lg:p-20 xl:p-24 max-w-2xl xl:ml-auto lg:pr-32 pt-28 lg:pt-0">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <Badge
+                variant="secondary"
+                className="mb-8 bg-white/5 border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.2)] text-amber-300 backdrop-blur-md"
+                data-testid="badge-hero"
               >
-                Design, hosting, onderhoud en support in één vast maandbedrag vanaf{" "}
-                <span className="font-semibold text-foreground">€49 per maand</span>. Maandelijks opzegbaar, geen verplichtingen.
-              </motion.p>
+                <Star size={16} weight="fill" className="mr-1.5 text-amber-300" />
+                <span className="tracking-wide text-xs sm:text-sm">PREMIUM WEBSITES VOOR MKB</span>
+              </Badge>
+            </motion.div>
 
-              <motion.div
-                className="flex flex-col sm:flex-row gap-4"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                <a href="#pricing" className="w-full sm:w-auto">
-                  <Button size="lg" className="w-full sm:w-auto gap-2 shadow-lg shadow-primary/20" data-testid="button-hero-pricing">
-                    Start uw website
-                    <ArrowRight size={16} weight={ICON_WEIGHT} />
-                  </Button>
-                </a>
-                <a href="#faq" className="w-full sm:w-auto">
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2" data-testid="button-hero-faq">
-                    Hoe werkt het?
-                  </Button>
-                </a>
-              </motion.div>
-            </div>
+            <motion.h1
+              className="font-display text-[clamp(2.5rem,5vw+1rem,4.5rem)] leading-[1.05] tracking-tight mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+              data-testid="text-hero-title"
+            >
+              <span className="block font-sans font-light text-slate-200 mb-2 text-[0.65em]">Binnen 10 dagen een</span>
+              <span className="relative inline-block">
+                professionele website.
+                <span className="absolute bottom-2 left-0 w-full h-3 bg-[hsl(var(--primary)/0.2)] -z-10 blur-sm" />
+              </span>
+            </motion.h1>
 
             <motion.div
-              className="hidden lg:flex flex-col gap-4 items-end"
-              initial={{ opacity: 0, x: 32 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.4 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1 }}
+              className="mb-10 text-lg sm:text-xl text-slate-300 max-w-xl leading-relaxed font-light"
+              data-testid="text-hero-description"
             >
-              <div className="grid grid-cols-2 gap-4 w-full max-w-md">
-                {[
-                  { value: "500+", label: "Websites gebouwd", icon: Star },
-                  { value: "99.9%", label: "Uptime garantie", icon: Lightning },
-                  { value: "<24u", label: "Reactietijd support", icon: Clock },
-                  { value: "€0", label: "Opstartkosten", icon: CreditCard },
-                ].map((stat, i) => (
-                  <motion.div
-                    key={stat.label}
-                    className="rounded-2xl border bg-card/80 backdrop-blur-sm p-6 space-y-3"
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
-                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                  >
-                    <stat.icon size={20} weight={ICON_WEIGHT} className="text-primary" />
-                    <div className="font-mono text-2xl font-bold tracking-tight leading-none">{stat.value}</div>
-                    <div className="text-sm text-muted-foreground leading-snug">{stat.label}</div>
-                  </motion.div>
-                ))}
+              Design, hosting, onderhoud en support in één vast maandbedrag vanaf <span className="text-white font-medium px-1 py-0.5 bg-white/10 rounded">€49/mnd</span>. Maandelijks opzegbaar.
+              <span className="block mt-4 font-medium text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-400 text-xl">
+                Zonder opstartkosten.
+              </span>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.1 }}
+              className="flex flex-col sm:flex-row gap-4 mb-16"
+            >
+              <a href="#pricing">
+                <Button size="lg" className="h-14 px-8 text-base bg-gradient-to-r from-[hsl(var(--primary))] to-blue-600 hover:from-[hsl(var(--primary)/0.9)] hover:to-blue-500 text-white transition-all rounded-full group shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_40px_hsl(var(--primary)/0.5)] border-0" data-testid="button-hero-pricing">
+                  Start uw website
+                  <ArrowRight size={16} weight={ICON_WEIGHT} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </a>
+              <a href="#faq">
+                <Button size="lg" variant="outline" className="h-14 px-8 text-base border-white/20 text-white hover:bg-white/10 hover:text-white rounded-full bg-white/5 backdrop-blur-sm transition-all" data-testid="button-hero-faq">
+                  Hoe werkt het?
+                </Button>
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1.5 }}
+              className="flex flex-wrap items-center gap-6 text-sm text-slate-300 font-medium"
+            >
+              <div className="flex items-center gap-2">
+                <CheckCircle size={20} weight={ICON_WEIGHT} className="text-emerald-400" />
+                <span>Maandelijks opzegbaar</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle size={20} weight={ICON_WEIGHT} className="text-emerald-400" />
+                <span>Inclusief SSL & Hosting</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle size={20} weight={ICON_WEIGHT} className="text-emerald-400" />
+                <span>Premium Design</span>
               </div>
             </motion.div>
           </div>
+        </motion.div>
 
+        {/* Right Light Panel */}
+        <motion.div
+          initial={{ x: '100%' }}
+          animate={{ x: 0 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full lg:w-[55%] min-h-[50vh] lg:min-h-screen bg-background text-foreground z-10 lg:-ml-[7%] flex flex-col"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_hsl(var(--primary)/0.05)_0%,_transparent_100%)] pointer-events-none" />
+
+          <div className="relative z-10 flex-1 flex flex-col lg:justify-center p-6 sm:p-12 lg:p-20 pt-12 lg:pt-0 lg:pl-32 xl:pl-40">
+            <div className="w-full mb-12 lg:mb-16 hidden sm:block">
+              <HeroBrowserMockup />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 relative">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+                className="bg-card p-5 sm:p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border group hover:-translate-y-1 transition-transform duration-300 relative overflow-hidden"
+                data-testid="stat-card-websites"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full -z-10 group-hover:bg-primary/10 transition-colors" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 text-primary">
+                  <Layout size={22} weight={ICON_WEIGHT} />
+                </div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-1 tracking-tight">
+                  <CountUp end={500} suffix="+" />
+                </div>
+                <div className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wider">Websites live</div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.3 }}
+                className="bg-card p-5 sm:p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border group hover:-translate-y-1 transition-transform duration-300 relative overflow-hidden"
+                data-testid="stat-card-uptime"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-chart-3/5 rounded-bl-full -z-10 group-hover:bg-chart-3/10 transition-colors" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-chart-3/10 rounded-xl flex items-center justify-center mb-4 text-chart-3">
+                  <Lightning size={22} weight={ICON_WEIGHT} />
+                </div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-1 tracking-tight">
+                  <CountUp end={99.9} decimals={1} suffix="%" />
+                </div>
+                <div className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wider">Uptime garantie</div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.4 }}
+                className="bg-gradient-to-br from-slate-900 to-slate-800 p-5 sm:p-6 rounded-2xl shadow-xl shadow-slate-900/10 text-white group hover:-translate-y-1 transition-transform duration-300 border border-slate-700 relative overflow-hidden"
+                data-testid="stat-card-setup"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-full -z-10" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-xl flex items-center justify-center mb-4 text-white backdrop-blur-sm">
+                  <ArrowUpRight size={22} weight={ICON_WEIGHT} />
+                </div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-display mb-1 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300">
+                  <CountUp end={0} prefix="€" />
+                </div>
+                <div className="text-xs sm:text-sm font-medium text-slate-400 uppercase tracking-wider">Setup kosten</div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.5 }}
+                className="bg-card p-5 sm:p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border group hover:-translate-y-1 transition-transform duration-300 flex flex-col justify-center relative overflow-hidden"
+                data-testid="stat-card-support"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-chart-4/5 rounded-bl-full -z-10 group-hover:bg-chart-4/10 transition-colors" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-chart-4/10 rounded-xl flex items-center justify-center mb-4 text-chart-4">
+                  <Headset size={22} weight={ICON_WEIGHT} />
+                </div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-1 tracking-tight">
+                  &lt;24u
+                </div>
+                <div className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wider">Support response</div>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Trust strip */}
           <motion.div
-            className="flex lg:hidden overflow-x-auto gap-3 mt-10 pb-2 -mx-4 px-4 scrollbar-hide"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            data-testid="mobile-stat-strip"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2, duration: 1 }}
+            className="w-full mt-auto border-t border-border/60 bg-card/50 backdrop-blur-md py-4 px-6 sm:px-12 flex flex-wrap items-center justify-center lg:justify-start gap-x-8 gap-y-2 text-sm text-muted-foreground font-medium"
           >
+            <div className="flex items-center gap-2">
+              <Lock size={16} weight={ICON_WEIGHT} className="text-muted-foreground" />
+              Geen opstartkosten, geen contract
+            </div>
+            <div className="w-1 h-1 rounded-full bg-border hidden sm:block" />
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={16} weight={ICON_WEIGHT} className="text-muted-foreground" />
+              100% Eigendom content
+            </div>
+            <div className="w-1 h-1 rounded-full bg-border hidden sm:block" />
+            <div className="flex items-center gap-2">
+              <Check size={16} weight={ICON_WEIGHT} className="text-muted-foreground" />
+              Inclusief SSL & Hosting
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Mobile stat strip (visible below hero on small screens) */}
+        <div className="lg:hidden bg-background px-4 py-6" data-testid="mobile-stat-strip">
+          <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
             {[
               { value: "500+", label: "Websites", icon: Star, slug: "clients" },
               { value: "99.9%", label: "Uptime", icon: Lightning, slug: "uptime" },
@@ -279,7 +491,7 @@ export default function HomePage() {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="flex items-center gap-3 rounded-xl border bg-card/80 backdrop-blur-sm px-4 py-3 shrink-0"
+                className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 shrink-0"
                 data-testid={`stat-mobile-${stat.slug}`}
               >
                 <stat.icon size={18} weight={ICON_WEIGHT} className="text-primary shrink-0" />
@@ -289,26 +501,7 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* TRUST STRIP */}
-      <section className="py-5 px-4 border-y border-border/50">
-        <div className="container mx-auto max-w-6xl">
-          <ScrollReveal>
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-              {trustItems.map((item, i) => (
-                <div key={item.label} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <item.icon size={16} weight={ICON_WEIGHT} className="text-primary/70" />
-                  <span>{item.label}</span>
-                  {i < trustItems.length - 1 && (
-                    <span className="hidden md:inline ml-6 text-border/80">|</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </ScrollReveal>
+          </div>
         </div>
       </section>
 
