@@ -1098,35 +1098,57 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-28 px-4 relative overflow-hidden grain-overlay">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-[hsl(var(--primary)/0.95)] to-blue-700" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.08)_0%,transparent_50%)]" />
+      <section className="py-32 px-4 relative overflow-hidden grain-overlay">
+        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))] via-[hsl(var(--primary)/0.92)] to-blue-700" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(255,255,255,0.12)_0%,transparent_60%)]" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/10 to-transparent" />
 
         <div className="container mx-auto max-w-3xl text-center relative z-10">
           <ScrollReveal>
-            <h2 className="font-display text-[clamp(2rem,3.5vw+0.5rem,3.25rem)] tracking-tight mb-5 text-primary-foreground leading-[1.1]" data-testid="text-cta-title">
-              Uw website kan volgende week al live staan
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 text-xs font-medium text-white/90 mb-6 backdrop-blur-sm">
+              <Lightning size={14} weight="fill" />
+              Gemiddeld binnen 10 werkdagen live
+            </div>
+            <h2 className="font-display text-[clamp(2rem,4vw+0.5rem,3.5rem)] tracking-tight mb-5 text-white leading-[1.08]" data-testid="text-cta-title">
+              Uw professionele website,<br className="hidden sm:block" /> volgende week al online
             </h2>
-            <p className="text-lg text-primary-foreground/80 mb-8 max-w-[48ch] mx-auto leading-relaxed">
-              Geen opstartkosten. Geen contract. Binnen 10 dagen online. Kies uw plan en wij regelen de rest.
+            <p className="text-lg text-white/75 mb-10 max-w-[46ch] mx-auto leading-relaxed">
+              Geen opstartkosten. Geen langdurig contract. Kies uw plan en wij regelen de rest.
             </p>
-            <Button
-              size="lg"
-              variant="secondary"
-              className="gap-2 shadow-xl h-13 px-8 text-base rounded-full"
-              data-testid="button-cta-pricing"
-              asChild
-            >
-              <a href="#pricing">
-                Start uw website
-                <ArrowRight size={16} weight={ICON_WEIGHT} />
-              </a>
-            </Button>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-primary-foreground/60">
-              {["Vanaf €49/maand", "Geen opstartkosten", "14 dagen gratis"].map((text) => (
-                <div key={text} className="flex items-center gap-1.5">
-                  <Check size={14} weight="bold" className="text-primary-foreground/80" />
-                  <span>{text}</span>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="gap-2 shadow-xl h-14 px-8 text-base rounded-full"
+                data-testid="button-cta-pricing"
+                asChild
+              >
+                <a href="#pricing">
+                  Start uw website
+                  <ArrowRight size={16} weight={ICON_WEIGHT} />
+                </a>
+              </Button>
+              <Button
+                size="lg"
+                variant="ghost"
+                className="gap-2 h-14 px-8 text-base rounded-full text-white/90 hover:bg-white/10 hover:text-white border border-white/20"
+                data-testid="button-cta-maatwerk"
+                asChild
+              >
+                <a href="#maatwerk">
+                  Of bekijk maatwerk
+                </a>
+              </Button>
+            </div>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-white/50">
+              {[
+                { text: "Vanaf €49/maand", icon: CreditCard },
+                { text: "Geen opstartkosten", icon: CheckCircle },
+                { text: "14 dagen gratis proefperiode", icon: Clock },
+              ].map((item) => (
+                <div key={item.text} className="flex items-center gap-2">
+                  <item.icon size={15} weight={ICON_WEIGHT} className="text-white/60" />
+                  <span>{item.text}</span>
                 </div>
               ))}
             </div>
