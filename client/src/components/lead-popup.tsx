@@ -97,38 +97,10 @@ export function LeadPopup() {
 
     window.addEventListener("open-lead-popup", handleManualOpen);
 
-    if (!wasDismissed) {
-      const timer = setTimeout(showPopup, TIME_DELAY_MS);
-
-      const handleScroll = () => {
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrolled = window.scrollY / scrollHeight;
-        if (scrolled >= SCROLL_THRESHOLD) {
-          showPopup();
-        }
-      };
-
-      const handleMouseLeave = (e: MouseEvent) => {
-        if (e.clientY <= 0) {
-          showPopup();
-        }
-      };
-
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      document.addEventListener("mouseleave", handleMouseLeave);
-
-      return () => {
-        clearTimeout(timer);
-        window.removeEventListener("scroll", handleScroll);
-        document.removeEventListener("mouseleave", handleMouseLeave);
-        window.removeEventListener("open-lead-popup", handleManualOpen);
-      };
-    }
-
     return () => {
       window.removeEventListener("open-lead-popup", handleManualOpen);
     };
-  }, [showPopup, wasDismissed]);
+  }, []);
 
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {};
