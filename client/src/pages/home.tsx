@@ -247,15 +247,9 @@ function HeroInteractiveCards({
         {cards.map((card, index) => {
           const offset = index - activeCard;
           const isCenter = index === activeCard;
-          let z = isCenter ? 50 : -100 - Math.abs(offset) * 50;
-          let x = offset * 40;
-          let y = offset * 20;
-
-          if (isHovering) {
-            x = offset * 120;
-            y = offset * -20;
-            z = isCenter ? 80 : -50;
-          }
+          const x = offset * 120;
+          const y = offset * -20;
+          const z = isCenter ? 80 : -50;
 
           return (
             <motion.div
@@ -275,7 +269,7 @@ function HeroInteractiveCards({
                 color={card.color}
                 rotateX={rotateX}
                 rotateY={rotateY}
-                depth={isHovering ? (isCenter ? 40 : 10) : 0}
+                depth={isCenter ? 40 : 10}
                 isActive={isCenter}
                 onMouseEnter={() => setActiveCard(index)}
                 onClick={() => onOrder(sortedPlans[index].id)}
