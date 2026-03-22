@@ -9,7 +9,10 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import {
   Megaphone,
   Share2,
-  ShieldCheck,
+  FileText,
+  ShoppingCart,
+  Users,
+  CalendarCheck,
   Zap,
   Plus,
   Check,
@@ -21,7 +24,10 @@ import type { AddOn, AddOnSelection } from "@shared/schema";
 const addOnIcons: Record<string, any> = {
   "google-ads": Megaphone,
   "meta-ads": Share2,
-  "cookie-banner": ShieldCheck,
+  "extra-content": FileText,
+  "ecommerce": ShoppingCart,
+  "social-media": Users,
+  "booking": CalendarCheck,
 };
 
 const statusColors = {

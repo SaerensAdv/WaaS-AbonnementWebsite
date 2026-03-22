@@ -1,5 +1,9 @@
 # Pricing Voorstel — Abonnement.website
 
+> **Status: UITGEVOERD** — Alle aanbevelingen in dit document zijn doorgevoerd (maart 2026).
+> Dit document bevat de oorspronkelijke analyse met oude prijzen als referentie.
+> Zie de "Actieplan" sectie onderaan voor de status van elke wijziging.
+
 Review document. Niets wordt aangepast zonder goedkeuring.
 
 ---

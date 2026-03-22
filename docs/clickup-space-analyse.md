@@ -49,7 +49,7 @@ Organiseer klantprojecten per fase in de customer journey (gebaseerd op de 4-sta
 
 | Veld | Type | Waarden |
 |------|------|---------|
-| Plan Type | Dropdown | Starter (€99), Professional (€199), Enterprise |
+| Plan Type | Dropdown | Starter (€49), Professional (€99), Business (€199) |
 | Template | Dropdown | Horeca, Kapsalon, Bouw, Medisch, Retail |
 | Klant Email | Email | - |
 | Bedrijfsnaam | Text | - |

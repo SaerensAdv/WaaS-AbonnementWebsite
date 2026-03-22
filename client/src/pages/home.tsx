@@ -17,6 +17,10 @@ import {
   Clock,
   CreditCard,
   Star,
+  FileText,
+  ShoppingCart,
+  UsersThree,
+  CalendarCheck,
 } from "@phosphor-icons/react";
 import { apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
@@ -36,7 +40,10 @@ const tierConfig: Record<string, { label: string; popular?: boolean }> = {
 const addOnIcons: Record<string, any> = {
   "google-ads": Megaphone,
   "meta-ads": ShareNetwork,
-  "cookie-banner": ShieldCheck,
+  "extra-content": FileText,
+  "ecommerce": ShoppingCart,
+  "social-media": UsersThree,
+  "booking": CalendarCheck,
 };
 
 const faqItems = [
@@ -67,6 +74,10 @@ const faqItems = [
   {
     q: "Kan ik add-ons later toevoegen of verwijderen?",
     a: "Absoluut. U kunt op elk moment add-ons activeren of pauzeren via uw dashboard. De kosten worden direct verrekend. Geen gedoe, geen wachttijden.",
+  },
+  {
+    q: "Zit de cookie banner er bij alle plannen bij?",
+    a: "Ja. Elke website die wij bouwen bevat een GDPR-conforme cookie banner via ConsentEase. Dit zit standaard inbegrepen bij alle abonnementen — zonder meerkosten.",
   },
 ];
 
@@ -403,7 +414,6 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-6">
             {addOns.map((addOn, index) => {
               const Icon = addOnIcons[addOn.slug] || Lightning;
-              const isCookieBanner = addOn.slug === "cookie-banner";
               return (
                 <ScrollReveal key={addOn.id} delay={index * 0.1}>
                   <motion.div
@@ -422,11 +432,6 @@ export default function HomePage() {
                         €{(addOn.monthlyPriceCents / 100).toFixed(0)}
                         <span className="text-sm font-sans font-normal text-muted-foreground">/maand</span>
                       </span>
-                      {isCookieBanner && (
-                        <Badge variant="secondary" className="text-xs bg-chart-2/10 text-chart-2 border-chart-2/20">
-                          Gratis bij Professional+
-                        </Badge>
-                      )}
                     </div>
                   </motion.div>
                 </ScrollReveal>

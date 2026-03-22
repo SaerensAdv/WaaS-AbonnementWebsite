@@ -56,7 +56,7 @@ Het platform beschikt over een werkende landing page, Stripe-betaalintegratie, k
 | **Onboarding Data** | Bedrijfsdoelen, designvoorkeuren, kleuren, content assets (JSON) | Inzicht in klantbehoeften, template-optimalisatie |
 | **Subscription Data** | Plan type, status, MRR per klant, churn-data | Financiële forecasting, cohort-analyse |
 | **Project Status** | Fase-tracking (Onboarding → Production → Live → Maintenance) | Operationele efficiëntie, SLA-monitoring |
-| **Add-on Selecties** | Google Ads, Meta Ads, Cookie Banner keuzes per klant | Cross-sell tracking, omzetoptimalisatie |
+| **Add-on Selecties** | Google Ads, Meta Ads, E-commerce, Social Media, Booking, Extra Content keuzes per klant | Cross-sell tracking, omzetoptimalisatie |
 | **Bezoekersstatistieken** | (Gepland) Google Analytics per klantenwebsite | Klantwaarde-bewijs, retentie-argument |
 
 ### Datamodel (Kern-entiteiten)
@@ -66,10 +66,10 @@ users (ADMIN | CUSTOMER)
   └── customer_profiles (bedrijfsinfo, Stripe ID)
        └── subscriptions (plan, status, Stripe subscription ID)
             ├── projects (website status, onboarding data)
-            └── add_on_selections (Google Ads, Meta Ads, Cookie Banner)
+            └── add_on_selections (Google Ads, Meta Ads, E-commerce, Social Media, Booking, Extra Content)
 
 plans (Starter €49 | Professional €99 | Business €199)
-add_ons (Google Ads €149 | Meta Ads €149 | Cookie Banner €9)
+add_ons (Google Ads €249 | Meta Ads €249 | Extra Content €29 | E-commerce €79 | Social Media €199 | Booking €39)
 ```
 
 ### ClickUp Link
@@ -106,8 +106,8 @@ Stripe webhooks triggeren automatisch ClickUp onboarding-taken bij nieuwe subscr
 
 | Bestemming | Data/Waarde | Mechanisme |
 |------------|-------------|------------|
-| **Saerens Advertising** | Klanten die Google Ads add-on (€149/mo) activeren worden Ads-klant | Dashboard add-on selectie → Ads team onboarding |
-| **ConsentEase (CMP)** | Cookie Banner add-on (€9/mo voor Starter, gratis bij Pro/Business) = directe product-integratie | Automatische bundeling in hogere plannen |
+| **Saerens Advertising** | Klanten die Google Ads add-on (€249/mo) activeren worden Ads-klant | Dashboard add-on selectie → Ads team onboarding |
+| **ConsentEase (CMP)** | Cookie banner standaard inbegrepen bij alle plannen via agency account | Automatische bundeling, geen aparte add-on |
 | **AI Intelligence Dashboard** | MRR data, churn rates, klant-segmentatie, project doorlooptijden | API endpoints (/api/admin/stats) |
 | **ClickUp (Open Keuken)** | Projectvoortgang, klantcommunicatie, SLA-metrics | ClickUp API taak-creatie |
 
@@ -120,21 +120,22 @@ Stripe webhooks triggeren automatisch ClickUp onboarding-taken bij nieuwe subscr
                     └─────────────────────────────────┘
 
 [Starter €49/mo] ──────────────────────────────────────►
-    │                                                    
-    ├── + Cookie Banner (ConsentEase) → €9/mo add-on     
-    ├── + Google Ads → €149/mo add-on (→ Saerens Ads)    
-    ├── + Meta Ads → €149/mo add-on                      
+    │  (Cookie banner inbegrepen)                        
+    ├── + Google Ads → €249/mo add-on (→ Saerens Ads)    
+    ├── + Meta Ads → €249/mo add-on                      
+    ├── + Extra Content → €29/mo add-on                  
+    ├── + Booking → €39/mo add-on                        
     │                                                    
     ▼                                                    
 [Professional €99/mo] ─────────────────────────────────►
-    │  (Cookie Banner nu GRATIS inbegrepen)              
-    ├── + SEO pakket → €149/mo                           
-    ├── + Content Creatie → €99/mo                       
+    │  (+ Geavanceerde SEO, Analytics, beeldbank)        
+    ├── + E-commerce → €79/mo add-on                     
+    ├── + Social Media Beheer → €199/mo add-on           
     │                                                    
     ▼                                                    
 [Business €199/mo] ────────────────────────────────────►
-    │  (Alles inbegrepen + maatwerk)                     
-    ├── + E-commerce integratie                          
+    │  (Blog, meertalig, dedicated accountmanager)       
+    ├── + Full-service advertentiebeheer                 
     ├── + API-koppelingen (→ AI Dashboard data)          
     └── → Full-service Saerens/EYN Agency klant          
 ```
@@ -187,9 +188,9 @@ GET /api/admin/funnel         → (Nieuw) Lead-to-customer funnel data
 *Waarom dit ertoe doet:* Dit bepaalt of Abonnement.website een productplatform is (met eigen P&L) of een leadgenerator voor de agency. De keuze beïnvloedt prijsstrategie, teamstructuur en hoe MRR wordt gerapporteerd in het AI Dashboard.
 
 ### Vraag 2: ConsentEase Bundeling
-**"Is ConsentEase puur een add-on/feature binnen Abonnement.website (cookie banner = €9/mo), of is het plan om ConsentEase als standalone SaaS-product ook aan NIET-Abonnement.website klanten te verkopen? En zo ja, hoe voorkom je kanaalconflicten in pricing?"**
+**"Is ConsentEase puur een gebundelde feature binnen Abonnement.website, of is het plan om ConsentEase als standalone SaaS-product ook aan NIET-Abonnement.website klanten te verkopen?"**
 
-*Waarom dit ertoe doet:* Als ConsentEase standalone waarde heeft, is de €9/mo pricing binnen Abonnement.website mogelijk te laag en cannibaliseert het de standalone markt. De ecosysteem-mapping verandert fundamenteel afhankelijk van dit antwoord.
+*Update:* ConsentEase is nu standaard inbegrepen bij alle Abonnement.website plannen via een agency account. Er worden geen aparte kosten aan klanten doorberekend. Als ConsentEase standalone waarde heeft als apart product, moet dit apart gepositioneerd worden buiten het Abonnement.website ecosysteem.
 
 ### Vraag 3: AI Dashboard als Revenue Center
 **"Welke data uit Abonnement.website zou je het AI Intelligence Dashboard willen laten gebruiken om direct omzet te genereren — dus niet alleen interne sturing, maar als betaalde feature voor klanten? Denk aan: 'Uw website presteert 30% beter dan gemiddeld in uw sector' als premium inzicht."**

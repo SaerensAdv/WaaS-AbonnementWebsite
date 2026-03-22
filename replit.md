@@ -74,11 +74,16 @@ Preferred communication style: Simple, everyday language.
 - `plans` — 3 tiers (LOW=Starter €49, MEDIUM=Professional €99, HIGH=Business €199)
 - `subscriptions` — Links user to plan, tracks Stripe subscription ID
 - `projects` — Website project with status tracking (ONBOARDING → PRODUCTION → LIVE → MAINTENANCE), includes `onboardingData` (jsonb) and `onboardingCompleted` (boolean)
-- `add_ons` — Fixed-price add-ons (Google Ads €149, Meta Ads €149, Cookie Banner €9)
+- `add_ons` — Google Ads Beheer €249, Meta Ads Beheer €249, Extra Content Wijzigingen €29, E-commerce Module €79, Social Media Beheer €199, Booking/Reserveringssysteem €39
 - `add_on_selections` — Links add-on to subscription
 - `password_reset_tokens` — Password reset flow
 
-**Cookie Banner Logic**: Cookie Banner is a €9/mo add-on only for Starter plan; free/included for Professional and Business plans.
+**Cookie Banner**: ConsentEase cookie banner is included in ALL plans at no extra cost (agency account). No separate add-on.
+
+**Plan Differentiation**:
+- Starter: 5 pages, 1 content change/mnd, email support (24h), basis SEO
+- Professional: 10 pages, 3 content changes/mnd, priority support (8h), geavanceerde SEO, Google Analytics, Google Maps, beeldbank
+- Business: 20 pages, 5 content changes/mnd, dedicated accountmanager (4h), blog, meertalig, geavanceerde formulieren, maandelijks rapport
 
 **SEO & Schema Markup**:
 - `client/index.html` — Static OG tags, canonical, and consolidated `@graph` JSON-LD (Organization, WebSite, ProfessionalService with all 3 pricing tiers)

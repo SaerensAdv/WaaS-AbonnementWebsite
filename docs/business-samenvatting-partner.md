@@ -7,7 +7,7 @@
 
 **abonnement.website** is een B2B SaaS-platform dat professionele websites aanbiedt via een betaalbaar maandelijks abonnement. Gericht op Belgische KMO's en starters die online willen groeien zonder grote voorafgaande investeringen.
 
-**Kernpropositie:** Professionele website vanaf €99/maand - alles inbegrepen.
+**Kernpropositie:** Professionele website vanaf €49/maand - alles inbegrepen.
 
 ---
 
@@ -57,29 +57,29 @@
 
 ### Wat Is Inbegrepen
 
-**Starter (€99/maand)**
-- Professioneel template naar keuze
+**Starter (€49/maand)**
+- Op maat gemaakt design, responsive
 - Tot 5 pagina's
-- Mobiel-geoptimaliseerd
-- SSL-certificaat & hosting
-- Maandelijks onderhoud
-- E-mail support
+- Hosting, SSL & cookie banner inbegrepen
+- Basis SEO (meta tags, sitemap, Google indexering)
+- 1 content wijziging per maand
+- E-mail support (reactie binnen 24 uur)
 
-**Professional (€199/maand)**
+**Professional (€99/maand)**
 - Alles van Starter +
 - Tot 10 pagina's
-- SEO-optimalisatie
-- Contactformulieren
-- Google Analytics integratie
-- Prioritaire support
-- 2 content updates/maand
+- Geavanceerde SEO & Google Analytics
+- Google Maps integratie & beeldbank
+- 3 content wijzigingen per maand
+- Prioriteit support (reactie binnen 8 uur)
 
-**Enterprise (Op maat)**
-- Volledig maatwerk
-- Onbeperkte pagina's
-- E-commerce mogelijkheden
-- Dedicated accountmanager
-- API-integraties
+**Business (€199/maand)**
+- Alles van Professional +
+- Tot 20 pagina's
+- Blog, meertalige website, geavanceerde formulieren
+- Maandelijks prestatierapport
+- 5 content wijzigingen per maand
+- Dedicated accountmanager (reactie binnen 4 uur)
 
 ---
 
@@ -119,16 +119,17 @@
 ### Inkomstenstromen
 
 **1. Abonnementen (Kernbusiness)**
-- Starter: €99/maand (€1.188/jaar)
-- Professional: €199/maand (€2.388/jaar)
-- Enterprise: €499+/maand (€5.988+/jaar)
+- Starter: €49/maand (€588/jaar)
+- Professional: €99/maand (€1.188/jaar)
+- Business: €199/maand (€2.388/jaar)
 
 **2. Add-ons (Upsell)**
-- Google Ads Management: vanaf €199/maand
-- Meta Ads (Facebook/Instagram): vanaf €199/maand
-- SEO-pakket: vanaf €149/maand
-- Content Creatie: vanaf €99/maand
-- Extra pagina's: €25/pagina/maand
+- Google Ads Beheer: €249/maand (3u beheer + 1u rapportage)
+- Meta Ads Beheer: €249/maand (3u beheer + 1u rapportage)
+- Extra Content Wijzigingen: €29/maand (5 extra/mnd)
+- E-commerce Module: €79/maand (webshop tot 50 producten)
+- Social Media Beheer: €199/maand (8 posts/mnd op 2 platforms)
+- Booking / Reserveringssysteem: €39/maand
 
 **3. Eenmalige Services**
 - Logo ontwerp: €299

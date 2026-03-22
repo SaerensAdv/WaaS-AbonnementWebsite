@@ -1,45 +1,57 @@
 # Prijsstrategie Herziening — 1 maart 2026
 
+> **Let op:** Dit document bevat de oorspronkelijke prijsstrategie. 
+> Zie `docs/pricing-voorstel.md` voor de huidige, actieve prijsstructuur (bijgewerkt maart 2026).
+
 ## Beslissingen
 
 ### Abonnementen (3 tiers, ongewijzigde prijzen)
 
 **Starter €49/mo (5 pagina's)**
-- Professionele website, hosting, SSL, responsive design, contactformulier
-- Onderhoud & updates
-- Basis SEO (nieuw)
-- 1 content update per maand (nieuw)
+- Op maat gemaakt design, responsive, hosting & SSL
+- Contactformulier, onderhoud & beveiligingsupdates
+- Basis SEO (meta tags, sitemap, Google indexering)
+- Cookie banner (ConsentEase) inbegrepen
+- 1 content wijziging per maand
+- E-mail support (reactie binnen 24 uur)
 
 **Professional €99/mo (10 pagina's)**
-- Alles in Starter
-- Google Analytics setup
-- Social media integratie
-- Geavanceerde SEO (verschoven vanuit Business)
-- 2 content updates per maand
-- Cookie Banner (ConsentEase) inbegrepen
+- Alles in Starter, plus:
+- Google Analytics & Search Console setup
+- Geavanceerde SEO (keyword onderzoek, technische optimalisatie)
+- Social media integratie, Google Maps integratie
+- Beeldbank toegang (stockfoto's)
+- 3 content wijzigingen per maand
+- Prioriteit e-mail & telefoon support (reactie binnen 8 uur)
 
 **Business €199/mo (20 pagina's)**
-- Alles in Professional
-- 5 content updates per maand
-- Prioriteit support
-- Performance optimalisatie
-- Maandelijks rapport
-- Cookie Banner (ConsentEase) inbegrepen
+- Alles in Professional, plus:
+- Blog / nieuwssectie
+- Meertalige website (NL + 1 extra taal)
+- Geavanceerde formulieren (offerte, booking, multi-step)
+- Performance optimalisatie (Core Web Vitals)
+- Maandelijks prestatierapport
+- 5 content wijzigingen per maand
+- Dedicated accountmanager
+- Prioriteit support (reactie binnen 4 uur)
 
-### Add-ons (3 stuks, was 5)
+### Add-ons (6 stuks)
 
-| Add-on | Prijs | Beschikbaar voor |
+| Add-on | Prijs | Beschrijving |
 |---|---|---|
-| Google Ads Beheer | €149/mo | Alle tiers |
-| Meta Ads Beheer | €149/mo | Alle tiers |
-| Cookie Banner (ConsentEase) | €9/mo | Alleen Starter |
+| Google Ads Beheer | €249/mo | 3u beheer + 1u rapportage/mnd, excl. advertentiebudget |
+| Meta Ads Beheer | €249/mo | 3u beheer + 1u rapportage/mnd, excl. advertentiebudget |
+| Extra Content Wijzigingen | €29/mo | 5 extra wijzigingen bovenop plan |
+| E-commerce Module | €79/mo | Webshop tot 50 producten, iDEAL/Bancontact |
+| Social Media Beheer | €199/mo | 8 posts/mnd op 2 platforms |
+| Booking / Reserveringssysteem | €39/mo | Online boekingssysteem + Google Calendar sync |
 
-### Verwijderd als add-on
-- SEO Pakket (€99/mo) — zit nu in plannen (basis in Starter, geavanceerd in Professional+)
-- Content Creatie (€79/mo) — zit nu in plannen als content updates
+### Cookie Banner
+ConsentEase cookie banner is standaard inbegrepen bij ALLE plannen (agency account). Geen apart add-on.
 
 ### Rationale
-- Starter was te kaal, nu met basis SEO en 1 content update
-- Overlap tussen plan-features en add-ons verwijderd
-- Cookie Banner wettelijk nodig, gratis bij hogere tiers als upgrade-incentive
-- Add-on lijst bewust kort: 3 items, duidelijk en zonder verwarring
+- Cookie Banner overal inbegrepen — GDPR is basisbehoefte, geen upsell-item
+- Ads beheer naar €249/mnd — eerlijke prijs voor 4 uur werk/maand
+- Nieuwe add-ons toegevoegd voor bredere upsell-mogelijkheden
+- Plan differentiatie versterkt met duidelijke support-niveaus (24u → 8u → 4u)
+- Professional van 2→3 content wijzigingen (meer waarde in het midden-tier)
