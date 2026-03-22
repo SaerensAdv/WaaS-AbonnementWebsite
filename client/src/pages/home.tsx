@@ -603,9 +603,13 @@ export default function HomePage() {
       </section>
 
       {/* PRICING */}
-      <section ref={pricingRef} id="pricing" className="py-24 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <ScrollReveal className="text-center mb-16">
+      <section ref={pricingRef} id="pricing" className="py-24 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-muted/40 via-transparent to-muted/20" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--primary)/0.04)_0%,transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(var(--primary)/0.03)_0%,transparent_50%)]" />
+
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <ScrollReveal className="text-center mb-6">
             <Badge variant="secondary" className="mb-4">
               Prijzen
             </Badge>
@@ -617,16 +621,31 @@ export default function HomePage() {
             </p>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-6">
+          <ScrollReveal delay={0.05}>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-14 text-sm text-muted-foreground">
+              {[
+                { icon: Lock, text: "Geen opstartkosten" },
+                { icon: ShieldCheck, text: "6 maanden minimum" },
+                { icon: CheckCircle, text: "14 dagen gratis proefperiode" },
+              ].map((item) => (
+                <div key={item.text} className="flex items-center gap-1.5">
+                  <item.icon size={15} weight={ICON_WEIGHT} className="text-primary" />
+                  <span>{item.text}</span>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-5">
             {sortedPlans.map((plan, index) => {
               const config = tierConfig[plan.tier] || { label: plan.name };
               return (
                 <ScrollReveal key={plan.id} delay={index * 0.1}>
                   <motion.div
-                    className={`relative rounded-2xl border-2 p-1 h-full ${
+                    className={`relative rounded-2xl p-[2px] h-full ${
                       config.popular
-                        ? "border-primary bg-gradient-to-b from-primary/5 to-transparent shadow-xl shadow-primary/10"
-                        : "border-border"
+                        ? "bg-gradient-to-b from-primary via-primary/60 to-primary/20 shadow-xl shadow-primary/15"
+                        : "bg-gradient-to-b from-border via-border/60 to-border/30"
                     }`}
                     whileHover={{ y: -6, transition: { duration: 0.25 } }}
                     whileTap={{ scale: 0.98 }}
@@ -634,36 +653,43 @@ export default function HomePage() {
                   >
                     {config.popular && (
                       <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-                        <Badge className="bg-primary text-primary-foreground shadow-lg shadow-primary/30" data-testid="badge-popular">
+                        <Badge className="bg-primary text-primary-foreground shadow-lg shadow-primary/30 px-4 py-1" data-testid="badge-popular">
+                          <Star size={12} weight="fill" className="mr-1.5" />
                           Meest gekozen
                         </Badge>
                       </div>
                     )}
-                    <div className="rounded-xl bg-card p-6 md:p-8 h-full flex flex-col">
-                      <div className="text-center mb-8">
-                        <h3 className="text-base font-semibold mb-4 tracking-wide uppercase text-muted-foreground">{config.label}</h3>
+                    <div className={`rounded-[14px] p-6 md:p-7 h-full flex flex-col ${
+                      config.popular
+                        ? "bg-gradient-to-b from-card via-card to-primary/[0.02]"
+                        : "bg-card"
+                    }`}>
+                      <div className="text-center mb-6">
+                        <h3 className={`text-sm font-semibold mb-4 tracking-widest uppercase ${
+                          config.popular ? "text-primary" : "text-muted-foreground"
+                        }`}>{config.label}</h3>
                         <div className="flex items-baseline justify-center gap-1">
-                          <span className="font-display text-[clamp(2.5rem,4vw,3.5rem)] tracking-tight leading-none" data-testid={`text-price-${plan.tier.toLowerCase()}`}>
+                          <span className="font-display text-[clamp(2.25rem,3.5vw,3rem)] tracking-tight leading-none" data-testid={`text-price-${plan.tier.toLowerCase()}`}>
                             €{(plan.monthlyPriceCents / 100).toFixed(0)}
                           </span>
                           <span className="text-muted-foreground text-sm">/maand</span>
                         </div>
-                        <p className="text-sm text-muted-foreground mt-3">
-                          {plan.includedPages} pagina's inbegrepen
-                        </p>
+                        <div className="mt-3 inline-flex items-center gap-1.5 bg-muted/60 rounded-full px-3 py-1 text-xs font-medium text-muted-foreground">
+                          <FileText size={12} weight={ICON_WEIGHT} />
+                          {plan.includedPages} pagina's
+                        </div>
                       </div>
-                      <ul className="space-y-3 flex-1 mb-8">
+                      <div className="h-px bg-border/60 mb-5" />
+                      <ul className="space-y-2.5 flex-1 mb-6">
                         {(plan.features || []).map((feature, i) => (
-                          <li key={i} className="flex items-start gap-3 text-sm leading-relaxed">
-                            <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                              <Check size={12} weight={ICON_WEIGHT} className="text-primary" />
-                            </div>
+                          <li key={i} className="flex items-start gap-2.5 text-sm leading-relaxed">
+                            <Check size={14} weight="bold" className="text-primary shrink-0 mt-0.5" />
                             <span>{feature}</span>
                           </li>
                         ))}
                       </ul>
                       <Button
-                        className={`w-full gap-2 ${
+                        className={`w-full gap-2 rounded-xl h-11 ${
                           config.popular ? "shadow-lg shadow-primary/20" : ""
                         }`}
                         variant={config.popular ? "default" : "outline"}
@@ -682,24 +708,26 @@ export default function HomePage() {
 
             <ScrollReveal delay={0.3}>
               <motion.div
-                className="relative rounded-2xl border-2 border-dashed border-border p-1 h-full bg-gradient-to-b from-muted/30 to-transparent"
+                className="relative rounded-2xl p-[2px] h-full bg-gradient-to-b from-amber-400/40 via-amber-400/20 to-amber-400/5"
                 whileHover={{ y: -6, transition: { duration: 0.25 } }}
                 whileTap={{ scale: 0.98 }}
                 data-testid="card-plan-custom"
               >
-                <div className="rounded-xl bg-card p-6 md:p-8 h-full flex flex-col">
-                  <div className="text-center mb-8">
-                    <h3 className="text-base font-semibold mb-4 tracking-wide uppercase text-muted-foreground">Op Maat</h3>
+                <div className="rounded-[14px] bg-card p-6 md:p-7 h-full flex flex-col">
+                  <div className="text-center mb-6">
+                    <h3 className="text-sm font-semibold mb-4 tracking-widest uppercase text-amber-600 dark:text-amber-400">Op Maat</h3>
                     <div className="flex items-baseline justify-center gap-1">
-                      <span className="font-display text-[clamp(1.5rem,3vw,2.25rem)] tracking-tight leading-none" data-testid="text-price-custom">
+                      <span className="font-display text-[clamp(1.5rem,2.5vw,2rem)] tracking-tight leading-none" data-testid="text-price-custom">
                         Op aanvraag
                       </span>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-3">
-                      Voor grotere of complexe projecten
-                    </p>
+                    <div className="mt-3 inline-flex items-center gap-1.5 bg-amber-500/10 rounded-full px-3 py-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+                      <Star size={12} weight="fill" />
+                      Volledig op maat
+                    </div>
                   </div>
-                  <ul className="space-y-3 flex-1 mb-8">
+                  <div className="h-px bg-border/60 mb-5" />
+                  <ul className="space-y-2.5 flex-1 mb-6">
                     {[
                       "Alles in Business, plus:",
                       "Onbeperkt aantal pagina's",
@@ -707,19 +735,17 @@ export default function HomePage() {
                       "Meertalig (5+ talen)",
                       "Complexe integraties op maat",
                       "Custom boekingssystemen",
-                      "Eenmalige opstartkosten + maandelijkse fee",
+                      "Eenmalige opstart + maandelijkse fee",
                       "Dedicated projectmanager",
                     ].map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm leading-relaxed">
-                        <div className="h-5 w-5 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0 mt-0.5">
-                          <Star size={12} weight={ICON_WEIGHT} className="text-amber-500" />
-                        </div>
+                      <li key={i} className="flex items-start gap-2.5 text-sm leading-relaxed">
+                        <Star size={14} weight="fill" className="text-amber-500 shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
                   <Button
-                    className="w-full gap-2"
+                    className="w-full gap-2 rounded-xl h-11"
                     variant="outline"
                     data-testid="button-order-custom"
                     asChild
@@ -733,6 +759,32 @@ export default function HomePage() {
               </motion.div>
             </ScrollReveal>
           </div>
+
+          <ScrollReveal delay={0.4}>
+            <div className="mt-12 rounded-2xl border bg-card/80 backdrop-blur-sm p-6 md:p-8">
+              <div className="text-center mb-6">
+                <h3 className="font-semibold text-base">Bij elk plan inbegrepen</h3>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                {[
+                  { icon: ShieldCheck, title: "SSL & Hosting", desc: "Veilige, snelle hosting inclusief" },
+                  { icon: Lightning, title: "99.5% Uptime", desc: "Gegarandeerde beschikbaarheid" },
+                  { icon: Headset, title: "Persoonlijke support", desc: "E-mail & telefoon ondersteuning" },
+                  { icon: Lock, title: "GDPR-compliant", desc: "Cookie banner & privacybeleid" },
+                ].map((item) => (
+                  <div key={item.title} className="flex flex-col items-center text-center gap-2">
+                    <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <item.icon size={18} weight={ICON_WEIGHT} className="text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium leading-snug">{item.title}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
