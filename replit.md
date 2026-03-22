@@ -145,6 +145,19 @@ Preferred communication style: Simple, everyday language.
 **Production**: Vite builds to `dist/public`, ESBuild bundles server to `dist/index.cjs`
 **Database Operations**: `npm run db:push` to sync schema, `npx tsx server/seed.ts` to seed
 
+### Security & Reliability
+- helmet (HSTS, X-Frame-Options, X-Content-Type-Options)
+- Rate limiting on auth routes (login/signup 10/15min, forgot/reset-password 5–10/hr)
+- Password requirements: min 8 chars + 1 uppercase + 1 digit
+- Webhook idempotency via `processed_webhook_events` table (atomic claim/unclaim)
+- `invoice.payment_failed` handler sets subscription to PAST_DUE
+- DB indexes on subscriptions.userId, subscriptions.stripeSubscriptionId, projects.userId, addOnSelections.subscriptionId, passwordResetTokens.userId
+
+### Navigation & Auth Redirect
+- Login/signup use `pendingRedirect` ref + `useEffect` keyed on `user` for deterministic navigation after auth state update
+- ScrollToTop is hash-aware: scrolls to anchor element if URL has hash, otherwise scrolls to top
+- Header nav links use `/#section` format (not `#section`) so they work from subpages like /privacy and /terms
+
 ### Important Files
 
 - `shared/schema.ts` — Database schema + types (source of truth)

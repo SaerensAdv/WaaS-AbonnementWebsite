@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useSearch } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,9 +28,18 @@ type ExtendedSignupInput = z.infer<typeof extendedSignupSchema>;
 export default function SignupPage() {
   const [, setLocation] = useLocation();
   const searchString = useSearch();
-  const { signup } = useAuth();
+  const { signup, user } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const pendingRedirect = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (user && pendingRedirect.current) {
+      const path = pendingRedirect.current;
+      pendingRedirect.current = null;
+      setLocation(path);
+    }
+  }, [user, setLocation]);
 
   useSEO({
     title: "Account aanmaken",
@@ -94,7 +103,7 @@ export default function SignupPage() {
         title: "Account aangemaakt!",
         description: "Welkom bij WebsiteAbonnementen!",
       });
-      setLocation("/app");
+      pendingRedirect.current = "/app";
     } catch (error) {
       toast({
         title: "Registratie mislukt",

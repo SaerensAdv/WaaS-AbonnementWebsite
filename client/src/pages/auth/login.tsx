@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,9 +16,18 @@ import { useSEO } from "@/hooks/use-seo";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const pendingRedirect = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (user && pendingRedirect.current) {
+      const path = pendingRedirect.current;
+      pendingRedirect.current = null;
+      setLocation(path);
+    }
+  }, [user, setLocation]);
 
   useSEO({
     title: "Inloggen",
@@ -54,7 +63,7 @@ export default function LoginPage() {
         title: "Welkom terug!",
         description: "U bent succesvol ingelogd.",
       });
-      setLocation(redirectPath);
+      pendingRedirect.current = redirectPath;
     } catch (error) {
       toast({
         title: "Inloggen mislukt",

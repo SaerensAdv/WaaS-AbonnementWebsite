@@ -59,10 +59,10 @@ export function MarketingHeader() {
 
           <nav className="hidden md:flex items-center gap-1">
             {[
-              { href: "#pricing", label: "Prijzen", testId: "nav-pricing" },
-              { href: "#maatwerk", label: "Op Maat", testId: "nav-maatwerk" },
-              { href: "#addons", label: "Add-ons", testId: "nav-addons" },
-              { href: "#faq", label: "FAQ", testId: "nav-faq" },
+              { href: "/#pricing", label: "Prijzen", testId: "nav-pricing" },
+              { href: "/#maatwerk", label: "Op Maat", testId: "nav-maatwerk" },
+              { href: "/#addons", label: "Add-ons", testId: "nav-addons" },
+              { href: "/#faq", label: "FAQ", testId: "nav-faq" },
             ].map((link) => (
               <a key={link.href} href={link.href}>
                 <Button
@@ -96,7 +96,7 @@ export function MarketingHeader() {
                     {t("common.buttons.login")}
                   </Button>
                 </Link>
-                <a href="#pricing">
+                <a href="/#pricing">
                   <Button
                     size="sm"
                     className="shadow-sm shadow-primary/20"
@@ -154,16 +154,16 @@ export function MarketingHeader() {
             className="md:hidden absolute left-4 right-4 top-[calc(100%+0.5rem)] mx-auto max-w-5xl rounded-2xl border border-border/50 bg-card/95 backdrop-blur-2xl shadow-xl overflow-hidden"
           >
             <nav className="flex flex-col gap-1 p-4">
-              <a href="#pricing" onClick={() => setMobileMenuOpen(false)}>
+              <a href="/#pricing" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" className="w-full justify-start text-muted-foreground">Prijzen</Button>
               </a>
-              <a href="#maatwerk" onClick={() => setMobileMenuOpen(false)}>
+              <a href="/#maatwerk" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" className="w-full justify-start text-muted-foreground">Op Maat</Button>
               </a>
-              <a href="#addons" onClick={() => setMobileMenuOpen(false)}>
+              <a href="/#addons" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" className="w-full justify-start text-muted-foreground">Add-ons</Button>
               </a>
-              <a href="#faq" onClick={() => setMobileMenuOpen(false)}>
+              <a href="/#faq" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" className="w-full justify-start text-muted-foreground">FAQ</Button>
               </a>
 
@@ -182,7 +182,7 @@ export function MarketingHeader() {
                       Inloggen
                     </Button>
                   </Link>
-                  <a href="#pricing">
+                  <a href="/#pricing">
                     <Button className="w-full shadow-sm shadow-primary/20" onClick={() => setMobileMenuOpen(false)}>
                       Aan de slag
                     </Button>
