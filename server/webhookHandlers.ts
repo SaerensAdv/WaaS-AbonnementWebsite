@@ -2,6 +2,7 @@ import { getStripeSync, getUncachableStripeClient } from './stripeClient';
 import { storage } from './storage';
 import { log } from './index';
 import Stripe from 'stripe';
+import { createKlantTask, isClickUpConfigured } from './clickup';
 
 export class WebhookHandlers {
   static async processWebhook(payload: Buffer, signature: string, uuid: string): Promise<void> {
@@ -83,6 +84,25 @@ export class WebhookHandlers {
           status: 'ONBOARDING',
         });
         log(`Created project for user ${userId}`, 'stripe');
+      }
+
+      if (isClickUpConfigured()) {
+        try {
+          const user = await storage.getUser(userId);
+          const plan = await storage.getPlan(planId);
+          const profile = await storage.getCustomerProfile(userId);
+          if (user && plan) {
+            await createKlantTask(
+              user.name,
+              user.email,
+              plan.name,
+              profile?.companyName || undefined,
+            );
+            log(`Created ClickUp klant task for ${user.email}`, 'stripe');
+          }
+        } catch (clickupError: any) {
+          log(`ClickUp klant task error (non-blocking): ${clickupError.message}`, 'stripe');
+        }
       }
     } catch (error: any) {
       log(`Error processing checkout: ${error.message}`, 'stripe');

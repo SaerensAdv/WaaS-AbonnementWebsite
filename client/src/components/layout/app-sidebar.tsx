@@ -29,12 +29,15 @@ import {
   Users,
   LogOut,
   ChevronUp,
+  MessageSquare,
+  ClipboardList,
 } from "lucide-react";
 import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
 
 const customerMenuItems = [
   { title: "Dashboard", url: "/app", icon: LayoutDashboard },
   { title: "Add-ons", url: "/app/addons", icon: Puzzle },
+  { title: "Support", url: "/app/support", icon: MessageSquare },
   { title: "Facturatie", url: "/app/billing", icon: CreditCard },
   { title: "Instellingen", url: "/app/settings", icon: Settings },
 ];
@@ -42,6 +45,7 @@ const customerMenuItems = [
 const adminMenuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Klanten", url: "/admin/customers", icon: Users },
+  { title: "Projectbeheer", url: "/admin/clickup", icon: ClipboardList },
 ];
 
 export function AppSidebar() {

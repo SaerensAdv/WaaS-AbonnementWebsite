@@ -111,6 +111,15 @@ Preferred communication style: Simple, everyday language.
 - Webhook handler for checkout.session.completed, subscription.updated/deleted
 - stripe-replit-sync for data mirroring
 
+**Project Management**: ClickUp API v2
+- API Token: `CLICKUP_API_TOKEN` environment variable
+- Space ID: `901510164504`, Team ID: `9015913612`
+- Auto-creates tasks in ClickUp on: signup (Aanvragen list), checkout (Klanten list), onboarding complete (Sprint list)
+- Customer support tickets: creates/reads tasks in Support Tickets list
+- Admin overview: reads Sprint, Bugs, Support, Backlog lists
+- Service module: `server/clickup.ts`
+- Documentation: `docs/clickup-integratie.md`
+
 **Database**: PostgreSQL (Neon-backed via Replit)
 
 **Admin Credentials**: admin@websiteabonnementen.nl / admin123
@@ -126,9 +135,12 @@ Preferred communication style: Simple, everyday language.
 - `shared/schema.ts` — Database schema + types (source of truth)
 - `server/storage.ts` — Data access layer (IStorage interface)
 - `server/routes.ts` — All API endpoints
+- `server/clickup.ts` — ClickUp API service module
 - `server/seed.ts` — Seed data (plans, add-ons, admin user)
 - `client/src/App.tsx` — Frontend routing
 - `client/src/pages/home.tsx` — Landing page
 - `client/src/pages/dashboard/onboarding.tsx` — 5-step onboarding wizard
+- `client/src/pages/dashboard/support.tsx` — Customer support tickets (ClickUp)
+- `client/src/pages/admin/clickup.tsx` — Admin ClickUp projectbeheer
 - `client/src/components/layout/` — Marketing header/footer, app sidebar/layout
 - `client/src/lib/translations/` — i18n translation files (nl.ts, en.ts)

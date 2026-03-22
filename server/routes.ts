@@ -8,6 +8,16 @@ import {
   signupSchema,
 } from "@shared/schema";
 import type { User } from "@shared/schema";
+import { z } from "zod";
+import {
+  createAanvraagTask,
+  createOnboardingSprintTask,
+  createSupportTicketTask,
+  getTasksByTag,
+  isClickUpConfigured,
+  CLICKUP_LISTS,
+  getTasks,
+} from "./clickup";
 
 declare module "express-session" {
   interface SessionData {
@@ -93,6 +103,13 @@ export async function registerRoutes(
       await storage.createCustomerProfile({ userId: user.id });
 
       req.session.userId = user.id;
+
+      if (isClickUpConfigured()) {
+        createAanvraagTask(user.name, user.email).catch((err) =>
+          console.error("ClickUp aanvraag task error (non-blocking):", err.message)
+        );
+      }
+
       res.json({ user: { ...user, passwordHash: undefined } });
     } catch (error: any) {
       console.error("Signup error:", error);
@@ -302,6 +319,17 @@ export async function registerRoutes(
         onboardingCompleted: true,
         companyName: onboardingData.companyName || project.companyName,
       });
+
+      if (isClickUpConfigured() && !project.onboardingCompleted) {
+        const subscription = await storage.getSubscriptionWithPlan(user.id);
+        createOnboardingSprintTask(
+          user.name,
+          subscription?.plan?.name || "Onbekend plan",
+          onboardingData,
+        ).catch((err) =>
+          console.error("ClickUp onboarding task error (non-blocking):", err.message)
+        );
+      }
 
       res.json({ success: true, project: updated });
     } catch (error) {
@@ -663,6 +691,109 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Update project status error:", error);
       res.status(500).json({ message: "Failed to update project" });
+    }
+  });
+
+  const supportTicketSchema = z.object({
+    subject: z.string().min(3).max(200),
+    message: z.string().min(10).max(5000),
+    priority: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]).default(3),
+  });
+
+  app.post("/api/support-tickets", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const user = (req as any).user as User;
+
+      const parsed = supportTicketSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ message: "Ongeldige invoer", errors: parsed.error.flatten().fieldErrors });
+      }
+
+      if (!isClickUpConfigured()) {
+        return res.status(503).json({ message: "Support systeem is tijdelijk niet beschikbaar" });
+      }
+
+      const { subject, message, priority } = parsed.data;
+
+      const ticket = await createSupportTicketTask(
+        user.name,
+        user.email,
+        user.id,
+        subject,
+        message,
+        priority,
+      );
+
+      res.json({ success: true, ticketId: ticket.id, ticketUrl: ticket.url });
+    } catch (error: any) {
+      console.error("Create support ticket error:", error);
+      res.status(500).json({ message: "Kon support ticket niet aanmaken" });
+    }
+  });
+
+  app.get("/api/support-tickets", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const user = (req as any).user as User;
+
+      if (!isClickUpConfigured()) {
+        return res.json({ tickets: [] });
+      }
+
+      const userTickets = await getTasksByTag(CLICKUP_LISTS.SUPPORT_TICKETS, `uid:${user.id}`);
+
+      const tickets = userTickets.map((task: any) => ({
+        id: task.id,
+        name: task.name,
+        status: task.status?.status || "to do",
+        statusColor: task.status?.color || "#808080",
+        priority: task.priority?.id || 3,
+        priorityLabel: task.priority?.priority || "normal",
+        dateCreated: task.date_created,
+        url: task.url,
+      }));
+
+      res.json({ tickets });
+    } catch (error: any) {
+      console.error("Get support tickets error:", error);
+      res.status(500).json({ message: "Kon support tickets niet ophalen" });
+    }
+  });
+
+  app.get("/api/admin/clickup/overview", requireRole("ADMIN"), async (_req, res) => {
+    try {
+      if (!isClickUpConfigured()) {
+        return res.json({ configured: false, sprint: [], bugs: [], support: [], backlog: [] });
+      }
+
+      const [sprintResult, bugsResult, supportResult, backlogResult] = await Promise.all([
+        getTasks(CLICKUP_LISTS.SPRINT).catch(() => ({ tasks: [] })),
+        getTasks(CLICKUP_LISTS.BUGS).catch(() => ({ tasks: [] })),
+        getTasks(CLICKUP_LISTS.SUPPORT_TICKETS).catch(() => ({ tasks: [] })),
+        getTasks(CLICKUP_LISTS.BACKLOG).catch(() => ({ tasks: [] })),
+      ]);
+
+      const mapTask = (task: any) => ({
+        id: task.id,
+        name: task.name,
+        status: task.status?.status || "to do",
+        statusColor: task.status?.color || "#808080",
+        priority: task.priority?.id || 3,
+        priorityLabel: task.priority?.priority || "normal",
+        dateCreated: task.date_created,
+        url: task.url,
+        assignees: (task.assignees || []).map((a: any) => a.username || a.email),
+      });
+
+      res.json({
+        configured: true,
+        sprint: (sprintResult.tasks || []).map(mapTask),
+        bugs: (bugsResult.tasks || []).map(mapTask),
+        support: (supportResult.tasks || []).map(mapTask),
+        backlog: (backlogResult.tasks || []).map(mapTask),
+      });
+    } catch (error: any) {
+      console.error("Get ClickUp overview error:", error);
+      res.status(500).json({ message: "Kon ClickUp overzicht niet ophalen" });
     }
   });
 

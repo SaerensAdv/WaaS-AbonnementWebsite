@@ -37,6 +37,8 @@ import SettingsPage from "@/pages/dashboard/settings";
 
 import AdminDashboard from "@/pages/admin/admin-dashboard";
 import AdminCustomersPage from "@/pages/admin/customers";
+import AdminClickUpPage from "@/pages/admin/clickup";
+import SupportPage from "@/pages/dashboard/support";
 
 import loaderGif from "@assets/Untitled_design-loader_icon_1764970117869.gif";
 
@@ -97,6 +99,9 @@ function Router() {
       <Route path="/app/billing">
         <ProtectedRoute component={BillingPage} roles={["CUSTOMER"]} />
       </Route>
+      <Route path="/app/support">
+        <ProtectedRoute component={SupportPage} roles={["CUSTOMER"]} />
+      </Route>
       <Route path="/app/settings">
         <ProtectedRoute component={SettingsPage} roles={["CUSTOMER"]} />
       </Route>
@@ -106,6 +111,9 @@ function Router() {
       </Route>
       <Route path="/admin/customers">
         <ProtectedRoute component={AdminCustomersPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/admin/clickup">
+        <ProtectedRoute component={AdminClickUpPage} roles={["ADMIN"]} />
       </Route>
 
       <Route component={NotFound} />
