@@ -22,14 +22,12 @@ import {
   UsersThree,
   CalendarCheck,
   Lock,
-  Layout,
-  ArrowUpRight,
   CheckCircle,
 } from "@phosphor-icons/react";
 import { apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
 import { useRef, useEffect } from "react";
-import { motion, useInView, useScroll, AnimatePresence } from "framer-motion";
+import { motion, useInView, useScroll, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import type { Plan, AddOn } from "@shared/schema";
 
@@ -93,37 +91,6 @@ const trustItems = [
   { icon: CreditCard, label: "Veilig betalen via Stripe" },
 ];
 
-function CountUp({ end, duration = 2, suffix = '', prefix = '', decimals = 0 }: { end: number, duration?: number, suffix?: string, prefix?: string, decimals?: number }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (!inView) return;
-    let startTime: number;
-    let animationFrame: number;
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      setCount(end * easeOutQuart);
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [end, duration, inView]);
-
-  return (
-    <span ref={ref} className="tabular-nums font-bold">
-      {prefix}{count.toFixed(decimals)}{suffix}
-    </span>
-  );
-}
-
 function HeroGridBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -142,54 +109,185 @@ function HeroGridBackground() {
   );
 }
 
-function HeroBrowserMockup() {
+const cardColorMap: Record<string, string> = {
+  LOW: "from-blue-500 to-cyan-500",
+  MEDIUM: "from-[hsl(var(--primary))] to-blue-600",
+  HIGH: "from-purple-500 to-indigo-500",
+};
+
+function HeroPricingCard({
+  title,
+  price,
+  pages,
+  color,
+  isActive,
+  rotateX,
+  rotateY,
+  depth,
+  onMouseEnter,
+  onClick,
+}: {
+  title: string;
+  price: string;
+  pages: number;
+  color: string;
+  isActive: boolean;
+  rotateX: any;
+  rotateY: any;
+  depth: number;
+  onMouseEnter: () => void;
+  onClick: () => void;
+}) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40, rotateX: 10 }}
-      animate={{ opacity: 1, y: 0, rotateX: 0 }}
-      transition={{ duration: 1, delay: 0.8, type: "spring", stiffness: 50 }}
-      className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-2xl shadow-primary/10 border border-border/50 bg-card"
-      style={{ transformPerspective: 1000 }}
+      onMouseEnter={onMouseEnter}
+      style={{ rotateX, rotateY, z: depth }}
+      className={`absolute w-full max-w-[280px] sm:max-w-sm rounded-2xl border p-5 sm:p-6 bg-card/90 backdrop-blur-xl shadow-2xl transition-colors duration-500 cursor-pointer
+        ${isActive ? 'border-primary/50 ring-2 ring-primary/20' : 'border-border hover:border-primary/30'}`}
     >
-      <div className="h-10 bg-muted/50 border-b border-border/60 flex items-center px-4 gap-2">
-        <div className="flex gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-red-400" />
-          <div className="w-3 h-3 rounded-full bg-amber-400" />
-          <div className="w-3 h-3 rounded-full bg-emerald-400" />
+      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${color} opacity-5`} />
+      <div className="relative z-10">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg sm:text-xl font-bold text-foreground">{title}</h3>
+          {isActive && (
+            <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+              Populair
+            </span>
+          )}
         </div>
-        <div className="mx-auto bg-card rounded-md h-6 w-1/2 max-w-[200px] border border-border flex items-center px-3 gap-2 shadow-sm">
-          <Lock size={12} weight={ICON_WEIGHT} className="text-muted-foreground" />
-          <div className="h-1.5 w-1/2 bg-muted rounded-full" />
+        <div className="mb-5 flex items-baseline gap-1">
+          <span className="font-display text-3xl sm:text-4xl text-foreground">{price}</span>
+          <span className="text-muted-foreground font-medium text-sm">/mnd</span>
         </div>
-      </div>
-      <div className="relative aspect-[4/3] bg-muted/30 overflow-hidden">
-        <div className="absolute inset-0 flex flex-col">
-          <div className="h-14 bg-card border-b border-border/30 flex items-center px-6 justify-between shrink-0">
-            <div className="w-24 h-4 bg-muted rounded-sm" />
-            <div className="flex gap-4">
-              <div className="w-12 h-2 bg-muted/60 rounded-full" />
-              <div className="w-12 h-2 bg-muted/60 rounded-full" />
-              <div className="w-12 h-2 bg-muted/60 rounded-full" />
+        <ul className="space-y-2.5 mb-5">
+          <li className="flex items-center gap-3 text-sm text-muted-foreground">
+            <div className="p-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+              <Check size={14} weight={ICON_WEIGHT} />
             </div>
-          </div>
-          <div className="flex-1 p-8 flex flex-col justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
-            <div className="absolute right-0 top-0 w-1/2 h-full bg-primary/[0.03] rounded-l-3xl transform translate-x-1/4 -translate-y-1/4" />
-            <div className="relative z-10 max-w-[60%] space-y-4">
-              <div className="w-16 h-4 bg-primary/20 rounded-full mb-6" />
-              <div className="w-full h-8 bg-foreground/80 rounded-md" />
-              <div className="w-4/5 h-8 bg-foreground/80 rounded-md" />
-              <div className="w-full h-3 bg-muted-foreground/30 rounded-full mt-4" />
-              <div className="w-2/3 h-3 bg-muted-foreground/30 rounded-full" />
-              <div className="flex gap-3 mt-8">
-                <div className="w-24 h-10 bg-primary rounded-lg" />
-                <div className="w-24 h-10 bg-card border border-border rounded-lg" />
-              </div>
+            {pages} Pagina's
+          </li>
+          <li className="flex items-center gap-3 text-sm text-muted-foreground">
+            <div className="p-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+              <Check size={14} weight={ICON_WEIGHT} />
             </div>
-          </div>
-        </div>
+            Inclusief hosting & SSL
+          </li>
+          <li className="flex items-center gap-3 text-sm text-muted-foreground">
+            <div className="p-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+              <Check size={14} weight={ICON_WEIGHT} />
+            </div>
+            Onderhoud & Support
+          </li>
+        </ul>
+        <Button
+          className={`w-full transition-all ${isActive ? 'shadow-lg shadow-primary/25' : 'bg-muted text-foreground hover:bg-muted/80'}`}
+          variant={isActive ? "default" : "secondary"}
+          onClick={onClick}
+          data-testid={`button-hero-card-${title.toLowerCase()}`}
+        >
+          Kies {title}
+        </Button>
       </div>
     </motion.div>
+  );
+}
+
+function HeroInteractiveCards({
+  plans,
+  onOrder,
+}: {
+  plans: Plan[];
+  onOrder: (planId: string) => void;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeCard, setActiveCard] = useState(1);
+  const [isHovering, setIsHovering] = useState(false);
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 25, stiffness: 150 };
+  const smoothMouseX = useSpring(mouseX, springConfig);
+  const smoothMouseY = useSpring(mouseY, springConfig);
+
+  const rotateX = useTransform(smoothMouseY, [-0.5, 0.5], [15, -15]);
+  const rotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-15, 15]);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    mouseX.set(0);
+    mouseY.set(0);
+    setActiveCard(1);
+  };
+
+  const sortedPlans = [...plans].sort((a, b) => a.monthlyPriceCents - b.monthlyPriceCents);
+
+  const cards = sortedPlans.map((plan) => ({
+    id: plan.id,
+    title: tierConfig[plan.tier]?.label || plan.name,
+    price: `€${(plan.monthlyPriceCents / 100).toFixed(0)}`,
+    pages: plan.includedPages,
+    color: cardColorMap[plan.tier] || "from-blue-500 to-cyan-500",
+  }));
+
+  return (
+    <div
+      className="relative h-[420px] sm:h-[500px] lg:h-[550px] w-full flex items-center justify-center [perspective:1200px]"
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setIsHovering(true)}
+      data-testid="hero-interactive-cards"
+    >
+      {cards.map((card, index) => {
+        const offset = index - activeCard;
+        const isCenter = index === activeCard;
+        let z = isCenter ? 50 : -100 - Math.abs(offset) * 50;
+        let x = offset * 40;
+        let y = offset * 20;
+
+        if (isHovering) {
+          x = offset * 120;
+          y = offset * -20;
+          z = isCenter ? 80 : -50;
+        }
+
+        return (
+          <motion.div
+            key={card.title}
+            className="absolute left-0 right-0 mx-auto w-full max-w-[280px] sm:max-w-sm"
+            animate={{ x, y, z, scale: isCenter ? 1 : 0.9 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            style={{
+              transformStyle: "preserve-3d",
+              zIndex: isCenter ? 30 : 10 - Math.abs(offset),
+            }}
+          >
+            <HeroPricingCard
+              title={card.title}
+              price={card.price}
+              pages={card.pages}
+              color={card.color}
+              rotateX={rotateX}
+              rotateY={rotateY}
+              depth={isHovering ? (isCenter ? 40 : 10) : 0}
+              isActive={isCenter}
+              onMouseEnter={() => setActiveCard(index)}
+              onClick={() => onOrder(sortedPlans[index].id)}
+            />
+          </motion.div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -371,7 +469,7 @@ export default function HomePage() {
           </div>
         </motion.div>
 
-        {/* Right Light Panel */}
+        {/* Right Light Panel — Interactive 3D Pricing Cards */}
         <motion.div
           initial={{ x: '100%' }}
           animate={{ x: 0 }}
@@ -379,81 +477,12 @@ export default function HomePage() {
           className="relative w-full lg:w-[55%] min-h-[50vh] lg:min-h-screen bg-background text-foreground z-10 lg:-ml-[7%] flex flex-col"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_hsl(var(--primary)/0.05)_0%,_transparent_100%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
 
-          <div className="relative z-10 flex-1 flex flex-col lg:justify-center p-6 sm:p-12 lg:p-20 pt-12 lg:pt-0 lg:pl-32 xl:pl-40">
-            <div className="w-full mb-12 lg:mb-16 hidden sm:block">
-              <HeroBrowserMockup />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 relative">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.2 }}
-                className="bg-card p-5 sm:p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border group hover:-translate-y-1 transition-transform duration-300 relative overflow-hidden"
-                data-testid="stat-card-websites"
-              >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full -z-10 group-hover:bg-primary/10 transition-colors" />
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 text-primary">
-                  <Layout size={22} weight={ICON_WEIGHT} />
-                </div>
-                <div className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-1 tracking-tight">
-                  <CountUp end={500} suffix="+" />
-                </div>
-                <div className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wider">Websites live</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.3 }}
-                className="bg-card p-5 sm:p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border group hover:-translate-y-1 transition-transform duration-300 relative overflow-hidden"
-                data-testid="stat-card-uptime"
-              >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-chart-3/5 rounded-bl-full -z-10 group-hover:bg-chart-3/10 transition-colors" />
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-chart-3/10 rounded-xl flex items-center justify-center mb-4 text-chart-3">
-                  <Lightning size={22} weight={ICON_WEIGHT} />
-                </div>
-                <div className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-1 tracking-tight">
-                  <CountUp end={99.9} decimals={1} suffix="%" />
-                </div>
-                <div className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wider">Uptime garantie</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.4 }}
-                className="bg-gradient-to-br from-slate-900 to-slate-800 p-5 sm:p-6 rounded-2xl shadow-xl shadow-slate-900/10 text-white group hover:-translate-y-1 transition-transform duration-300 border border-slate-700 relative overflow-hidden"
-                data-testid="stat-card-setup"
-              >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-full -z-10" />
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-xl flex items-center justify-center mb-4 text-white backdrop-blur-sm">
-                  <ArrowUpRight size={22} weight={ICON_WEIGHT} />
-                </div>
-                <div className="text-2xl sm:text-3xl md:text-4xl font-display mb-1 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300">
-                  <CountUp end={0} prefix="€" />
-                </div>
-                <div className="text-xs sm:text-sm font-medium text-slate-400 uppercase tracking-wider">Setup kosten</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.5 }}
-                className="bg-card p-5 sm:p-6 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border group hover:-translate-y-1 transition-transform duration-300 flex flex-col justify-center relative overflow-hidden"
-                data-testid="stat-card-support"
-              >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-chart-4/5 rounded-bl-full -z-10 group-hover:bg-chart-4/10 transition-colors" />
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-chart-4/10 rounded-xl flex items-center justify-center mb-4 text-chart-4">
-                  <Headset size={22} weight={ICON_WEIGHT} />
-                </div>
-                <div className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-1 tracking-tight">
-                  &lt;24u
-                </div>
-                <div className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wider">Support response</div>
-              </motion.div>
-            </div>
+          <div className="relative z-10 flex-1 flex flex-col lg:justify-center p-6 sm:p-12 lg:p-16 pt-12 lg:pt-0 lg:pl-24 xl:pl-32">
+            {sortedPlans.length > 0 && (
+              <HeroInteractiveCards plans={sortedPlans} onOrder={handleOrder} />
+            )}
           </div>
 
           {/* Trust strip */}
