@@ -10,5 +10,6 @@ export const modules: ModuleMap = {
   "./components/mockups/hero-sections/OrbitalMotion.tsx": () => import("../components/mockups/hero-sections/OrbitalMotion.tsx"),
   "./components/mockups/hero-sections/ParticleGrid.tsx": () => import("../components/mockups/hero-sections/ParticleGrid.tsx"),
   "./components/mockups/hero-sections/SplitReveal.tsx": () => import("../components/mockups/hero-sections/SplitReveal.tsx"),
+  "./components/mockups/hero-sections/SplitRevealPro.tsx": () => import("../components/mockups/hero-sections/SplitRevealPro.tsx"),
   "./components/mockups/hero-sections/TypographicBold.tsx": () => import("../components/mockups/hero-sections/TypographicBold.tsx")
 };
