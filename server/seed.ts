@@ -21,7 +21,7 @@ async function seed() {
         tier: "LOW",
         monthlyPriceCents: 4900,
         includedPages: 5,
-        stripePriceId: "price_1TDvIdAzl9T5NAOi7tfEMXp3",
+        stripePriceId: "price_1TDvSbAc0256vmxD2Ebe1D1i",
         features: [
           "Op maat gemaakt design",
           "Responsive (mobiel-vriendelijk)",
@@ -40,7 +40,7 @@ async function seed() {
         tier: "MEDIUM",
         monthlyPriceCents: 9900,
         includedPages: 10,
-        stripePriceId: "price_1TDvIeAzl9T5NAOiIxoH0TUX",
+        stripePriceId: "price_1TDvScAc0256vmxDmNrKQdt2",
         features: [
           "Alles in Starter, plus:",
           "Google Analytics & Search Console setup",
@@ -58,7 +58,7 @@ async function seed() {
         tier: "HIGH",
         monthlyPriceCents: 19900,
         includedPages: 20,
-        stripePriceId: "price_1TDvIeAzl9T5NAOiJ2Ds9SMs",
+        stripePriceId: "price_1TDvScAc0256vmxDLbhrMpRz",
         features: [
           "Alles in Professional, plus:",
           "Blog / nieuwssectie",
@@ -87,7 +87,7 @@ async function seed() {
         monthlyPriceCents: 24900,
         isActive: true,
         icon: "megaphone",
-        stripePriceId: "price_1TDvIfAzl9T5NAOiWfuN5rrh",
+        stripePriceId: "price_1TDvSdAc0256vmxD7M0zEq6n",
       },
       {
         slug: "meta-ads",
@@ -96,7 +96,7 @@ async function seed() {
         monthlyPriceCents: 24900,
         isActive: true,
         icon: "share-2",
-        stripePriceId: "price_1TDvIfAzl9T5NAOiuku7LWvr",
+        stripePriceId: "price_1TDvSdAc0256vmxDnFMkbhjU",
       },
       {
         slug: "extra-content",
@@ -105,7 +105,7 @@ async function seed() {
         monthlyPriceCents: 2900,
         isActive: true,
         icon: "file-text",
-        stripePriceId: "price_1TDvIgAzl9T5NAOiflzxLxmP",
+        stripePriceId: "price_1TDvSdAc0256vmxDJJUeolXk",
       },
       {
         slug: "ecommerce",
@@ -114,7 +114,7 @@ async function seed() {
         monthlyPriceCents: 7900,
         isActive: true,
         icon: "shopping-cart",
-        stripePriceId: "price_1TDvIgAzl9T5NAOiYtaDVWsf",
+        stripePriceId: "price_1TDvSeAc0256vmxDaCz3dYiq",
       },
       {
         slug: "social-media",
@@ -123,7 +123,7 @@ async function seed() {
         monthlyPriceCents: 19900,
         isActive: true,
         icon: "users",
-        stripePriceId: "price_1TDvIhAzl9T5NAOispVqjWrr",
+        stripePriceId: "price_1TDvSeAc0256vmxDAhcU1eGh",
       },
       {
         slug: "booking",
@@ -132,7 +132,7 @@ async function seed() {
         monthlyPriceCents: 3900,
         isActive: true,
         icon: "calendar",
-        stripePriceId: "price_1TDvIhAzl9T5NAOi0O0jQazG",
+        stripePriceId: "price_1TDvSfAc0256vmxDiAyL3yXg",
       },
     ]);
     console.log("Add-ons created");
