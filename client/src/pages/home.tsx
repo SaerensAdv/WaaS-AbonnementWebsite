@@ -789,88 +789,135 @@ export default function HomePage() {
       </section>
 
       {/* MAATWERK */}
-      <section id="maatwerk" className="py-24 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f1c] via-[#0d1425] to-[#0a0f1c]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
+      <section id="maatwerk" className="py-28 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#080c18] via-[#0a1020] to-[#080c18]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_70%_50%_at_50%_50%,#000_60%,transparent_100%)] opacity-40" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/[0.06] rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-amber-500/[0.03] rounded-full blur-[100px]" />
 
         <div className="container mx-auto max-w-6xl relative z-10">
           <ScrollReveal className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4 bg-white/5 border-white/10 text-amber-300">
-              <Star size={14} weight="fill" className="mr-1.5 text-amber-300" />
+            <Badge variant="secondary" className="mb-4 bg-amber-500/10 border-amber-500/20 text-amber-300">
+              <Star size={14} weight="fill" className="mr-1.5 text-amber-400" />
               Op Maat
             </Badge>
-            <h2 className="font-display text-[clamp(1.875rem,3vw+0.5rem,3rem)] tracking-tight mb-4 leading-[1.15] text-white" data-testid="text-maatwerk-title">
-              Meer nodig? Wij werken ook op maat.
+            <h2 className="font-display text-[clamp(2rem,3.5vw+0.5rem,3.25rem)] tracking-tight mb-5 leading-[1.1] text-white" data-testid="text-maatwerk-title">
+              Groter project? Wij bouwen het.
             </h2>
-            <p className="text-lg text-slate-300 max-w-[55ch] mx-auto leading-relaxed">
-              Voor bedrijven die een uitgebreider of complexer project nodig hebben. Eenmalige opstartkosten gecombineerd met een vast maandbedrag voor hosting, onderhoud en support.
+            <p className="text-lg text-slate-300/90 max-w-[52ch] mx-auto leading-relaxed">
+              Voor bedrijven die meer nodig hebben dan een standaard pakket. Eenmalige opstartkosten, daarna een vast maandbedrag voor hosting, onderhoud en support.
             </p>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="grid md:grid-cols-2 gap-5 mb-16">
             {[
               {
                 icon: ShoppingCart,
-                title: "E-commerce",
-                description: "Webshops met 100+ producten, voorraadbeheer, betaalintegraties en verzendopties.",
+                title: "E-commerce & webshops",
+                description: "Webshops met 100+ producten, voorraadbeheer, betaalintegraties (iDEAL, Bancontact, creditcard) en verzendkoppelingen.",
+                highlights: ["Productcatalogus", "Betaalintegraties", "Voorraadbeheer"],
               },
               {
                 icon: Globe,
-                title: "Meertalig",
-                description: "Websites in 5+ talen met professionele vertalingen en taalspecifieke SEO.",
+                title: "Meertalige websites",
+                description: "Professionele websites in 5+ talen met vertaalbeheer, taalspecifieke SEO en automatische taaldetectie.",
+                highlights: ["Vertaalbeheer", "SEO per taal", "Hreflang tags"],
               },
               {
                 icon: CalendarCheck,
-                title: "Complexe boekingen",
-                description: "Geavanceerde reserveringssystemen, agenda-koppelingen en automatische workflows.",
+                title: "Boekings- & reserveringssystemen",
+                description: "Geavanceerde planning met klant-zelf-boeken, agenda-synchronisatie, automatische bevestigingen en herinneringen.",
+                highlights: ["Online boeken", "Agenda-sync", "Herinneringen"],
               },
               {
                 icon: Gear,
-                title: "Custom integraties",
-                description: "Koppelingen met uw bestaande systemen, API's, CRM's en andere bedrijfssoftware.",
+                title: "Custom integraties & API's",
+                description: "Naadloze koppelingen met uw bestaande systemen: CRM, ERP, boekhoudsoftware, en externe API's.",
+                highlights: ["CRM-koppeling", "API-integratie", "Automatisering"],
               },
             ].map((item, index) => (
               <ScrollReveal key={item.title} delay={index * 0.1}>
                 <motion.div
-                  className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 h-full"
-                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                  className="group rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm p-6 md:p-7 h-full flex gap-5 hover:bg-white/[0.06] hover:border-white/[0.12] transition-colors duration-300"
+                  whileHover={{ y: -3, transition: { duration: 0.2 } }}
                   data-testid={`card-maatwerk-${index}`}
                 >
-                  <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                    <item.icon size={20} weight={ICON_WEIGHT} className="text-primary" />
+                  <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <item.icon size={22} weight={ICON_WEIGHT} className="text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
-                  <p className="text-sm text-slate-400 leading-relaxed">{item.description}</p>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base font-semibold text-white mb-1.5">{item.title}</h3>
+                    <p className="text-sm text-slate-400 leading-relaxed mb-3">{item.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {item.highlights.map((h) => (
+                        <span key={h} className="text-xs px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-slate-300">
+                          {h}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </motion.div>
               </ScrollReveal>
             ))}
           </div>
 
-          <ScrollReveal>
-            <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-8 md:p-12 text-center max-w-3xl mx-auto">
-              <h3 className="text-2xl font-bold text-white mb-3" data-testid="text-maatwerk-cta-title">
-                Vertel ons over uw project
-              </h3>
-              <p className="text-slate-300 mb-8 max-w-lg mx-auto leading-relaxed">
-                Vul het aanvraagformulier in en ontvang binnen 48 uur een vrijblijvende offerte op maat. Geen verplichtingen, geen verrassingen.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button
-                  size="lg"
-                  className="h-14 px-8 text-base bg-gradient-to-r from-[hsl(var(--primary))] to-blue-600 hover:from-[hsl(var(--primary)/0.9)] hover:to-blue-500 text-white transition-all rounded-full group shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_40px_hsl(var(--primary)/0.5)] border-0"
-                  data-testid="button-maatwerk-offerte"
-                  asChild
-                >
-                  <a href="mailto:info@abonnement.website?subject=Aanvraag%20maatwerk%20project">
-                    Vraag een offerte aan
-                    <ArrowRight size={16} weight={ICON_WEIGHT} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </Button>
-                <div className="flex items-center gap-2 text-sm text-slate-400">
-                  <CheckCircle size={16} weight={ICON_WEIGHT} className="text-emerald-400" />
-                  Vrijblijvend & binnen 48 uur reactie
+          <ScrollReveal delay={0.2}>
+            <div className="mb-16">
+              <h3 className="text-center text-sm font-semibold tracking-widest uppercase text-slate-400 mb-8">Hoe maatwerk werkt</h3>
+              <div className="grid sm:grid-cols-3 gap-6">
+                {[
+                  { step: "01", title: "Vrijblijvend gesprek", desc: "Vertel over uw project. Wij luisteren, stellen de juiste vragen en denken mee." },
+                  { step: "02", title: "Offerte op maat", desc: "Binnen 48 uur ontvangt u een heldere offerte met scope, planning en investering." },
+                  { step: "03", title: "Wij bouwen & lanceren", desc: "Na akkoord starten wij direct. U volgt de voortgang en geeft feedback via uw dashboard." },
+                ].map((item, i) => (
+                  <div key={item.step} className="relative text-center">
+                    <div className="font-mono text-5xl font-bold text-amber-400/[0.08] absolute top-0 left-1/2 -translate-x-1/2 leading-none select-none">
+                      {item.step}
+                    </div>
+                    <div className="relative pt-10">
+                      <h4 className="text-sm font-semibold text-white mb-1.5">{item.title}</h4>
+                      <p className="text-xs text-slate-400 leading-relaxed max-w-[30ch] mx-auto">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.3}>
+            <div className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-white/[0.01] backdrop-blur-sm overflow-hidden max-w-3xl mx-auto">
+              <div className="p-8 md:p-10 text-center">
+                <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 text-xs font-medium text-emerald-400 mb-5">
+                  <CheckCircle size={14} weight="fill" />
+                  Vrijblijvend &middot; Reactie binnen 48 uur
                 </div>
+                <h3 className="text-2xl md:text-[1.75rem] font-bold text-white mb-3 leading-snug" data-testid="text-maatwerk-cta-title">
+                  Vertel ons over uw project
+                </h3>
+                <p className="text-slate-300/80 mb-8 max-w-md mx-auto leading-relaxed text-[0.95rem]">
+                  Beschrijf uw wensen en ontvang een heldere offerte. Geen verplichtingen, geen verrassingen.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Button
+                    size="lg"
+                    className="h-13 px-8 text-base bg-gradient-to-r from-[hsl(var(--primary))] to-blue-600 hover:from-[hsl(var(--primary)/0.9)] hover:to-blue-500 text-white transition-all rounded-full group shadow-[0_0_30px_hsl(var(--primary)/0.25)] hover:shadow-[0_0_40px_hsl(var(--primary)/0.4)] border-0"
+                    data-testid="button-maatwerk-offerte"
+                    asChild
+                  >
+                    <a href="mailto:info@abonnement.website?subject=Aanvraag%20maatwerk%20project">
+                      Vraag een offerte aan
+                      <ArrowRight size={16} weight={ICON_WEIGHT} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                  </Button>
+                </div>
+              </div>
+              <div className="border-t border-white/[0.06] bg-white/[0.02] px-8 py-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-400">
+                {["Eenmalige opstart + maandelijkse fee", "Dedicated projectmanager", "Alle hosting & support inbegrepen"].map((text) => (
+                  <div key={text} className="flex items-center gap-1.5">
+                    <Check size={12} weight="bold" className="text-emerald-400" />
+                    <span>{text}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </ScrollReveal>
