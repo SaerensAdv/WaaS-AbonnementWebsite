@@ -21,6 +21,7 @@ async function seed() {
         tier: "LOW",
         monthlyPriceCents: 4900,
         includedPages: 5,
+        stripePriceId: "price_1TDvIdAzl9T5NAOi7tfEMXp3",
         features: [
           "Op maat gemaakt design",
           "Responsive (mobiel-vriendelijk)",
@@ -39,6 +40,7 @@ async function seed() {
         tier: "MEDIUM",
         monthlyPriceCents: 9900,
         includedPages: 10,
+        stripePriceId: "price_1TDvIeAzl9T5NAOiIxoH0TUX",
         features: [
           "Alles in Starter, plus:",
           "Google Analytics & Search Console setup",
@@ -56,6 +58,7 @@ async function seed() {
         tier: "HIGH",
         monthlyPriceCents: 19900,
         includedPages: 20,
+        stripePriceId: "price_1TDvIeAzl9T5NAOiJ2Ds9SMs",
         features: [
           "Alles in Professional, plus:",
           "Blog / nieuwssectie",
@@ -84,6 +87,7 @@ async function seed() {
         monthlyPriceCents: 24900,
         isActive: true,
         icon: "megaphone",
+        stripePriceId: "price_1TDvIfAzl9T5NAOiWfuN5rrh",
       },
       {
         slug: "meta-ads",
@@ -92,6 +96,7 @@ async function seed() {
         monthlyPriceCents: 24900,
         isActive: true,
         icon: "share-2",
+        stripePriceId: "price_1TDvIfAzl9T5NAOiuku7LWvr",
       },
       {
         slug: "extra-content",
@@ -100,6 +105,7 @@ async function seed() {
         monthlyPriceCents: 2900,
         isActive: true,
         icon: "file-text",
+        stripePriceId: "price_1TDvIgAzl9T5NAOiflzxLxmP",
       },
       {
         slug: "ecommerce",
@@ -108,6 +114,7 @@ async function seed() {
         monthlyPriceCents: 7900,
         isActive: true,
         icon: "shopping-cart",
+        stripePriceId: "price_1TDvIgAzl9T5NAOiYtaDVWsf",
       },
       {
         slug: "social-media",
@@ -116,6 +123,7 @@ async function seed() {
         monthlyPriceCents: 19900,
         isActive: true,
         icon: "users",
+        stripePriceId: "price_1TDvIhAzl9T5NAOispVqjWrr",
       },
       {
         slug: "booking",
@@ -124,6 +132,7 @@ async function seed() {
         monthlyPriceCents: 3900,
         isActive: true,
         icon: "calendar",
+        stripePriceId: "price_1TDvIhAzl9T5NAOi0O0jQazG",
       },
     ]);
     console.log("Add-ons created");
