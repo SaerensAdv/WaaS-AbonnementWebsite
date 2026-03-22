@@ -12,3 +12,9 @@ id = "RWrRf3mJ-2utZHQOiRcEL"
 uri = "file://docs/clickup-super-agents-setup.md"
 type = "text"
 title = "ClickUp Super Agents Setup Handleiding"
+
+[[outputs]]
+id = "1j7ZcpQXIslRyU0r5lTwO"
+uri = "file://docs/pricing-voorstel.md"
+type = "text"
+title = "Pricing Voorstel — Abonnement.website"
