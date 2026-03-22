@@ -52,15 +52,15 @@ const addOnIcons: Record<string, any> = {
 const faqItems = [
   {
     q: "Hoe snel staat mijn website online?",
-    a: "Snel. Na uw bestelling nemen we binnen 24 uur contact op. De meeste websites zijn binnen 5 tot 10 werkdagen live. U hoeft alleen uw content aan te leveren — wij doen de rest.",
+    a: "Snel. Na uw bestelling nemen we binnen 24 uur contact op. De meeste websites zijn binnen 10 werkdagen live. U hoeft alleen uw content aan te leveren — wij doen de rest.",
   },
   {
     q: "Zit ik ergens aan vast?",
-    a: "Nee. Er is geen minimale looptijd en geen opzegboete. U kunt op elk moment opzeggen via uw dashboard. Uw website blijft actief tot het einde van de betaalperiode. Zo simpel is het.",
+    a: "Er geldt een minimale looptijd van 6 maanden. Daarna kunt u maandelijks opzeggen via uw dashboard, zonder opzegboete. Uw website blijft actief tot het einde van de betaalperiode.",
   },
   {
     q: "Wat zit er allemaal in het abonnement?",
-    a: "Alles wat u nodig heeft om online professioneel over te komen: op maat gemaakt design, snelle hosting, SSL certificaat, maandelijks onderhoud, beveiligingsupdates en persoonlijke support. Geen verborgen kosten, geen verrassingen achteraf.",
+    a: "Alles wat u nodig heeft om online professioneel over te komen: op maat gemaakt design, snelle hosting, SSL certificaat, cookie banner (GDPR-conform), maandelijks onderhoud, beveiligingsupdates en persoonlijke support. Geen verborgen kosten, geen verrassingen achteraf.",
   },
   {
     q: "Kan ik later upgraden of downgraden?",
@@ -72,7 +72,7 @@ const faqItems = [
   },
   {
     q: "Wat als ik niet tevreden ben?",
-    a: "Dan horen we dat graag. We werken samen aan aanpassingen tot het design past bij uw wensen. En omdat er geen contract of minimale looptijd is, kunt u op elk moment stoppen — u betaalt alleen zolang u waarde ervaart.",
+    a: "Dan horen we dat graag. We werken samen aan aanpassingen tot het design past bij uw wensen. Binnen de eerste 14 dagen kunt u kosteloos annuleren. Na de minimale looptijd van 6 maanden kunt u maandelijks opzeggen.",
   },
   {
     q: "Kan ik add-ons later toevoegen of verwijderen?",
