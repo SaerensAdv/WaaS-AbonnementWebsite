@@ -1058,16 +1058,21 @@ export default function HomePage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-24 px-4 relative">
-        <div className="absolute inset-0 bg-muted/30" />
+      <section id="faq" className="py-28 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-muted/40 via-muted/20 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--primary)/0.03)_0%,transparent_50%)]" />
+
         <div className="container mx-auto max-w-3xl relative z-10">
-          <ScrollReveal className="text-center mb-16">
+          <ScrollReveal className="text-center mb-12">
             <Badge variant="secondary" className="mb-4">
               FAQ
             </Badge>
             <h2 className="font-display text-[clamp(1.875rem,3vw+0.5rem,3rem)] tracking-tight mb-4 leading-[1.15]" data-testid="text-faq-title">
               Veelgestelde vragen
             </h2>
+            <p className="text-lg text-muted-foreground max-w-[45ch] mx-auto leading-relaxed">
+              Alles wat u wilt weten voordat u begint. Staat uw vraag er niet bij? Neem gerust contact op.
+            </p>
           </ScrollReveal>
 
           <div className="space-y-3">
@@ -1077,33 +1082,54 @@ export default function HomePage() {
               </ScrollReveal>
             ))}
           </div>
+
+          <ScrollReveal delay={0.3}>
+            <div className="mt-10 text-center">
+              <p className="text-sm text-muted-foreground mb-3">Nog een vraag?</p>
+              <Button variant="outline" className="gap-2 rounded-full" asChild data-testid="button-faq-contact">
+                <a href="mailto:info@abonnement.website">
+                  <Headset size={16} weight={ICON_WEIGHT} />
+                  Stel uw vraag
+                </a>
+              </Button>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-4 relative overflow-hidden grain-overlay">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-blue-700" />
-        <div className="absolute inset-0 dot-grid opacity-10" />
+      <section className="py-28 px-4 relative overflow-hidden grain-overlay">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-[hsl(var(--primary)/0.95)] to-blue-700" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.08)_0%,transparent_50%)]" />
 
         <div className="container mx-auto max-w-3xl text-center relative z-10">
           <ScrollReveal>
-            <h2 className="font-display text-[clamp(1.875rem,3vw+0.5rem,3rem)] tracking-tight mb-6 text-primary-foreground leading-[1.15]" data-testid="text-cta-title">
+            <h2 className="font-display text-[clamp(2rem,3.5vw+0.5rem,3.25rem)] tracking-tight mb-5 text-primary-foreground leading-[1.1]" data-testid="text-cta-title">
               Uw website kan volgende week al live staan
             </h2>
-            <p className="text-lg text-primary-foreground/80 mb-10 max-w-[50ch] mx-auto leading-relaxed">
+            <p className="text-lg text-primary-foreground/80 mb-8 max-w-[48ch] mx-auto leading-relaxed">
               Geen opstartkosten. Geen contract. Binnen 10 dagen online. Kies uw plan en wij regelen de rest.
             </p>
-            <a href="#pricing">
-              <Button
-                size="lg"
-                variant="secondary"
-                className="gap-2 shadow-xl"
-                data-testid="button-cta-pricing"
-              >
+            <Button
+              size="lg"
+              variant="secondary"
+              className="gap-2 shadow-xl h-13 px-8 text-base rounded-full"
+              data-testid="button-cta-pricing"
+              asChild
+            >
+              <a href="#pricing">
                 Start uw website
                 <ArrowRight size={16} weight={ICON_WEIGHT} />
-              </Button>
-            </a>
+              </a>
+            </Button>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-primary-foreground/60">
+              {["Vanaf €49/maand", "Geen opstartkosten", "14 dagen gratis"].map((text) => (
+                <div key={text} className="flex items-center gap-1.5">
+                  <Check size={14} weight="bold" className="text-primary-foreground/80" />
+                  <span>{text}</span>
+                </div>
+              ))}
+            </div>
           </ScrollReveal>
         </div>
       </section>
