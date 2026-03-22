@@ -27,6 +27,9 @@ if (!basePath) {
   );
 }
 
+const localReact = path.resolve(import.meta.dirname, "node_modules/react");
+const localReactDom = path.resolve(import.meta.dirname, "node_modules/react-dom");
+
 export default defineConfig({
   base: basePath,
   plugins: [
@@ -48,12 +51,26 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
-      "react": path.resolve(import.meta.dirname, "node_modules/react"),
-      "react-dom": path.resolve(import.meta.dirname, "node_modules/react-dom"),
-      "react/jsx-runtime": path.resolve(import.meta.dirname, "node_modules/react/jsx-runtime"),
-      "react/jsx-dev-runtime": path.resolve(import.meta.dirname, "node_modules/react/jsx-dev-runtime"),
+      "react": localReact,
+      "react-dom": localReactDom,
+      "react/jsx-runtime": path.resolve(localReact, "jsx-runtime"),
+      "react/jsx-dev-runtime": path.resolve(localReact, "jsx-dev-runtime"),
     },
     dedupe: ["react", "react-dom"],
+  },
+  optimizeDeps: {
+    include: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "framer-motion",
+      "lucide-react",
+      "clsx",
+      "tailwind-merge",
+      "class-variance-authority",
+      "@radix-ui/react-slot",
+    ],
   },
   root: path.resolve(import.meta.dirname),
   build: {
