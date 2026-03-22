@@ -6,7 +6,7 @@ import { z } from "zod";
 export const userRoleEnum = pgEnum("user_role", ["ADMIN", "CUSTOMER"]);
 export const planTierEnum = pgEnum("plan_tier", ["LOW", "MEDIUM", "HIGH"]);
 export const projectStatusEnum = pgEnum("project_status", ["ONBOARDING", "PRODUCTION", "LIVE", "MAINTENANCE"]);
-export const addOnStatusEnum = pgEnum("addon_status", ["REQUESTED", "ACTIVE", "PAUSED"]);
+export const addOnStatusEnum = pgEnum("addon_status", ["REQUESTED", "ACTIVE", "PAUSED", "CANCELLED"]);
 export const subscriptionStatusEnum = pgEnum("subscription_status", ["ACTIVE", "PAST_DUE", "CANCELED", "INCOMPLETE"]);
 
 export const users = pgTable("users", {

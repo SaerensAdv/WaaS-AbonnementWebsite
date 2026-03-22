@@ -1,4 +1,4 @@
-import { eq, and, desc, isNull } from "drizzle-orm";
+import { eq, ne, and, desc, isNull } from "drizzle-orm";
 import { db } from "./db";
 import {
   users,
@@ -224,7 +224,10 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(addOnSelections)
       .innerJoin(addOns, eq(addOnSelections.addOnId, addOns.id))
-      .where(eq(addOnSelections.subscriptionId, subscriptionId));
+      .where(and(
+        eq(addOnSelections.subscriptionId, subscriptionId),
+        ne(addOnSelections.status, "CANCELLED"),
+      ));
 
     return result.map((r) => ({ ...r.add_on_selections, addOn: r.add_ons }));
   }

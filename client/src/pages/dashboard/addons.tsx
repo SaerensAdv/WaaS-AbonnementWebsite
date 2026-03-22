@@ -18,6 +18,7 @@ import {
   Check,
   AlertTriangle,
   Loader2,
+  X,
 } from "lucide-react";
 import type { AddOn, AddOnSelection } from "@shared/schema";
 
@@ -35,6 +36,18 @@ const statusColors = {
   ACTIVE: "bg-chart-2/20 text-chart-2",
   PAUSED: "bg-muted text-muted-foreground",
 };
+
+function parseErrorMessage(error: any): string | undefined {
+  const msg = error?.message || "";
+  const jsonStart = msg.indexOf("{");
+  if (jsonStart !== -1) {
+    try {
+      const parsed = JSON.parse(msg.slice(jsonStart));
+      return parsed.message;
+    } catch {}
+  }
+  return msg.replace(/^\d+:\s*/, "") || undefined;
+}
 
 function formatPrice(cents: number): string {
   return new Intl.NumberFormat("nl-NL", {
@@ -68,13 +81,35 @@ export default function AddOnsPage() {
       queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
       toast({
         title: "Add-on toegevoegd",
-        description: "De add-on is succesvol toegevoegd aan uw abonnement.",
+        description: "De add-on is succesvol toegevoegd aan uw abonnement. Het bedrag wordt bij uw volgende factuur verrekend.",
       });
     },
-    onError: () => {
+    onError: (error: any) => {
       toast({
         title: "Fout",
-        description: "Er is iets misgegaan bij het toevoegen.",
+        description: parseErrorMessage(error) || "Er is iets misgegaan bij het toevoegen.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const removeMutation = useMutation({
+    mutationFn: async (addOnId: string) => {
+      const response = await apiRequest("POST", "/api/addons/remove", { addOnId });
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/addons/my"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
+      toast({
+        title: "Add-on verwijderd",
+        description: "De add-on is verwijderd van uw abonnement.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Fout",
+        description: parseErrorMessage(error) || "Er is iets misgegaan bij het verwijderen.",
         variant: "destructive",
       });
     },
@@ -144,6 +179,20 @@ export default function AddOnsPage() {
                             {formatPrice(selection.addOn.monthlyPriceCents)}/maand
                           </p>
                         </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="shrink-0 h-8 w-8 text-muted-foreground hover:text-destructive"
+                          disabled={removeMutation.isPending}
+                          onClick={() => removeMutation.mutate(selection.addOnId)}
+                          data-testid={`button-remove-${selection.addOn.slug}`}
+                        >
+                          {removeMutation.isPending ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <X className="h-4 w-4" />
+                          )}
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>

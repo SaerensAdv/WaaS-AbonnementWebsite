@@ -401,6 +401,10 @@ export async function registerRoutes(
         return res.status(400).json({ message: "No active subscription found." });
       }
 
+      if (!subscription.stripeSubscriptionId) {
+        return res.status(400).json({ message: "No Stripe subscription found. Please complete your plan checkout first." });
+      }
+
       const { addOnId } = req.body;
 
       if (!addOnId) {
@@ -412,16 +416,99 @@ export async function registerRoutes(
         return res.status(404).json({ message: "Add-on not found" });
       }
 
-      const selection = await storage.createAddOnSelection({
-        subscriptionId: subscription.id,
-        addOnId,
-        status: "ACTIVE",
+      if (!addOn.stripePriceId) {
+        return res.status(400).json({ message: "This add-on is not yet available for purchase." });
+      }
+
+      const existingSelections = await storage.getAddOnSelections(subscription.id);
+      const alreadySelected = existingSelections.some(s => s.addOnId === addOnId && s.status === "ACTIVE");
+      if (alreadySelected) {
+        return res.status(400).json({ message: "This add-on is already active on your subscription." });
+      }
+
+      const { getUncachableStripeClient } = await import("./stripeClient");
+      const stripe = await getUncachableStripeClient();
+
+      const subscriptionItem = await stripe.subscriptionItems.create({
+        subscription: subscription.stripeSubscriptionId,
+        price: addOn.stripePriceId,
+        quantity: 1,
+        proration_behavior: "create_prorations",
       });
 
+      let selection;
+      try {
+        selection = await storage.createAddOnSelection({
+          subscriptionId: subscription.id,
+          addOnId,
+          status: "ACTIVE",
+          stripeItemId: subscriptionItem.id,
+        });
+      } catch (dbError) {
+        console.error("DB insert failed after Stripe item created, compensating:", dbError);
+        try {
+          await stripe.subscriptionItems.del(subscriptionItem.id, { proration_behavior: "none" });
+        } catch (compensateError) {
+          console.error("Failed to compensate Stripe item deletion:", compensateError);
+        }
+        throw dbError;
+      }
+
       res.json(selection);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Select add-on error:", error);
-      res.status(500).json({ message: "Failed to select add-on" });
+      const message = error?.message?.includes("No such") 
+        ? "Stripe-abonnement niet gevonden. Neem contact op met support."
+        : "Kon de add-on niet toevoegen aan uw abonnement.";
+      res.status(500).json({ message });
+    }
+  });
+
+  app.post("/api/addons/remove", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const user = (req as any).user as User;
+      const subscription = await storage.getSubscription(user.id);
+
+      if (!subscription) {
+        return res.status(400).json({ message: "No active subscription found." });
+      }
+
+      const { addOnId } = req.body;
+
+      if (!addOnId) {
+        return res.status(400).json({ message: "Add-on ID is required" });
+      }
+
+      const existingSelections = await storage.getAddOnSelections(subscription.id);
+      const selection = existingSelections.find(s => s.addOnId === addOnId && s.status === "ACTIVE");
+
+      if (!selection) {
+        return res.status(404).json({ message: "Active add-on not found on your subscription." });
+      }
+
+      if (selection.stripeItemId) {
+        const { getUncachableStripeClient } = await import("./stripeClient");
+        const stripe = await getUncachableStripeClient();
+
+        try {
+          await stripe.subscriptionItems.del(selection.stripeItemId, {
+            proration_behavior: "create_prorations",
+          });
+        } catch (stripeError: any) {
+          if (stripeError?.code === "resource_missing" || stripeError?.message?.includes("No such")) {
+            console.warn("Stripe item already removed, continuing with DB cleanup:", selection.stripeItemId);
+          } else {
+            throw stripeError;
+          }
+        }
+      }
+
+      await storage.updateAddOnSelection(selection.id, { status: "CANCELLED" as any });
+
+      res.json({ success: true });
+    } catch (error: any) {
+      console.error("Remove add-on error:", error);
+      res.status(500).json({ message: "Kon de add-on niet verwijderen. Probeer het opnieuw." });
     }
   });
 
