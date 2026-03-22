@@ -9,7 +9,7 @@ export function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <MarketingHeader />
-      <main className="flex-1 -mt-[72px]">{children}</main>
+      <main className="flex-1">{children}</main>
       <MarketingFooter />
     </div>
   );
