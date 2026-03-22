@@ -16,6 +16,11 @@
       "sourceType": "github",
       "computedHash": "6b8a1945921342906ce9eff9d60c8fd68b9f07f87ff6388848530ac2f7e2d1b4"
     },
+    "form-cro": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "d6d5dcc076f4042b333a34bb707b3bde22bf1a67f9acfb598cb4d4bf1199f3d5"
+    },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "github",
@@ -55,6 +60,11 @@
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
       "computedHash": "27156d103697411bba81520fef469e77bfba4c65d904c841e4965a158d531fbd"
+    },
+    "signup-flow-cro": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "8c4b9ce342ccb721eed9a4c1eb0d1ea647e5f1a77db8609509181c62636acf61"
     },
     "threejs-animation": {
       "source": "cloudai-x/threejs-skills",

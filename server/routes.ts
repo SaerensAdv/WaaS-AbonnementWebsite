@@ -14,11 +14,13 @@ import {
   createKlantTask,
   createOnboardingSprintTask,
   createSupportTicketTask,
+  createMaatwerkQuoteTask,
   getTasksByTag,
   isClickUpConfigured,
   CLICKUP_LISTS,
   getTasks,
 } from "./clickup";
+import { insertQuoteRequestSchema } from "@shared/schema";
 
 declare module "express-session" {
   interface SessionData {
@@ -852,6 +854,64 @@ ${pages.map((p) => `  <url>
 </urlset>`;
 
     res.type("application/xml").send(xml);
+  });
+
+  app.post("/api/quote-requests", async (req, res) => {
+    try {
+      const quoteValidation = insertQuoteRequestSchema.extend({
+        email: z.string().email("Ongeldig e-mailadres"),
+        companyName: z.string().min(2, "Bedrijfsnaam is verplicht"),
+        contactName: z.string().min(2, "Contactpersoon is verplicht"),
+        description: z.string().min(10, "Beschrijving moet minimaal 10 tekens bevatten"),
+        projectType: z.string().min(1, "Kies een projecttype"),
+      });
+      const parsed = quoteValidation.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ message: "Ongeldige invoer", errors: parsed.error.flatten().fieldErrors });
+      }
+
+      const data = {
+        ...parsed.data,
+        phone: parsed.data.phone || null,
+        budgetRange: parsed.data.budgetRange || null,
+        currentWebsite: parsed.data.currentWebsite || null,
+      };
+
+      const quoteRequest = await storage.createQuoteRequest(data);
+
+      if (isClickUpConfigured()) {
+        try {
+          const task = await createMaatwerkQuoteTask(
+            parsed.data.companyName,
+            parsed.data.contactName,
+            parsed.data.email,
+            parsed.data.phone || null,
+            parsed.data.projectType,
+            parsed.data.budgetRange || null,
+            parsed.data.description,
+            parsed.data.currentWebsite || null,
+          );
+          await storage.updateQuoteRequest(quoteRequest.id, { clickupTaskId: task.id });
+        } catch (clickupError) {
+          console.error("ClickUp task creation failed:", clickupError);
+        }
+      }
+
+      res.json({ success: true, id: quoteRequest.id });
+    } catch (error: any) {
+      console.error("Quote request error:", error);
+      res.status(500).json({ message: "Er ging iets mis bij het versturen van uw aanvraag" });
+    }
+  });
+
+  app.get("/api/quote-requests", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const requests = await storage.getQuoteRequests();
+      res.json(requests);
+    } catch (error: any) {
+      console.error("Get quote requests error:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
   });
 
   return httpServer;

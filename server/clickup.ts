@@ -171,6 +171,59 @@ export async function createAanvraagTask(
   });
 }
 
+export async function createMaatwerkQuoteTask(
+  companyName: string,
+  contactName: string,
+  email: string,
+  phone: string | null,
+  projectType: string,
+  budgetRange: string | null,
+  description: string,
+  currentWebsite: string | null,
+): Promise<any> {
+  const projectTypeLabels: Record<string, string> = {
+    "ecommerce": "E-commerce / Webshop",
+    "multilingual": "Meertalige website",
+    "booking": "Boekings- / reserveringssysteem",
+    "custom-integration": "Custom integraties & API's",
+    "redesign": "Volledige redesign",
+    "other": "Anders",
+  };
+
+  const budgetLabels: Record<string, string> = {
+    "1000-2500": "€1.000 – €2.500",
+    "2500-5000": "€2.500 – €5.000",
+    "5000-10000": "€5.000 – €10.000",
+    "10000+": "€10.000+",
+    "unknown": "Nog geen idee",
+  };
+
+  const desc = [
+    `**Bedrijf:** ${companyName}`,
+    `**Contactpersoon:** ${contactName}`,
+    `**Email:** ${email}`,
+    phone ? `**Telefoon:** ${phone}` : null,
+    "",
+    `**Type project:** ${projectTypeLabels[projectType] || projectType}`,
+    budgetRange ? `**Budget indicatie:** ${budgetLabels[budgetRange] || budgetRange}` : null,
+    currentWebsite ? `**Huidige website:** ${currentWebsite}` : null,
+    "",
+    "---",
+    "",
+    "## Projectbeschrijving",
+    description,
+    "",
+    `Aangevraagd op: ${new Date().toLocaleDateString("nl-NL")}`,
+  ].filter(Boolean).join("\n");
+
+  return createTask(CLICKUP_LISTS.AANVRAGEN, {
+    name: `Maatwerk offerte — ${companyName}`,
+    description: desc,
+    tags: ["maatwerk", "offerte"],
+    priority: 2,
+  });
+}
+
 export async function createOnboardingSprintTask(
   customerName: string,
   planName: string,

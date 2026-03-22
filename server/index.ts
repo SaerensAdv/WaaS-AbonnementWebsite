@@ -132,6 +132,40 @@ async function runSchemaCleanup() {
   }
 }
 
+async function ensureQuoteRequestsTable() {
+  const client = await pool.connect();
+  try {
+    const tableExists = await client.query(
+      `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'quote_requests') as exists`
+    );
+    if (tableExists.rows[0].exists) return;
+
+    log('Creating quote_requests table...', 'migration');
+    await client.query(`
+      DO $$ BEGIN
+        CREATE TYPE quote_request_status AS ENUM ('NEW', 'CONTACTED', 'QUOTED', 'ACCEPTED', 'DECLINED');
+      EXCEPTION WHEN duplicate_object THEN null; END $$;
+      CREATE TABLE IF NOT EXISTS quote_requests (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        company_name TEXT NOT NULL,
+        contact_name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT,
+        project_type TEXT NOT NULL,
+        budget_range TEXT,
+        description TEXT NOT NULL,
+        current_website TEXT,
+        status quote_request_status DEFAULT 'NEW',
+        clickup_task_id TEXT,
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+    log('quote_requests table created', 'migration');
+  } finally {
+    client.release();
+  }
+}
+
 async function initStripe() {
   const databaseUrl = process.env.DATABASE_URL;
 
@@ -191,6 +225,7 @@ async function initStripe() {
 
 (async () => {
   await runSchemaCleanup();
+  await ensureQuoteRequestsTable();
 
   let stripeWebhookUuid: string | null = null;
   

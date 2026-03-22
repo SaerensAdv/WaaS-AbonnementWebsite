@@ -85,6 +85,23 @@ export const addOnSelections = pgTable("add_on_selections", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const quoteRequestStatusEnum = pgEnum("quote_request_status", ["NEW", "CONTACTED", "QUOTED", "ACCEPTED", "DECLINED"]);
+
+export const quoteRequests = pgTable("quote_requests", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  companyName: text("company_name").notNull(),
+  contactName: text("contact_name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  projectType: text("project_type").notNull(),
+  budgetRange: text("budget_range"),
+  description: text("description").notNull(),
+  currentWebsite: text("current_website"),
+  status: quoteRequestStatusEnum("status").default("NEW"),
+  clickupTaskId: text("clickup_task_id"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const passwordResetTokens = pgTable("password_reset_tokens", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").references(() => users.id).notNull(),
@@ -190,6 +207,13 @@ export const insertAddOnSelectionSchema = createInsertSchema(addOnSelections).om
   createdAt: true,
 });
 
+export const insertQuoteRequestSchema = createInsertSchema(quoteRequests).omit({
+  id: true,
+  createdAt: true,
+  status: true,
+  clickupTaskId: true,
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type CustomerProfile = typeof customerProfiles.$inferSelect;
@@ -204,6 +228,8 @@ export type AddOn = typeof addOns.$inferSelect;
 export type InsertAddOn = z.infer<typeof insertAddOnSchema>;
 export type AddOnSelection = typeof addOnSelections.$inferSelect;
 export type InsertAddOnSelection = z.infer<typeof insertAddOnSelectionSchema>;
+export type QuoteRequest = typeof quoteRequests.$inferSelect;
+export type InsertQuoteRequest = z.infer<typeof insertQuoteRequestSchema>;
 
 export const loginSchema = z.object({
   email: z.string().email("Invalid email address"),

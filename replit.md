@@ -39,6 +39,7 @@ Preferred communication style: Simple, everyday language.
 - `/login`, `/signup` — Authentication pages
 - `/privacy`, `/terms` — Legal pages
 - `/checkout-success` — Post-payment confirmation
+- `/offerte` — Quote request form for maatwerk/custom projects (submits to quote_requests DB + ClickUp task in AANVRAGEN list)
 - `/app` — Customer dashboard (status, subscription, add-ons)
 - `/app/onboarding` — 5-step onboarding intake wizard
 - `/app/addons` — Add-on management

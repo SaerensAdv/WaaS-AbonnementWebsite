@@ -9,6 +9,7 @@ import {
   addOns,
   addOnSelections,
   passwordResetTokens,
+  quoteRequests,
   type User,
   type InsertUser,
   type CustomerProfile,
@@ -23,6 +24,8 @@ import {
   type InsertAddOn,
   type AddOnSelection,
   type InsertAddOnSelection,
+  type QuoteRequest,
+  type InsertQuoteRequest,
 } from "@shared/schema";
 import { randomBytes } from "crypto";
 
@@ -68,6 +71,10 @@ export interface IStorage {
     activeSubscriptions: number;
     mrr: number;
   }>;
+
+  createQuoteRequest(request: InsertQuoteRequest): Promise<QuoteRequest>;
+  getQuoteRequests(): Promise<QuoteRequest[]>;
+  updateQuoteRequest(id: string, data: Partial<QuoteRequest>): Promise<QuoteRequest | undefined>;
 
   createPasswordResetToken(userId: string): Promise<string>;
   getValidPasswordResetToken(token: string): Promise<{ userId: string } | null>;
@@ -269,6 +276,20 @@ export class DatabaseStorage implements IStorage {
       activeSubscriptions: allSubscriptions.length,
       mrr,
     };
+  }
+
+  async createQuoteRequest(request: InsertQuoteRequest): Promise<QuoteRequest> {
+    const [result] = await db.insert(quoteRequests).values(request).returning();
+    return result;
+  }
+
+  async getQuoteRequests(): Promise<QuoteRequest[]> {
+    return db.select().from(quoteRequests).orderBy(desc(quoteRequests.createdAt));
+  }
+
+  async updateQuoteRequest(id: string, data: Partial<QuoteRequest>): Promise<QuoteRequest | undefined> {
+    const [result] = await db.update(quoteRequests).set(data).where(eq(quoteRequests.id, id)).returning();
+    return result || undefined;
   }
 
   async createPasswordResetToken(userId: string): Promise<string> {

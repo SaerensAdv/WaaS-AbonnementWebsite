@@ -904,7 +904,7 @@ export default function HomePage() {
                     data-testid="button-maatwerk-offerte"
                     asChild
                   >
-                    <a href="mailto:info@abonnement.website?subject=Aanvraag%20maatwerk%20project">
+                    <a href="/offerte">
                       Vraag een offerte aan
                       <ArrowRight size={16} weight={ICON_WEIGHT} className="ml-2 group-hover:translate-x-1 transition-transform" />
                     </a>
