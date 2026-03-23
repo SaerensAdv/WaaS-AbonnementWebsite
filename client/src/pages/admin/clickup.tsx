@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ClickUpStatsSkeleton, ClickUpTaskListSkeleton } from "@/components/skeletons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   ExternalLink,
@@ -143,13 +143,9 @@ export default function AdminClickUpPage() {
         )}
 
         {isLoading ? (
-          <div className="grid gap-4 md:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <Card key={i}>
-                <CardHeader><Skeleton className="h-5 w-24" /></CardHeader>
-                <CardContent><Skeleton className="h-20 w-full" /></CardContent>
-              </Card>
-            ))}
+          <div className="space-y-6">
+            <ClickUpStatsSkeleton />
+            <ClickUpTaskListSkeleton />
           </div>
         ) : (
           <>

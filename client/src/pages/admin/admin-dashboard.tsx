@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { StatCardSkeleton } from "@/components/skeletons";
 import {
   Users,
   FolderKanban,
@@ -37,6 +37,11 @@ export default function AdminDashboard() {
           </p>
         </div>
 
+        {isLoading ? (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {[0, 1, 2, 3].map((i) => <StatCardSkeleton key={i} />)}
+          </div>
+        ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card className="border">
             <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
@@ -44,11 +49,7 @@ export default function AdminDashboard() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-8 w-16" />
-              ) : (
-                <div className="text-2xl font-semibold" data-testid="text-total-customers">{data?.totalCustomers || 0}</div>
-              )}
+              <div className="text-2xl font-semibold" data-testid="text-total-customers">{data?.totalCustomers || 0}</div>
               <p className="text-xs text-muted-foreground mt-1">Geregistreerde klanten</p>
             </CardContent>
           </Card>
@@ -59,11 +60,7 @@ export default function AdminDashboard() {
               <FolderKanban className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-8 w-16" />
-              ) : (
-                <div className="text-2xl font-semibold" data-testid="text-total-projects">{data?.totalProjects || 0}</div>
-              )}
+              <div className="text-2xl font-semibold" data-testid="text-total-projects">{data?.totalProjects || 0}</div>
               <p className="text-xs text-muted-foreground mt-1">Totaal projecten</p>
             </CardContent>
           </Card>
@@ -74,11 +71,7 @@ export default function AdminDashboard() {
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-8 w-16" />
-              ) : (
-                <div className="text-2xl font-semibold" data-testid="text-active-subs">{data?.activeSubscriptions || 0}</div>
-              )}
+              <div className="text-2xl font-semibold" data-testid="text-active-subs">{data?.activeSubscriptions || 0}</div>
               <p className="text-xs text-muted-foreground mt-1">Lopende abonnementen</p>
             </CardContent>
           </Card>
@@ -89,17 +82,14 @@ export default function AdminDashboard() {
               <Euro className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-8 w-16" />
-              ) : (
-                <div className="text-2xl font-semibold" data-testid="text-mrr">
-                  €{((data?.mrr || 0) / 100).toFixed(0)}
-                </div>
-              )}
+              <div className="text-2xl font-semibold" data-testid="text-mrr">
+                €{((data?.mrr || 0) / 100).toFixed(0)}
+              </div>
               <p className="text-xs text-muted-foreground mt-1">Maandelijkse omzet</p>
             </CardContent>
           </Card>
         </div>
+        )}
 
         <Card className="border">
           <CardHeader className="flex items-center justify-between gap-2">

@@ -4,7 +4,7 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { DashboardStatsSkeleton } from "@/components/skeletons";
 import { useAuth } from "@/lib/auth-context";
 import {
   Globe,
@@ -60,6 +60,9 @@ export default function CustomerDashboard() {
           </p>
         </div>
 
+        {isLoading ? (
+          <DashboardStatsSkeleton />
+        ) : (
         <div className="grid gap-4 md:grid-cols-3">
           <Card className="border">
             <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
@@ -67,9 +70,7 @@ export default function CustomerDashboard() {
               <Globe className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-6 w-24" />
-              ) : statusInfo ? (
+              {statusInfo ? (
                 <Badge variant="secondary" className={statusInfo.color}>
                   <statusInfo.icon className="h-3 w-3 mr-1" />
                   {statusInfo.label}
@@ -86,9 +87,7 @@ export default function CustomerDashboard() {
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-6 w-20" />
-              ) : subscription ? (
+              {subscription ? (
                 <div>
                   <span className="font-semibold">{subscription.plan.name}</span>
                   <span className="text-sm text-muted-foreground ml-2">
@@ -107,14 +106,11 @@ export default function CustomerDashboard() {
               <Puzzle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-8 w-12" />
-              ) : (
-                <div className="text-2xl font-semibold" data-testid="text-addon-count">{addOnCount}</div>
-              )}
+              <div className="text-2xl font-semibold" data-testid="text-addon-count">{addOnCount}</div>
             </CardContent>
           </Card>
         </div>
+        )}
 
         {project && !project.onboardingCompleted && (
           <Card className="border border-chart-4/50 bg-chart-4/5">

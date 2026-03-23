@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import loaderGif from "@assets/Untitled_design-loader_icon_1764970117869.gif";
+import { Loader2 } from "lucide-react";
 
 export function PageLoader() {
   const [location] = useLocation();
@@ -44,11 +44,7 @@ export function PageLoader() {
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 0.15 }}
           >
-            <img 
-              src={loaderGif} 
-              alt="Loading..." 
-              className="h-20 w-20 object-contain"
-            />
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </motion.div>
         </motion.div>
       )}

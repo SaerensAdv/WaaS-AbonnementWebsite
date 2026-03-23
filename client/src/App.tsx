@@ -51,7 +51,7 @@ import AdminCustomersPage from "@/pages/admin/customers";
 import AdminClickUpPage from "@/pages/admin/clickup";
 import SupportPage from "@/pages/dashboard/support";
 
-import loaderGif from "@assets/Untitled_design-loader_icon_1764970117869.gif";
+import { Loader2 } from "lucide-react";
 
 function ProtectedRoute({
   component: Component,
@@ -65,8 +65,8 @@ function ProtectedRoute({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <img src={loaderGif} alt="Loading..." className="h-20 w-20 object-contain" />
+      <div className="min-h-screen flex items-center justify-center bg-background" data-testid="auth-loader">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
       </div>
     );
   }

@@ -3,7 +3,7 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { AddOnCardSkeleton } from "@/components/skeletons";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import {
@@ -206,19 +206,8 @@ export default function AddOnsPage() {
           <h2 className="text-lg font-medium">Beschikbare add-ons</h2>
           {isLoading ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3].map((i) => (
-                <Card key={i} className="border">
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      <Skeleton className="h-10 w-10 rounded-md" />
-                      <div className="flex-1">
-                        <Skeleton className="h-5 w-32 mb-2" />
-                        <Skeleton className="h-4 w-full" />
-                        <Skeleton className="h-4 w-3/4 mt-1" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+              {[0, 1, 2].map((i) => (
+                <AddOnCardSkeleton key={i} />
               ))}
             </div>
           ) : (
