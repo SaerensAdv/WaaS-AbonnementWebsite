@@ -79,7 +79,7 @@ export function MarketingFooter() {
               </li>
               <li className="flex items-center gap-1.5">
                 <Globe size={14} weight={ICON_WEIGHT} />
-                <span>Aalst, België</span>
+                <span>België</span>
               </li>
               <li className="text-xs text-muted-foreground/60">
                 Saerens Advertising<br />
