@@ -14,7 +14,14 @@ const app = express();
 app.set('trust proxy', 1);
 
 app.use(helmet({
-  contentSecurityPolicy: false,
+  contentSecurityPolicy: {
+    useDefaults: false,
+    directives: {
+      // Only emit frame-ancestors; intentionally omit default-src.
+      "default-src": helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc,
+      "frame-ancestors": ["'self'", "https://saerensadvertising.com"],
+    },
+  },
   crossOriginEmbedderPolicy: false,
 }));
 
