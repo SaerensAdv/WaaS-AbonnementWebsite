@@ -132,6 +132,9 @@ export default function AddOnsPage() {
           <p className="text-muted-foreground">
             Versterk uw online aanwezigheid met extra diensten.
           </p>
+          <p className="text-xs text-muted-foreground mt-1" data-testid="text-addon-quarterly-note">
+            Prijzen worden per maand getoond. Add-ons worden per kwartaal vooruit gefactureerd, samen met uw abonnement.
+          </p>
         </div>
 
         {!hasSubscription && !isLoading && (

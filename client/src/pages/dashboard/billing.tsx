@@ -138,6 +138,9 @@ export default function BillingPage() {
                     {formatPrice(subscription.plan.monthlyPriceCents)}/maand
                   </span>
                 </div>
+                <p className="text-xs text-muted-foreground -mt-1" data-testid="text-quarterly-billing-note">
+                  Per kwartaal vooruit gefactureerd ({formatPrice(subscription.plan.monthlyPriceCents * 3)} per kwartaal)
+                </p>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Volgende factuur</span>
                   <span>{formatDate(subscription.currentPeriodEnd)}</span>

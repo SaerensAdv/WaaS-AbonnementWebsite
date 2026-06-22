@@ -114,7 +114,7 @@ En alle verwijzingen naar de 14-daagse proefperiode én naar kaal "maandelijks o
 ## 7. Wat er nog gebouwd moet worden (implementatie-impact)
 
 **Wél nu nodig (om dit ontwerp te laten kloppen):**
-- **Stripe:** eerste kwartaal vooruit afrekenen, daarna maandelijks (kernstuk, vraagt zorgvuldige Stripe-opzet).
+- **Stripe:** per kwartaal vooruit afrekenen — eerste kwartaal bij start, daarna elk kwartaal opnieuw (kernstuk, vraagt zorgvuldige Stripe-opzet).
 - **Copy gelijktrekken:** hero, footer, meta, FAQ, badges → 6 mnd minimum / geen proefperiode.
 - **Terms (`terms.tsx`):** 14-daagse proefperiode eruit; kwartaal-vooruit-clausule erin; 6 mnd minimum behouden.
 - **Seed (`server/seed.ts`):** add-on aanpassingen (extra content per 3, social media scope) + "dedicated accountmanager" → "vast aanspreekpunt".

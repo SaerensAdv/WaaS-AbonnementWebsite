@@ -27,7 +27,7 @@ const sections = [
       "In deze Algemene Voorwaarden wordt verstaan onder:",
       "**Dienstverlener**: Saerens Advertising (eenmanszaak), handelend onder de naam Abonnement.website, ingeschreven in de Kruispuntbank van Ondernemingen onder nummer BE 1019.436.742, gevestigd te Aalst, België.",
       "**Klant**: de natuurlijke persoon of rechtspersoon die een Abonnement afsluit bij Dienstverlener.",
-      "**Abonnement**: de overeenkomst tussen Dienstverlener en Klant voor het ontwerpen, bouwen, hosten, onderhouden en ondersteunen van een website tegen een maandelijkse vergoeding.",
+      "**Abonnement**: de overeenkomst tussen Dienstverlener en Klant voor het ontwerpen, bouwen, hosten, onderhouden en ondersteunen van een website tegen een vast maandtarief dat per kwartaal vooruit wordt gefactureerd.",
       "**Website**: de door Dienstverlener ontworpen en gebouwde website ten behoeve van de Klant.",
       "**Add-on**: een aanvullende dienst die naast het Abonnement kan worden afgenomen, zoals Google Ads Beheer, Social Media Beheer of een E-commerce Module.",
       "**Credits**: het maandelijkse budget voor content wijzigingen, uitgedrukt in euro, dat per plan verschilt.",

@@ -25,7 +25,7 @@ export const nl = {
       privacy: "Privacy",
       terms: "Voorwaarden",
       securePayment: "Veilig betalen",
-      tagline: "Professionele websites als maandelijks abonnement. Hosting, onderhoud en support inbegrepen.",
+      tagline: "Professionele websites als abonnement. Hosting, onderhoud en support inbegrepen.",
     },
     trust: {
       sslSecure: "SSL Beveiligd",
@@ -43,7 +43,7 @@ export const nl = {
       badge: "Wij doen alles, u geniet van de resultaten",
       title: "Website abonnement",
       titleHighlight: "zonder zorgen",
-      description: "Professioneel ontwerp, hosting, onderhoud en support - alles inbegrepen in één vast maandbedrag. Geen technische kennis nodig. Wij regelen alles, u focust op uw bedrijf.",
+      description: "Professioneel ontwerp, hosting, onderhoud en support - alles inbegrepen in één vast maandtarief, per kwartaal vooruit gefactureerd. Geen technische kennis nodig. Wij regelen alles, u focust op uw bedrijf.",
     },
     stats: {
       happyCustomers: { value: "500+", label: "Tevreden klanten", description: "Zorgeloos online" },

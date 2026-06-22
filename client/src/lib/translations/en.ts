@@ -27,7 +27,7 @@ export const en: TranslationKeys = {
       privacy: "Privacy",
       terms: "Terms",
       securePayment: "Secure Payment",
-      tagline: "Professional websites as a monthly subscription. Hosting, maintenance and support included.",
+      tagline: "Professional websites as a subscription. Hosting, maintenance and support included.",
     },
     trust: {
       sslSecure: "SSL Secured",
@@ -45,7 +45,7 @@ export const en: TranslationKeys = {
       badge: "We handle everything, you enjoy the results",
       title: "Website subscription",
       titleHighlight: "worry-free",
-      description: "Professional design, hosting, maintenance, and support - all included in one fixed monthly fee. No technical knowledge required. We handle everything, you focus on your business.",
+      description: "Professional design, hosting, maintenance, and support - all included in one fixed monthly rate, billed quarterly. No technical knowledge required. We handle everything, you focus on your business.",
     },
     stats: {
       happyCustomers: { value: "500+", label: "Happy Customers", description: "Worry-free online" },

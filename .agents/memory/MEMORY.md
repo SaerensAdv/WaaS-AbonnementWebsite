@@ -1,0 +1,3 @@
+- [Quarterly billing model](quarterly-billing-model.md) — platform bills per quarter (interval_count 3, amount = monthly×3); plans AND add-ons must share the interval.
+- [Stripe SDK type gotchas](stripe-sdk-type-gotchas.md) — installed Stripe types omit current_period_end / Invoice.subscription / invoices.retrieveUpcoming; cast `as any`, runtime has them.
+- [Pricing copy convention](pricing-copy-convention.md) — no trial / no bare "maandelijks opzegbaar" / no "geen contract"; canonical "6 maanden minimum · per kwartaal vooruit · geen opstartkosten".

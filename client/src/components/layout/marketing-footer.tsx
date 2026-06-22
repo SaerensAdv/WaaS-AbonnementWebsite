@@ -26,7 +26,7 @@ export function MarketingFooter() {
               <span className="text-lg font-semibold tracking-tight">abo.web</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-[30ch]">
-              Professionele websites als maandelijks abonnement. Design, hosting, onderhoud en support inbegrepen.
+              Professionele websites als abonnement. Design, hosting, onderhoud en support inbegrepen.
             </p>
             <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-primary/10 hover:text-primary transition-colors" data-testid="link-social-email">
               <a href="mailto:info@abonnement.website" aria-label="Email">

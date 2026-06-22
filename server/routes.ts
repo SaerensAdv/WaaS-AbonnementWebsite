@@ -416,6 +416,10 @@ export async function registerRoutes(
         return res.status(404).json({ message: "Add-on not found" });
       }
 
+      if (!addOn.isActive) {
+        return res.status(400).json({ message: "This add-on is not available." });
+      }
+
       if (!addOn.stripeQuarterlyPriceId) {
         return res.status(400).json({ message: "This add-on is not yet available for purchase." });
       }
@@ -561,7 +565,7 @@ export async function registerRoutes(
         try {
           const { getUncachableStripeClient } = await import("./stripeClient");
           const stripe = await getUncachableStripeClient();
-          const invoice = await stripe.invoices.retrieveUpcoming({
+          const invoice = await (stripe.invoices as any).retrieveUpcoming({
             subscription: subscription.stripeSubscriptionId,
           });
           if (invoice) {
@@ -741,7 +745,7 @@ export async function registerRoutes(
       if (stripeSubscriptionId) {
         try {
           const stripeSub = await stripe.subscriptions.retrieve(stripeSubscriptionId);
-          currentPeriodEnd = new Date(stripeSub.current_period_end * 1000);
+          currentPeriodEnd = new Date((stripeSub as any).current_period_end * 1000);
         } catch (e: any) {
           console.error("Could not retrieve subscription period:", e.message);
         }
@@ -816,17 +820,6 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("Get publishable key error:", error);
       res.status(500).json({ message: "Could not get Stripe publishable key" });
-    }
-  });
-
-  app.post("/api/admin/_create-quarterly-prices", requireRole("ADMIN"), async (_req, res) => {
-    try {
-      const { createQuarterlyPrices } = await import("../scripts/create-quarterly-prices");
-      const results = await createQuarterlyPrices();
-      res.json({ ok: true, results });
-    } catch (error: any) {
-      console.error("Create quarterly prices error:", error);
-      res.status(500).json({ message: error?.message || "Failed to create quarterly prices" });
     }
   });
 

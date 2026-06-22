@@ -89,7 +89,7 @@ export async function createQuarterlyPrices(): Promise<
     results.push({ type: "plan", name: plan.name, quarterlyPriceId: quarterlyId, quarterlyEuro: (plan.monthlyPriceCents * 3) / 100 });
   }
 
-  const allAddOns = await db.select().from(addOns);
+  const allAddOns = await db.select().from(addOns).where(eq(addOns.isActive, true));
   for (const addOn of allAddOns) {
     const quarterlyId = await ensureQuarterlyPrice(stripe, addOn.stripePriceId, addOn.monthlyPriceCents, addOn.name);
     await db.update(addOns).set({ stripeQuarterlyPriceId: quarterlyId }).where(eq(addOns.id, addOn.id));

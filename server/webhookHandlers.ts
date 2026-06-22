@@ -101,7 +101,7 @@ export class WebhookHandlers {
       if (stripeSubscriptionId) {
         try {
           const stripeSub = await stripe.subscriptions.retrieve(stripeSubscriptionId);
-          currentPeriodEnd = new Date(stripeSub.current_period_end * 1000);
+          currentPeriodEnd = new Date((stripeSub as any).current_period_end * 1000);
         } catch (e: any) {
           log(`Could not retrieve subscription period: ${e.message}`, 'stripe');
         }
@@ -183,7 +183,7 @@ export class WebhookHandlers {
 
       const updateData: { status: 'ACTIVE' | 'PAST_DUE' | 'CANCELED' | 'INCOMPLETE'; planId?: string; currentPeriodEnd?: Date } = { 
         status: WebhookHandlers.mapStripeStatus(liveSubscription.status),
-        currentPeriodEnd: new Date(liveSubscription.current_period_end * 1000),
+        currentPeriodEnd: new Date((liveSubscription as any).current_period_end * 1000),
       };
 
       const items = liveSubscription.items?.data || [];
@@ -242,9 +242,10 @@ export class WebhookHandlers {
   }
 
   static async handlePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
-    const stripeSubscriptionId = typeof invoice.subscription === 'string'
-      ? invoice.subscription
-      : invoice.subscription?.id;
+    const inv = invoice as any;
+    const stripeSubscriptionId = typeof inv.subscription === 'string'
+      ? inv.subscription
+      : inv.subscription?.id;
     const stripeCustomerId = typeof invoice.customer === 'string'
       ? invoice.customer
       : invoice.customer?.id;
