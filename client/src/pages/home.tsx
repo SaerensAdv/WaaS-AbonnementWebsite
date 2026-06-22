@@ -57,7 +57,7 @@ const faqItems = [
   },
   {
     q: "Zit ik ergens aan vast?",
-    a: "Er geldt een minimale looptijd van 6 maanden. Daarna kunt u maandelijks opzeggen via uw dashboard, zonder opzegboete. Uw website blijft actief tot het einde van de betaalperiode.",
+    a: "Er geldt een minimale looptijd van 6 maanden. U betaalt per kwartaal vooruit. Na de minimale looptijd kunt u opzeggen via uw dashboard, zonder opzegboete; uw website blijft actief tot het einde van de betaalde periode.",
   },
   {
     q: "Wat zit er allemaal in het abonnement?",
@@ -73,7 +73,7 @@ const faqItems = [
   },
   {
     q: "Wat als ik niet tevreden ben?",
-    a: "Dan horen we dat graag. We werken samen aan aanpassingen tot het design past bij uw wensen. Binnen de eerste 14 dagen kunt u kosteloos annuleren. Na de minimale looptijd van 6 maanden kunt u maandelijks opzeggen.",
+    a: "Dan horen we dat graag. We werken samen aan aanpassingen tot het design past bij uw wensen. Er geldt een minimale looptijd van 6 maanden; daarna kunt u per kwartaal opzeggen, zonder opzegboete.",
   },
   {
     q: "Kan ik add-ons later toevoegen of verwijderen?",
@@ -384,7 +384,7 @@ export default function HomePage() {
 
   useSEO({
     title: "Professionele Website als Abonnement | Vanaf €49/maand",
-    description: "Professionele website binnen 10 werkdagen live. Vanaf €49/maand, alles inbegrepen: design, hosting, onderhoud en support. Geen opstartkosten, maandelijks opzegbaar.",
+    description: "Professionele website binnen 10 werkdagen live. Vanaf €49/maand, alles inbegrepen: design, hosting, onderhoud en support. Geen opstartkosten, 6 maanden minimum.",
     canonical: "/",
     structuredData: faqStructuredData,
   });
@@ -479,7 +479,7 @@ export default function HomePage() {
               className="mb-10 text-lg sm:text-xl text-slate-300 max-w-xl leading-relaxed font-light"
               data-testid="text-hero-description"
             >
-              Design, hosting, onderhoud en support in één vast maandbedrag vanaf <span className="text-white font-medium px-1 py-0.5 bg-white/10 rounded">€49/mnd</span>. Maandelijks opzegbaar.
+              Design, hosting, onderhoud en support in één vast maandbedrag vanaf <span className="text-white font-medium px-1 py-0.5 bg-white/10 rounded">€49/mnd</span>. Per kwartaal vooruit afgerekend.
               <span className="block mt-4 font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#f3a427] to-[#f3a427] text-xl">
                 Zonder opstartkosten.
               </span>
@@ -512,7 +512,7 @@ export default function HomePage() {
             >
               <div className="flex items-center gap-2">
                 <CheckCircle size={20} weight={ICON_WEIGHT} className="text-emerald-400" />
-                <span>Maandelijks opzegbaar</span>
+                <span>6 maanden minimum</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle size={20} weight={ICON_WEIGHT} className="text-emerald-400" />
@@ -551,7 +551,7 @@ export default function HomePage() {
           >
             <div className="flex items-center gap-2">
               <Lock size={16} weight={ICON_WEIGHT} className="text-muted-foreground" />
-              Geen opstartkosten, geen contract
+              Geen opstartkosten, geen jaarcontract
             </div>
             <div className="w-1 h-1 rounded-full bg-border" />
             <div className="flex items-center gap-2">
@@ -622,7 +622,7 @@ export default function HomePage() {
               {[
                 { icon: Lock, text: "Geen opstartkosten" },
                 { icon: ShieldCheck, text: "6 maanden minimum" },
-                { icon: CheckCircle, text: "14 dagen gratis proefperiode" },
+                { icon: CreditCard, text: "Per kwartaal vooruit" },
               ].map((item) => (
                 <div key={item.text} className="flex items-center gap-1.5">
                   <item.icon size={15} weight={ICON_WEIGHT} className="text-primary" />
@@ -946,7 +946,7 @@ export default function HomePage() {
               </div>
               <div className="flex items-center gap-1.5">
                 <Clock size={15} weight={ICON_WEIGHT} className="text-primary" />
-                <span>Maandelijks opzegbaar</span>
+                <span>Per kwartaal afgerekend</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle size={15} weight={ICON_WEIGHT} className="text-primary" />
@@ -1112,7 +1112,7 @@ export default function HomePage() {
               Uw professionele website,<br className="hidden sm:block" /> volgende week al online
             </h2>
             <p className="text-lg text-white/75 mb-10 max-w-[46ch] mx-auto leading-relaxed">
-              Geen opstartkosten. Geen langdurig contract. Kies uw plan en wij regelen de rest.
+              Geen opstartkosten. Geen jaarcontract. Kies uw plan en wij regelen de rest.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button
@@ -1143,7 +1143,7 @@ export default function HomePage() {
               {[
                 { text: "Vanaf €49/maand", icon: CreditCard },
                 { text: "Geen opstartkosten", icon: CheckCircle },
-                { text: "14 dagen gratis proefperiode", icon: Clock },
+                { text: "6 maanden minimum", icon: ShieldCheck },
               ].map((item) => (
                 <div key={item.text} className="flex items-center gap-2">
                   <item.icon size={15} weight={ICON_WEIGHT} className="text-white/60" />

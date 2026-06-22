@@ -37,7 +37,7 @@ export const nl = {
   home: {
     seo: {
       title: "Website Abonnement vanaf €49/maand",
-      description: "Website abonnement met design, hosting en support inbegrepen. Geen technische kennis nodig. Maandelijks opzegbaar. Start vandaag.",
+      description: "Website abonnement met design, hosting en support inbegrepen. Geen technische kennis nodig. Geen opstartkosten, 6 maanden minimum. Start vandaag.",
     },
     hero: {
       badge: "Wij doen alles, u geniet van de resultaten",
@@ -171,7 +171,7 @@ export const nl = {
       },
       {
         question: "Kan ik mijn website abonnement opzeggen?",
-        answer: "Ja, u kunt uw website abonnement maandelijks opzeggen. Er is geen lange contractduur of opzegboete.",
+        answer: "Er geldt een minimale looptijd van 6 maanden. U betaalt per kwartaal vooruit. Daarna kunt u opzeggen zonder opzegboete; uw website blijft actief tot het einde van de betaalde periode.",
       },
       {
         question: "Is een website abonnement geschikt voor mijn bedrijf?",
@@ -183,7 +183,7 @@ export const nl = {
   pricing: {
     seo: {
       title: "Website Abonnement Prijzen",
-      description: "Website abonnement vanaf €49/maand. Starter, Professional of Business. Inclusief design, hosting, onderhoud en support. Maandelijks opzegbaar.",
+      description: "Website abonnement vanaf €49/maand. Starter, Professional of Business. Inclusief design, hosting, onderhoud en support. Geen opstartkosten, 6 maanden minimum.",
     },
     hero: {
       badge: "Prijzen",
@@ -224,7 +224,7 @@ export const nl = {
         },
         {
           question: "Wat als ik wil opzeggen?",
-          answer: "U kunt maandelijks opzeggen. Na opzegging blijft uw website nog 30 dagen actief. Op verzoek exporteren we uw content.",
+          answer: "Er geldt een minimale looptijd van 6 maanden; daarna kunt u opzeggen tegen het einde van de betaalde periode. Op verzoek exporteren we uw content.",
         },
         {
           question: "Hoe snel is mijn website klaar?",
@@ -298,10 +298,10 @@ export const nl = {
         badge: "Kern",
         title: "In mensentaal",
         items: [
-          "U betaalt maandelijks voor uw website-abonnement",
+          "U betaalt per kwartaal vooruit voor uw website-abonnement",
           "Wij bouwen, beheren en onderhouden uw website",
           "Wij doen aanpassingen volgens uw abonnement",
-          "U kan maandelijks opzeggen",
+          "6 maanden minimum, daarna per kwartaal opzegbaar",
         ],
       },
       included: {

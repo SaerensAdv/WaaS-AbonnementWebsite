@@ -63,7 +63,7 @@ const sections = [
     title: "Artikel 4 — Looptijd en Opzegging",
     content: [
       "4.1. Het Abonnement heeft een Minimale Looptijd van 6 maanden, ingaand op de datum van de eerste betaling.",
-      "4.2. Na de Minimale Looptijd is het Abonnement maandelijks opzegbaar. Opzegging geschiedt via het klantendashboard of per e-mail aan info@abonnement.website.",
+      "4.2. Na de Minimale Looptijd kan het Abonnement worden opgezegd. Opzegging geschiedt via het klantendashboard of per e-mail aan info@abonnement.website.",
       "4.3. Bij opzegging loopt het Abonnement door tot het einde van de lopende, reeds betaalde facturatieperiode. Restitutie van reeds betaalde bedragen vindt niet plaats.",
       "4.4. Dienstverlener is gerechtigd het Abonnement per direct op te zeggen in geval van:",
       "• wanbetaling die voortduurt na de in Artikel 7 genoemde betalingstermijn;",
@@ -104,7 +104,7 @@ const sections = [
     id: "betaling",
     title: "Artikel 7 — Betaling",
     content: [
-      "7.1. Betaling geschiedt maandelijks vooraf via Stripe. De Klant machtigt Dienstverlener om het maandelijkse abonnementsbedrag automatisch te incasseren.",
+      "7.1. Betaling geschiedt per kwartaal vooraf via Stripe: het abonnementsbedrag wordt telkens voor de komende 3 maanden in rekening gebracht (bijv. Starter €147, Professional €297, Business €597 per kwartaal). De Klant machtigt Dienstverlener om dit bedrag automatisch te incasseren. Maandelijkse betaling is uitsluitend op verzoek en na akkoord van Dienstverlener mogelijk.",
       "7.2. Bij een mislukte betaling heeft de Klant 14 kalenderdagen om het openstaande bedrag te voldoen.",
       "7.3. Indien betaling na deze termijn uitblijft, is Dienstverlener gerechtigd de Website offline te halen en het Abonnement op te schorten totdat volledige betaling is ontvangen.",
       "7.4. Alle genoemde prijzen zijn exclusief BTW, tenzij uitdrukkelijk anders vermeld.",

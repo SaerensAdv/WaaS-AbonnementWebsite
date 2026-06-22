@@ -1,4 +1,4 @@
-import { eq, ne, and, desc, isNull } from "drizzle-orm";
+import { eq, ne, and, or, desc, isNull } from "drizzle-orm";
 import { db } from "./db";
 import {
   users,
@@ -128,7 +128,15 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getPlanByStripePriceId(stripePriceId: string): Promise<Plan | undefined> {
-    const [plan] = await db.select().from(plans).where(eq(plans.stripePriceId, stripePriceId));
+    const [plan] = await db
+      .select()
+      .from(plans)
+      .where(
+        or(
+          eq(plans.stripePriceId, stripePriceId),
+          eq(plans.stripeQuarterlyPriceId, stripePriceId),
+        ),
+      );
     return plan || undefined;
   }
 

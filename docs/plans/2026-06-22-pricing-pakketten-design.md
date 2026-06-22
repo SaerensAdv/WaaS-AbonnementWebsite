@@ -86,18 +86,19 @@ Cookie banner blijft **inbegrepen** in alle plannen (agency account), geen apart
 ## 5. Commerciële voorwaarden (definitief)
 
 - **Geen gratis proefperiode** (de huidige "14 dagen gratis proberen" vervalt overal).
-- **Geen opstartkosten** (blijft waar — het kwartaal vooruit is vooruitbetaald abonnement, geen setup fee).
+- **Geen opstartkosten** (blijft waar — het kwartaal vooruit is een vooruitbetaald abonnement, geen setup fee).
 - **Minimale looptijd: 6 maanden** (beschermt het bouwwerk en de eigendomsoverdracht).
-- **Eerste kwartaal (3 maanden) vooruit betaald bij de start** — de "waarborg": dekt het bouwbudget en bindt de klant.
-- Maand 4–6: maandelijks betaald.
-- **Na 6 maanden: maandelijks opzegbaar** (via dashboard, zonder boete; loopt door tot einde betaalde periode).
+- **Per kwartaal (3 maanden) vooruit betaald** — vanaf de start én daarna telkens per kwartaal (Starter €147, Professional €297, Business €597 per kwartaal). Het eerste kwartaal is meteen de "waarborg": dekt het bouwbudget en bindt de klant.
+  - Eén factuurinterval voor abonnement én add-ons: Stripe vereist dat alle items op één abonnement hetzelfde interval hebben, dus add-ons lopen ook per kwartaal mee.
+- **Maandelijkse betaling** is uitsluitend op individueel verzoek en na akkoord mogelijk (uitzondering, geen standaard).
+- **Na 6 maanden: opzegbaar per kwartaal** (via dashboard, zonder boete; loopt door tot het einde van het reeds betaalde kwartaal).
 - **Eigendom van de site (design + code) gaat naar de klant na de minimale looptijd** (ongewijzigd t.o.v. huidige terms).
 - **Geen jaarabonnement** (voorlopig niet).
 
 ### Consistentie-fix (belangrijk — site is nu tegenstrijdig)
 De hero/footer/meta zeggen kaal *"Maandelijks opzegbaar"* terwijl terms/FAQ *"6 maanden minimum"* zeggen, met een badge "14 dagen gratis proefperiode". Dit moet overal gelijkgetrokken worden naar:
-> **"6 maanden minimum, daarna maandelijks opzegbaar — geen opstartkosten."**
-En alle verwijzingen naar de 14-daagse proefperiode verwijderen.
+> **"6 maanden minimum · per kwartaal vooruit · geen opstartkosten."**
+En alle verwijzingen naar de 14-daagse proefperiode én naar kaal "maandelijks opzegbaar"/"geen contract" verwijderen (vervangen door "geen jaarcontract" waar van toepassing).
 
 ---
 

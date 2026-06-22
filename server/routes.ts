@@ -416,7 +416,7 @@ export async function registerRoutes(
         return res.status(404).json({ message: "Add-on not found" });
       }
 
-      if (!addOn.stripePriceId) {
+      if (!addOn.stripeQuarterlyPriceId) {
         return res.status(400).json({ message: "This add-on is not yet available for purchase." });
       }
 
@@ -431,7 +431,7 @@ export async function registerRoutes(
 
       const subscriptionItem = await stripe.subscriptionItems.create({
         subscription: subscription.stripeSubscriptionId,
-        price: addOn.stripePriceId,
+        price: addOn.stripeQuarterlyPriceId,
         quantity: 1,
         proration_behavior: "create_prorations",
       });
@@ -664,7 +664,7 @@ export async function registerRoutes(
         customer: customerId,
         payment_method_types: ['card', 'ideal'],
         line_items: [{
-          price: plan.stripePriceId || undefined,
+          price: plan.stripeQuarterlyPriceId || undefined,
           quantity: 1,
         }],
         mode: 'subscription',
@@ -676,17 +676,18 @@ export async function registerRoutes(
         },
       };
 
-      if (!plan.stripePriceId) {
+      if (!plan.stripeQuarterlyPriceId) {
         sessionConfig.line_items = [{
           price_data: {
             currency: 'eur',
             product_data: {
               name: plan.name,
-              description: `${plan.name} - Website Abonnement`,
+              description: `${plan.name} - Website Abonnement (per kwartaal vooruit)`,
             },
-            unit_amount: plan.monthlyPriceCents,
+            unit_amount: plan.monthlyPriceCents * 3,
             recurring: {
               interval: 'month',
+              interval_count: 3,
             },
           },
           quantity: 1,
@@ -815,6 +816,17 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("Get publishable key error:", error);
       res.status(500).json({ message: "Could not get Stripe publishable key" });
+    }
+  });
+
+  app.post("/api/admin/_create-quarterly-prices", requireRole("ADMIN"), async (_req, res) => {
+    try {
+      const { createQuarterlyPrices } = await import("../scripts/create-quarterly-prices");
+      const results = await createQuarterlyPrices();
+      res.json({ ok: true, results });
+    } catch (error: any) {
+      console.error("Create quarterly prices error:", error);
+      res.status(500).json({ message: error?.message || "Failed to create quarterly prices" });
     }
   });
 

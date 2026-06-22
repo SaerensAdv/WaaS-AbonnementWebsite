@@ -227,7 +227,7 @@ export default function BillingPage() {
             <div>
               <h4 className="font-medium mb-1">Kan ik mijn abonnement opzeggen?</h4>
               <p className="text-sm text-muted-foreground">
-                Ja, u kunt maandelijks opzeggen via "Abonnement beheren". Uw website blijft actief tot het einde van de factureringsperiode.
+                Er geldt een minimale looptijd van 6 maanden. U betaalt per kwartaal vooruit. Daarna kunt u opzeggen via "Abonnement beheren"; uw website blijft actief tot het einde van de betaalde periode.
               </p>
             </div>
           </CardContent>

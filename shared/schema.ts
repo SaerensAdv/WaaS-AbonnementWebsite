@@ -38,6 +38,7 @@ export const plans = pgTable("plans", {
   features: text("features").array(),
   isActive: boolean("is_active").default(true),
   stripePriceId: text("stripe_price_id"),
+  stripeQuarterlyPriceId: text("stripe_quarterly_price_id"),
 });
 
 export const subscriptions = pgTable("subscriptions", {
@@ -79,6 +80,7 @@ export const addOns = pgTable("add_ons", {
   isActive: boolean("is_active").default(true),
   icon: text("icon"),
   stripePriceId: text("stripe_price_id"),
+  stripeQuarterlyPriceId: text("stripe_quarterly_price_id"),
 });
 
 export const addOnSelections = pgTable("add_on_selections", {

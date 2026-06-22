@@ -39,7 +39,7 @@ export const en: TranslationKeys = {
   home: {
     seo: {
       title: "Website Subscription from €49/month",
-      description: "Website subscription including design, hosting, and support. No technical knowledge required. Cancel monthly. Start today.",
+      description: "Website subscription including design, hosting, and support. No technical knowledge required. No setup fees, 6-month minimum. Start today.",
     },
     hero: {
       badge: "We handle everything, you enjoy the results",
@@ -173,7 +173,7 @@ export const en: TranslationKeys = {
       },
       {
         question: "Can I cancel my website subscription?",
-        answer: "Yes, you can cancel your website subscription monthly. There is no long contract term or cancellation fee.",
+        answer: "There is a 6-month minimum term. You pay quarterly in advance. After that you can cancel without penalty; your website stays active until the end of the paid period.",
       },
       {
         question: "Is a website subscription suitable for my business?",
@@ -185,7 +185,7 @@ export const en: TranslationKeys = {
   pricing: {
     seo: {
       title: "Website Subscription Pricing",
-      description: "Website subscription from €49/month. Starter, Professional, or Business. Including design, hosting, maintenance, and support. Cancel monthly.",
+      description: "Website subscription from €49/month. Starter, Professional, or Business. Including design, hosting, maintenance, and support. No setup fees, 6-month minimum.",
     },
     hero: {
       badge: "Pricing",
@@ -226,7 +226,7 @@ export const en: TranslationKeys = {
         },
         {
           question: "What if I want to cancel?",
-          answer: "You can cancel monthly. After cancellation, your website remains active for 30 days. Upon request, we export your content.",
+          answer: "There is a 6-month minimum term; after that you can cancel, effective at the end of the paid period. Upon request, we export your content.",
         },
         {
           question: "How quickly will my website be ready?",
@@ -300,10 +300,10 @@ export const en: TranslationKeys = {
         badge: "Core",
         title: "In plain language",
         items: [
-          "You pay monthly for your website subscription",
+          "You pay quarterly in advance for your website subscription",
           "We build, manage, and maintain your website",
           "We make adjustments according to your subscription",
-          "You can cancel monthly",
+          "6-month minimum, then cancellable per quarter",
         ],
       },
       included: {

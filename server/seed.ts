@@ -67,7 +67,7 @@ async function seed() {
           "Performance optimalisatie (Core Web Vitals)",
           "Maandelijks prestatierapport",
           "5 content wijzigingen per maand",
-          "Dedicated accountmanager",
+          "Vast aanspreekpunt",
           "Prioriteit support (reactie binnen 4 uur)",
         ],
         isActive: true,
@@ -101,7 +101,7 @@ async function seed() {
       {
         slug: "extra-content",
         name: "Extra Content Wijzigingen",
-        description: "5 extra content wijzigingen per maand bovenop uw plan. Tekst aanpassingen, afbeeldingen vervangen en kleine layout wijzigingen.",
+        description: "3 extra content wijzigingen per maand bovenop uw plan. Tekst aanpassingen, afbeeldingen vervangen en kleine layout wijzigingen.",
         monthlyPriceCents: 2900,
         isActive: true,
         icon: "file-text",
@@ -119,7 +119,7 @@ async function seed() {
       {
         slug: "social-media",
         name: "Social Media Beheer",
-        description: "8 posts per maand op 2 platforms. Contentplanning, creatie, community management en maandelijks overzicht.",
+        description: "6 posts per maand op 2 platforms. Contentplanning en creatie. Géén community management.",
         monthlyPriceCents: 19900,
         isActive: true,
         icon: "users",
