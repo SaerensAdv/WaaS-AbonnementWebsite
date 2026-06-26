@@ -139,7 +139,7 @@ Preferred communication style: Simple, everyday language.
 
 **Database**: PostgreSQL (Neon-backed via Replit)
 
-**Admin Credentials**: admin@websiteabonnementen.nl / admin123
+**Admin Credentials**: admin@websiteabonnementen.nl — password is set via the `ADMIN_PASSWORD` secret (seed script reads `process.env.ADMIN_PASSWORD`; falls back to an insecure dev default with a warning if unset). Run `npx tsx server/seed.ts` after changing `ADMIN_PASSWORD` to apply it.
 
 ### Build and Deployment
 
