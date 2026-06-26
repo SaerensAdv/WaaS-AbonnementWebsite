@@ -6,29 +6,7 @@ import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
 import { injectRouteMetadata } from "./seo-prerender";
-
-const KNOWN_ROUTES = new Set([
-  "/",
-  "/privacy",
-  "/terms",
-  "/offerte",
-  "/betaalbare-professionele-website",
-  "/login",
-  "/signup",
-  "/forgot-password",
-  "/reset-password",
-  "/checkout-success",
-  "/app",
-  "/app/onboarding",
-  "/app/addons",
-  "/app/analytics",
-  "/app/billing",
-  "/app/support",
-  "/app/settings",
-  "/admin",
-  "/admin/customers",
-  "/admin/clickup",
-]);
+import { isKnownRoute } from "./known-routes";
 
 const viteLogger = createLogger();
 
@@ -75,7 +53,7 @@ export async function setupVite(server: Server, app: Express) {
       );
       let page = await vite.transformIndexHtml(url, template);
       page = injectRouteMetadata(page, pathname);
-      const status = KNOWN_ROUTES.has(pathname) ? 200 : 404;
+      const status = isKnownRoute(pathname) ? 200 : 404;
       res.status(status).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);

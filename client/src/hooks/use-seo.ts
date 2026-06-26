@@ -85,6 +85,10 @@ export function useSEO({
     }
     
     if (structuredData) {
+      const prerendered = document.querySelector("script[data-route-prerender]");
+      if (prerendered) {
+        prerendered.remove();
+      }
       const script = document.createElement("script");
       script.type = "application/ld+json";
       script.setAttribute("data-seo-structured", "true");

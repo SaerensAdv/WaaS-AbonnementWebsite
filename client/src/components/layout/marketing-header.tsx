@@ -75,6 +75,16 @@ export function MarketingHeader() {
                 </Button>
               </a>
             ))}
+            <Link href="/blog">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="nav-blog"
+              >
+                Blog
+              </Button>
+            </Link>
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
@@ -166,6 +176,9 @@ export function MarketingHeader() {
               <a href="/#faq" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" className="w-full justify-start text-muted-foreground">FAQ</Button>
               </a>
+              <Link href="/blog" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-muted-foreground" data-testid="nav-blog-mobile">Blog</Button>
+              </Link>
 
               <div className="border-t border-border/50 my-3" />
 

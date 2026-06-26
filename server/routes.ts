@@ -23,6 +23,7 @@ import {
   getTasks,
 } from "./clickup";
 import { insertQuoteRequestSchema } from "@shared/schema";
+import { getAllBlogArticles } from "@shared/blog";
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -1000,9 +1001,15 @@ Sitemap: https://abonnement.website/sitemap.xml
     const pages = [
       { loc: "/", priority: "1.0", changefreq: "weekly" },
       { loc: "/betaalbare-professionele-website", priority: "0.9", changefreq: "monthly" },
+      { loc: "/blog", priority: "0.8", changefreq: "weekly" },
       { loc: "/offerte", priority: "0.8", changefreq: "monthly" },
       { loc: "/privacy", priority: "0.3", changefreq: "yearly" },
       { loc: "/terms", priority: "0.3", changefreq: "yearly" },
+      ...getAllBlogArticles().map((a) => ({
+        loc: `/blog/${a.slug}`,
+        priority: "0.7",
+        changefreq: "monthly",
+      })),
     ];
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>

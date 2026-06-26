@@ -39,6 +39,8 @@ import ResetPasswordPage from "@/pages/auth/reset-password";
 import CheckoutSuccessPage from "@/pages/checkout-success";
 import OffertePage from "@/pages/offerte";
 import BetaalbareWebsitePage from "@/pages/betaalbare-website";
+import BlogIndexPage from "@/pages/blog";
+import BlogArticlePage from "@/pages/blog/article";
 
 import CustomerDashboard from "@/pages/dashboard/customer-dashboard";
 import OnboardingPage from "@/pages/dashboard/onboarding";
@@ -100,6 +102,8 @@ function Router() {
       <Route path="/checkout-success" component={CheckoutSuccessPage} />
       <Route path="/offerte" component={OffertePage} />
       <Route path="/betaalbare-professionele-website" component={BetaalbareWebsitePage} />
+      <Route path="/blog" component={BlogIndexPage} />
+      <Route path="/blog/:slug" component={BlogArticlePage} />
 
       <Route path="/app">
         <ProtectedRoute component={CustomerDashboard} roles={["CUSTOMER"]} />

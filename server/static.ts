@@ -2,29 +2,7 @@ import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
 import { injectRouteMetadata } from "./seo-prerender";
-
-const KNOWN_ROUTES = new Set([
-  "/",
-  "/privacy",
-  "/terms",
-  "/offerte",
-  "/betaalbare-professionele-website",
-  "/login",
-  "/signup",
-  "/forgot-password",
-  "/reset-password",
-  "/checkout-success",
-  "/app",
-  "/app/onboarding",
-  "/app/addons",
-  "/app/analytics",
-  "/app/billing",
-  "/app/support",
-  "/app/settings",
-  "/admin",
-  "/admin/customers",
-  "/admin/clickup",
-]);
+import { isKnownRoute } from "./known-routes";
 
 export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "public");
@@ -38,7 +16,7 @@ export function serveStatic(app: Express) {
 
   app.use("*", (req, res) => {
     const pathname = req.originalUrl.split("?")[0];
-    const status = KNOWN_ROUTES.has(pathname) ? 200 : 404;
+    const status = isKnownRoute(pathname) ? 200 : 404;
     const indexPath = path.resolve(distPath, "index.html");
     const html = fs.readFileSync(indexPath, "utf-8");
     const injected = injectRouteMetadata(html, pathname);

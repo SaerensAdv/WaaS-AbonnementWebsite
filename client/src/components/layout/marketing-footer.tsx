@@ -55,6 +55,11 @@ export function MarketingFooter() {
                   Betaalbare website
                 </Link>
               </li>
+              <li>
+                <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors duration-200" data-testid="link-footer-blog">
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -1,4 +1,2 @@
-- [Quarterly billing model](quarterly-billing-model.md) — platform bills per quarter (interval_count 3, amount = monthly×3); plans AND add-ons must share the interval.
-- [Stripe SDK type gotchas](stripe-sdk-type-gotchas.md) — installed Stripe types omit current_period_end / Invoice.subscription / invoices.retrieveUpcoming; cast `as any`, runtime has them.
-- [Pricing copy convention](pricing-copy-convention.md) — no trial / no bare "maandelijks opzegbaar" / no "geen contract"; canonical "6 maanden minimum · per kwartaal vooruit · geen opstartkosten".
-- [KNOWN_ROUTES SPA allowlist](known-routes-allowlist.md) — new public routes must be added to the KNOWN_ROUTES Set in BOTH server/static.ts AND server/vite.ts (+ sitemap) or direct visits soft-404; sanctioned exception to "never edit vite.ts".
+- [Vite dev malformed-URI crash](vite-dev-malformed-uri.md) — `/x/%E0%A4%A` kills the dev server via Vite's decodeURI middleware (before app code); not an app bug, prod is fine.
+- [SEO prerender invariants](seo-prerender.md) — server static HTML + client React from one `shared/*` source; keep block parity, dedupe JSON-LD, use `isKnownRoute` registry.

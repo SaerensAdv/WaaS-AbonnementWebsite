@@ -1,8 +1,10 @@
+import { getBlogMetadata } from "./blog-prerender";
+
 const BASE_URL = "https://abonnement.website";
 const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.png`;
 const SITE_NAME = "Abonnement.Website";
 
-interface RouteMetadata {
+export interface RouteMetadata {
   title: string;
   description: string;
   canonical: string;
@@ -316,8 +318,12 @@ function escapeHtmlAttr(str: string): string {
     .replace(/>/g, "&gt;");
 }
 
+function serializeJsonLd(data: object): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 export function injectRouteMetadata(html: string, pathname: string): string {
-  const meta = ROUTE_METADATA[pathname];
+  const meta = ROUTE_METADATA[pathname] ?? getBlogMetadata(pathname);
   if (!meta) return html;
 
   const ogTitle = meta.ogTitle ?? meta.title;
@@ -384,7 +390,7 @@ export function injectRouteMetadata(html: string, pathname: string): string {
   if (meta.structuredData) {
     result = result.replace(
       "</head>",
-      `<script type="application/ld+json" data-route-prerender="true">${JSON.stringify(meta.structuredData)}</script>\n  </head>`,
+      `<script type="application/ld+json" data-route-prerender="true">${serializeJsonLd(meta.structuredData)}</script>\n  </head>`,
     );
   }
 

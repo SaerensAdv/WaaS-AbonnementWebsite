@@ -1,5 +1,40 @@
 uploads = []
-generated = []
+
+[[generated]]
+id = "TM6ytWkscQq_iCNVKEn_T"
+uri = "file://client/public/blog/wat-kost-een-professionele-website.png"
+type = "image"
+title = "wat-kost-een-professionele-website"
+
+[[generated]]
+id = "sDIiWciuny6dkrKT8aY2g"
+uri = "file://client/public/blog/website-laten-maken-of-zelf-doen.png"
+type = "image"
+title = "website-laten-maken-of-zelf-doen"
+
+[[generated]]
+id = "BY7ltyYGacp1jZBiDXU6i"
+uri = "file://client/public/blog/website-voor-zzp-en-zelfstandigen.png"
+type = "image"
+title = "website-voor-zzp-en-zelfstandigen"
+
+[[generated]]
+id = "IYYqK2ibKGuBxlH-SLyA1"
+uri = "file://client/public/blog/wat-kost-een-website-per-maand.png"
+type = "image"
+title = "wat-kost-een-website-per-maand"
+
+[[generated]]
+id = "bPo8f2TH9Vjqh3NgeEoOm"
+uri = "file://client/public/blog/checklist-goede-bedrijfswebsite.png"
+type = "image"
+title = "checklist-goede-bedrijfswebsite"
+
+[[generated]]
+id = "yckXF3DmgPtH7lhzz2gN0"
+uri = "file://client/public/blog/cookiebanner-gdpr-website.png"
+type = "image"
+title = "cookiebanner-gdpr-website"
 
 [[outputs]]
 id = "szuqZ2Jsh84cyZLAn2mQ2"
