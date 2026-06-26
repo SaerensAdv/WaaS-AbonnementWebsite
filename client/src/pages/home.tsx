@@ -369,24 +369,10 @@ export default function HomePage() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
 
-  const faqStructuredData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqItems.map((item) => ({
-      "@type": "Question",
-      "name": item.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": item.a,
-      },
-    })),
-  };
-
   useSEO({
     title: "Professionele Website als Abonnement | Vanaf €49/maand",
     description: "Professionele website binnen 10 werkdagen live. Vanaf €49/maand, alles inbegrepen: design, hosting, onderhoud en support. Geen opstartkosten, 6 maanden minimum.",
     canonical: "/",
-    structuredData: faqStructuredData,
   });
 
   const { data: plans = [] } = useQuery<Plan[]>({
