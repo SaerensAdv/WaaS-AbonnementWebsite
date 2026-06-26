@@ -5,6 +5,7 @@ WebsiteAbonnementen (abonnement.website) is a Dutch B2B SaaS platform offering p
 ## Important pages
 
 - https://abonnement.website/ — Homepage with pricing, add-ons, and FAQ
+- https://abonnement.website/betaalbare-professionele-website — Landing page for affordable professional website subscriptions, targeting Dutch SMBs seeking an all-in-one website solution
 - https://abonnement.website/offerte — Request a custom quote for tailor-made projects
 - https://abonnement.website/privacy — Privacy policy
 - https://abonnement.website/terms — Terms and conditions
