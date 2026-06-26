@@ -78,22 +78,6 @@ export function useSEO({
     updateLink("canonical", resolvedCanonical);
     updateMeta("og:url", resolvedCanonical, true);
 
-    const updateHreflang = (lang: string, href: string) => {
-      let link = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
-      if (!link) {
-        link = document.createElement("link");
-        link.setAttribute("rel", "alternate");
-        link.setAttribute("hreflang", lang);
-        document.head.appendChild(link);
-      }
-      link.setAttribute("href", href);
-    };
-
-    const fullUrl = `${BASE_URL}${currentPath}`;
-    updateHreflang("nl", fullUrl);
-    updateHreflang("en", fullUrl);
-    updateHreflang("x-default", fullUrl);
-
     // Add structured data
     const existingScript = document.querySelector('script[data-seo-structured]');
     if (existingScript) {

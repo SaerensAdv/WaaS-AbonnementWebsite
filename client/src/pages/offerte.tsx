@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
+import { useSEO } from "@/hooks/use-seo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -262,6 +263,12 @@ const pageVariants = {
 };
 
 export default function OffertePage() {
+  useSEO({
+    title: "Offerte Aanvragen",
+    description: "Vraag een vrijblijvende offerte aan voor uw maatwerkwebsite. Ontvang binnen 48 uur een persoonlijke prijsopgave op basis van uw wensen en budget.",
+    canonical: "/offerte",
+  });
+
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const [submitted, setSubmitted] = useState(false);
