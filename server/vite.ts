@@ -11,6 +11,7 @@ const KNOWN_ROUTES = new Set([
   "/privacy",
   "/terms",
   "/offerte",
+  "/betaalbare-professionele-website",
   "/login",
   "/signup",
   "/forgot-password",

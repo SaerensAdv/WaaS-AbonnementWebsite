@@ -371,7 +371,7 @@ export default function HomePage() {
 
   useSEO({
     title: "Professionele Website als Abonnement | Vanaf €49/maand",
-    description: "Professionele website binnen 10 werkdagen live. Vanaf €49/maand, alles inbegrepen: design, hosting, onderhoud en support. Geen opstartkosten, 6 maanden minimum.",
+    description: "Professionele website voor starters en zelfstandigen — binnen 10 werkdagen live. Vanaf €49/maand: design, hosting, onderhoud en support inbegrepen. Geen opstartkosten.",
     canonical: "/",
   });
 
@@ -440,7 +440,7 @@ export default function HomePage() {
                 data-testid="badge-hero"
               >
                 <Star size={16} weight="fill" className="mr-1.5 text-[#f3a427]" />
-                <span className="tracking-wide text-xs sm:text-sm">PREMIUM WEBSITES VOOR MKB</span>
+                <span className="tracking-wide text-xs sm:text-sm">WEBSITES VOOR STARTERS &amp; ZELFSTANDIGEN</span>
               </Badge>
             </motion.div>
 
@@ -465,7 +465,7 @@ export default function HomePage() {
               className="mb-10 text-lg sm:text-xl text-slate-300 max-w-xl leading-relaxed font-light"
               data-testid="text-hero-description"
             >
-              Design, hosting, onderhoud en support in één vast maandbedrag vanaf <span className="text-white font-medium px-1 py-0.5 bg-white/10 rounded">€49/mnd</span>. Per kwartaal vooruit afgerekend.
+              Voor starters en zelfstandigen: design, hosting, onderhoud en support in één vast maandbedrag vanaf <span className="text-white font-medium px-1 py-0.5 bg-white/10 rounded">€49/mnd</span>. Per kwartaal vooruit afgerekend.
               <span className="block mt-4 font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#f3a427] to-[#f3a427] text-xl">
                 Zonder opstartkosten.
               </span>
