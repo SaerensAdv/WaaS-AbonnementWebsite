@@ -2,6 +2,28 @@ import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
 
+const KNOWN_ROUTES = new Set([
+  "/",
+  "/privacy",
+  "/terms",
+  "/offerte",
+  "/login",
+  "/signup",
+  "/forgot-password",
+  "/reset-password",
+  "/checkout-success",
+  "/app",
+  "/app/onboarding",
+  "/app/addons",
+  "/app/analytics",
+  "/app/billing",
+  "/app/support",
+  "/app/settings",
+  "/admin",
+  "/admin/customers",
+  "/admin/clickup",
+]);
+
 export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "public");
   if (!fs.existsSync(distPath)) {
@@ -12,8 +34,9 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
-  // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+  app.use("*", (req, res) => {
+    const pathname = req.path;
+    const status = KNOWN_ROUTES.has(pathname) ? 200 : 404;
+    res.status(status).sendFile(path.resolve(distPath, "index.html"));
   });
 }

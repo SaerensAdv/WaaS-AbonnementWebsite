@@ -999,6 +999,7 @@ Sitemap: https://abonnement.website/sitemap.xml
     const baseUrl = "https://abonnement.website";
     const pages = [
       { loc: "/", priority: "1.0", changefreq: "weekly" },
+      { loc: "/offerte", priority: "0.8", changefreq: "monthly" },
       { loc: "/privacy", priority: "0.3", changefreq: "yearly" },
       { loc: "/terms", priority: "0.3", changefreq: "yearly" },
     ];

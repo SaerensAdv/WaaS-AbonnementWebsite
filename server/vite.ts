@@ -6,6 +6,28 @@ import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
 
+const KNOWN_ROUTES = new Set([
+  "/",
+  "/privacy",
+  "/terms",
+  "/offerte",
+  "/login",
+  "/signup",
+  "/forgot-password",
+  "/reset-password",
+  "/checkout-success",
+  "/app",
+  "/app/onboarding",
+  "/app/addons",
+  "/app/analytics",
+  "/app/billing",
+  "/app/support",
+  "/app/settings",
+  "/admin",
+  "/admin/customers",
+  "/admin/clickup",
+]);
+
 const viteLogger = createLogger();
 
 export async function setupVite(server: Server, app: Express) {
@@ -33,6 +55,7 @@ export async function setupVite(server: Server, app: Express) {
 
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
+    const pathname = req.path;
 
     try {
       const clientTemplate = path.resolve(
@@ -49,7 +72,8 @@ export async function setupVite(server: Server, app: Express) {
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
       const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+      const status = KNOWN_ROUTES.has(pathname) ? 200 : 404;
+      res.status(status).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
       next(e);
