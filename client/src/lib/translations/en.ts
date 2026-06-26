@@ -47,12 +47,6 @@ export const en: TranslationKeys = {
       titleHighlight: "worry-free",
       description: "Professional design, hosting, maintenance, and support - all included in one fixed monthly rate, billed quarterly. No technical knowledge required. We handle everything, you focus on your business.",
     },
-    stats: {
-      happyCustomers: { value: "500+", label: "Happy Customers", description: "Worry-free online" },
-      uptime: { value: "99.9%", label: "Uptime Guarantee", description: "Always accessible" },
-      avgGrowth: { value: "127%", label: "Avg. Growth", description: "More visitors" },
-      responseTime: { value: "<48h", label: "Response Time", description: "Fast support" },
-    },
     benefits: {
       noTechnicalKnowledge: {
         title: "No Technical Knowledge Needed",
@@ -130,33 +124,9 @@ export const en: TranslationKeys = {
         "SEO score and ranking",
       ],
     },
-    testimonials: [
-      {
-        name: "Jan de Vries",
-        company: "De Vries Construction",
-        role: "Director",
-        text: "Finally a partner that takes everything off your hands. I don't have to worry about anything and the results are fantastic!",
-      },
-      {
-        name: "Sarah Jansen",
-        company: "Jansen Consulting",
-        role: "CEO",
-        text: "As an entrepreneur, I have no time for technical matters. This team handles everything and I only see growth in my dashboard.",
-      },
-      {
-        name: "Mohammed El-Amin",
-        company: "El-Amin Logistics",
-        role: "Owner",
-        text: "Transparent pricing, no surprises, and a website I'm proud of. Finally found the right partner.",
-      },
-    ],
     cta: {
       title: "Ready to get started?",
       description: "Leave the technology to us. You focus on your customers, we take care of your website.",
-    },
-    floatingCards: {
-      avgGrowth: "Avg. customer growth",
-      happyCustomers: "Happy customers",
     },
     structuredDataFaq: [
       {

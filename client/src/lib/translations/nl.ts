@@ -45,12 +45,6 @@ export const nl = {
       titleHighlight: "zonder zorgen",
       description: "Professioneel ontwerp, hosting, onderhoud en support - alles inbegrepen in één vast maandtarief, per kwartaal vooruit gefactureerd. Geen technische kennis nodig. Wij regelen alles, u focust op uw bedrijf.",
     },
-    stats: {
-      happyCustomers: { value: "500+", label: "Tevreden klanten", description: "Zorgeloos online" },
-      uptime: { value: "99.9%", label: "Uptime garantie", description: "Altijd bereikbaar" },
-      avgGrowth: { value: "127%", label: "Gem. groei", description: "Meer bezoekers" },
-      responseTime: { value: "<48u", label: "Reactietijd", description: "Snelle support" },
-    },
     benefits: {
       noTechnicalKnowledge: {
         title: "Geen technische kennis nodig",
@@ -128,33 +122,9 @@ export const nl = {
         "SEO score en ranking",
       ],
     },
-    testimonials: [
-      {
-        name: "Jan de Vries",
-        company: "De Vries Bouw",
-        role: "Directeur",
-        text: "Eindelijk een partij die alles uit handen neemt. Ik hoef me nergens zorgen over te maken en de resultaten zijn fantastisch!",
-      },
-      {
-        name: "Sarah Jansen",
-        company: "Jansen Consulting",
-        role: "CEO",
-        text: "Als ondernemer heb ik geen tijd voor technische zaken. Dit team regelt alles en ik zie alleen maar groei in mijn dashboard.",
-      },
-      {
-        name: "Mohammed El-Amin",
-        company: "El-Amin Logistics",
-        role: "Eigenaar",
-        text: "Transparante prijzen, geen verrassingen, en een website waar ik trots op ben. Eindelijk de juiste partner gevonden.",
-      },
-    ],
     cta: {
       title: "Klaar om te beginnen?",
       description: "Laat de techniek aan ons over. U focust op uw klanten, wij zorgen voor uw website.",
-    },
-    floatingCards: {
-      avgGrowth: "Gem. groei klanten",
-      happyCustomers: "Tevreden klanten",
     },
     structuredDataFaq: [
       {

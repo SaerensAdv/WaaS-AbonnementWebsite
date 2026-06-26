@@ -563,7 +563,7 @@ export default function HomePage() {
         <div className="lg:hidden bg-background px-4 py-6" data-testid="mobile-stat-strip">
           <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
             {[
-              { value: "500+", label: "Websites", icon: Star, slug: "clients" },
+              { value: "10 dagen", label: "Tot live", icon: CalendarCheck, slug: "delivery" },
               { value: "99.9%", label: "Uptime", icon: Lightning, slug: "uptime" },
               { value: "<24u", label: "Support", icon: Clock, slug: "response" },
               { value: "€0", label: "Opstartkosten", icon: CreditCard, slug: "setup" },
