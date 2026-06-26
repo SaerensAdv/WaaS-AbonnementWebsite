@@ -37,6 +37,25 @@ const whatWeCollectIcons = [User, CreditCard, Settings, BarChart3];
 const whyWeCollectIcons = [Globe, Wallet, Headphones, ShieldCheck];
 const thirdPartiesIcons = [CreditCard, Mail, Server];
 
+const privacyBreadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://abonnement.website/",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Privacybeleid",
+      item: "https://abonnement.website/privacy",
+    },
+  ],
+};
+
 export default function PrivacyPage() {
   const { t } = useTranslation();
 
@@ -44,6 +63,7 @@ export default function PrivacyPage() {
     title: t("legal.privacy.seo.title"),
     description: t("legal.privacy.seo.description"),
     canonical: "/privacy",
+    structuredData: privacyBreadcrumbSchema,
   });
 
   const lastUpdated = "6 december 2024";

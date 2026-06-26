@@ -17,6 +17,25 @@ import {
   MessageSquare,
 } from "lucide-react";
 
+const termsBreadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://abonnement.website/",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Algemene Voorwaarden",
+      item: "https://abonnement.website/terms",
+    },
+  ],
+};
+
 const lastUpdated = "22 maart 2026";
 
 const sections = [
@@ -223,6 +242,7 @@ export default function TermsPage() {
     description:
       "Lees de algemene voorwaarden van Abonnement.website (Saerens Advertising). Alles over abonnementen, looptijd, opzegging, eigendom, betaling en GDPR.",
     canonical: "/terms",
+    structuredData: termsBreadcrumbSchema,
   });
 
   return (

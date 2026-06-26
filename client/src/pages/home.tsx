@@ -85,6 +85,16 @@ const faqItems = [
   },
 ];
 
+const homeFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 
 function HeroGridBackground() {
   return (
@@ -373,6 +383,7 @@ export default function HomePage() {
     title: "Professionele Website als Abonnement | Vanaf €49/maand",
     description: "Professionele website voor starters en zelfstandigen — binnen 10 werkdagen live. Vanaf €49/maand: design, hosting, onderhoud en support inbegrepen. Geen opstartkosten.",
     canonical: "/",
+    structuredData: homeFaqSchema,
   });
 
   const { data: plans = [] } = useQuery<Plan[]>({
