@@ -39,10 +39,10 @@ export function MarketingFooter() {
             <h4 className="text-xs font-semibold tracking-widest uppercase text-muted-foreground/70">Navigatie</h4>
             <ul className="space-y-2.5 text-sm">
               {[
-                { label: "Abonnementen", href: "#pricing" },
-                { label: "Add-ons", href: "#addons" },
-                { label: "Op Maat", href: "#maatwerk" },
-                { label: "FAQ", href: "#faq" },
+                { label: "Abonnementen", href: "/#pricing" },
+                { label: "Add-ons", href: "/#addons" },
+                { label: "Op Maat", href: "/#maatwerk" },
+                { label: "FAQ", href: "/#faq" },
               ].map((item) => (
                 <li key={item.label}>
                   <a href={item.href} className="text-muted-foreground hover:text-foreground transition-colors duration-200">
