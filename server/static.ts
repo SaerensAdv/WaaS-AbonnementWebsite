@@ -1,6 +1,7 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
+import { injectRouteMetadata } from "./seo-prerender";
 
 const KNOWN_ROUTES = new Set([
   "/",
@@ -36,8 +37,11 @@ export function serveStatic(app: Express) {
   app.use(express.static(distPath));
 
   app.use("*", (req, res) => {
-    const pathname = req.path;
+    const pathname = req.originalUrl.split("?")[0];
     const status = KNOWN_ROUTES.has(pathname) ? 200 : 404;
-    res.status(status).sendFile(path.resolve(distPath, "index.html"));
+    const indexPath = path.resolve(distPath, "index.html");
+    const html = fs.readFileSync(indexPath, "utf-8");
+    const injected = injectRouteMetadata(html, pathname);
+    res.status(status).set("Content-Type", "text/html").end(injected);
   });
 }

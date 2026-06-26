@@ -5,6 +5,7 @@ import viteConfig from "../vite.config";
 import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
+import { injectRouteMetadata } from "./seo-prerender";
 
 const KNOWN_ROUTES = new Set([
   "/",
@@ -56,7 +57,7 @@ export async function setupVite(server: Server, app: Express) {
 
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
-    const pathname = req.path;
+    const pathname = url.split("?")[0];
 
     try {
       const clientTemplate = path.resolve(
@@ -72,7 +73,8 @@ export async function setupVite(server: Server, app: Express) {
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
-      const page = await vite.transformIndexHtml(url, template);
+      let page = await vite.transformIndexHtml(url, template);
+      page = injectRouteMetadata(page, pathname);
       const status = KNOWN_ROUTES.has(pathname) ? 200 : 404;
       res.status(status).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {

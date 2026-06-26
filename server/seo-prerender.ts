@@ -1,0 +1,397 @@
+const BASE_URL = "https://abonnement.website";
+const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.png`;
+const SITE_NAME = "Abonnement.Website";
+
+interface RouteMetadata {
+  title: string;
+  description: string;
+  canonical: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  structuredData?: object;
+  staticHtml: string;
+}
+
+const betaalbareWebsiteFaqs = [
+  {
+    q: "Wat kost een professionele website bij jullie?",
+    a: "Je betaalt vanaf €49 per maand. Daarin zitten design, hosting, onderhoud en support. Er zijn geen opstartkosten en geen verrassingen achteraf. De facturatie loopt per kwartaal vooruit.",
+  },
+  {
+    q: "Voor wie is dit bedoeld?",
+    a: "Voor starters, zzp\u2019ers, zelfstandigen, eenmanszaken en kleine kmo\u2019s of mkb-bedrijven in Nederland en Belgi\u00eb die professioneel online willen, zonder een groot bedrag vooraf te investeren.",
+  },
+  {
+    q: "Hoe snel staat mijn website online?",
+    a: "Gemiddeld binnen 10 werkdagen. Na je aanmelding plannen we een korte intake, bouwen we je site en zetten we hem live.",
+  },
+  {
+    q: "Ben ik eigenaar van mijn website en content?",
+    a: "Ja. De teksten en beelden die je aanlevert blijven 100% van jou. We werken met een minimumtermijn van 6 maanden.",
+  },
+  {
+    q: "Wat is het verschil met een website eenmalig laten maken?",
+    a: "Een eenmalige website kost vaak \u20ac1.500 tot \u20ac5.000 vooraf en daarna betaal je apart voor hosting en onderhoud. Met een abonnement spreid je de kosten en blijft alles inbegrepen en up-to-date.",
+  },
+  {
+    q: "Kan ik later upgraden of extra\u2019s toevoegen?",
+    a: "Zeker. Je kunt op elk moment naar een groter pakket overstappen of add-ons toevoegen, zoals extra pagina\u2019s, geavanceerde SEO of advertentiebeheer.",
+  },
+];
+
+const ROUTE_METADATA: Record<string, RouteMetadata> = {
+  "/": {
+    title: `Website Abonnement vanaf \u20ac49/maand | ${SITE_NAME}`,
+    description:
+      "Website abonnement met design, hosting en support inbegrepen. Geen technische kennis nodig. Geen opstartkosten, 6 maanden minimum. Start vandaag.",
+    canonical: `${BASE_URL}/`,
+    ogImage: DEFAULT_OG_IMAGE,
+    staticHtml: `
+<div id="root">
+  <header>
+    <nav>
+      <a href="/">Abonnement.Website</a>
+      <a href="/#pricing">Prijzen</a>
+      <a href="/#addons">Add-ons</a>
+      <a href="/#faq">FAQ</a>
+      <a href="/login">Inloggen</a>
+      <a href="/signup">Registreren</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h1>Binnen 10 dagen een professionele website.</h1>
+      <p>Voor starters en zelfstandigen: design, hosting, onderhoud en support in \u00e9\u00e9n vast maandbedrag vanaf \u20ac49/mnd. Per kwartaal vooruit afgerekend.</p>
+      <a href="/signup">Direct starten</a>
+      <a href="/#pricing">Bekijk abonnementen</a>
+    </section>
+    <section id="pricing">
+      <h2>Website abonnement prijzen</h2>
+      <ul>
+        <li><strong>Starter \u2014 \u20ac49/maand</strong>: 5 pagina\u2019s, 1 content wijziging per maand, e-mail support, basis SEO.</li>
+        <li><strong>Professional \u2014 \u20ac99/maand</strong>: 10 pagina\u2019s, 3 content wijzigingen per maand, prioriteit support (8u), geavanceerde SEO, Google Analytics, Google Maps.</li>
+        <li><strong>Business \u2014 \u20ac199/maand</strong>: 20 pagina\u2019s, 5 content wijzigingen per maand, dedicated accountmanager, blog, meertalig, maandelijks rapport.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Betaalbare professionele websites</h2>
+      <p>Geen grote investering vooraf. Alles inbegrepen: design, hosting, SSL, onderhoud, updates en persoonlijke support.</p>
+      <a href="/betaalbare-professionele-website">Meer over betaalbare websites</a>
+    </section>
+  </main>
+  <footer>
+    <p>Abonnement.Website &mdash; Professionele websites als abonnement. Hosting, onderhoud en support inbegrepen.</p>
+    <a href="/privacy">Privacy</a> | <a href="/terms">Algemene Voorwaarden</a> | <a href="/offerte">Offerte aanvragen</a>
+  </footer>
+</div>`,
+  },
+
+  "/privacy": {
+    title: `Privacybeleid | ${SITE_NAME}`,
+    description:
+      "Lees ons privacybeleid. Wij respecteren uw privacy en verwerken uw gegevens veilig conform de AVG.",
+    canonical: `${BASE_URL}/privacy`,
+    ogTitle: `Privacybeleid | ${SITE_NAME}`,
+    ogDescription:
+      "Lees ons privacybeleid. Wij respecteren uw privacy en verwerken uw gegevens veilig conform de AVG.",
+    staticHtml: `
+<div id="root">
+  <header>
+    <nav>
+      <a href="/">Abonnement.Website</a>
+      <a href="/#pricing">Prijzen</a>
+      <a href="/login">Inloggen</a>
+    </nav>
+  </header>
+  <main>
+    <nav aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <span>Privacy Policy</span>
+    </nav>
+    <h1>Privacy Policy</h1>
+    <p>Wij gebruiken uw gegevens alleen om onze dienst te leveren en u correct te helpen.</p>
+    <h2>Wat we bijhouden</h2>
+    <ul>
+      <li>Naam en e-mailadres (accountgegevens)</li>
+      <li>Facturatiegegevens (via onze betaalpartner)</li>
+      <li>Website-instellingen en contactaanvragen</li>
+      <li>Basis gebruiksdata om de dienst te verbeteren</li>
+    </ul>
+    <h2>Waarom</h2>
+    <ul>
+      <li>Om uw website te bouwen en te beheren</li>
+      <li>Om betalingen en abonnementen te verwerken</li>
+      <li>Om support te kunnen geven</li>
+      <li>Om veiligheid te garanderen</li>
+    </ul>
+    <h2>Delen met derden</h2>
+    <p>Alleen partijen die nodig zijn om de dienst te leveren (betaling, e-mail, hosting).</p>
+    <h2>Uw rechten</h2>
+    <p>U heeft recht op inzage, aanpassing of verwijdering van uw gegevens. Neem contact met ons op via e-mail.</p>
+  </main>
+  <footer>
+    <p>Abonnement.Website</p>
+    <a href="/">Home</a> | <a href="/terms">Algemene Voorwaarden</a>
+  </footer>
+</div>`,
+  },
+
+  "/terms": {
+    title: `Algemene Voorwaarden | ${SITE_NAME}`,
+    description:
+      "Lees de algemene voorwaarden van Abonnement.website (Saerens Advertising). Alles over abonnementen, looptijd, opzegging, eigendom, betaling en GDPR.",
+    canonical: `${BASE_URL}/terms`,
+    ogTitle: `Algemene Voorwaarden | ${SITE_NAME}`,
+    ogDescription:
+      "Lees de algemene voorwaarden van Abonnement.website (Saerens Advertising). Alles over abonnementen, looptijd, opzegging, eigendom, betaling en GDPR.",
+    staticHtml: `
+<div id="root">
+  <header>
+    <nav>
+      <a href="/">Abonnement.Website</a>
+      <a href="/#pricing">Prijzen</a>
+      <a href="/login">Inloggen</a>
+    </nav>
+  </header>
+  <main>
+    <nav aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <span>Algemene Voorwaarden</span>
+    </nav>
+    <h1>Algemene Voorwaarden \u2014 Abonnement.website</h1>
+    <p>Lees de algemene voorwaarden van Abonnement.website (Saerens Advertising). Alles over abonnementen, looptijd, opzegging, eigendom, betaling en GDPR.</p>
+    <h2>Abonnement &amp; looptijd</h2>
+    <p>Abonnementen worden afgesloten voor een minimumperiode van 6 maanden en worden per kwartaal vooruit gefactureerd.</p>
+    <h2>Opzegging</h2>
+    <p>Na de minimumperiode kunt u opzeggen met een opzegtermijn van \u00e9\u00e9n maand.</p>
+    <h2>Betaling</h2>
+    <p>Facturatie vindt per kwartaal vooruit plaats via Stripe. Er zijn geen opstartkosten.</p>
+    <h2>Eigendom</h2>
+    <p>Teksten en afbeeldingen die u aanlevert blijven uw eigendom. Het website-ontwerp blijft eigendom van Abonnement.Website tijdens de abonnementsperiode.</p>
+    <h2>Contact</h2>
+    <p>Vragen over deze voorwaarden? Neem contact op via onze website.</p>
+  </main>
+  <footer>
+    <p>Abonnement.Website</p>
+    <a href="/">Home</a> | <a href="/privacy">Privacybeleid</a>
+  </footer>
+</div>`,
+  },
+
+  "/offerte": {
+    title: `Offerte Aanvragen | ${SITE_NAME}`,
+    description:
+      "Vraag een vrijblijvende offerte aan voor uw maatwerkwebsite. Ontvang binnen 48 uur een persoonlijke prijsopgave op basis van uw wensen en budget.",
+    canonical: `${BASE_URL}/offerte`,
+    ogTitle: `Offerte Aanvragen | ${SITE_NAME}`,
+    ogDescription:
+      "Vraag een vrijblijvende offerte aan voor uw maatwerkwebsite. Ontvang binnen 48 uur een persoonlijke prijsopgave op basis van uw wensen en budget.",
+    staticHtml: `
+<div id="root">
+  <header>
+    <nav>
+      <a href="/">Abonnement.Website</a>
+      <a href="/#pricing">Prijzen</a>
+      <a href="/login">Inloggen</a>
+    </nav>
+  </header>
+  <main>
+    <nav aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; <span>Offerte Aanvragen</span>
+    </nav>
+    <h1>Vraag een vrijblijvende offerte aan</h1>
+    <p>Heeft u een specifiek project in gedachten dat verder gaat dan onze standaard abonnementen? Vul het formulier in en ontvang binnen 48 uur een persoonlijke prijsopgave op maat.</p>
+    <p>Wij helpen u graag verder met maatwerk webprojecten voor uw bedrijf.</p>
+    <a href="/signup">Of start direct met een standaard abonnement</a>
+  </main>
+  <footer>
+    <p>Abonnement.Website</p>
+    <a href="/">Home</a> | <a href="/#pricing">Prijzen</a> | <a href="/privacy">Privacy</a>
+  </footer>
+</div>`,
+  },
+
+  "/betaalbare-professionele-website": {
+    title: `Betaalbare professionele website voor starters en zelfstandigen | ${SITE_NAME}`,
+    description:
+      "Een betaalbare professionele website vanaf \u20ac49 per maand. Voor starters, zzp\u2019ers en zelfstandigen in Nederland en Belgi\u00eb. Geen opstartkosten, binnen 10 werkdagen live.",
+    canonical: `${BASE_URL}/betaalbare-professionele-website`,
+    ogTitle: `Betaalbare professionele website voor starters en zelfstandigen | ${SITE_NAME}`,
+    ogDescription:
+      "Een betaalbare professionele website vanaf \u20ac49 per maand. Voor starters, zzp\u2019ers en zelfstandigen in Nederland en Belgi\u00eb. Geen opstartkosten, binnen 10 werkdagen live.",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Service",
+          name: "Betaalbare professionele website als abonnement",
+          serviceType: "Website laten maken op abonnementsbasis",
+          description:
+            "Professionele website voor starters en zelfstandigen vanaf \u20ac49 per maand. Inclusief design, hosting, onderhoud en support. Geen opstartkosten.",
+          areaServed: ["Nederland", "Belgi\u00eb"],
+          provider: {
+            "@type": "Organization",
+            name: "Abonnement.Website",
+            url: "https://abonnement.website",
+          },
+          offers: {
+            "@type": "Offer",
+            price: "49",
+            priceCurrency: "EUR",
+            url: "https://abonnement.website/betaalbare-professionele-website",
+          },
+        },
+        {
+          "@type": "FAQPage",
+          mainEntity: betaalbareWebsiteFaqs.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        },
+      ],
+    },
+    staticHtml: `
+<div id="root">
+  <header>
+    <nav>
+      <a href="/">Abonnement.Website</a>
+      <a href="/#pricing">Prijzen</a>
+      <a href="/login">Inloggen</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <span>VOOR STARTERS &amp; ZELFSTANDIGEN</span>
+      <h1>Een betaalbare professionele website vanaf \u20ac49 per maand</h1>
+      <p>Professioneel online zonder grote investering vooraf. Design, hosting, onderhoud en support in \u00e9\u00e9n vast maandbedrag \u2014 ideaal voor starters, zzp\u2019ers en zelfstandigen in Nederland en Belgi\u00eb.</p>
+      <a href="/signup">Direct starten</a>
+      <a href="/#pricing">Bekijk abonnementen</a>
+    </section>
+    <section>
+      <h2>Voordelen van een website abonnement</h2>
+      <ul>
+        <li><strong>Geen dure investering vooraf:</strong> Geen opstartkosten van honderden of duizenden euro\u2019s. Je betaalt \u00e9\u00e9n vast bedrag per maand.</li>
+        <li><strong>Binnen 10 werkdagen live:</strong> Na een korte intake bouwen we je website en zetten we hem voor je live.</li>
+        <li><strong>Alles inbegrepen:</strong> Design, hosting, SSL, onderhoud, updates en support zitten in elk pakket.</li>
+        <li><strong>Persoonlijk aanspreekpunt:</strong> Een vaste contactpersoon die je bedrijf kent.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Voor wie is dit?</h2>
+      <ul>
+        <li>Starters die net hun zaak hebben opgestart</li>
+        <li>Zzp\u2019ers en freelancers (Nederland)</li>
+        <li>Zelfstandigen en eenmanszaken (Belgi\u00eb)</li>
+        <li>Kleine kmo\u2019s en mkb-bedrijven</li>
+        <li>Lokale dienstverleners en winkels</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Veelgestelde vragen</h2>
+      <dl>
+        <dt>Wat kost een professionele website bij jullie?</dt>
+        <dd>Je betaalt vanaf \u20ac49 per maand. Daarin zitten design, hosting, onderhoud en support. Er zijn geen opstartkosten en geen verrassingen achteraf.</dd>
+        <dt>Hoe snel staat mijn website online?</dt>
+        <dd>Gemiddeld binnen 10 werkdagen. Na je aanmelding plannen we een korte intake, bouwen we je site en zetten we hem live.</dd>
+        <dt>Ben ik eigenaar van mijn website en content?</dt>
+        <dd>Ja. De teksten en beelden die je aanlevert blijven 100% van jou. We werken met een minimumtermijn van 6 maanden.</dd>
+      </dl>
+    </section>
+  </main>
+  <footer>
+    <p>Abonnement.Website</p>
+    <a href="/">Home</a> | <a href="/#pricing">Prijzen</a> | <a href="/offerte">Offerte aanvragen</a> | <a href="/privacy">Privacy</a>
+  </footer>
+</div>`,
+  },
+};
+
+function escapeHtmlAttr(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+export function injectRouteMetadata(html: string, pathname: string): string {
+  const meta = ROUTE_METADATA[pathname];
+  if (!meta) return html;
+
+  const ogTitle = meta.ogTitle ?? meta.title;
+  const ogDescription = meta.ogDescription ?? meta.description;
+  const ogImage = meta.ogImage ?? DEFAULT_OG_IMAGE;
+  const twitterTitle = meta.twitterTitle ?? ogTitle;
+  const twitterDescription = meta.twitterDescription ?? ogDescription;
+
+  let result = html;
+
+  result = result.replace(
+    /<title>[^<]*<\/title>/,
+    `<title>${escapeHtmlAttr(meta.title)}</title>`,
+  );
+
+  result = result.replace(
+    /<meta name="description" content="[^"]*"\s*\/>/,
+    `<meta name="description" content="${escapeHtmlAttr(meta.description)}" />`,
+  );
+
+  result = result.replace(
+    /<link rel="canonical" href="[^"]*"\s*\/>/,
+    `<link rel="canonical" href="${meta.canonical}" />`,
+  );
+
+  result = result.replace(
+    /<meta property="og:title" content="[^"]*"\s*\/>/,
+    `<meta property="og:title" content="${escapeHtmlAttr(ogTitle)}" />`,
+  );
+  result = result.replace(
+    /<meta property="og:description" content="[^"]*"\s*\/>/,
+    `<meta property="og:description" content="${escapeHtmlAttr(ogDescription)}" />`,
+  );
+  result = result.replace(
+    /<meta property="og:url" content="[^"]*"\s*\/>/,
+    `<meta property="og:url" content="${meta.canonical}" />`,
+  );
+  result = result.replace(
+    /<meta property="og:image" content="[^"]*"\s*\/>/,
+    `<meta property="og:image" content="${escapeHtmlAttr(ogImage)}" />`,
+  );
+  result = result.replace(
+    /<meta property="og:image:alt" content="[^"]*"\s*\/>/,
+    `<meta property="og:image:alt" content="${escapeHtmlAttr(ogTitle)}" />`,
+  );
+
+  result = result.replace(
+    /<meta name="twitter:title" content="[^"]*"\s*\/>/,
+    `<meta name="twitter:title" content="${escapeHtmlAttr(twitterTitle)}" />`,
+  );
+  result = result.replace(
+    /<meta name="twitter:description" content="[^"]*"\s*\/>/,
+    `<meta name="twitter:description" content="${escapeHtmlAttr(twitterDescription)}" />`,
+  );
+  result = result.replace(
+    /<meta name="twitter:image" content="[^"]*"\s*\/>/,
+    `<meta name="twitter:image" content="${escapeHtmlAttr(ogImage)}" />`,
+  );
+  result = result.replace(
+    /<meta name="twitter:image:alt" content="[^"]*"\s*\/>/,
+    `<meta name="twitter:image:alt" content="${escapeHtmlAttr(ogTitle)}" />`,
+  );
+
+  if (meta.structuredData) {
+    result = result.replace(
+      "</head>",
+      `<script type="application/ld+json" data-route-prerender="true">${JSON.stringify(meta.structuredData)}</script>\n  </head>`,
+    );
+  }
+
+  result = result.replace(
+    '<div id="root"></div>',
+    meta.staticHtml,
+  );
+
+  return result;
+}
