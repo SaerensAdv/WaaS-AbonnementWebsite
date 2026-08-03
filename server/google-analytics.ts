@@ -1,111 +1,62 @@
 /**
  * Google Analytics Integration
- * 
- * Uses a service account for server-to-server auth.
- * Env var: GOOGLE_SERVICE_ACCOUNT_KEY (base64-encoded JSON key file)
- * 
+ *
+ * Uses OAuth2 refresh token for authentication.
+ * Env vars:
+ *   GOOGLE_CLIENT_ID
+ *   GOOGLE_CLIENT_SECRET
+ *   GOOGLE_REFRESH_TOKEN
+ *
  * APIs used:
  * - GA4 Data API v1beta (analyticsdata.googleapis.com)
  * - Search Console API v3 (searchconsole.googleapis.com)
  * - PageSpeed Insights API v5 (no auth needed, uses API key optionally)
  */
 
-import crypto from "crypto";
-
-// ─── Service Account Auth ───────────────────────────────────────────────────
-
-interface ServiceAccountKey {
-  type: string;
-  project_id: string;
-  private_key_id: string;
-  private_key: string;
-  client_email: string;
-  client_id: string;
-  auth_uri: string;
-  token_uri: string;
-}
+// ─── OAuth2 Refresh Token Auth ──────────────────────────────────────────────
 
 let cachedToken: { token: string; expiresAt: number } | null = null;
-
-function getServiceAccountKey(): ServiceAccountKey | null {
-  const raw = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
-  if (!raw) return null;
-  try {
-    const json = Buffer.from(raw, "base64").toString("utf-8");
-    return JSON.parse(json);
-  } catch {
-    // Try as plain JSON
-    try {
-      return JSON.parse(raw);
-    } catch {
-      console.error("Failed to parse GOOGLE_SERVICE_ACCOUNT_KEY");
-      return null;
-    }
-  }
-}
-
-function createJWT(key: ServiceAccountKey, scopes: string[]): string {
-  const now = Math.floor(Date.now() / 1000);
-  const header = { alg: "RS256", typ: "JWT" };
-  const payload = {
-    iss: key.client_email,
-    scope: scopes.join(" "),
-    aud: key.token_uri,
-    iat: now,
-    exp: now + 3600,
-  };
-
-  const encode = (obj: object) =>
-    Buffer.from(JSON.stringify(obj)).toString("base64url");
-
-  const unsigned = `${encode(header)}.${encode(payload)}`;
-  const sign = crypto.createSign("RSA-SHA256");
-  sign.update(unsigned);
-  const signature = sign.sign(key.private_key, "base64url");
-
-  return `${unsigned}.${signature}`;
-}
 
 async function getAccessToken(): Promise<string> {
   if (cachedToken && cachedToken.expiresAt > Date.now() + 60000) {
     return cachedToken.token;
   }
 
-  const key = getServiceAccountKey();
-  if (!key) throw new Error("Google service account not configured");
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
 
-  const scopes = [
-    "https://www.googleapis.com/auth/analytics.readonly",
-    "https://www.googleapis.com/auth/webmasters.readonly",
-  ];
+  if (!clientId || !clientSecret || !refreshToken) {
+    throw new Error("Google OAuth2 credentials not configured (GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN)");
+  }
 
-  const jwt = createJWT(key, scopes);
-
-  const response = await fetch(key.token_uri, {
+  const response = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
-      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      assertion: jwt,
+      client_id: clientId,
+      client_secret: clientSecret,
+      refresh_token: refreshToken,
+      grant_type: "refresh_token",
     }),
   });
 
   if (!response.ok) {
     const err = await response.text();
-    throw new Error(`Token exchange failed: ${response.status} ${err}`);
+    throw new Error(`Google token refresh failed: ${response.status} ${err}`);
   }
 
   const data = await response.json();
   cachedToken = {
     token: data.access_token,
-    expiresAt: Date.now() + data.expires_in * 1000,
+    expiresAt: Date.now() + (data.expires_in || 3600) * 1000,
   };
 
   return cachedToken.token;
 }
 
 export function isGoogleConfigured(): boolean {
-  return !!getServiceAccountKey();
+  return !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_REFRESH_TOKEN);
 }
 
 // ─── GA4 Data API ───────────────────────────────────────────────────────────
@@ -270,11 +221,6 @@ export interface PSIResult {
 export async function runPSI(url: string, strategy: "mobile" | "desktop" = "mobile"): Promise<PSIResult> {
   const apiKey = process.env.GOOGLE_PSI_API_KEY || "";
   const categories = ["performance", "seo", "accessibility", "best-practices"];
-  const params = new URLSearchParams({
-    url,
-    strategy,
-    ...Object.fromEntries(categories.map((c) => [`category`, c])),
-  });
 
   // Build URL with multiple category params
   const baseUrl = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
