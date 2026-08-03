@@ -24,6 +24,7 @@ import {
 } from "./clickup";
 import { insertQuoteRequestSchema } from "@shared/schema";
 import { getAllBlogArticles } from "@shared/blog";
+import { registerAnalyticsRoutes } from "./analytics-routes";
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -104,6 +105,9 @@ export async function registerRoutes(
       },
     })
   );
+
+  // --- Analytics routes (GA4 + GSC + PSI) ---
+  registerAnalyticsRoutes(app, requireRole);
 
   app.post("/api/auth/signup", authLimiter, async (req, res) => {
     try {
