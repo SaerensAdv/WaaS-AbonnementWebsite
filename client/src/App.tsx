@@ -9,7 +9,49 @@ import { I18nProvider } from "@/lib/i18n-context";
 import { PageLoader } from "@/components/page-loader";
 import { ErrorBoundary } from "@/components/error-boundary";
 import NotFound from "@/pages/not-found";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { Loader2 } from "lucide-react";
+
+// ---------- Eager: critical public marketing pages ----------
+import HomePage from "@/pages/home";
+import BetaalbareWebsitePage from "@/pages/betaalbare-website";
+import PrivacyPage from "@/pages/privacy";
+import TermsPage from "@/pages/terms";
+
+// ---------- Lazy: auth pages ----------
+const LoginPage = lazy(() => import("@/pages/auth/login"));
+const SignupPage = lazy(() => import("@/pages/auth/signup"));
+const ForgotPasswordPage = lazy(() => import("@/pages/auth/forgot-password"));
+const ResetPasswordPage = lazy(() => import("@/pages/auth/reset-password"));
+
+// ---------- Lazy: secondary public pages ----------
+const CheckoutSuccessPage = lazy(() => import("@/pages/checkout-success"));
+const OffertePage = lazy(() => import("@/pages/offerte"));
+const BlogIndexPage = lazy(() => import("@/pages/blog"));
+const BlogArticlePage = lazy(() => import("@/pages/blog/article"));
+
+// ---------- Lazy: customer dashboard ----------
+const CustomerDashboard = lazy(() => import("@/pages/dashboard/customer-dashboard"));
+const OnboardingPage = lazy(() => import("@/pages/dashboard/onboarding"));
+const AddOnsPage = lazy(() => import("@/pages/dashboard/addons"));
+const AnalyticsPage = lazy(() => import("@/pages/dashboard/analytics"));
+const BillingPage = lazy(() => import("@/pages/dashboard/billing"));
+const SettingsPage = lazy(() => import("@/pages/dashboard/settings"));
+const SupportPage = lazy(() => import("@/pages/dashboard/support"));
+
+// ---------- Lazy: admin ----------
+const AdminDashboard = lazy(() => import("@/pages/admin/admin-dashboard"));
+const AdminCustomersPage = lazy(() => import("@/pages/admin/customers"));
+const AdminClickUpPage = lazy(() => import("@/pages/admin/clickup"));
+
+// ---------- Suspense fallback ----------
+function LazyFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+    </div>
+  );
+}
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -28,33 +70,6 @@ function ScrollToTop() {
 
   return null;
 }
-
-import HomePage from "@/pages/home";
-import PrivacyPage from "@/pages/privacy";
-import TermsPage from "@/pages/terms";
-import LoginPage from "@/pages/auth/login";
-import SignupPage from "@/pages/auth/signup";
-import ForgotPasswordPage from "@/pages/auth/forgot-password";
-import ResetPasswordPage from "@/pages/auth/reset-password";
-import CheckoutSuccessPage from "@/pages/checkout-success";
-import OffertePage from "@/pages/offerte";
-import BetaalbareWebsitePage from "@/pages/betaalbare-website";
-import BlogIndexPage from "@/pages/blog";
-import BlogArticlePage from "@/pages/blog/article";
-
-import CustomerDashboard from "@/pages/dashboard/customer-dashboard";
-import OnboardingPage from "@/pages/dashboard/onboarding";
-import AddOnsPage from "@/pages/dashboard/addons";
-import AnalyticsPage from "@/pages/dashboard/analytics";
-import BillingPage from "@/pages/dashboard/billing";
-import SettingsPage from "@/pages/dashboard/settings";
-
-import AdminDashboard from "@/pages/admin/admin-dashboard";
-import AdminCustomersPage from "@/pages/admin/customers";
-import AdminClickUpPage from "@/pages/admin/clickup";
-import SupportPage from "@/pages/dashboard/support";
-
-import { Loader2 } from "lucide-react";
 
 function ProtectedRoute({
   component: Component,
@@ -91,54 +106,61 @@ function ProtectedRoute({
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={HomePage} />
-      <Route path="/privacy" component={PrivacyPage} />
-      <Route path="/terms" component={TermsPage} />
-      <Route path="/login" component={LoginPage} />
-      <Route path="/signup" component={SignupPage} />
-      <Route path="/forgot-password" component={ForgotPasswordPage} />
-      <Route path="/reset-password" component={ResetPasswordPage} />
-      <Route path="/checkout-success" component={CheckoutSuccessPage} />
-      <Route path="/offerte" component={OffertePage} />
-      <Route path="/betaalbare-professionele-website" component={BetaalbareWebsitePage} />
-      <Route path="/blog" component={BlogIndexPage} />
-      <Route path="/blog/:slug" component={BlogArticlePage} />
+    <Suspense fallback={<LazyFallback />}>
+      <Switch>
+        {/* Eager public routes */}
+        <Route path="/" component={HomePage} />
+        <Route path="/betaalbare-professionele-website" component={BetaalbareWebsitePage} />
+        <Route path="/privacy" component={PrivacyPage} />
+        <Route path="/terms" component={TermsPage} />
 
-      <Route path="/app">
-        <ProtectedRoute component={CustomerDashboard} roles={["CUSTOMER"]} />
-      </Route>
-      <Route path="/app/onboarding">
-        <ProtectedRoute component={OnboardingPage} roles={["CUSTOMER"]} />
-      </Route>
-      <Route path="/app/addons">
-        <ProtectedRoute component={AddOnsPage} roles={["CUSTOMER"]} />
-      </Route>
-      <Route path="/app/analytics">
-        <ProtectedRoute component={AnalyticsPage} roles={["CUSTOMER"]} />
-      </Route>
-      <Route path="/app/billing">
-        <ProtectedRoute component={BillingPage} roles={["CUSTOMER"]} />
-      </Route>
-      <Route path="/app/support">
-        <ProtectedRoute component={SupportPage} roles={["CUSTOMER"]} />
-      </Route>
-      <Route path="/app/settings">
-        <ProtectedRoute component={SettingsPage} roles={["CUSTOMER"]} />
-      </Route>
+        {/* Lazy public routes */}
+        <Route path="/login" component={LoginPage} />
+        <Route path="/signup" component={SignupPage} />
+        <Route path="/forgot-password" component={ForgotPasswordPage} />
+        <Route path="/reset-password" component={ResetPasswordPage} />
+        <Route path="/checkout-success" component={CheckoutSuccessPage} />
+        <Route path="/offerte" component={OffertePage} />
+        <Route path="/blog" component={BlogIndexPage} />
+        <Route path="/blog/:slug" component={BlogArticlePage} />
 
-      <Route path="/admin">
-        <ProtectedRoute component={AdminDashboard} roles={["ADMIN"]} />
-      </Route>
-      <Route path="/admin/customers">
-        <ProtectedRoute component={AdminCustomersPage} roles={["ADMIN"]} />
-      </Route>
-      <Route path="/admin/clickup">
-        <ProtectedRoute component={AdminClickUpPage} roles={["ADMIN"]} />
-      </Route>
+        {/* Customer dashboard */}
+        <Route path="/app">
+          <ProtectedRoute component={CustomerDashboard} roles={["CUSTOMER"]} />
+        </Route>
+        <Route path="/app/onboarding">
+          <ProtectedRoute component={OnboardingPage} roles={["CUSTOMER"]} />
+        </Route>
+        <Route path="/app/addons">
+          <ProtectedRoute component={AddOnsPage} roles={["CUSTOMER"]} />
+        </Route>
+        <Route path="/app/analytics">
+          <ProtectedRoute component={AnalyticsPage} roles={["CUSTOMER"]} />
+        </Route>
+        <Route path="/app/billing">
+          <ProtectedRoute component={BillingPage} roles={["CUSTOMER"]} />
+        </Route>
+        <Route path="/app/support">
+          <ProtectedRoute component={SupportPage} roles={["CUSTOMER"]} />
+        </Route>
+        <Route path="/app/settings">
+          <ProtectedRoute component={SettingsPage} roles={["CUSTOMER"]} />
+        </Route>
 
-      <Route component={NotFound} />
-    </Switch>
+        {/* Admin */}
+        <Route path="/admin">
+          <ProtectedRoute component={AdminDashboard} roles={["ADMIN"]} />
+        </Route>
+        <Route path="/admin/customers">
+          <ProtectedRoute component={AdminCustomersPage} roles={["ADMIN"]} />
+        </Route>
+        <Route path="/admin/clickup">
+          <ProtectedRoute component={AdminClickUpPage} roles={["ADMIN"]} />
+        </Route>
+
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 
