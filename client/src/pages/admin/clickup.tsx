@@ -6,10 +6,10 @@ import { ClickUpStatsSkeleton, ClickUpTaskListSkeleton } from "@/components/skel
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   ExternalLink,
-  Zap,
-  Bug,
+  Rocket,
+  Hammer,
   MessageSquare,
-  Layers,
+  TrendingUp,
   AlertCircle,
 } from "lucide-react";
 
@@ -27,10 +27,10 @@ interface ClickUpTask {
 
 interface ClickUpOverview {
   configured: boolean;
-  sprint: ClickUpTask[];
-  bugs: ClickUpTask[];
+  roadmap: ClickUpTask[];
+  delivery: ClickUpTask[];
   support: ClickUpTask[];
-  backlog: ClickUpTask[];
+  growth: ClickUpTask[];
 }
 
 function getStatusBadge(status: string) {
@@ -114,9 +114,9 @@ export default function AdminClickUpPage() {
     queryKey: ["/api/admin/clickup/overview"],
   });
 
-  const sprintActive = data?.sprint.filter((t) => t.status !== "complete") || [];
-  const bugsOpen = data?.bugs.filter((t) => t.status !== "complete") || [];
+  const deliveryActive = data?.delivery.filter((t) => t.status !== "complete") || [];
   const supportOpen = data?.support.filter((t) => t.status !== "complete") || [];
+  const growthActive = data?.growth.filter((t) => t.status !== "complete") || [];
 
   return (
     <AppLayout
@@ -152,22 +152,12 @@ export default function AdminClickUpPage() {
             <div className="grid gap-4 md:grid-cols-3">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
-                  <CardTitle className="text-sm font-medium">Sprint taken</CardTitle>
-                  <Zap className="h-4 w-4 text-muted-foreground" />
+                  <CardTitle className="text-sm font-medium">Delivery</CardTitle>
+                  <Hammer className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-semibold" data-testid="text-sprint-count">{sprintActive.length}</div>
+                  <div className="text-2xl font-semibold" data-testid="text-delivery-count">{deliveryActive.length}</div>
                   <p className="text-xs text-muted-foreground">actieve taken</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
-                  <CardTitle className="text-sm font-medium">Open bugs</CardTitle>
-                  <Bug className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-semibold" data-testid="text-bugs-count">{bugsOpen.length}</div>
-                  <p className="text-xs text-muted-foreground">openstaand</p>
                 </CardContent>
               </Card>
               <Card>
@@ -180,46 +170,56 @@ export default function AdminClickUpPage() {
                   <p className="text-xs text-muted-foreground">open tickets</p>
                 </CardContent>
               </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
+                  <CardTitle className="text-sm font-medium">Growth</CardTitle>
+                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-semibold" data-testid="text-growth-count">{growthActive.length}</div>
+                  <p className="text-xs text-muted-foreground">leads & experimenten</p>
+                </CardContent>
+              </Card>
             </div>
 
-            <Tabs defaultValue="sprint">
+            <Tabs defaultValue="roadmap">
               <TabsList>
-                <TabsTrigger value="sprint" data-testid="tab-sprint">
-                  <Zap className="mr-1.5 h-3.5 w-3.5" />
-                  Sprint ({data?.sprint.length || 0})
+                <TabsTrigger value="roadmap" data-testid="tab-roadmap">
+                  <Rocket className="mr-1.5 h-3.5 w-3.5" />
+                  Roadmap ({data?.roadmap.length || 0})
                 </TabsTrigger>
-                <TabsTrigger value="bugs" data-testid="tab-bugs">
-                  <Bug className="mr-1.5 h-3.5 w-3.5" />
-                  Bugs ({data?.bugs.length || 0})
+                <TabsTrigger value="delivery" data-testid="tab-delivery">
+                  <Hammer className="mr-1.5 h-3.5 w-3.5" />
+                  Delivery ({data?.delivery.length || 0})
                 </TabsTrigger>
                 <TabsTrigger value="support" data-testid="tab-support">
                   <MessageSquare className="mr-1.5 h-3.5 w-3.5" />
                   Support ({data?.support.length || 0})
                 </TabsTrigger>
-                <TabsTrigger value="backlog" data-testid="tab-backlog">
-                  <Layers className="mr-1.5 h-3.5 w-3.5" />
-                  Backlog ({data?.backlog.length || 0})
+                <TabsTrigger value="growth" data-testid="tab-growth">
+                  <TrendingUp className="mr-1.5 h-3.5 w-3.5" />
+                  Growth ({data?.growth.length || 0})
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="sprint" className="mt-4">
+              <TabsContent value="roadmap" className="mt-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Sprint taken</CardTitle>
+                    <CardTitle>Roadmap</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <TaskList tasks={data?.sprint || []} emptyMessage="Geen sprint taken gevonden." />
+                    <TaskList tasks={data?.roadmap || []} emptyMessage="Geen roadmap items gevonden." />
                   </CardContent>
                 </Card>
               </TabsContent>
 
-              <TabsContent value="bugs" className="mt-4">
+              <TabsContent value="delivery" className="mt-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Bugs</CardTitle>
+                    <CardTitle>Delivery</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <TaskList tasks={data?.bugs || []} emptyMessage="Geen bugs gevonden." />
+                    <TaskList tasks={data?.delivery || []} emptyMessage="Geen delivery taken gevonden." />
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -235,13 +235,13 @@ export default function AdminClickUpPage() {
                 </Card>
               </TabsContent>
 
-              <TabsContent value="backlog" className="mt-4">
+              <TabsContent value="growth" className="mt-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Backlog</CardTitle>
+                    <CardTitle>Growth</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <TaskList tasks={data?.backlog || []} emptyMessage="Geen backlog items gevonden." />
+                    <TaskList tasks={data?.growth || []} emptyMessage="Geen growth items gevonden." />
                   </CardContent>
                 </Card>
               </TabsContent>
