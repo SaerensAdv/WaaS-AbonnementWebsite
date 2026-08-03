@@ -1,14 +1,14 @@
 const CLICKUP_BASE_URL = "https://api.clickup.com/api/v2";
 
+/**
+ * Current Lists in: 03 Products & Tools / Abonnement.website
+ * Validated 3 August 2026.
+ */
 export const CLICKUP_LISTS = {
-  BACKLOG: "901522317212",
-  SPRINT: "901522317213",
-  BUGS: "901522317214",
-  RELEASES: "901522317217",
-  KLANTEN: "901522317218",
-  SUPPORT_TICKETS: "901522317219",
-  FEEDBACK: "901522317220",
-  AANVRAGEN: "901522317221",
+  ROADMAP: "901524400070",
+  DELIVERY: "901524400064",
+  CUSTOMERS_SUPPORT: "901524400062",
+  GROWTH: "901524400067",
 } as const;
 
 export const CLICKUP_SPACE_ID = "901510164504";
@@ -144,7 +144,7 @@ export async function createKlantTask(
     `Aangemaakt op: ${new Date().toLocaleDateString("nl-NL")}`,
   ].filter(Boolean).join("\n");
 
-  return createTask(CLICKUP_LISTS.KLANTEN, {
+  return createTask(CLICKUP_LISTS.CUSTOMERS_SUPPORT, {
     name: `${customerName} — ${planName}`,
     description,
     tags: ["klant", planName.toLowerCase()],
@@ -163,7 +163,7 @@ export async function createAanvraagTask(
     `Ingeschreven op: ${new Date().toLocaleDateString("nl-NL")}`,
   ].join("\n");
 
-  return createTask(CLICKUP_LISTS.AANVRAGEN, {
+  return createTask(CLICKUP_LISTS.GROWTH, {
     name: `Nieuwe inschrijving — ${name}`,
     description,
     tags: ["inschrijving"],
@@ -242,7 +242,7 @@ export async function createMaatwerkQuoteTask(
     `Aangevraagd op: ${new Date().toLocaleDateString("nl-NL")}`,
   ].filter(Boolean).join("\n");
 
-  return createTask(CLICKUP_LISTS.AANVRAGEN, {
+  return createTask(CLICKUP_LISTS.GROWTH, {
     name: `Maatwerk offerte — ${companyName}`,
     description: desc,
     tags: ["maatwerk", "offerte"],
@@ -327,7 +327,7 @@ export async function createOnboardingSprintTask(
 
   lines.push("", "---", `Onboarding afgerond op: ${new Date().toLocaleDateString("nl-NL")}`);
 
-  return createTask(CLICKUP_LISTS.SPRINT, {
+  return createTask(CLICKUP_LISTS.DELIVERY, {
     name: `Website bouwen — ${data.companyName || customerName}`,
     description: lines.join("\n"),
     tags: ["onboarding", "website-build"],
@@ -354,7 +354,7 @@ export async function createSupportTicketTask(
     `Ingediend op: ${new Date().toLocaleDateString("nl-NL")}`,
   ].join("\n");
 
-  return createTask(CLICKUP_LISTS.SUPPORT_TICKETS, {
+  return createTask(CLICKUP_LISTS.CUSTOMERS_SUPPORT, {
     name: `${subject}`,
     description,
     tags: ["support", `uid:${userId}`],
@@ -379,7 +379,7 @@ export async function createPopupLeadTask(
     `Ingediend op: ${new Date().toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}`,
   ].join("\n");
 
-  return createTask(CLICKUP_LISTS.AANVRAGEN, {
+  return createTask(CLICKUP_LISTS.GROWTH, {
     name: `Lead: ${name} — ${email}`,
     description,
     tags: ["popup-lead", "website"],
