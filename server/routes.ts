@@ -922,7 +922,7 @@ export async function registerRoutes(
         return res.json({ tickets: [] });
       }
 
-      const userTickets = await getTasksByTag(CLICKUP_LISTS.SUPPORT_TICKETS, `uid:${user.id}`);
+      const userTickets = await getTasksByTag(CLICKUP_LISTS.CUSTOMERS_SUPPORT, `uid:${user.id}`);
 
       const tickets = userTickets.map((task: any) => ({
         id: task.id,
@@ -945,14 +945,14 @@ export async function registerRoutes(
   app.get("/api/admin/clickup/overview", requireRole("ADMIN"), async (_req, res) => {
     try {
       if (!isClickUpConfigured()) {
-        return res.json({ configured: false, sprint: [], bugs: [], support: [], backlog: [] });
+        return res.json({ configured: false, roadmap: [], delivery: [], support: [], growth: [] });
       }
 
-      const [sprintResult, bugsResult, supportResult, backlogResult] = await Promise.all([
-        getTasks(CLICKUP_LISTS.SPRINT).catch(() => ({ tasks: [] })),
-        getTasks(CLICKUP_LISTS.BUGS).catch(() => ({ tasks: [] })),
-        getTasks(CLICKUP_LISTS.SUPPORT_TICKETS).catch(() => ({ tasks: [] })),
-        getTasks(CLICKUP_LISTS.BACKLOG).catch(() => ({ tasks: [] })),
+      const [roadmapResult, deliveryResult, supportResult, growthResult] = await Promise.all([
+        getTasks(CLICKUP_LISTS.ROADMAP).catch(() => ({ tasks: [] })),
+        getTasks(CLICKUP_LISTS.DELIVERY).catch(() => ({ tasks: [] })),
+        getTasks(CLICKUP_LISTS.CUSTOMERS_SUPPORT).catch(() => ({ tasks: [] })),
+        getTasks(CLICKUP_LISTS.GROWTH).catch(() => ({ tasks: [] })),
       ]);
 
       const mapTask = (task: any) => ({
@@ -969,10 +969,10 @@ export async function registerRoutes(
 
       res.json({
         configured: true,
-        sprint: (sprintResult.tasks || []).map(mapTask),
-        bugs: (bugsResult.tasks || []).map(mapTask),
+        roadmap: (roadmapResult.tasks || []).map(mapTask),
+        delivery: (deliveryResult.tasks || []).map(mapTask),
         support: (supportResult.tasks || []).map(mapTask),
-        backlog: (backlogResult.tasks || []).map(mapTask),
+        growth: (growthResult.tasks || []).map(mapTask),
       });
     } catch (error: any) {
       console.error("Get ClickUp overview error:", error);
@@ -1057,7 +1057,7 @@ ${pages.map((p) => `  <url>
         companyName: name,
         contactName: name,
         email,
-        description: message || "Popup lead — geen vraag ingevuld",
+        description: message || "Popup lead \u2014 geen vraag ingevuld",
         projectType: "popup-lead",
         phone: null,
         budgetRange: null,
