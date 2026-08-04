@@ -2,10 +2,10 @@
  * Transactional Email via Gmail API
  *
  * Uses OAuth2 refresh token to send emails from the workspace Gmail.
- * Env vars:
- *   GOOGLE_OAUTH_READONLY_CLIENT_ID (shared with analytics)
- *   GOOGLE_OAUTH_READONLY_CLIENT_SECRET (shared with analytics)
- *   GOOGLE_OAUTH_GMAIL_REFRESH_TOKEN (Gmail-specific refresh token)
+ * Env vars (same as analytics, shared credentials):
+ *   GOOGLE_CLIENT_ID
+ *   GOOGLE_CLIENT_SECRET
+ *   GOOGLE_REFRESH_TOKEN (must include gmail.send scope)
  *
  * Sends via Gmail API (not SMTP), so no Nodemailer needed.
  */
@@ -21,12 +21,12 @@ async function getGmailAccessToken(): Promise<string> {
     return gmailToken.token;
   }
 
-  const clientId = process.env.GOOGLE_OAUTH_READONLY_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_OAUTH_READONLY_CLIENT_SECRET;
-  const refreshToken = process.env.GOOGLE_OAUTH_GMAIL_REFRESH_TOKEN;
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
 
   if (!clientId || !clientSecret || !refreshToken) {
-    throw new Error("Gmail OAuth2 credentials not configured");
+    throw new Error("Gmail OAuth2 credentials not configured (GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN)");
   }
 
   const response = await fetch("https://oauth2.googleapis.com/token", {
@@ -55,11 +55,7 @@ async function getGmailAccessToken(): Promise<string> {
 }
 
 export function isEmailConfigured(): boolean {
-  return !!(
-    process.env.GOOGLE_OAUTH_READONLY_CLIENT_ID &&
-    process.env.GOOGLE_OAUTH_READONLY_CLIENT_SECRET &&
-    process.env.GOOGLE_OAUTH_GMAIL_REFRESH_TOKEN
-  );
+  return !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_REFRESH_TOKEN);
 }
 
 // ─── Gmail API Send ───────────────────────────────────────────────────────
