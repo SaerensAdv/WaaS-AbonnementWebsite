@@ -5,6 +5,7 @@ import { createServer } from "http";
 import { runMigrations } from 'stripe-replit-sync';
 import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
+import { syncAddOnCatalog } from "./addonCatalog";
 import path from "path";
 import fs from "fs";
 import { createHash } from "crypto";
@@ -305,6 +306,12 @@ async function initStripe() {
 (async () => {
   await runSchemaCleanup();
   await ensureQuoteRequestsTable();
+
+  try {
+    await syncAddOnCatalog(log);
+  } catch (err: any) {
+    log(`Add-on catalog sync failed: ${err.message}`, 'catalog');
+  }
 
   try {
     await initStripe();
