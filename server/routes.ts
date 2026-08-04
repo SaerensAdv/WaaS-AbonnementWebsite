@@ -27,6 +27,9 @@ import { getAllBlogArticles } from "@shared/blog";
 import { registerAnalyticsRoutes } from "./analytics-routes";
 import { isEmailConfigured, sendPasswordResetEmail, sendWelcomeEmail } from "./email";
 
+/** Base URL for outbound links (emails, redirects). Never localhost. */
+const APP_BASE_URL = process.env.APP_BASE_URL || "https://abonnement.website";
+
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
@@ -215,14 +218,13 @@ export async function registerRoutes(
 
       if (user) {
         const token = await storage.createPasswordResetToken(user.id);
-        const resetUrl = `${req.headers.origin || 'https://' + req.headers.host}/reset-password?token=${token}`;
+        const resetUrl = `${APP_BASE_URL}/reset-password?token=${token}`;
 
         if (isEmailConfigured()) {
           try {
             await sendPasswordResetEmail(user.email, user.name, resetUrl);
           } catch (emailErr: any) {
             console.error("Password reset email failed:", emailErr.message);
-            // Still log the URL as fallback
             console.log(`Password reset fallback URL for ${email}: ${resetUrl}`);
           }
         } else {
@@ -627,9 +629,7 @@ export async function registerRoutes(
       const { getUncachableStripeClient } = await import("./stripeClient");
       const stripe = await getUncachableStripeClient();
 
-      const protocol = req.headers['x-forwarded-proto'] || 'https';
-      const host = req.headers.host;
-      const returnUrl = `${protocol}://${host}/app/billing`;
+      const returnUrl = `${APP_BASE_URL}/app/billing`;
 
       const session = await stripe.billingPortal.sessions.create({
         customer: subscription.stripeCustomerId,
@@ -683,10 +683,8 @@ export async function registerRoutes(
         customerId = customer.id;
       }
 
-      const protocol = req.headers['x-forwarded-proto'] || 'https';
-      const host = req.headers.host;
-      const successUrl = `${protocol}://${host}/checkout-success?session_id={CHECKOUT_SESSION_ID}`;
-      const cancelUrl = `${protocol}://${host}/?checkout=cancelled`;
+      const successUrl = `${APP_BASE_URL}/checkout-success?session_id={CHECKOUT_SESSION_ID}`;
+      const cancelUrl = `${APP_BASE_URL}/?checkout=cancelled`;
 
       const sessionConfig: any = {
         customer: customerId,
