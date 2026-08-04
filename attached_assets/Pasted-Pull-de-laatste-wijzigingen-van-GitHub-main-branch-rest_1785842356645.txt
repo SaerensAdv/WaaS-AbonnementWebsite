@@ -1,0 +1,30 @@
+Pull de laatste wijzigingen van GitHub main branch, restart de server, en voer de volgende end-to-end tests uit. Rapporteer elk resultaat.
+Test 1: E-mail (Password Reset)
+Gebruik het bestaande testaccount (of maak er een aan met email  axel@saerensadvertising.com ).
+Trigger de forgot-password flow via  POST /api/auth/forgot-password  met dat emailadres.
+Check de server logs: staat er "Gmail send failed" of is er geen error?
+Rapporteer: mail verstuurd (succes in logs) of gefaald (met foutmelding).
+Test 2: E-mail (Welcome)
+Maak een nieuw account aan via  POST /api/auth/signup  met email  test-e2e@saerensadvertising.com , naam  E2E Test , wachtwoord  TestWacht1 .
+Check de server logs voor "Welcome email error" of succes.
+Rapporteer: welkomstmail verstuurd of gefaald.
+Test 3: ClickUp integratie
+Na de signup uit Test 2, check de server logs voor "ClickUp aanvraag task error" of succes.
+Doe ook een directe API call:  GET https://api.clickup.com/api/v2/list/901524400067/task  met de CLICKUP_API_TOKEN header. Krijg je een 200 terug?
+Rapporteer: ClickUp API werkend of gefaald (met foutmelding).
+Test 4: Analytics endpoints
+Test als ingelogde CUSTOMER (gebruik de sessie van Test 2 of het bestaande testaccount dat een project heeft met analytics config):
+ GET /api/analytics/status  → rapporteer response
+ GET /api/analytics/traffic  → rapporteer: 200 met data, of error
+ GET /api/analytics/search  → rapporteer: 200 met data, of error
+ GET /api/analytics/speed?strategy=mobile  → rapporteer: 200 met data, of error (429 quota = acceptabel)
+Test 5: Stripe checkout flow
+Log in als het testaccount met een project.
+ POST /api/checkout  met een geldig planId uit de database.
+Rapporteer: krijg je een Stripe checkout URL terug, of een error?
+Test 6: Full signup → dashboard flow
+Log in als het account uit Test 2.
+ GET /api/dashboard  → rapporteer: krijg je project/subscription data of null?
+ GET /api/support-tickets  → rapporteer: 200 of error?
+Output als tabel:
+Verwijder na de tests het account  test-e2e@saerensadvertising.com  uit de database.
