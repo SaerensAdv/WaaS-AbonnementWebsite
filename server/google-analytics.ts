@@ -23,9 +23,9 @@ async function getAccessToken(): Promise<string> {
     return cachedToken.token;
   }
 
-  const clientId = process.env.GOOGLE_OAUTH_READONLY_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_OAUTH_READONLY_CLIENT_SECRET;
-  const refreshToken = process.env.GOOGLE_OAUTH_READONLY_REFRESH_TOKEN;
+  const clientId = process.env.GOOGLE_OAUTH_READONLY_CLIENT_ID || process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_OAUTH_READONLY_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_OAUTH_READONLY_REFRESH_TOKEN || process.env.GOOGLE_REFRESH_TOKEN;
 
   if (!clientId || !clientSecret || !refreshToken) {
     throw new Error("Google OAuth2 credentials not configured (GOOGLE_OAUTH_READONLY_CLIENT_ID, GOOGLE_OAUTH_READONLY_CLIENT_SECRET, GOOGLE_OAUTH_READONLY_REFRESH_TOKEN)");
@@ -57,7 +57,7 @@ async function getAccessToken(): Promise<string> {
 }
 
 export function isGoogleConfigured(): boolean {
-  return !!(process.env.GOOGLE_OAUTH_READONLY_CLIENT_ID && process.env.GOOGLE_OAUTH_READONLY_CLIENT_SECRET && process.env.GOOGLE_OAUTH_READONLY_REFRESH_TOKEN);
+  return !!((process.env.GOOGLE_OAUTH_READONLY_CLIENT_ID || process.env.GOOGLE_CLIENT_ID) && (process.env.GOOGLE_OAUTH_READONLY_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET) && (process.env.GOOGLE_OAUTH_READONLY_REFRESH_TOKEN || process.env.GOOGLE_REFRESH_TOKEN));
 }
 
 // ─── GA4 Data API ───────────────────────────────────────────────────────────
@@ -220,7 +220,7 @@ export interface PSIResult {
 }
 
 export async function runPSI(url: string, strategy: "mobile" | "desktop" = "mobile"): Promise<PSIResult> {
-  const apiKey = process.env.PAGESPEED_API_KEY || "";
+  const apiKey = process.env.PAGESPEED_API_KEY || process.env.GOOGLE_PSI_API_KEY || "";
   const categories = ["performance", "seo", "accessibility", "best-practices"];
 
   // Build URL with multiple category params
