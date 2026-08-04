@@ -73,6 +73,7 @@ export async function getTasks(listId: string, options?: {
   statuses?: string[];
   page?: number;
   includeSubtasks?: boolean;
+  includeClosed?: boolean;
 }): Promise<any> {
   const params = new URLSearchParams();
   if (options?.statuses) {
@@ -83,6 +84,9 @@ export async function getTasks(listId: string, options?: {
   }
   if (options?.includeSubtasks) {
     params.set("include_subtasks", "true");
+  }
+  if (options?.includeClosed) {
+    params.set("include_closed", "true");
   }
   const query = params.toString();
   return clickupFetch(`/list/${listId}/task${query ? `?${query}` : ""}`);
@@ -145,7 +149,7 @@ export async function createKlantTask(
   ].filter(Boolean).join("\n");
 
   return createTask(CLICKUP_LISTS.CUSTOMERS_SUPPORT, {
-    name: `${customerName} — ${planName}`,
+    name: `${customerName} \u2014 ${planName}`,
     description,
     tags: ["klant", planName.toLowerCase()],
     priority: 3,
@@ -164,7 +168,7 @@ export async function createAanvraagTask(
   ].join("\n");
 
   return createTask(CLICKUP_LISTS.GROWTH, {
-    name: `Nieuwe inschrijving — ${name}`,
+    name: `Nieuwe inschrijving \u2014 ${name}`,
     description,
     tags: ["inschrijving"],
     priority: 3,
@@ -192,10 +196,10 @@ export async function createMaatwerkQuoteTask(
   };
 
   const budgetLabels: Record<string, string> = {
-    "1000-2500": "€1.000 – €2.500",
-    "2500-5000": "€2.500 – €5.000",
-    "5000-10000": "€5.000 – €10.000",
-    "10000+": "€10.000+",
+    "1000-2500": "\u20ac1.000 \u2013 \u20ac2.500",
+    "2500-5000": "\u20ac2.500 \u2013 \u20ac5.000",
+    "5000-10000": "\u20ac5.000 \u2013 \u20ac10.000",
+    "10000+": "\u20ac10.000+",
     "unknown": "Nog geen idee",
   };
 
@@ -243,7 +247,7 @@ export async function createMaatwerkQuoteTask(
   ].filter(Boolean).join("\n");
 
   return createTask(CLICKUP_LISTS.GROWTH, {
-    name: `Maatwerk offerte — ${companyName}`,
+    name: `Maatwerk offerte \u2014 ${companyName}`,
     description: desc,
     tags: ["maatwerk", "offerte"],
     priority: 2,
@@ -289,7 +293,7 @@ export async function createOnboardingSprintTask(
   ];
 
   if (data.companyName) lines.push(`**Bedrijfsnaam:** ${data.companyName}`);
-  if (data.country) lines.push(`**Land:** ${data.country === "NL" ? "Nederland" : data.country === "BE" ? "België" : data.country}`);
+  if (data.country) lines.push(`**Land:** ${data.country === "NL" ? "Nederland" : data.country === "BE" ? "Belgi\u00eb" : data.country}`);
   if (data.kvkNumber) lines.push(`**KVK-nummer:** ${data.kvkNumber}`);
   if (data.btwNumber) lines.push(`**BTW-nummer:** ${data.btwNumber}`);
   if (data.industry) lines.push(`**Branche:** ${data.industry}`);
@@ -328,7 +332,7 @@ export async function createOnboardingSprintTask(
   lines.push("", "---", `Onboarding afgerond op: ${new Date().toLocaleDateString("nl-NL")}`);
 
   return createTask(CLICKUP_LISTS.DELIVERY, {
-    name: `Website bouwen — ${data.companyName || customerName}`,
+    name: `Website bouwen \u2014 ${data.companyName || customerName}`,
     description: lines.join("\n"),
     tags: ["onboarding", "website-build"],
     priority: 2,
@@ -380,15 +384,15 @@ export async function createPopupLeadTask(
   ].join("\n");
 
   return createTask(CLICKUP_LISTS.GROWTH, {
-    name: `Lead: ${name} — ${email}`,
+    name: `Lead: ${name} \u2014 ${email}`,
     description,
     tags: ["popup-lead", "website"],
     priority: 3,
   });
 }
 
-export async function getTasksByTag(listId: string, tag: string): Promise<any[]> {
-  const result = await getTasks(listId);
+export async function getTasksByTag(listId: string, tag: string, options?: { includeClosed?: boolean }): Promise<any[]> {
+  const result = await getTasks(listId, { includeClosed: options?.includeClosed });
   const tasks = result.tasks || [];
   return tasks.filter((task: any) =>
     (task.tags || []).some((t: any) => t.name === tag)
