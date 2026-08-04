@@ -1,0 +1,25 @@
+Pull de laatste wijzigingen van GitHub en voer het volgende uit:
+1. Stripe Products & Prices aanmaken
+Maak de volgende producten en recurring prices aan in Stripe (test mode is ok). Alle prijzen zijn per maand, kwartaalbetaling (interval: 3 maanden). Valuta: EUR.
+Voor elk product: maak een Stripe Product + een recurring Price (interval_count: 3, interval: month). Noteer de price IDs.
+2. Database updaten
+Verwijder alle bestaande records uit de  add_ons  tabel en insert de nieuwe add-ons met de zojuist aangemaakte Stripe price IDs. Gebruik de onderstaande beschrijvingen:
+google-ads: "Wekelijks zoektermen reviewen, biedstrategieën, conversie tracking en maandrapportage. Max 4 uur/maand. Min fee €249 of 10% van ad spend. Excl. advertentiebudget."
+google-ads-ecommerce: "Google Ads + Merchant Center, Shopping campagnes, feedbeheer en productoptimalisatie. Max 5 uur/maand. Min fee €349 of 10% van ad spend. Excl. advertentiebudget."
+meta-ads: "Campagne-opzet, doelgroepen, A/B tests, Pixel en Conversions API setup, maandrapportage. Max 4 uur/maand. Min fee €249 of 10% van ad spend. Excl. advertentiebudget."
+seo: "On-page optimalisatie (2 pagina's/maand), technische monitoring, 20 keywords tracking, GSC rapportage in dashboard."
+local-seo: "Google Business Profile optimalisatie, lokale rankings, review management en lokale citaties."
+social-media: "8 posts per maand op 2 kanalen, contentkalender, basis design, scheduling en community management (1x/dag)."
+ecommerce: "Webshop functionaliteit tot 50 producten. Stripe/Mollie betalingen, productbeheer en bestelbevestigingsmails."
+booking: "Online boekingssysteem met kalender sync, bevestigingsmails en klant-zelf-boeken widget. Max 3 diensten."
+extra-content-bundle: "Tot 10 content wijzigingen per maand. Tekst, afbeeldingen en kleine layout aanpassingen (fair use, max 15 min per wijziging)."
+
+Icons (lucide): google-ads →  megaphone , google-ads-ecommerce →  shopping-bag , meta-ads →  share-2 , seo →  search , local-seo →  map-pin , social-media →  users , ecommerce →  shopping-cart , booking →  calendar , extra-content-bundle →  file-text 
+3. Seed file updaten
+Update  server/seed.ts  met de nieuwe add-ons (namen, slugs, prijzen, beschrijvingen en de nieuwe Stripe price IDs), zodat een verse database dezelfde data krijgt.
+4. Frontend updaten
+Check of  client/src/pages/home.tsx  en eventuele andere plekken die de add-ons tonen (pricing sectie op de homepage) nog kloppen met de nieuwe data. De homepage moet de nieuwe add-ons tonen met correcte prijzen.
+5. Test
+Herstart de server en verifieer:
+ GET /api/addons  retourneert alle 9 add-ons met correcte prijzen
+De homepage pricing sectie toont de bijgewerkte add-ons

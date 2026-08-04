@@ -11,6 +11,9 @@ import {
   Share2,
   FileText,
   ShoppingCart,
+  ShoppingBag,
+  Search,
+  MapPin,
   Users,
   CalendarCheck,
   Zap,
@@ -24,11 +27,14 @@ import type { AddOn, AddOnSelection } from "@shared/schema";
 
 const addOnIcons: Record<string, any> = {
   "google-ads": Megaphone,
+  "google-ads-ecommerce": ShoppingBag,
   "meta-ads": Share2,
-  "extra-content": FileText,
-  "ecommerce": ShoppingCart,
+  "seo": Search,
+  "local-seo": MapPin,
   "social-media": Users,
+  "ecommerce": ShoppingCart,
   "booking": CalendarCheck,
+  "extra-content-bundle": FileText,
 };
 
 const statusColors = {

@@ -19,6 +19,9 @@ import {
   Star,
   FileText,
   ShoppingCart,
+  ShoppingBag,
+  MagnifyingGlass,
+  MapPin,
   UsersThree,
   CalendarCheck,
   Lock,
@@ -43,11 +46,14 @@ const tierConfig: Record<string, { label: string; popular?: boolean }> = {
 
 const addOnIcons: Record<string, any> = {
   "google-ads": Megaphone,
+  "google-ads-ecommerce": ShoppingBag,
   "meta-ads": ShareNetwork,
-  "extra-content": FileText,
-  "ecommerce": ShoppingCart,
+  "seo": MagnifyingGlass,
+  "local-seo": MapPin,
   "social-media": UsersThree,
+  "ecommerce": ShoppingCart,
   "booking": CalendarCheck,
+  "extra-content-bundle": FileText,
 };
 
 const faqItems = [
