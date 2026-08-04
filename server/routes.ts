@@ -25,6 +25,7 @@ import {
 import { insertQuoteRequestSchema } from "@shared/schema";
 import { getAllBlogArticles } from "@shared/blog";
 import { registerAnalyticsRoutes } from "./analytics-routes";
+import { isEmailConfigured, sendPasswordResetEmail, sendWelcomeEmail } from "./email";
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -130,6 +131,13 @@ export async function registerRoutes(
 
       req.session.userId = user.id;
 
+      // Send welcome email (non-blocking)
+      if (isEmailConfigured()) {
+        sendWelcomeEmail(user.email, user.name).catch((err) =>
+          console.error("Welcome email error (non-blocking):", err.message)
+        );
+      }
+
       if (isClickUpConfigured()) {
         createAanvraagTask(user.name, user.email).catch((err) =>
           console.error("ClickUp aanvraag task error (non-blocking):", err.message)
@@ -208,7 +216,18 @@ export async function registerRoutes(
       if (user) {
         const token = await storage.createPasswordResetToken(user.id);
         const resetUrl = `${req.headers.origin || 'https://' + req.headers.host}/reset-password?token=${token}`;
-        console.log(`Password reset requested for ${email}. Reset URL: ${resetUrl}`);
+
+        if (isEmailConfigured()) {
+          try {
+            await sendPasswordResetEmail(user.email, user.name, resetUrl);
+          } catch (emailErr: any) {
+            console.error("Password reset email failed:", emailErr.message);
+            // Still log the URL as fallback
+            console.log(`Password reset fallback URL for ${email}: ${resetUrl}`);
+          }
+        } else {
+          console.log(`Password reset requested for ${email}. Reset URL: ${resetUrl}`);
+        }
       }
 
       res.json({
