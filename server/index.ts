@@ -6,6 +6,8 @@ import { runMigrations } from 'stripe-replit-sync';
 import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
 import path from "path";
+import fs from "fs";
+import { createHash } from "crypto";
 import { pool } from "./db";
 import helmet from "helmet";
 
@@ -190,6 +192,58 @@ async function ensureQuoteRequestsTable() {
   }
 }
 
+/**
+ * Repair step for stripe-replit-sync migration 0039 (add_paused_to_subscription_status).
+ * Older environments already have the 'paused' enum label without a migration record,
+ * which makes the non-idempotent ALTER TYPE ... ADD VALUE fail and blocks migrations 0040+.
+ * If the label exists but the record is missing, insert the record so migrations can proceed.
+ */
+async function repairStripeMigrationHistory() {
+  const client = await pool.connect();
+  try {
+    const migTable = await client.query(
+      `SELECT 1 FROM information_schema.tables WHERE table_schema = 'stripe' AND table_name = '_migrations'`
+    );
+    if (migTable.rowCount === 0) return;
+
+    const recorded = await client.query(
+      `SELECT 1 FROM stripe._migrations WHERE id = 39`
+    );
+    if ((recorded.rowCount ?? 0) > 0) return;
+
+    const labelExists = await client.query(
+      `SELECT 1 FROM pg_enum e
+       JOIN pg_type t ON t.oid = e.enumtypid
+       JOIN pg_namespace n ON n.oid = t.typnamespace
+       WHERE n.nspname = 'stripe' AND t.typname = 'subscription_status' AND e.enumlabel = 'paused'`
+    );
+    if (labelExists.rowCount === 0) return;
+
+    // Hash must match pg-node-migrations: sha1(fileName + sql)
+    const fileName = '0039_add_paused_to_subscription_status.sql';
+    const migrationPath = path.join(
+      process.cwd(),
+      'node_modules/stripe-replit-sync/dist/migrations',
+      fileName
+    );
+    if (!fs.existsSync(migrationPath)) return;
+    const sql = fs.readFileSync(migrationPath, 'utf8');
+    const hash = createHash('sha1').update(fileName + sql, 'utf8').digest('hex');
+
+    await client.query(
+      `INSERT INTO stripe._migrations (id, name, hash, executed_at)
+       VALUES (39, 'add_paused_to_subscription_status', $1, now())
+       ON CONFLICT (id) DO NOTHING`,
+      [hash]
+    );
+    log('Repaired stripe migration history for 0039 (paused enum already present)', 'stripe');
+  } catch (err: any) {
+    log(`Stripe migration history repair skipped: ${err.message}`, 'stripe');
+  } finally {
+    client.release();
+  }
+}
+
 async function initStripe() {
   const databaseUrl = process.env.DATABASE_URL;
 
@@ -200,6 +254,7 @@ async function initStripe() {
 
   try {
     log('Initializing Stripe schema...', 'stripe');
+    await repairStripeMigrationHistory();
     try {
       await runMigrations({ 
         databaseUrl
@@ -219,7 +274,7 @@ async function initStripe() {
     const webhookBaseUrl = `https://${process.env.REPLIT_DOMAINS?.split(',')[0]}`;
     
     try {
-      const { webhook, uuid } = await stripeSync.findOrCreateManagedWebhook(
+      const webhook = await stripeSync.findOrCreateManagedWebhook(
         `${webhookBaseUrl}/api/stripe/webhook`,
         {
           enabled_events: ['*'],
@@ -236,7 +291,7 @@ async function initStripe() {
           log(`Error syncing Stripe data: ${err.message}`, 'stripe');
         });
 
-      return uuid;
+      return webhook.id;
     } catch (webhookError: any) {
       log(`Webhook setup skipped: ${webhookError.message}`, 'stripe');
       return null;
@@ -251,16 +306,14 @@ async function initStripe() {
   await runSchemaCleanup();
   await ensureQuoteRequestsTable();
 
-  let stripeWebhookUuid: string | null = null;
-  
   try {
-    stripeWebhookUuid = await initStripe();
+    await initStripe();
   } catch (error: any) {
     log(`Stripe initialization failed: ${error.message}`, 'stripe');
   }
 
   app.post(
-    '/api/stripe/webhook/:uuid',
+    ['/api/stripe/webhook', '/api/stripe/webhook/:uuid'],
     express.raw({ type: 'application/json' }),
     async (req, res) => {
       const signature = req.headers['stripe-signature'];
@@ -277,8 +330,7 @@ async function initStripe() {
           return res.status(500).json({ error: 'Webhook processing error' });
         }
 
-        const { uuid } = req.params;
-        await WebhookHandlers.processWebhook(req.body as Buffer, sig, uuid);
+        await WebhookHandlers.processWebhook(req.body as Buffer, sig);
 
         res.status(200).json({ received: true });
       } catch (error: any) {

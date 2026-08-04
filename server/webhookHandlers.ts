@@ -31,7 +31,7 @@ export class WebhookHandlers {
     }
   }
 
-  static async processWebhook(payload: Buffer, signature: string, uuid: string): Promise<void> {
+  static async processWebhook(payload: Buffer, signature: string): Promise<void> {
     if (!Buffer.isBuffer(payload)) {
       throw new Error(
         'STRIPE WEBHOOK ERROR: Payload must be a Buffer. ' +
@@ -42,7 +42,7 @@ export class WebhookHandlers {
     }
 
     const sync = await getStripeSync();
-    await sync.processWebhook(payload, signature, uuid);
+    await sync.processWebhook(payload, signature);
 
     try {
       const event = JSON.parse(payload.toString()) as Stripe.Event;
