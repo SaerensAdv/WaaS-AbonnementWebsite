@@ -33,8 +33,13 @@ export function safeDecode(value: string): string | null {
 }
 
 export function isKnownRoute(pathname: string): boolean {
-  if (STATIC_ROUTES.has(pathname)) return true;
-  const match = pathname.match(/^\/blog\/([^/]+)$/);
+  // Normalize: strip trailing slash (except root)
+  const normalized = pathname !== "/" && pathname.endsWith("/")
+    ? pathname.slice(0, -1)
+    : pathname;
+
+  if (STATIC_ROUTES.has(normalized)) return true;
+  const match = normalized.match(/^\/blog\/([^/]+)$/);
   if (match) {
     const slug = safeDecode(match[1]);
     return slug !== null && getBlogSlugs().includes(slug);
