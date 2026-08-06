@@ -20,7 +20,7 @@ export interface RouteMetadata {
 const betaalbareWebsiteFaqs = [
   {
     q: "Wat kost een professionele website bij jullie?",
-    a: "Je betaalt vanaf €49 per maand. Daarin zitten design, hosting, onderhoud en support. Er zijn geen opstartkosten en geen verrassingen achteraf. De facturatie loopt per kwartaal vooruit.",
+    a: "Je betaalt vanaf \u20ac49 per maand. Daarin zitten design, hosting, onderhoud en support. Er zijn geen opstartkosten en geen verrassingen achteraf. De facturatie loopt per kwartaal vooruit.",
   },
   {
     q: "Voor wie is dit bedoeld?",
@@ -48,7 +48,7 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
   "/": {
     title: `Website Abonnement vanaf \u20ac49/maand | ${SITE_NAME}`,
     description:
-      "Website abonnement met design, hosting en support inbegrepen. Geen technische kennis nodig. Geen opstartkosten, 6 maanden minimum. Start vandaag.",
+      "Website abonnement met design, hosting, onderhoud en support. Voor starters en zelfstandigen in Nederland en Belgi\u00eb. Binnen 10 werkdagen live, geen opstartkosten.",
     canonical: `${BASE_URL}/`,
     ogImage: DEFAULT_OG_IMAGE,
     staticHtml: `
@@ -58,6 +58,7 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
       <a href="/">Abonnement.Website</a>
       <a href="/#pricing">Prijzen</a>
       <a href="/#addons">Add-ons</a>
+      <a href="/blog">Blog</a>
       <a href="/#faq">FAQ</a>
       <a href="/login">Inloggen</a>
       <a href="/signup">Registreren</a>
@@ -65,8 +66,8 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
   </header>
   <main>
     <section>
-      <h1>Binnen 10 dagen een professionele website.</h1>
-      <p>Voor starters en zelfstandigen: design, hosting, onderhoud en support in \u00e9\u00e9n vast maandbedrag vanaf \u20ac49/mnd. Per kwartaal vooruit afgerekend.</p>
+      <h1>Professionele website op abonnement, vanaf \u20ac49 per maand.</h1>
+      <p>Voor starters en zelfstandigen in Nederland en Belgi\u00eb: design, hosting, onderhoud en support in \u00e9\u00e9n vast maandbedrag. Binnen 10 werkdagen live, per kwartaal vooruit afgerekend.</p>
       <a href="/signup">Direct starten</a>
       <a href="/#pricing">Bekijk abonnementen</a>
     </section>
@@ -83,10 +84,15 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
       <p>Geen grote investering vooraf. Alles inbegrepen: design, hosting, SSL, onderhoud, updates en persoonlijke support.</p>
       <a href="/betaalbare-professionele-website">Meer over betaalbare websites</a>
     </section>
+    <section>
+      <h2>Tips over websites, kosten en SEO</h2>
+      <p>Praktische artikelen voor starters en zelfstandigen over websitekosten, SEO en online groeien.</p>
+      <a href="/blog">Bekijk alle artikelen</a>
+    </section>
   </main>
   <footer>
-    <p>Abonnement.Website &mdash; Professionele websites als abonnement. Hosting, onderhoud en support inbegrepen.</p>
-    <a href="/privacy">Privacy</a> | <a href="/terms">Algemene Voorwaarden</a> | <a href="/offerte">Offerte aanvragen</a>
+    <p>Abonnement.Website \u2014 Professionele websites als abonnement. Hosting, onderhoud en support inbegrepen.</p>
+    <a href="/privacy">Privacy</a> | <a href="/terms">Algemene Voorwaarden</a> | <a href="/offerte">Offerte aanvragen</a> | <a href="/blog">Blog</a>
   </footer>
 </div>`,
   },
