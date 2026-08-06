@@ -12,6 +12,8 @@ import {
 
 const BASE_URL = "https://abonnement.website";
 const SITE_NAME = "Abonnement.Website";
+const TITLE_SUFFIX = " | Abonnement.Website";
+const MAX_TITLE_LENGTH = 60;
 
 const MONTHS_NL = [
   "januari",
@@ -40,6 +42,13 @@ function escapeHtml(str: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function buildTitle(base: string): string {
+  // If title + suffix fits, use it. Otherwise just use the base title.
+  const full = base + TITLE_SUFFIX;
+  if (full.length <= MAX_TITLE_LENGTH) return full;
+  return base;
 }
 
 function renderInline(nodes: InlineNode[]): string {
@@ -148,6 +157,11 @@ ${headerHtml()}
     <section>
 ${cards}
     </section>
+    <section>
+      <h2>Professionele website nodig?</h2>
+      <p>Bekijk onze website abonnementen vanaf \u20ac49 per maand. Design, hosting en support inbegrepen.</p>
+      <a href="/#pricing">Bekijk abonnementen</a>
+    </section>
   </main>
 ${footerHtml()}
 </div>`;
@@ -197,6 +211,11 @@ ${headerHtml()}
     </article>
 ${faqHtml}
 ${relatedHtml}
+    <section>
+      <h2>Website abonnement bekijken?</h2>
+      <p>Professionele website vanaf \u20ac49/maand. Hosting, onderhoud en support inbegrepen.</p>
+      <a href="/#pricing">Bekijk de prijzen</a> | <a href="/betaalbare-professionele-website">Meer over onze aanpak</a>
+    </section>
   </main>
 ${footerHtml()}
 </div>`;
@@ -205,7 +224,7 @@ ${footerHtml()}
 export function getBlogMetadata(pathname: string): RouteMetadata | undefined {
   if (pathname === "/blog") {
     return {
-      title: `Blog \u2014 tips over websites voor starters en zelfstandigen | ${SITE_NAME}`,
+      title: `Blog: websitetips voor starters | ${SITE_NAME}`,
       description: BLOG_INTRO,
       canonical: `${BASE_URL}/blog`,
       structuredData: buildBlogIndexJsonLd(BASE_URL),
@@ -220,7 +239,7 @@ export function getBlogMetadata(pathname: string): RouteMetadata | undefined {
     const article = getBlogArticleBySlug(slug);
     if (!article) return undefined;
 
-    const title = `${article.metaTitle ?? article.title} | ${SITE_NAME}`;
+    const title = buildTitle(article.metaTitle ?? article.title);
     return {
       title,
       description: article.metaDescription,
