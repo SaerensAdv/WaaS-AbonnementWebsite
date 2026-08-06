@@ -14,17 +14,19 @@ export function serveStatic(app: Express) {
 
   // Strip trailing slashes (except root) to prevent duplicate URLs and 404s
   app.use((req, res, next) => {
-    const path = req.path;
-    if (path !== "/" && path.endsWith("/")) {
-      const query = req.url.slice(path.length);
-      const cleanPath = path.slice(0, -1);
+    const reqPath = req.path;
+    if (reqPath !== "/" && reqPath.endsWith("/")) {
+      const query = req.url.slice(reqPath.length);
+      const cleanPath = reqPath.slice(0, -1);
       res.redirect(301, cleanPath + query);
       return;
     }
     next();
   });
 
-  app.use(express.static(distPath));
+  // redirect: false prevents express.static from 301-ing /blog to /blog/
+  // when a /blog/ directory exists in the build output (hero images live there)
+  app.use(express.static(distPath, { redirect: false }));
 
   app.use("*", (req, res) => {
     const pathname = req.originalUrl.split("?")[0].replace(/\/$/, "") || "/";
