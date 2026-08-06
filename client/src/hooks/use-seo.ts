@@ -9,6 +9,8 @@ interface SEOProps {
   ogType?: "website" | "article" | "product";
   noIndex?: boolean;
   structuredData?: object;
+  /** When true, use `title` as-is without appending the site name suffix. */
+  absoluteTitle?: boolean;
 }
 
 const SITE_NAME = "Abonnement.Website";
@@ -23,10 +25,11 @@ export function useSEO({
   ogType = "website",
   noIndex = false,
   structuredData,
+  absoluteTitle = false,
 }: SEOProps) {
   const { language } = useTranslation();
   useEffect(() => {
-    const fullTitle = `${title} | ${SITE_NAME}`;
+    const fullTitle = absoluteTitle ? title : `${title} | ${SITE_NAME}`;
     document.title = fullTitle;
 
     const updateMeta = (name: string, content: string, isProperty = false) => {
@@ -103,5 +106,5 @@ export function useSEO({
         script.remove();
       }
     };
-  }, [title, description, canonical, ogImage, ogType, noIndex, structuredData, language]);
+  }, [title, description, canonical, ogImage, ogType, noIndex, structuredData, language, absoluteTitle]);
 }

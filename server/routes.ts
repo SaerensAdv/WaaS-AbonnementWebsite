@@ -720,8 +720,9 @@ export async function registerRoutes(
 
   app.get("/sitemap.xml", (_req, res) => {
     const baseUrl = "https://abonnement.website";
-    const pages = [{ loc: "/", priority: "1.0", changefreq: "weekly" }, { loc: "/betaalbare-professionele-website", priority: "0.9", changefreq: "monthly" }, { loc: "/blog", priority: "0.8", changefreq: "weekly" }, { loc: "/offerte", priority: "0.8", changefreq: "monthly" }, { loc: "/privacy", priority: "0.3", changefreq: "yearly" }, { loc: "/terms", priority: "0.3", changefreq: "yearly" }, ...getAllBlogArticles().map((a) => ({ loc: `/blog/${a.slug}`, priority: "0.7", changefreq: "monthly" }))];
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((p) => `  <url>\n    <loc>${baseUrl}${p.loc}</loc>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`).join("\n")}\n</urlset>`;
+    const today = new Date().toISOString().split("T")[0];
+    const pages = [{ loc: "/", priority: "1.0", changefreq: "weekly", lastmod: today }, { loc: "/betaalbare-professionele-website", priority: "0.9", changefreq: "monthly", lastmod: today }, { loc: "/blog", priority: "0.8", changefreq: "weekly", lastmod: today }, { loc: "/offerte", priority: "0.8", changefreq: "monthly", lastmod: "2026-06-01" }, { loc: "/privacy", priority: "0.3", changefreq: "yearly", lastmod: "2026-03-01" }, { loc: "/terms", priority: "0.3", changefreq: "yearly", lastmod: "2026-03-01" }, ...getAllBlogArticles().map((a) => ({ loc: `/blog/${a.slug}`, priority: "0.7", changefreq: "monthly", lastmod: a.dateModified ?? a.datePublished }))];
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((p) => `  <url>\n    <loc>${baseUrl}${p.loc}</loc>\n    <lastmod>${p.lastmod}</lastmod>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`).join("\n")}\n</urlset>`;
     res.type("application/xml").send(xml);
   });
 

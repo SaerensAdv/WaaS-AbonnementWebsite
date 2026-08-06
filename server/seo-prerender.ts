@@ -46,7 +46,7 @@ const betaalbareWebsiteFaqs = [
 
 const ROUTE_METADATA: Record<string, RouteMetadata> = {
   "/": {
-    title: `Website Abonnement vanaf \u20ac49/maand | ${SITE_NAME}`,
+    title: "Website Abonnement vanaf \u20ac49/maand | Professionele Websites op Abonnement",
     description:
       "Website abonnement met design, hosting, onderhoud en support. Voor starters en zelfstandigen in Nederland en Belgi\u00eb. Binnen 10 werkdagen live, geen opstartkosten.",
     canonical: `${BASE_URL}/`,
@@ -66,8 +66,8 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
   </header>
   <main>
     <section>
-      <h1>Professionele website op abonnement, vanaf \u20ac49 per maand.</h1>
-      <p>Voor starters en zelfstandigen in Nederland en Belgi\u00eb: design, hosting, onderhoud en support in \u00e9\u00e9n vast maandbedrag. Binnen 10 werkdagen live, per kwartaal vooruit afgerekend.</p>
+      <h1>Professionele website op abonnement.</h1>
+      <p>Vanaf \u20ac49 per maand. Voor starters en zelfstandigen in Nederland en Belgi\u00eb: design, hosting, onderhoud en support in \u00e9\u00e9n vast maandbedrag. Binnen 10 werkdagen live, per kwartaal vooruit afgerekend.</p>
       <a href="/signup">Direct starten</a>
       <a href="/#pricing">Bekijk abonnementen</a>
     </section>
