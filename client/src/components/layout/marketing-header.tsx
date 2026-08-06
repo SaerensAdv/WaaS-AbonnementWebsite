@@ -8,8 +8,8 @@ import { List, X } from "@phosphor-icons/react";
 import { useState, useEffect } from "react";
 
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
-import logoGif from "@assets/Untitled_design_1764969853491.gif";
+import logoImage from "@assets/logo-abonnement-website.webp";
+import logoGif from "@assets/logo-animated.webp";
 
 const ICON_WEIGHT = "duotone" as const;
 

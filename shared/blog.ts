@@ -77,6 +77,15 @@ function buildBreadcrumb(
   };
 }
 
+/**
+ * Social share image (Open Graph / Twitter). WebP heroes are used on-page,
+ * but social scrapers (LinkedIn, messaging apps) have inconsistent WebP
+ * support, so social cards use a JPEG variant generated alongside each hero.
+ */
+export function getSocialImagePath(article: BlogArticle): string {
+  return article.heroImagePath.replace(/\.webp$/, ".jpg");
+}
+
 export function buildArticleJsonLd(
   article: BlogArticle,
   baseUrl: string = DEFAULT_BASE_URL,

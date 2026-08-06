@@ -2,6 +2,7 @@ import type { RouteMetadata } from "./seo-prerender";
 import { safeDecode } from "./known-routes";
 import type { ContentBlock, InlineNode, BlogArticle } from "@shared/blog";
 import {
+  getSocialImagePath,
   getAllBlogArticles,
   getBlogArticleBySlug,
   getRelatedArticles,
@@ -246,7 +247,7 @@ export function getBlogMetadata(pathname: string): RouteMetadata | undefined {
       canonical: `${BASE_URL}/blog/${article.slug}`,
       ogTitle: title,
       ogDescription: article.metaDescription,
-      ogImage: `${BASE_URL}${article.heroImagePath}`,
+      ogImage: `${BASE_URL}${getSocialImagePath(article)}`,
       structuredData: buildArticleJsonLd(article, BASE_URL),
       staticHtml: renderArticleHtml(article),
     };

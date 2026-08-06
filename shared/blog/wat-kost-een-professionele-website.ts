@@ -14,7 +14,7 @@ export const article: BlogArticle = {
   datePublished: "2026-06-24",
   dateModified: "2026-06-24",
   readingTimeMinutes: 7,
-  heroImagePath: "/blog/wat-kost-een-professionele-website.png",
+  heroImagePath: "/blog/wat-kost-een-professionele-website.webp",
   heroAlt:
     "Illustratie van een prijskaartje aan een laptop met een professionele website",
   blocks: [

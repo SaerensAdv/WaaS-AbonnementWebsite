@@ -13,7 +13,7 @@ export const article: BlogArticle = {
   datePublished: "2026-06-16",
   dateModified: "2026-06-16",
   readingTimeMinutes: 8,
-  heroImagePath: "/blog/cookiebanner-gdpr-website.png",
+  heroImagePath: "/blog/cookiebanner-gdpr-website.webp",
   heroAlt:
     "Een cookiebanner met toestemmingsknoppen op een website met een privacyschild",
   blocks: [

@@ -7,6 +7,7 @@ import {
   getRelatedArticles,
   buildArticleJsonLd,
   type BlogArticle,
+  getSocialImagePath,
 } from "@shared/blog";
 import { ArticleRenderer, formatDateNL } from "@/components/blog/article-renderer";
 import NotFound from "@/pages/not-found";
@@ -37,7 +38,7 @@ function ArticleView({ article }: { article: BlogArticle }) {
     title: article.metaTitle ?? article.title,
     description: article.metaDescription,
     canonical: `/blog/${article.slug}`,
-    ogImage: article.heroImagePath,
+    ogImage: getSocialImagePath(article),
     ogType: "article",
     structuredData: buildArticleJsonLd(article),
   });

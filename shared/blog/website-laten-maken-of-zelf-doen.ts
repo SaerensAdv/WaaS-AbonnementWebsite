@@ -14,7 +14,7 @@ export const article: BlogArticle = {
   datePublished: "2026-06-23",
   dateModified: "2026-06-23",
   readingTimeMinutes: 6,
-  heroImagePath: "/blog/website-laten-maken-of-zelf-doen.png",
+  heroImagePath: "/blog/website-laten-maken-of-zelf-doen.webp",
   heroAlt:
     "Een weegschaal die zelf bouwen afweegt tegen professioneel laten maken",
   blocks: [

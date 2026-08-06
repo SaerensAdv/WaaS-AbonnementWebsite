@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth-context";
 import { loginSchema, type LoginInput } from "@shared/schema";
 import { Loader2, ArrowLeft } from "lucide-react";
-import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
+import logoImage from "@assets/logo-abonnement-website.webp";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useSEO } from "@/hooks/use-seo";
 

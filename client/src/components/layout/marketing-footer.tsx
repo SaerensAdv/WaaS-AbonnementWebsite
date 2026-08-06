@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Envelope, ShieldCheck, CreditCard, Lock, Globe } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/lib/i18n-context";
-import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
+import logoImage from "@assets/logo-abonnement-website.webp";
 
 const ICON_WEIGHT = "duotone" as const;
 

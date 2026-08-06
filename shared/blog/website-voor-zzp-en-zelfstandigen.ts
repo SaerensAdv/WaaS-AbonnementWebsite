@@ -14,7 +14,7 @@ export const article: BlogArticle = {
   datePublished: "2026-06-22",
   dateModified: "2026-06-22",
   readingTimeMinutes: 7,
-  heroImagePath: "/blog/website-voor-zzp-en-zelfstandigen.png",
+  heroImagePath: "/blog/website-voor-zzp-en-zelfstandigen.webp",
   heroAlt:
     "Een zelfstandige ondernemer aan het werk met een laptop en een eigen website",
   blocks: [

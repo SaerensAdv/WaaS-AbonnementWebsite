@@ -33,7 +33,7 @@ import {
   ClipboardList,
   BarChart3,
 } from "lucide-react";
-import logoImage from "@assets/4ef942ca-8d76-4222-9f26-919b2fc00dd3_1764969199445.png";
+import logoImage from "@assets/logo-abonnement-website.webp";
 
 const customerMenuItems = [
   { title: "Dashboard", url: "/app", icon: LayoutDashboard },

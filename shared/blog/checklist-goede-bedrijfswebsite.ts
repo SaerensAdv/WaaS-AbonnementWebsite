@@ -13,7 +13,7 @@ export const article: BlogArticle = {
   datePublished: "2026-06-18",
   dateModified: "2026-06-18",
   readingTimeMinutes: 8,
-  heroImagePath: "/blog/checklist-goede-bedrijfswebsite.png",
+  heroImagePath: "/blog/checklist-goede-bedrijfswebsite.webp",
   heroAlt:
     "Een checklist met afgevinkte punten naast een professioneel websiteontwerp",
   blocks: [

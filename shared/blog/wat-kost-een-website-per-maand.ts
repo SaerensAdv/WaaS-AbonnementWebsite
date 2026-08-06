@@ -13,7 +13,7 @@ export const article: BlogArticle = {
   datePublished: "2026-06-20",
   dateModified: "2026-06-20",
   readingTimeMinutes: 7,
-  heroImagePath: "/blog/wat-kost-een-website-per-maand.png",
+  heroImagePath: "/blog/wat-kost-een-website-per-maand.webp",
   heroAlt:
     "Een kalender met een vast maandbedrag naast een laptop met een website",
   blocks: [

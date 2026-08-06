@@ -16,7 +16,7 @@ export default function BlogIndexPage() {
   const articles = getAllBlogArticles();
 
   useSEO({
-    title: "Blog — tips over websites voor starters en zelfstandigen",
+    title: "Blog: websitetips voor starters",
     description: BLOG_INTRO,
     canonical: "/blog",
     structuredData: buildBlogIndexJsonLd(),

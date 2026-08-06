@@ -29,7 +29,10 @@ export function useSEO({
 }: SEOProps) {
   const { language } = useTranslation();
   useEffect(() => {
-    const fullTitle = absoluteTitle ? title : `${title} | ${SITE_NAME}`;
+    // Match server prerender policy: append the site suffix only when the
+    // combined title still fits within 60 characters (SERP display limit).
+    const withSuffix = `${title} | ${SITE_NAME}`;
+    const fullTitle = absoluteTitle ? title : withSuffix.length <= 60 ? withSuffix : title;
     document.title = fullTitle;
 
     const updateMeta = (name: string, content: string, isProperty = false) => {
