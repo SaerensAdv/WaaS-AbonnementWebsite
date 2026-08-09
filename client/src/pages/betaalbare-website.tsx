@@ -26,11 +26,6 @@ import type { Plan } from "@shared/schema";
 
 const ICON_WEIGHT = "duotone" as const;
 
-const tierConfig: Record<string, { label: string; popular?: boolean }> = {
-  LOW: { label: "Starter" },
-  MEDIUM: { label: "Professional", popular: true },
-  HIGH: { label: "Business" },
-};
 
 const benefits = [
   {
@@ -46,7 +41,7 @@ const benefits = [
   {
     icon: Gear,
     title: "Alles inbegrepen",
-    text: "Design, hosting, SSL, onderhoud, updates en support zitten in elk pakket. Jij hoeft nergens naar om te kijken.",
+    text: "Design, hosting, SSL, onderhoud, updates, support en 2 wijzigingscredits per maand zitten in het abonnement. Jij hoeft nergens naar om te kijken.",
   },
   {
     icon: Headset,
@@ -96,7 +91,7 @@ const steps = [
 const faqs = [
   {
     q: "Wat kost een professionele website bij jullie?",
-    a: "Je betaalt vanaf €49 per maand. Daarin zitten design, hosting, onderhoud en support. Er zijn geen opstartkosten en geen verrassingen achteraf. De facturatie loopt per kwartaal vooruit.",
+    a: "Je betaalt vanaf €69 per maand. Daarin zitten design, hosting, onderhoud en support. Er zijn geen opstartkosten en geen verrassingen achteraf. De facturatie loopt per kwartaal vooruit.",
   },
   {
     q: "Voor wie is dit bedoeld?",
@@ -116,7 +111,7 @@ const faqs = [
   },
   {
     q: "Kan ik later upgraden of extra's toevoegen?",
-    a: "Zeker. Je kunt op elk moment naar een groter pakket overstappen of add-ons toevoegen, zoals extra pagina's, geavanceerde SEO of advertentiebeheer.",
+    a: "Zeker. Je kunt op elk moment add-ons toevoegen of verwijderen, zoals extra pagina's, SEO of advertentiebeheer. Er is één plan; de keuze zit in welke add-ons je activeert.",
   },
 ];
 
@@ -124,7 +119,7 @@ export default function BetaalbareWebsitePage() {
   useSEO({
     title: "Betaalbare professionele website voor starters en zelfstandigen",
     description:
-      "Een betaalbare professionele website vanaf €49 per maand. Voor starters, zzp'ers en zelfstandigen in Nederland en België. Geen opstartkosten, binnen 10 werkdagen live.",
+      "Een betaalbare professionele website vanaf €69 per maand. Voor starters, zzp'ers en zelfstandigen in Nederland en België. Geen opstartkosten, binnen 10 werkdagen live.",
     canonical: "/betaalbare-professionele-website",
     structuredData: {
       "@context": "https://schema.org",
@@ -134,7 +129,7 @@ export default function BetaalbareWebsitePage() {
           name: "Betaalbare professionele website als abonnement",
           serviceType: "Website laten maken op abonnementsbasis",
           description:
-            "Professionele website voor starters en zelfstandigen vanaf €49 per maand. Inclusief design, hosting, onderhoud en support. Geen opstartkosten.",
+            "Professionele website voor starters en zelfstandigen vanaf €69 per maand. Inclusief design, hosting, onderhoud en support. Geen opstartkosten.",
           areaServed: ["Nederland", "België"],
           provider: {
             "@type": "Organization",
@@ -143,7 +138,7 @@ export default function BetaalbareWebsitePage() {
           },
           offers: {
             "@type": "Offer",
-            price: "49",
+            price: "69",
             priceCurrency: "EUR",
             url: "https://abonnement.website/betaalbare-professionele-website",
           },
@@ -183,7 +178,7 @@ export default function BetaalbareWebsitePage() {
             data-testid="text-page-title"
           >
             Een betaalbare professionele
-            <br className="hidden sm:block" /> website vanaf €49 per maand
+            <br className="hidden sm:block" /> website vanaf €69 per maand
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-300 font-light">
             Professioneel online zonder grote investering vooraf. Design,
@@ -263,7 +258,7 @@ export default function BetaalbareWebsitePage() {
         <div className="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-2">
           <div>
             <h2 className="font-display text-3xl tracking-tight sm:text-4xl">
-              Wat zit er in elk pakket?
+              Wat zit er in het abonnement?
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
               Elk abonnement is compleet. Je betaalt nooit los bij voor de
@@ -306,14 +301,14 @@ export default function BetaalbareWebsitePage() {
               Eerlijke prijzen, alles inbegrepen
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-              Kies het pakket dat bij je past. Prijzen per maand, per kwartaal
-              vooruit afgerekend.
+              Eén helder abonnement met alles erin. Prijs per maand, per
+              kwartaal vooruit afgerekend.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
+          <div className="mx-auto mt-12 grid max-w-md gap-5">
             {sortedPlans.map((plan) => {
-              const config = tierConfig[plan.tier] || { label: plan.name };
+              const config = { label: plan.name, popular: true };
               return (
                 <div
                   key={plan.id}
@@ -328,7 +323,7 @@ export default function BetaalbareWebsitePage() {
                     <div className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-1 text-xs font-medium text-primary-foreground shadow-lg shadow-primary/30">
                         <Star size={12} weight="fill" />
-                        Meest gekozen
+                        Alles-in-één
                       </span>
                     </div>
                   )}
@@ -360,7 +355,7 @@ export default function BetaalbareWebsitePage() {
                         variant={config.popular ? "default" : "outline"}
                         data-testid={`button-order-${plan.tier.toLowerCase()}`}
                       >
-                        Start met {config.label}
+                        Start je website
                         <ArrowRight size={16} weight={ICON_WEIGHT} />
                       </Button>
                     </Link>
@@ -481,7 +476,7 @@ export default function BetaalbareWebsitePage() {
             Klaar voor een professionele website?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-slate-300 font-light">
-            Start vandaag vanaf €49 per maand of vraag eerst gratis advies aan.
+            Start vandaag vanaf €69 per maand of vraag eerst gratis advies aan.
             Je staat binnen 10 werkdagen online.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">

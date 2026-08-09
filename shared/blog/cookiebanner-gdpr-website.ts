@@ -123,7 +123,7 @@ export const article: BlogArticle = {
     {
       type: "cta",
       title: "Een website die meteen voldoet aan de privacyregels",
-      text: "Cookiebanner, SSL en privacyverklaring standaard inbegrepen vanaf €49/maand. Geen opstartkosten.",
+      text: "Cookiebanner, SSL en privacyverklaring standaard inbegrepen vanaf €69/maand. Geen opstartkosten.",
       buttonLabel: "Bekijk de pakketten",
       href: "/#pricing",
     },

@@ -93,7 +93,7 @@ export default function BlogIndexPage() {
             Klaar voor je eigen professionele website?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-lg font-light leading-relaxed text-slate-300">
-            Alles inbegrepen vanaf €49 per maand. Geen opstartkosten, binnen 10
+            Alles inbegrepen voor €69 per maand. Geen opstartkosten, binnen 10
             werkdagen live.
           </p>
           <div className="mt-8">

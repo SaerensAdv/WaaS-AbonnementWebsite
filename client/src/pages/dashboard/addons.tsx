@@ -34,7 +34,7 @@ const addOnIcons: Record<string, any> = {
   "social-media": Users,
   "ecommerce": ShoppingCart,
   "booking": CalendarCheck,
-  "extra-content-bundle": FileText,
+  "extra-pages": FileText,
 };
 
 const statusColors = {

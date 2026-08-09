@@ -38,7 +38,7 @@ export const en: TranslationKeys = {
 
   home: {
     seo: {
-      title: "Website Subscription from €49/month",
+      title: "Website Subscription from €69/month",
       description: "Website subscription including design, hosting, and support. No technical knowledge required. No setup fees, 6-month minimum. Start today.",
     },
     hero: {
@@ -131,7 +131,7 @@ export const en: TranslationKeys = {
     structuredDataFaq: [
       {
         question: "What does a website subscription cost?",
-        answer: "Our website subscriptions start from €49 per month (Starter). This includes professional design, hosting, SSL security, and support.",
+        answer: "Our website subscriptions cost €69 per month. This includes professional design, hosting, SSL security, 2 change credits per month, and support.",
       },
       {
         question: "Do I need technical knowledge?",
@@ -155,7 +155,7 @@ export const en: TranslationKeys = {
   pricing: {
     seo: {
       title: "Website Subscription Pricing",
-      description: "Website subscription from €49/month. Starter, Professional, or Business. Including design, hosting, maintenance, and support. No setup fees, 6-month minimum.",
+      description: "Website subscription for €69/month. One clear plan with change credits and add-ons. Including design, hosting, maintenance, and support. No setup fees, 6-month minimum.",
     },
     hero: {
       badge: "Pricing",
@@ -164,9 +164,9 @@ export const en: TranslationKeys = {
       description: "Choose the plan that fits your business. All plans include hosting, SSL, and basic support.",
     },
     planLabels: {
-      starter: "Starter",
-      professional: "Professional",
-      business: "Business",
+      starter: "Website subscription",
+      professional: "Website subscription",
+      business: "Website subscription",
       popular: "Popular",
       perMonth: "/month",
     },

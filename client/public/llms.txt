@@ -1,6 +1,6 @@
 # WebsiteAbonnementen
 
-WebsiteAbonnementen (abonnement.website) is a Dutch B2B SaaS platform offering professional website subscriptions for small and medium-sized businesses. Plans start at €49/month and include design, hosting, maintenance, and support. No setup fees, billed per quarter.
+WebsiteAbonnementen (abonnement.website) is a Dutch B2B SaaS platform offering professional website subscriptions for small and medium-sized businesses. One single plan at €69/month includes design, hosting, maintenance, support and 2 change credits per month (extra credits €29 each). No setup fees, billed quarterly in advance, 6-month minimum.
 
 ## Important pages
 
@@ -18,4 +18,4 @@ WebsiteAbonnementen (abonnement.website) is a Dutch B2B SaaS platform offering p
 
 ## About
 
-WebsiteAbonnementen provides three subscription tiers (Starter, Professional, Business) covering website design, hosting, content updates, SEO, and optional add-ons such as Google Ads management, Meta Ads management, e-commerce modules, and social media management. The service targets Dutch-speaking businesses looking for a hassle-free all-in-one website solution.
+WebsiteAbonnementen provides one all-in subscription (Website-abonnement, €69/month with a monthly change-credit system) covering website design, hosting and maintenance, plus optional add-ons such as Google Ads management, Meta Ads management, SEO, local SEO, e-commerce modules, booking systems, extra pages, and social media management. The service targets Dutch-speaking businesses looking for a hassle-free all-in-one website solution.

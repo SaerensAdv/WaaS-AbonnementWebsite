@@ -15,6 +15,8 @@ import logoImage from "@assets/logo-abonnement-website.webp";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useSEO } from "@/hooks/use-seo";
 import { z } from "zod";
+import { useQuery } from "@tanstack/react-query";
+import type { Plan } from "@shared/schema";
 
 const extendedSignupSchema = signupSchema.extend({
   confirmPassword: z.string(),
@@ -47,7 +49,11 @@ export default function SignupPage() {
     noIndex: true,
   });
 
-  const planId = new URLSearchParams(searchString).get('plan');
+  // Single-plan model: use the plan from the URL if present, otherwise the one active plan.
+  const urlPlanId = new URLSearchParams(searchString).get('plan');
+  const { data: plans = [] } = useQuery<Plan[]>({ queryKey: ["/api/plans"] });
+  const planId =
+    (urlPlanId && plans.some((p) => p.id === urlPlanId) ? urlPlanId : plans[0]?.id) || null;
 
   const form = useForm<ExtendedSignupInput>({
     resolver: zodResolver(extendedSignupSchema),

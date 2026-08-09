@@ -65,7 +65,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
-        "De middenweg: het professioneel laten maken, maar betalen als abonnement. Je krijgt een vakkundig gebouwde website plus hosting, onderhoud, updates en support in één vast maandbedrag (bij ons vanaf €49/maand), zonder groot bedrag vooraf. Je hebt de expertise van optie 2, met de lage instapdrempel van optie 1.",
+        "De middenweg: het professioneel laten maken, maar betalen als abonnement. Je krijgt een vakkundig gebouwde website plus hosting, onderhoud, updates en support in één vast maandbedrag (bij ons €69/maand), zonder groot bedrag vooraf. Je hebt de expertise van optie 2, met de lage instapdrempel van optie 1.",
       ],
     },
     {
@@ -124,7 +124,7 @@ export const article: BlogArticle = {
     {
       type: "cta",
       title: "Liever professioneel, zonder gedoe?",
-      text: "Wij bouwen je website binnen 10 werkdagen en regelen daarna alles. Vanaf €49 per maand.",
+      text: "Wij bouwen je website binnen 2 weken en regelen daarna alles. Voor €69 per maand.",
       buttonLabel: "Bekijk de pakketten",
       href: "/#pricing",
     },

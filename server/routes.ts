@@ -575,7 +575,7 @@ export async function registerRoutes(
       const userId = req.session.userId!;
       if (!planId) return res.status(400).json({ message: "Plan ID is required" });
       const plan = await storage.getPlan(planId);
-      if (!plan) return res.status(404).json({ message: "Plan not found" });
+      if (!plan || !plan.isActive) return res.status(404).json({ message: "Plan not found" });
       const user = await storage.getUser(userId);
       if (!user) return res.status(401).json({ message: "User not found" });
       const { getUncachableStripeClient } = await import("./stripeClient");

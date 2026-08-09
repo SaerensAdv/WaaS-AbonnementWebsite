@@ -114,7 +114,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
-        "Er is een derde weg die de laatste jaren sterk groeit: de website als abonnement. In plaats van een groot bedrag vooraf plus losse kosten voor hosting en onderhoud, betaal je één vast bedrag per maand waarin alles zit. Bij ons start dat bij €49 per maand, inclusief design, hosting, onderhoud, updates en persoonlijke support — zonder opstartkosten.",
+        "Er is een derde weg die de laatste jaren sterk groeit: de website als abonnement. In plaats van een groot bedrag vooraf plus losse kosten voor hosting en onderhoud, betaal je één vast bedrag per maand waarin alles zit. Bij ons kost dat €69 per maand, inclusief design, hosting, onderhoud, updates, 2 wijzigingscredits per maand en persoonlijke support — zonder opstartkosten.",
       ],
     },
     {
@@ -167,7 +167,7 @@ export const article: BlogArticle = {
     {
       type: "cta",
       title: "Benieuwd wat een website jou per maand kost?",
-      text: "Bekijk onze 3 heldere pakketten vanaf €49/maand — alles inbegrepen, geen opstartkosten.",
+      text: "Bekijk ons heldere abonnement van €69/maand — alles inbegrepen, geen opstartkosten.",
       buttonLabel: "Bekijk de prijzen",
       href: "/#pricing",
     },

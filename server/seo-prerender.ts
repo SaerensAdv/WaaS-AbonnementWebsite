@@ -20,7 +20,7 @@ export interface RouteMetadata {
 const betaalbareWebsiteFaqs = [
   {
     q: "Wat kost een professionele website bij jullie?",
-    a: "Je betaalt vanaf \u20ac49 per maand. Daarin zitten design, hosting, onderhoud en support. Er zijn geen opstartkosten en geen verrassingen achteraf. De facturatie loopt per kwartaal vooruit.",
+    a: "Je betaalt vanaf \u20ac69 per maand. Daarin zitten design, hosting, onderhoud en support. Er zijn geen opstartkosten en geen verrassingen achteraf. De facturatie loopt per kwartaal vooruit.",
   },
   {
     q: "Voor wie is dit bedoeld?",
@@ -40,15 +40,15 @@ const betaalbareWebsiteFaqs = [
   },
   {
     q: "Kan ik later upgraden of extra\u2019s toevoegen?",
-    a: "Zeker. Je kunt op elk moment naar een groter pakket overstappen of add-ons toevoegen, zoals extra pagina\u2019s, geavanceerde SEO of advertentiebeheer.",
+    a: "Zeker. Je kunt op elk moment add-ons toevoegen of verwijderen, zoals extra pagina\u2019s, SEO of advertentiebeheer. Er is \u00e9\u00e9n plan; de keuze zit in welke add-ons je activeert.",
   },
 ];
 
 const ROUTE_METADATA: Record<string, RouteMetadata> = {
   "/": {
-    title: "Website Abonnement vanaf \u20ac49/maand | Professionele Websites op Abonnement",
+    title: "Website Abonnement \u20ac69/maand | Professionele Websites op Abonnement",
     description:
-      "Website abonnement met design, hosting, onderhoud en support. Voor starters en zelfstandigen in Nederland en Belgi\u00eb. Binnen 10 werkdagen live, geen opstartkosten.",
+      "Professionele website als maandabonnement: \u20ac69/maand inclusief design, hosting, onderhoud en 2 wijzigingscredits. Voor starters en zelfstandigen in Belgi\u00eb en Nederland.",
     canonical: `${BASE_URL}/`,
     ogImage: DEFAULT_OG_IMAGE,
     staticHtml: `
@@ -67,17 +67,16 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
   <main>
     <section>
       <h1>Professionele website op abonnement.</h1>
-      <p>Vanaf \u20ac49 per maand. Voor starters en zelfstandigen in Nederland en Belgi\u00eb: design, hosting, onderhoud en support in \u00e9\u00e9n vast maandbedrag. Binnen 10 werkdagen live, per kwartaal vooruit afgerekend.</p>
+      <p>Vanaf \u20ac69 per maand. Voor starters en zelfstandigen in Nederland en Belgi\u00eb: design, hosting, onderhoud, support en 2 wijzigingscredits in \u00e9\u00e9n vast maandbedrag. Binnen 2 weken live, per kwartaal vooruit afgerekend.</p>
       <a href="/signup">Direct starten</a>
       <a href="/#pricing">Bekijk abonnementen</a>
     </section>
     <section id="pricing">
       <h2>Website abonnement prijzen</h2>
       <ul>
-        <li><strong>Starter \u2014 \u20ac49/maand</strong>: 5 pagina\u2019s, 1 content wijziging per maand, e-mail support, basis SEO.</li>
-        <li><strong>Professional \u2014 \u20ac99/maand</strong>: 10 pagina\u2019s, 3 content wijzigingen per maand, prioriteit support (8u), geavanceerde SEO, Google Analytics, Google Maps.</li>
-        <li><strong>Business \u2014 \u20ac199/maand</strong>: 20 pagina\u2019s, 5 content wijzigingen per maand, dedicated accountmanager, blog, meertalig, maandelijks rapport.</li>
+        <li><strong>Website-abonnement \u2014 \u20ac69/maand</strong>: website op maat (tot 5 pagina\u2019s), responsive ontwerp, hosting, SSL en onderhoud, ConsentEase inbegrepen, 2 wijzigingscredits per maand, support via e-mail. Kwartaal vooraf gefactureerd (\u20ac207 per kwartaal), minimale looptijd 6 maanden.</li>
       </ul>
+      <p>2 wijzigingscredits per maand inbegrepen. 1 credit = 1 wijziging. Extra credits: \u20ac29/stuk. Uitbreiden kan met add-ons zoals Google Ads, SEO, social media, e-commerce en extra pagina\u2019s.</p>
     </section>
     <section>
       <h2>Betaalbare professionele websites</h2>
@@ -223,11 +222,11 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
   "/betaalbare-professionele-website": {
     title: `Betaalbare professionele website voor starters en zelfstandigen | ${SITE_NAME}`,
     description:
-      "Een betaalbare professionele website vanaf \u20ac49 per maand. Voor starters, zzp\u2019ers en zelfstandigen in Nederland en Belgi\u00eb. Geen opstartkosten, binnen 10 werkdagen live.",
+      "Een betaalbare professionele website vanaf \u20ac69 per maand. Voor starters, zzp\u2019ers en zelfstandigen in Nederland en Belgi\u00eb. Geen opstartkosten, binnen 10 werkdagen live.",
     canonical: `${BASE_URL}/betaalbare-professionele-website`,
     ogTitle: `Betaalbare professionele website voor starters en zelfstandigen | ${SITE_NAME}`,
     ogDescription:
-      "Een betaalbare professionele website vanaf \u20ac49 per maand. Voor starters, zzp\u2019ers en zelfstandigen in Nederland en Belgi\u00eb. Geen opstartkosten, binnen 10 werkdagen live.",
+      "Een betaalbare professionele website vanaf \u20ac69 per maand. Voor starters, zzp\u2019ers en zelfstandigen in Nederland en Belgi\u00eb. Geen opstartkosten, binnen 10 werkdagen live.",
     structuredData: {
       "@context": "https://schema.org",
       "@graph": [
@@ -236,7 +235,7 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
           name: "Betaalbare professionele website als abonnement",
           serviceType: "Website laten maken op abonnementsbasis",
           description:
-            "Professionele website voor starters en zelfstandigen vanaf \u20ac49 per maand. Inclusief design, hosting, onderhoud en support. Geen opstartkosten.",
+            "Professionele website voor starters en zelfstandigen vanaf \u20ac69 per maand. Inclusief design, hosting, onderhoud en support. Geen opstartkosten.",
           areaServed: ["Nederland", "Belgi\u00eb"],
           provider: {
             "@type": "Organization",
@@ -245,7 +244,7 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
           },
           offers: {
             "@type": "Offer",
-            price: "49",
+            price: "69",
             priceCurrency: "EUR",
             url: "https://abonnement.website/betaalbare-professionele-website",
           },
@@ -272,7 +271,7 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
   <main>
     <section>
       <span>VOOR STARTERS &amp; ZELFSTANDIGEN</span>
-      <h1>Een betaalbare professionele website vanaf \u20ac49 per maand</h1>
+      <h1>Een betaalbare professionele website vanaf \u20ac69 per maand</h1>
       <p>Professioneel online zonder grote investering vooraf. Design, hosting, onderhoud en support in \u00e9\u00e9n vast maandbedrag \u2014 ideaal voor starters, zzp\u2019ers en zelfstandigen in Nederland en Belgi\u00eb.</p>
       <a href="/signup">Direct starten</a>
       <a href="/#pricing">Bekijk abonnementen</a>
@@ -282,7 +281,7 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
       <ul>
         <li><strong>Geen dure investering vooraf:</strong> Geen opstartkosten van honderden of duizenden euro\u2019s. Je betaalt \u00e9\u00e9n vast bedrag per maand.</li>
         <li><strong>Binnen 10 werkdagen live:</strong> Na een korte intake bouwen we je website en zetten we hem voor je live.</li>
-        <li><strong>Alles inbegrepen:</strong> Design, hosting, SSL, onderhoud, updates en support zitten in elk pakket.</li>
+        <li><strong>Alles inbegrepen:</strong> Design, hosting, SSL, onderhoud, updates, support en 2 wijzigingscredits per maand zitten in het abonnement.</li>
         <li><strong>Persoonlijk aanspreekpunt:</strong> Een vaste contactpersoon die je bedrijf kent.</li>
       </ul>
     </section>
@@ -300,7 +299,7 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
       <h2>Veelgestelde vragen</h2>
       <dl>
         <dt>Wat kost een professionele website bij jullie?</dt>
-        <dd>Je betaalt vanaf \u20ac49 per maand. Daarin zitten design, hosting, onderhoud en support. Er zijn geen opstartkosten en geen verrassingen achteraf.</dd>
+        <dd>Je betaalt vanaf \u20ac69 per maand. Daarin zitten design, hosting, onderhoud en support. Er zijn geen opstartkosten en geen verrassingen achteraf.</dd>
         <dt>Hoe snel staat mijn website online?</dt>
         <dd>Gemiddeld binnen 10 werkdagen. Na je aanmelding plannen we een korte intake, bouwen we je site en zetten we hem live.</dd>
         <dt>Ben ik eigenaar van mijn website en content?</dt>

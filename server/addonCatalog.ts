@@ -3,99 +3,116 @@ import { addOns } from "@shared/schema";
 import { notInArray } from "drizzle-orm";
 
 /**
- * Canonical add-on catalog. Price IDs differ per Stripe mode:
+ * Canonical add-on catalog (Aug 2026 pricing model). Price IDs differ per Stripe mode:
  * - test: created in the development (sandbox/test-mode) Stripe account
  * - live: created in the production (live-mode) Stripe account
  * The sync picks the right set based on REPLIT_DEPLOYMENT.
+ *
+ * NOTE: live price IDs still reflect the OLD prices and stay unchanged until
+ * manual live activation of the new pricing. "extra-pages" has no live prices
+ * yet (null) — the add-on purchase route treats a missing quarterly price ID
+ * as "not yet available for purchase", which is the intended behavior in prod
+ * until live activation.
  */
-const CATALOG = [
+type PricePair = { monthly: string | null; quarterly: string | null };
+
+const CATALOG: {
+  slug: string;
+  name: string;
+  description: string;
+  monthlyPriceCents: number;
+  icon: string;
+  test: PricePair;
+  live: PricePair;
+}[] = [
   {
     slug: "google-ads",
     name: "Google Ads Beheer",
-    description: "Wekelijks zoektermen reviewen, biedstrategieën, conversie tracking en maandrapportage. Max 4 uur/maand. Min fee €249 of 10% van ad spend. Excl. advertentiebudget.",
-    monthlyPriceCents: 24900,
+    description: "Campagnes, zoektermen, optimalisatie en maandrapportage. 3u beheer/maand. Min fee €349 of 12% van ad spend. Excl. advertentiebudget.",
+    monthlyPriceCents: 34900,
     icon: "megaphone",
-    test: { monthly: "price_1U0i5fEyM9IEHbH5hrU6V40x", quarterly: "price_1U0i5gEyM9IEHbH5GvLG76tg" },
+    test: { monthly: "price_1U2YNlEyM9IEHbH5EJKUibSi", quarterly: "price_1U2YNlEyM9IEHbH5VTgweFk9" },
     live: { monthly: "price_1U0iCoAc0256vmxDNVFhUgRX", quarterly: "price_1U0iCoAc0256vmxDKuDy1uGA" },
   },
   {
     slug: "google-ads-ecommerce",
-    name: "Google Ads + E-commerce/Shopping",
-    description: "Google Ads + Merchant Center, Shopping campagnes, feedbeheer en productoptimalisatie. Max 5 uur/maand. Min fee €349 of 10% van ad spend. Excl. advertentiebudget.",
-    monthlyPriceCents: 34900,
+    name: "Google Ads + Shopping",
+    description: "Search + Merchant Center, productfeed en Shopping campagnes. 4u beheer/maand. Min fee €449 of 12% van ad spend. Excl. advertentiebudget.",
+    monthlyPriceCents: 44900,
     icon: "shopping-bag",
-    test: { monthly: "price_1U0i5gEyM9IEHbH5e6K1LPLO", quarterly: "price_1U0i5gEyM9IEHbH5jCUoE5r6" },
+    test: { monthly: "price_1U2YNlEyM9IEHbH5nzxFJYG8", quarterly: "price_1U2YNlEyM9IEHbH5GkYWQrxz" },
     live: { monthly: "price_1U0iCoAc0256vmxDRUITjBli", quarterly: "price_1U0iCoAc0256vmxDmPBBTeuD" },
   },
   {
     slug: "meta-ads",
     name: "Meta Ads Beheer",
-    description: "Campagne-opzet, doelgroepen, A/B tests, Pixel en Conversions API setup, maandrapportage. Max 4 uur/maand. Min fee €249 of 10% van ad spend. Excl. advertentiebudget.",
-    monthlyPriceCents: 24900,
+    description: "Facebook en Instagram campagnes, doelgroepen, Pixel/CAPI en maandrapportage. 3u beheer/maand. Min fee €349 of 12% van ad spend. Excl. advertentiebudget.",
+    monthlyPriceCents: 34900,
     icon: "share-2",
-    test: { monthly: "price_1U0i5hEyM9IEHbH5AmD04dov", quarterly: "price_1U0i5hEyM9IEHbH5XcUmX4Kk" },
+    test: { monthly: "price_1U2YNmEyM9IEHbH5hLRxlWAt", quarterly: "price_1U2YNmEyM9IEHbH5MCbuxqu7" },
     live: { monthly: "price_1U0iCpAc0256vmxDLVNUhZIU", quarterly: "price_1U0iCpAc0256vmxDvnpajlDL" },
   },
   {
     slug: "seo",
     name: "SEO Optimalisatie",
-    description: "On-page optimalisatie (2 pagina's/maand), technische monitoring, 20 keywords tracking, GSC rapportage in dashboard.",
-    monthlyPriceCents: 19900,
+    description: "On-page optimalisatie, technische monitoring en kwartaalrapport. 2u/maand.",
+    monthlyPriceCents: 34900,
     icon: "search",
-    test: { monthly: "price_1U0i5hEyM9IEHbH5CFYUXmQr", quarterly: "price_1U0i5hEyM9IEHbH5ERvnP3fQ" },
+    test: { monthly: "price_1U2YNmEyM9IEHbH5ATwSkjR7", quarterly: "price_1U2YNmEyM9IEHbH5u1zkhqLE" },
     live: { monthly: "price_1U0iCpAc0256vmxDaDVoNymu", quarterly: "price_1U0iCpAc0256vmxDVa5JaCcF" },
   },
   {
     slug: "local-seo",
     name: "Lokale SEO",
-    description: "Google Business Profile optimalisatie, lokale rankings, review management en lokale citaties.",
-    monthlyPriceCents: 9900,
+    description: "Google Business Profile optimalisatie, maandelijkse check en review-monitoring. 1u/maand.",
+    monthlyPriceCents: 19900,
     icon: "map-pin",
-    test: { monthly: "price_1U0i5hEyM9IEHbH580JpPP5a", quarterly: "price_1U0i5iEyM9IEHbH55v6YSeNe" },
+    test: { monthly: "price_1U2YNnEyM9IEHbH5mVO4afd7", quarterly: "price_1U2YNnEyM9IEHbH5JVIgfDGT" },
     live: { monthly: "price_1U0iCqAc0256vmxDcL7SBO6m", quarterly: "price_1U0iCqAc0256vmxD6ezyb0p2" },
   },
   {
     slug: "social-media",
     name: "Social Media Beheer",
-    description: "8 posts per maand op 2 kanalen, contentkalender, basis design, scheduling en community management (1x/dag).",
-    monthlyPriceCents: 19900,
+    description: "6 posts/maand op 2 kanalen, contentplanning en basis community management. 4u/maand.",
+    monthlyPriceCents: 39900,
     icon: "users",
-    test: { monthly: "price_1U0i5iEyM9IEHbH5C4NOHEPL", quarterly: "price_1U0i5iEyM9IEHbH5GxdB7P0h" },
+    test: { monthly: "price_1U2YNnEyM9IEHbH50hUYoksc", quarterly: "price_1U2YNnEyM9IEHbH5e0B6YrCP" },
     live: { monthly: "price_1U0iCqAc0256vmxDoaZPgnXs", quarterly: "price_1U0iCqAc0256vmxDiSzZKqWV" },
   },
   {
     slug: "ecommerce",
     name: "E-commerce Module",
-    description: "Webshop functionaliteit tot 50 producten. Stripe/Mollie betalingen, productbeheer en bestelbevestigingsmails.",
-    monthlyPriceCents: 7900,
+    description: "Webshop tot 50 producten met Stripe/Mollie. Eenmalige setup €199.",
+    monthlyPriceCents: 9900,
     icon: "shopping-cart",
-    test: { monthly: "price_1U0i5iEyM9IEHbH5jymoatSa", quarterly: "price_1U0i5iEyM9IEHbH5IWu8ExgQ" },
+    test: { monthly: "price_1U2YNoEyM9IEHbH5eaK3N5X2", quarterly: "price_1U2YNoEyM9IEHbH5EsoPdxnY" },
     live: { monthly: "price_1U0iCrAc0256vmxDpWpnRa6z", quarterly: "price_1U0iCrAc0256vmxD656C9BBu" },
   },
   {
     slug: "booking",
     name: "Booking / Reserveringssysteem",
-    description: "Online boekingssysteem met kalender sync, bevestigingsmails en klant-zelf-boeken widget. Max 3 diensten.",
-    monthlyPriceCents: 3900,
+    description: "Online boekingssysteem met kalender, bevestigingsmails en klant-zelf-boeken widget. Max 3 diensten. Eenmalige setup €99.",
+    monthlyPriceCents: 4900,
     icon: "calendar",
-    test: { monthly: "price_1U0i5jEyM9IEHbH50z6yuq0j", quarterly: "price_1U0i5jEyM9IEHbH5uWhaeNvg" },
+    test: { monthly: "price_1U2YNoEyM9IEHbH5WJqdESdk", quarterly: "price_1U2YNoEyM9IEHbH56OcL9Sun" },
     live: { monthly: "price_1U0iCrAc0256vmxDVhjDT3KY", quarterly: "price_1U0iCrAc0256vmxD7MwS0v9w" },
   },
   {
-    slug: "extra-content-bundle",
-    name: "Extra Content Wijzigingen (bundel)",
-    description: "Tot 10 content wijzigingen per maand. Tekst, afbeeldingen en kleine layout aanpassingen (fair use, max 15 min per wijziging).",
-    monthlyPriceCents: 7900,
-    icon: "file-text",
-    test: { monthly: "price_1U0i5jEyM9IEHbH5CsOoM3ru", quarterly: "price_1U0i5jEyM9IEHbH5GeJuaiNn" },
-    live: { monthly: "price_1U0iCsAc0256vmxD12XdKUZ2", quarterly: "price_1U0iCsAc0256vmxDWLXw9DiG" },
+    slug: "extra-pages",
+    name: "Extra Pagina's",
+    description: "Per bijkomende pagina boven de 5. Eenmalige bouw €149, daarna €15/maand onderhoud inbegrepen.",
+    monthlyPriceCents: 1500,
+    icon: "file-plus",
+    test: { monthly: "price_1U2YNpEyM9IEHbH59Tpq2dqi", quarterly: "price_1U2YNpEyM9IEHbH5NfAeOPox" },
+    live: { monthly: null, quarterly: null }, // TODO: create live prices at live activation
   },
-] as const;
+];
 
 /**
  * Idempotent add-on catalog sync, run at server startup.
- * Upserts the 9 catalog add-ons (mode-appropriate Stripe price IDs) and
- * deactivates any add-ons that are no longer in the catalog.
+ * Upserts the catalog add-ons (mode-appropriate Stripe price IDs) and
+ * deactivates any add-ons that are no longer in the catalog
+ * (e.g. the removed "extra-content-bundle").
  */
 export async function syncAddOnCatalog(log: (msg: string, tag?: string) => void = console.log) {
   const isProduction = process.env.REPLIT_DEPLOYMENT === "1";

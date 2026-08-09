@@ -120,7 +120,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
-        "Voor veel zelfstandigen is een vast maandbedrag de aantrekkelijkste optie: geen investering vooraf en alles inbegrepen. Bij ons start een professionele website op abonnement bij €49 per maand. Hoe zo'n bedrag is opgebouwd, leggen we uit in ",
+        "Voor veel zelfstandigen is een vast maandbedrag de aantrekkelijkste optie: geen investering vooraf en alles inbegrepen. Bij ons kost een professionele website op abonnement €69 per maand, inclusief 2 wijzigingscredits per maand. Hoe zo'n bedrag is opgebouwd, leggen we uit in ",
         { text: "wat kost een website per maand", href: "/blog/wat-kost-een-website-per-maand" },
         ".",
       ],
@@ -139,7 +139,7 @@ export const article: BlogArticle = {
     {
       type: "cta",
       title: "Klaar om als zelfstandige professioneel online te gaan?",
-      text: "Een complete website vanaf €49/maand — design, hosting en support inbegrepen, zonder opstartkosten.",
+      text: "Een complete website voor €69/maand — design, hosting en support inbegrepen, zonder opstartkosten.",
       buttonLabel: "Bekijk de pakketten",
       href: "/#pricing",
     },

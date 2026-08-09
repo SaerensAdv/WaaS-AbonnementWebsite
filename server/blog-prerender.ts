@@ -160,7 +160,7 @@ ${cards}
     </section>
     <section>
       <h2>Professionele website nodig?</h2>
-      <p>Bekijk onze website abonnementen vanaf \u20ac49 per maand. Design, hosting en support inbegrepen.</p>
+      <p>Bekijk onze website abonnementen vanaf \u20ac69 per maand. Design, hosting en support inbegrepen.</p>
       <a href="/#pricing">Bekijk abonnementen</a>
     </section>
   </main>
@@ -214,7 +214,7 @@ ${faqHtml}
 ${relatedHtml}
     <section>
       <h2>Website abonnement bekijken?</h2>
-      <p>Professionele website vanaf \u20ac49/maand. Hosting, onderhoud en support inbegrepen.</p>
+      <p>Professionele website vanaf \u20ac69/maand. Hosting, onderhoud en support inbegrepen.</p>
       <a href="/#pricing">Bekijk de prijzen</a> | <a href="/betaalbare-professionele-website">Meer over onze aanpak</a>
     </section>
   </main>

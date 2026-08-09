@@ -168,7 +168,7 @@ export const article: BlogArticle = {
     {
       type: "cta",
       title: "Een website die alle vakjes afvinkt",
-      text: "Snelle hosting, mobielvriendelijk design, SEO, SSL en onderhoud — allemaal inbegrepen vanaf €49/maand.",
+      text: "Snelle hosting, mobielvriendelijk design, SEO, SSL en onderhoud — allemaal inbegrepen vanaf €69/maand.",
       buttonLabel: "Bekijk de pakketten",
       href: "/#pricing",
     },

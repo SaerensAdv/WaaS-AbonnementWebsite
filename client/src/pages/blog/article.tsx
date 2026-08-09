@@ -198,7 +198,7 @@ function ArticleView({ article }: { article: BlogArticle }) {
             Liever professioneel, zonder gedoe?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-lg font-light leading-relaxed text-slate-300">
-            Wij bouwen en onderhouden je website. Alles inbegrepen vanaf €49 per
+            Wij bouwen en onderhouden je website. Alles inbegrepen voor €69 per
             maand — binnen 10 werkdagen online.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">

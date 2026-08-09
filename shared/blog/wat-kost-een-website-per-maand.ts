@@ -69,9 +69,9 @@ export const article: BlogArticle = {
       caption: "Indicatie van maandbedragen per pakket",
       headers: ["Pakket", "Vanaf", "Geschikt voor"],
       rows: [
-        ["Starter", "€49/maand", "Starters en zzp'ers (tot 5 pagina's)"],
-        ["Professional", "€99/maand", "Groeiende mkb/kmo (tot 10 pagina's)"],
-        ["Business", "€199/maand", "Bedrijven met hogere eisen (tot 20 pagina's, meertalig, blog)"],
+        ["Website-abonnement", "€69/maand", "Starters en zelfstandigen (tot 5 pagina's, 2 wijzigingscredits/maand)"],
+        ["Add-ons", "vanaf €15/maand", "Uitbreidingen zoals extra pagina's, SEO, advertentiebeheer of e-commerce"],
+        ["Extra wijzigingscredits", "€29/stuk", "Bovenop de 2 inbegrepen wijzigingscredits per maand"],
       ],
     },
     {
@@ -94,11 +94,11 @@ export const article: BlogArticle = {
     {
       type: "table",
       caption: "Voorbeeldberekening over 24 maanden",
-      headers: ["", "Eenmalig laten maken", "Abonnement (Starter)"],
+      headers: ["", "Eenmalig laten maken", "Website-abonnement"],
       rows: [
         ["Startkost", "€3.000 vooraf", "€0"],
         ["Hosting + onderhoud", "± €105/maand = €2.520", "Inbegrepen"],
-        ["Totaal na 2 jaar", "± €5.520", "€49 × 24 = €1.176"],
+        ["Totaal na 2 jaar", "± €5.520", "€69 × 24 = €1.656"],
       ],
     },
     {
@@ -131,7 +131,7 @@ export const article: BlogArticle = {
     {
       type: "cta",
       title: "Bekijk wat een website jou per maand kost",
-      text: "Drie heldere pakketten vanaf €49/maand. Alles inbegrepen, geen opstartkosten, binnen 10 werkdagen live.",
+      text: "Eén helder abonnement van €69/maand. Alles inbegrepen, geen opstartkosten, binnen 2 weken live.",
       buttonLabel: "Bekijk de prijzen",
       href: "/#pricing",
     },
@@ -139,7 +139,7 @@ export const article: BlogArticle = {
   faqs: [
     {
       q: "Wat kost een website gemiddeld per maand?",
-      a: "Voor kleine ondernemers liggen website-abonnementen meestal tussen €40 en €200 per maand, afhankelijk van het aantal pagina's en de functionaliteiten. Bij ons start een all-in pakket bij €49 per maand, inclusief design, hosting, onderhoud en support.",
+      a: "Voor kleine ondernemers liggen website-abonnementen meestal tussen €40 en €200 per maand, afhankelijk van het aantal pagina's en de functionaliteiten. Bij ons kost een all-in abonnement €69 per maand, inclusief design, hosting, onderhoud, 2 wijzigingscredits per maand en support.",
     },
     {
       q: "Zijn er opstartkosten bij een website-abonnement?",

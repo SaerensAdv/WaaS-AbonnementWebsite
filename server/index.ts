@@ -6,6 +6,7 @@ import { runMigrations } from 'stripe-replit-sync';
 import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
 import { syncAddOnCatalog } from "./addonCatalog";
+import { syncPlanCatalog } from "./planCatalog";
 import path from "path";
 import fs from "fs";
 import { createHash } from "crypto";
@@ -306,6 +307,12 @@ async function initStripe() {
 (async () => {
   await runSchemaCleanup();
   await ensureQuoteRequestsTable();
+
+  try {
+    await syncPlanCatalog(log);
+  } catch (err: any) {
+    log(`Plan catalog sync failed: ${err.message}`, 'catalog');
+  }
 
   try {
     await syncAddOnCatalog(log);

@@ -36,7 +36,7 @@ export const nl = {
 
   home: {
     seo: {
-      title: "Website Abonnement vanaf €49/maand",
+      title: "Website Abonnement vanaf €69/maand",
       description: "Website abonnement met design, hosting en support inbegrepen. Geen technische kennis nodig. Geen opstartkosten, 6 maanden minimum. Start vandaag.",
     },
     hero: {
@@ -129,7 +129,7 @@ export const nl = {
     structuredDataFaq: [
       {
         question: "Wat kost een website abonnement?",
-        answer: "Onze website abonnementen starten vanaf €49 per maand (Starter). Dit is inclusief professioneel ontwerp, hosting, SSL beveiliging, en support.",
+        answer: "Onze website abonnementen kosten €69 per maand. Dit is inclusief professioneel ontwerp, hosting, SSL beveiliging, 2 wijzigingscredits per maand en support.",
       },
       {
         question: "Moet ik technische kennis hebben?",
@@ -153,7 +153,7 @@ export const nl = {
   pricing: {
     seo: {
       title: "Website Abonnement Prijzen",
-      description: "Website abonnement vanaf €49/maand. Starter, Professional of Business. Inclusief design, hosting, onderhoud en support. Geen opstartkosten, 6 maanden minimum.",
+      description: "Website abonnement voor €69/maand. Eén helder plan met wijzigingscredits en add-ons. Inclusief design, hosting, onderhoud en support. Geen opstartkosten, 6 maanden minimum.",
     },
     hero: {
       badge: "Prijzen",
@@ -162,9 +162,9 @@ export const nl = {
       description: "Kies het plan dat past bij uw bedrijf. Alle plannen inclusief hosting, SSL, en basis ondersteuning.",
     },
     planLabels: {
-      starter: "Starter",
-      professional: "Professional",
-      business: "Business",
+      starter: "Website-abonnement",
+      professional: "Website-abonnement",
+      business: "Website-abonnement",
       popular: "Populair",
       perMonth: "/maand",
     },
