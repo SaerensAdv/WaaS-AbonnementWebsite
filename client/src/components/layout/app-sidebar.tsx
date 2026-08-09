@@ -39,21 +39,21 @@ import {
 import logoImage from "@assets/logo-abonnement-website.webp";
 
 const customerMenuItems = [
-  { title: "Dashboard", url: "/app", icon: LayoutDashboard },
-  { title: "Analytics", url: "/app/analytics", icon: BarChart3 },
-  { title: "Add-ons", url: "/app/addons", icon: Puzzle },
-  { title: "Wijzigingen", url: "/app/changes", icon: PencilLine },
-  { title: "Support", url: "/app/support", icon: MessageSquare },
-  { title: "Facturatie", url: "/app/billing", icon: CreditCard },
-  { title: "Instellingen", url: "/app/settings", icon: Settings },
+  { title: "Dashboard", url: "/", icon: LayoutDashboard },
+  { title: "Analytics", url: "/analytics", icon: BarChart3 },
+  { title: "Add-ons", url: "/addons", icon: Puzzle },
+  { title: "Wijzigingen", url: "/changes", icon: PencilLine },
+  { title: "Support", url: "/support", icon: MessageSquare },
+  { title: "Facturatie", url: "/billing", icon: CreditCard },
+  { title: "Instellingen", url: "/settings", icon: Settings },
 ];
 
 const adminMenuItems = [
-  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "Wijzigingen", url: "/admin/changes", icon: PencilLine },
-  { title: "Klanten", url: "/admin/customers", icon: Users },
-  { title: "Offertes", url: "/admin/quotes", icon: FileText },
-  { title: "Projectbeheer", url: "/admin/clickup", icon: ClipboardList },
+  { title: "Dashboard", url: "/", icon: LayoutDashboard },
+  { title: "Wijzigingen", url: "/changes", icon: PencilLine },
+  { title: "Klanten", url: "/customers", icon: Users },
+  { title: "Offertes", url: "/quotes", icon: FileText },
+  { title: "Projectbeheer", url: "/clickup", icon: ClipboardList },
 ];
 
 export function AppSidebar() {
@@ -67,8 +67,8 @@ export function AppSidebar() {
   });
 
   const badgeCounts: Record<string, number | undefined> = {
-    "/admin/changes": adminStats?.pendingChanges,
-    "/admin/quotes": adminStats?.newQuotes,
+    "/changes": adminStats?.pendingChanges,
+    "/quotes": adminStats?.newQuotes,
   };
 
   const menuItems = user?.role === "ADMIN" ? adminMenuItems : customerMenuItems;
@@ -140,7 +140,7 @@ export function AppSidebar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56">
             <DropdownMenuItem asChild>
-              <Link href={user?.role === "ADMIN" ? "/admin" : "/app/settings"} className="cursor-pointer">
+              <Link href={user?.role === "ADMIN" ? "/" : "/settings"} className="cursor-pointer">
                 <Settings className="mr-2 h-4 w-4" />
                 Instellingen
               </Link>

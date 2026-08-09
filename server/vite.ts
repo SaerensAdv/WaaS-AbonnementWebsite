@@ -7,6 +7,7 @@ import path from "path";
 import { nanoid } from "nanoid";
 import { injectRouteMetadata } from "./seo-prerender";
 import { isKnownRoute } from "./known-routes";
+import { getSubdomain } from "./subdomain";
 
 const viteLogger = createLogger();
 
@@ -52,8 +53,10 @@ export async function setupVite(server: Server, app: Express) {
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
       let page = await vite.transformIndexHtml(url, template);
-      page = injectRouteMetadata(page, pathname);
-      const status = isKnownRoute(pathname) ? 200 : 404;
+      const subdomain = getSubdomain(req as any);
+      // SEO prerender alleen voor de publieke site; app/admin zijn noindex SPA's.
+      if (!subdomain) page = injectRouteMetadata(page, pathname);
+      const status = isKnownRoute(pathname, subdomain) ? 200 : 404;
       res.status(status).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);

@@ -82,7 +82,7 @@ export default function AdminChangesPage() {
   ];
 
   return (
-    <AppLayout title="Wijzigingen" breadcrumbs={[{ label: "Admin", href: "/admin" }, { label: "Wijzigingen" }]}>
+    <AppLayout title="Wijzigingen" breadcrumbs={[{ label: "Admin", href: "/" }, { label: "Wijzigingen" }]}>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-semibold">Wijzigingsverzoeken</h1>
@@ -211,7 +211,7 @@ export default function AdminChangesPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between gap-2">
                   <Link
-                    href={`/admin/clients/${selected.customer.id}`}
+                    href={`/clients/${selected.customer.id}`}
                     className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
                     data-testid="link-client-profile"
                   >

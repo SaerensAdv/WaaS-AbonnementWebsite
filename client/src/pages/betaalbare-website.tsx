@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { siteUrl } from "@/lib/site";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
 import { useSEO } from "@/hooks/use-seo";
@@ -186,7 +187,7 @@ export default function BetaalbareWebsitePage() {
             starters, zzp'ers en zelfstandigen in Nederland en België.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link href="/signup">
+            <a href={siteUrl("app", "/signup")}>
               <Button
                 size="lg"
                 className="h-14 rounded-full bg-gradient-to-r from-[hsl(var(--primary))] to-blue-600 px-8 text-base text-white shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all hover:shadow-[0_0_40px_hsl(var(--primary)/0.5)]"
@@ -195,7 +196,7 @@ export default function BetaalbareWebsitePage() {
                 Start jouw website
                 <ArrowRight size={16} weight={ICON_WEIGHT} className="ml-2" />
               </Button>
-            </Link>
+            </a>
             <Link href="/offerte">
               <Button
                 size="lg"
@@ -349,7 +350,7 @@ export default function BetaalbareWebsitePage() {
                         </li>
                       ))}
                     </ul>
-                    <Link href={`/signup?plan=${plan.id}`}>
+                    <a href={siteUrl("app", `/signup?plan=${plan.id}`)}>
                       <Button
                         className="w-full gap-2 rounded-xl"
                         variant={config.popular ? "default" : "outline"}
@@ -358,7 +359,7 @@ export default function BetaalbareWebsitePage() {
                         Start je website
                         <ArrowRight size={16} weight={ICON_WEIGHT} />
                       </Button>
-                    </Link>
+                    </a>
                   </div>
                 </div>
               );
@@ -480,7 +481,7 @@ export default function BetaalbareWebsitePage() {
             Je staat binnen 10 werkdagen online.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link href="/signup">
+            <a href={siteUrl("app", "/signup")}>
               <Button
                 size="lg"
                 className="h-14 rounded-full bg-gradient-to-r from-[hsl(var(--primary))] to-blue-600 px-8 text-base text-white shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all hover:shadow-[0_0_40px_hsl(var(--primary)/0.5)]"
@@ -489,7 +490,7 @@ export default function BetaalbareWebsitePage() {
                 Start jouw website
                 <ArrowRight size={16} weight={ICON_WEIGHT} className="ml-2" />
               </Button>
-            </Link>
+            </a>
             <Link href="/offerte">
               <Button
                 size="lg"

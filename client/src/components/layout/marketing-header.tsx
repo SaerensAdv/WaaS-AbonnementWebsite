@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { siteUrl } from "@/lib/site";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -82,12 +83,12 @@ export function MarketingHeader() {
             <LanguageSwitcher />
             <ThemeToggle />
             {user ? (
-              <Link href={user.role === "ADMIN" ? "/admin" : "/app"}>
+              <a href={siteUrl(user.role === "ADMIN" ? "admin" : "app", "/")}>
                 <Button size="sm" data-testid="button-dashboard">{t("common.buttons.dashboard")}</Button>
-              </Link>
+              </a>
             ) : (
               <>
-                <Link href="/login">
+                <a href={siteUrl("app", "/login")}>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -96,7 +97,7 @@ export function MarketingHeader() {
                   >
                     {t("common.buttons.login")}
                   </Button>
-                </Link>
+                </a>
                 <a href="/#pricing">
                   <Button
                     size="sm"
@@ -174,18 +175,18 @@ export function MarketingHeader() {
               <div className="border-t border-border/50 my-3" />
 
               {user ? (
-                <Link href={user.role === "ADMIN" ? "/admin" : "/app"}>
+                <a href={siteUrl(user.role === "ADMIN" ? "admin" : "app", "/")}>
                   <Button className="w-full" onClick={() => setMobileMenuOpen(false)}>
                     Dashboard
                   </Button>
-                </Link>
+                </a>
               ) : (
                 <>
-                  <Link href="/login">
+                  <a href={siteUrl("app", "/login")}>
                     <Button variant="ghost" className="w-full text-muted-foreground" onClick={() => setMobileMenuOpen(false)}>
                       Inloggen
                     </Button>
-                  </Link>
+                  </a>
                   <a href="/#pricing">
                     <Button className="w-full shadow-sm shadow-primary/20" onClick={() => setMobileMenuOpen(false)}>
                       Aan de slag

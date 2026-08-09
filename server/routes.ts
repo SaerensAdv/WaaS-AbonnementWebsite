@@ -28,6 +28,7 @@ import { insertQuoteRequestSchema } from "@shared/schema";
 import { getAllBlogArticles } from "@shared/blog";
 import { registerAnalyticsRoutes } from "./analytics-routes";
 import { isEmailConfigured, sendPasswordResetEmail, sendWelcomeEmail } from "./email";
+import { siteOrigin, getSubdomain } from "./subdomain";
 
 /** Base URL for outbound links (emails, redirects). Never localhost. */
 const APP_BASE_URL = process.env.APP_BASE_URL || "https://abonnement.website";
@@ -111,6 +112,21 @@ export async function registerRoutes(
       },
     })
   );
+
+  // Sessie-cookie geldig op alle subdomeinen (app./admin.), maar alléén als het
+  // request daadwerkelijk via het custom domein binnenkomt. Op *.replit.app of
+  // preview-hosts zou een Domain=.abonnement.website cookie geweigerd worden.
+  const cookieRootDomain = new URL(APP_BASE_URL).host.replace(/^www\./, "");
+  app.use((req, _res, next) => {
+    if (
+      process.env.NODE_ENV === "production" &&
+      req.session &&
+      (req.hostname === cookieRootDomain || req.hostname.endsWith(`.${cookieRootDomain}`))
+    ) {
+      req.session.cookie.domain = `.${cookieRootDomain}`;
+    }
+    next();
+  });
 
   // --- Analytics routes (GA4 + GSC + PSI) ---
   registerAnalyticsRoutes(app, requireRole);
@@ -252,7 +268,7 @@ export async function registerRoutes(
 
       if (user) {
         const token = await storage.createPasswordResetToken(user.id);
-        const resetUrl = `${APP_BASE_URL}/reset-password?token=${token}`;
+        const resetUrl = `${siteOrigin("app")}/reset-password?token=${token}`;
 
         if (isEmailConfigured()) {
           try {
@@ -560,7 +576,7 @@ export async function registerRoutes(
       if (!subscription?.stripeCustomerId) return res.json({ url: null, message: "No active subscription found" });
       const { getUncachableStripeClient } = await import("./stripeClient");
       const stripe = await getUncachableStripeClient();
-      const returnUrl = `${APP_BASE_URL}/app/billing`;
+      const returnUrl = `${siteOrigin("app")}/billing`;
       const session = await stripe.billingPortal.sessions.create({ customer: subscription.stripeCustomerId, return_url: returnUrl });
       res.json({ url: session.url });
     } catch (error: any) {
@@ -1055,7 +1071,15 @@ export async function registerRoutes(
     } catch (error: any) { console.error("Get ClickUp overview error:", error); res.status(500).json({ message: "Kon ClickUp overzicht niet ophalen" }); }
   });
 
-  app.get("/robots.txt", (_req, res) => { res.type("text/plain").send(`User-agent: *\nAllow: /\nDisallow: /app/\nDisallow: /admin/\nDisallow: /login\nDisallow: /signup\nDisallow: /forgot-password\nDisallow: /reset-password\nDisallow: /checkout-success\nDisallow: /api/\n\nSitemap: https://abonnement.website/sitemap.xml\n`); });
+  app.get("/robots.txt", (req, res) => {
+    const sub = getSubdomain(req);
+    if (sub) {
+      // app./admin. subdomeinen: volledig uitsluiten van indexatie
+      res.type("text/plain").send(`User-agent: *\nDisallow: /\n`);
+      return;
+    }
+    res.type("text/plain").send(`User-agent: *\nAllow: /\nDisallow: /checkout-success\nDisallow: /api/\n\nSitemap: https://abonnement.website/sitemap.xml\n`);
+  });
 
   app.get("/sitemap.xml", (_req, res) => {
     const baseUrl = "https://abonnement.website";

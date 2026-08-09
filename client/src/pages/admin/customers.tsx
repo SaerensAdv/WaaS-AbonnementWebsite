@@ -87,7 +87,7 @@ export default function AdminCustomersPage() {
   return (
     <AppLayout
       title="Klanten"
-      breadcrumbs={[{ label: "Admin", href: "/admin" }, { label: "Klanten" }]}
+      breadcrumbs={[{ label: "Admin", href: "/" }, { label: "Klanten" }]}
     >
       <div className="space-y-6">
         <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -160,7 +160,7 @@ export default function AdminCustomersPage() {
                           </Avatar>
                           <div>
                             <Link
-                              href={`/admin/clients/${customer.user.id}`}
+                              href={`/clients/${customer.user.id}`}
                               className="font-medium hover:underline"
                               data-testid={`link-client-${customer.user.id}`}
                             >
@@ -242,7 +242,7 @@ export default function AdminCustomersPage() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => setLocation(`/admin/clients/${customer.user.id}`)}>
+                            <DropdownMenuItem onClick={() => setLocation(`/clients/${customer.user.id}`)}>
                               <Eye className="h-4 w-4 mr-2" />
                               Bekijk details
                             </DropdownMenuItem>

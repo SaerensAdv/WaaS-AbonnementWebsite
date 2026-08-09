@@ -130,7 +130,7 @@ export default function AddOnsPage() {
   return (
     <AppLayout
       title="Add-ons"
-      breadcrumbs={[{ label: "Dashboard", href: "/app" }, { label: "Add-ons" }]}
+      breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "Add-ons" }]}
     >
       <div className="space-y-6">
         <div>

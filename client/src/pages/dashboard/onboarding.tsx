@@ -146,7 +146,7 @@ export default function OnboardingPage() {
         title: "Onboarding voltooid!",
         description: "Bedankt voor het invullen. We gaan voor u aan de slag!",
       });
-      setLocation("/app");
+      setLocation("/");
     },
     onError: () => {
       toast({
@@ -226,7 +226,7 @@ export default function OnboardingPage() {
 
   if (isLoading) {
     return (
-      <AppLayout title="Onboarding" breadcrumbs={[{ label: "Dashboard", href: "/app" }, { label: "Onboarding" }]}>
+      <AppLayout title="Onboarding" breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "Onboarding" }]}>
         <div className="flex items-center justify-center py-20">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
@@ -236,7 +236,7 @@ export default function OnboardingPage() {
 
   if (onboardingInfo?.onboardingCompleted) {
     return (
-      <AppLayout title="Onboarding" breadcrumbs={[{ label: "Dashboard", href: "/app" }, { label: "Onboarding" }]}>
+      <AppLayout title="Onboarding" breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "Onboarding" }]}>
         <div className="max-w-2xl mx-auto text-center py-16 space-y-6">
           <div className="h-16 w-16 rounded-full bg-chart-2/20 flex items-center justify-center mx-auto">
             <Check className="h-8 w-8 text-chart-2" />
@@ -245,7 +245,7 @@ export default function OnboardingPage() {
           <p className="text-muted-foreground">
             U heeft het onboarding formulier al ingevuld. We zijn voor u aan het werk!
           </p>
-          <Button onClick={() => setLocation("/app")} className="gap-2" data-testid="button-back-dashboard">
+          <Button onClick={() => setLocation("/")} className="gap-2" data-testid="button-back-dashboard">
             Terug naar dashboard
             <ArrowRight className="h-4 w-4" />
           </Button>
@@ -257,7 +257,7 @@ export default function OnboardingPage() {
   return (
     <AppLayout
       title="Onboarding"
-      breadcrumbs={[{ label: "Dashboard", href: "/app" }, { label: "Onboarding" }]}
+      breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "Onboarding" }]}
     >
       <div className="max-w-3xl mx-auto space-y-6">
         <div>

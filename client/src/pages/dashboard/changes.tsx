@@ -90,7 +90,7 @@ export default function ChangesPage() {
   const canSubmit = title.trim().length >= 3 && !isSubmitting;
 
   return (
-    <AppLayout title="Wijzigingen" breadcrumbs={[{ label: "Dashboard", href: "/app" }, { label: "Wijzigingen" }]}>
+    <AppLayout title="Wijzigingen" breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "Wijzigingen" }]}>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-semibold">Wijzigingen</h1>

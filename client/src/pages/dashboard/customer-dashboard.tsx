@@ -133,7 +133,7 @@ export default function CustomerDashboard() {
               <div className="font-semibold" data-testid="text-credit-count">
                 {credits ? `${credits.remaining}/${credits.included + credits.bonus} beschikbaar` : "—"}
               </div>
-              <Link href="/app/changes" className="mt-1 inline-flex items-center gap-1 text-sm text-primary hover:underline" data-testid="link-request-change">
+              <Link href="/changes" className="mt-1 inline-flex items-center gap-1 text-sm text-primary hover:underline" data-testid="link-request-change">
                 Wijziging aanvragen
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
@@ -154,7 +154,7 @@ export default function CustomerDashboard() {
                   <p className="text-sm text-muted-foreground mb-4">
                     Vul uw bedrijfsgegevens en wensen in zodat wij direct met uw website aan de slag kunnen.
                   </p>
-                  <Link href="/app/onboarding">
+                  <Link href="/onboarding">
                     <Button size="sm" className="gap-2" data-testid="button-start-onboarding">
                       Start onboarding
                       <ArrowRight className="h-4 w-4" />
@@ -204,7 +204,7 @@ export default function CustomerDashboard() {
                       </div>
                     ))}
                   </div>
-                  <Link href="/app/addons">
+                  <Link href="/addons">
                     <Button variant="outline" className="w-full gap-2" data-testid="button-manage-addons">
                       Beheer add-ons
                       <ArrowRight className="h-4 w-4" />
@@ -216,7 +216,7 @@ export default function CustomerDashboard() {
                   <p className="text-sm text-muted-foreground">
                     Voeg Google Ads, SEO of andere diensten toe.
                   </p>
-                  <Link href="/app/addons">
+                  <Link href="/addons">
                     <Button variant="outline" className="w-full gap-2" data-testid="button-explore-addons">
                       Ontdek add-ons
                       <ArrowRight className="h-4 w-4" />
@@ -235,7 +235,7 @@ export default function CustomerDashboard() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Link href="/app/billing">
+              <Link href="/billing">
                 <Button variant="outline" className="w-full gap-2" data-testid="button-view-billing">
                   Bekijk facturatie
                   <ArrowRight className="h-4 w-4" />

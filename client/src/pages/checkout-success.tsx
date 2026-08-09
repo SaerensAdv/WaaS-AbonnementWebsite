@@ -1,4 +1,5 @@
 import { Link, useLocation } from "wouter";
+import { siteUrl } from "@/lib/site";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MarketingLayout } from "@/components/layout/marketing-layout";
@@ -165,21 +166,21 @@ export default function CheckoutSuccessPage() {
 
             <FadeInUp delay={0.6}>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                <Link href="/app/onboarding">
+                <a href={siteUrl("app", "/onboarding")}>
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button size="lg" className="gap-2 w-full sm:w-auto" data-testid="button-start-onboarding">
                       Start onboarding
                       <ArrowRight className="h-5 w-5" />
                     </Button>
                   </motion.div>
-                </Link>
-                <Link href="/app">
+                </a>
+                <a href={siteUrl("app", "/")}>
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button size="lg" variant="outline" className="gap-2 w-full sm:w-auto border-white/20 text-white hover:bg-white/10" data-testid="button-go-dashboard">
                       Naar mijn dashboard
                     </Button>
                   </motion.div>
-                </Link>
+                </a>
               </div>
             </FadeInUp>
           </div>

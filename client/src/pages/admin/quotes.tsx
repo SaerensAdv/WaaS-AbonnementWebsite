@@ -79,7 +79,7 @@ export default function AdminQuotesPage() {
   const details = (selected?.details ?? null) as Record<string, unknown> | null;
 
   return (
-    <AppLayout title="Offertes" breadcrumbs={[{ label: "Admin", href: "/admin" }, { label: "Offertes" }]}>
+    <AppLayout title="Offertes" breadcrumbs={[{ label: "Admin", href: "/" }, { label: "Offertes" }]}>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-semibold">Offerte-aanvragen</h1>

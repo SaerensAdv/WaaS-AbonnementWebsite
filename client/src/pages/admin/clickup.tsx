@@ -121,7 +121,7 @@ export default function AdminClickUpPage() {
   return (
     <AppLayout
       title="Projectbeheer"
-      breadcrumbs={[{ label: "Admin", href: "/admin" }, { label: "Projectbeheer" }]}
+      breadcrumbs={[{ label: "Admin", href: "/" }, { label: "Projectbeheer" }]}
     >
       <div className="space-y-6">
         <div>

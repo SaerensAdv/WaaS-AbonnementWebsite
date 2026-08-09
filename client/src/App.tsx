@@ -11,6 +11,7 @@ import { ErrorBoundary } from "@/components/error-boundary";
 import NotFound from "@/pages/not-found";
 import { lazy, Suspense, useEffect } from "react";
 import { Loader2 } from "lucide-react";
+import { getSite, goToSite } from "@/lib/site";
 
 // ---------- Eager: critical public marketing pages ----------
 import HomePage from "@/pages/home";
@@ -100,86 +101,100 @@ function ProtectedRoute({
   }
 
   if (roles && !roles.includes(user.role)) {
-    if (user.role === "ADMIN") {
-      return <Redirect to="/admin" />;
-    } else {
-      return <Redirect to="/app" />;
-    }
+    // Verkeerde rol voor deze site → hard redirect naar de juiste site.
+    goToSite(user.role === "ADMIN" ? "admin" : "app", "/");
+    return <LazyFallback />;
   }
 
   return <Component />;
 }
 
+function PublicRouter() {
+  return (
+    <Switch>
+      <Route path="/" component={HomePage} />
+      <Route path="/betaalbare-professionele-website" component={BetaalbareWebsitePage} />
+      <Route path="/privacy" component={PrivacyPage} />
+      <Route path="/terms" component={TermsPage} />
+      <Route path="/consentease" component={ConsentEasePage} />
+      <Route path="/werkwijze" component={WerkwijzePage} />
+      <Route path="/checkout-success" component={CheckoutSuccessPage} />
+      <Route path="/offerte" component={OffertePage} />
+      <Route path="/blog" component={BlogIndexPage} />
+      <Route path="/blog/:slug" component={BlogArticlePage} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function AppRouter() {
+  return (
+    <Switch>
+      <Route path="/login" component={LoginPage} />
+      <Route path="/signup" component={SignupPage} />
+      <Route path="/forgot-password" component={ForgotPasswordPage} />
+      <Route path="/reset-password" component={ResetPasswordPage} />
+      <Route path="/">
+        <ProtectedRoute component={CustomerDashboard} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/onboarding">
+        <ProtectedRoute component={OnboardingPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/addons">
+        <ProtectedRoute component={AddOnsPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/analytics">
+        <ProtectedRoute component={AnalyticsPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/billing">
+        <ProtectedRoute component={BillingPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/changes">
+        <ProtectedRoute component={ChangesPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/support">
+        <ProtectedRoute component={SupportPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route path="/settings">
+        <ProtectedRoute component={SettingsPage} roles={["CUSTOMER"]} />
+      </Route>
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function AdminRouter() {
+  return (
+    <Switch>
+      <Route path="/login" component={LoginPage} />
+      <Route path="/">
+        <ProtectedRoute component={AdminDashboard} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/customers">
+        <ProtectedRoute component={AdminCustomersPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/changes">
+        <ProtectedRoute component={AdminChangesPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/clients/:id">
+        <ProtectedRoute component={AdminClientDetailPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/quotes">
+        <ProtectedRoute component={AdminQuotesPage} roles={["ADMIN"]} />
+      </Route>
+      <Route path="/clickup">
+        <ProtectedRoute component={AdminClickUpPage} roles={["ADMIN"]} />
+      </Route>
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
 function Router() {
+  const site = getSite();
   return (
     <Suspense fallback={<LazyFallback />}>
-      <Switch>
-        {/* Eager public routes */}
-        <Route path="/" component={HomePage} />
-        <Route path="/betaalbare-professionele-website" component={BetaalbareWebsitePage} />
-        <Route path="/privacy" component={PrivacyPage} />
-        <Route path="/terms" component={TermsPage} />
-        <Route path="/consentease" component={ConsentEasePage} />
-        <Route path="/werkwijze" component={WerkwijzePage} />
-
-        {/* Lazy public routes */}
-        <Route path="/login" component={LoginPage} />
-        <Route path="/signup" component={SignupPage} />
-        <Route path="/forgot-password" component={ForgotPasswordPage} />
-        <Route path="/reset-password" component={ResetPasswordPage} />
-        <Route path="/checkout-success" component={CheckoutSuccessPage} />
-        <Route path="/offerte" component={OffertePage} />
-        <Route path="/blog" component={BlogIndexPage} />
-        <Route path="/blog/:slug" component={BlogArticlePage} />
-
-        {/* Customer dashboard */}
-        <Route path="/app">
-          <ProtectedRoute component={CustomerDashboard} roles={["CUSTOMER"]} />
-        </Route>
-        <Route path="/app/onboarding">
-          <ProtectedRoute component={OnboardingPage} roles={["CUSTOMER"]} />
-        </Route>
-        <Route path="/app/addons">
-          <ProtectedRoute component={AddOnsPage} roles={["CUSTOMER"]} />
-        </Route>
-        <Route path="/app/analytics">
-          <ProtectedRoute component={AnalyticsPage} roles={["CUSTOMER"]} />
-        </Route>
-        <Route path="/app/billing">
-          <ProtectedRoute component={BillingPage} roles={["CUSTOMER"]} />
-        </Route>
-        <Route path="/app/changes">
-          <ProtectedRoute component={ChangesPage} roles={["CUSTOMER"]} />
-        </Route>
-        <Route path="/app/support">
-          <ProtectedRoute component={SupportPage} roles={["CUSTOMER"]} />
-        </Route>
-        <Route path="/app/settings">
-          <ProtectedRoute component={SettingsPage} roles={["CUSTOMER"]} />
-        </Route>
-
-        {/* Admin */}
-        <Route path="/admin">
-          <ProtectedRoute component={AdminDashboard} roles={["ADMIN"]} />
-        </Route>
-        <Route path="/admin/customers">
-          <ProtectedRoute component={AdminCustomersPage} roles={["ADMIN"]} />
-        </Route>
-        <Route path="/admin/changes">
-          <ProtectedRoute component={AdminChangesPage} roles={["ADMIN"]} />
-        </Route>
-        <Route path="/admin/clients/:id">
-          <ProtectedRoute component={AdminClientDetailPage} roles={["ADMIN"]} />
-        </Route>
-        <Route path="/admin/quotes">
-          <ProtectedRoute component={AdminQuotesPage} roles={["ADMIN"]} />
-        </Route>
-        <Route path="/admin/clickup">
-          <ProtectedRoute component={AdminClickUpPage} roles={["ADMIN"]} />
-        </Route>
-
-        <Route component={NotFound} />
-      </Switch>
+      {site === "app" ? <AppRouter /> : site === "admin" ? <AdminRouter /> : <PublicRouter />}
     </Suspense>
   );
 }

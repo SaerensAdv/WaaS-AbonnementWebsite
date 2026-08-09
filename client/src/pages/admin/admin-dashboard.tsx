@@ -109,7 +109,7 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
 
-          <Link href="/admin/changes">
+          <Link href="/changes">
             <Card className="border hover-elevate cursor-pointer h-full">
               <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
                 <CardTitle className="text-sm font-medium">Open wijzigingen</CardTitle>
@@ -122,7 +122,7 @@ export default function AdminDashboard() {
             </Card>
           </Link>
 
-          <Link href="/admin/quotes">
+          <Link href="/quotes">
             <Card className="border hover-elevate cursor-pointer h-full">
               <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
                 <CardTitle className="text-sm font-medium">Nieuwe offertes</CardTitle>
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
           <Card className="border">
             <CardHeader className="flex flex-row items-center justify-between gap-2">
               <CardTitle className="text-base">Laatste wijzigingsverzoeken</CardTitle>
-              <Link href="/admin/changes" className="text-sm text-primary hover:underline">Alle</Link>
+              <Link href="/changes" className="text-sm text-primary hover:underline">Alle</Link>
             </CardHeader>
             <CardContent>
               {data?.recentChanges?.length ? (
@@ -168,7 +168,7 @@ export default function AdminDashboard() {
           <Card className="border">
             <CardHeader className="flex flex-row items-center justify-between gap-2">
               <CardTitle className="text-base">Laatste offerte-aanvragen</CardTitle>
-              <Link href="/admin/quotes" className="text-sm text-primary hover:underline">Alle</Link>
+              <Link href="/quotes" className="text-sm text-primary hover:underline">Alle</Link>
             </CardHeader>
             <CardContent>
               {data?.recentQuotes?.length ? (
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
             <CardTitle className="text-lg">Beheer</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Link href="/admin/customers">
+            <Link href="/customers">
               <Button variant="outline" className="w-full justify-between" data-testid="link-admin-customers">
                 <span className="flex items-center gap-2">
                   <Users className="h-4 w-4" />

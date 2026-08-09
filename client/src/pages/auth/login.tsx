@@ -13,6 +13,7 @@ import { Loader2, ArrowLeft } from "lucide-react";
 import logoImage from "@assets/logo-abonnement-website.webp";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useSEO } from "@/hooks/use-seo";
+import { getSite, goToSite } from "@/lib/site";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -43,27 +44,23 @@ export default function LoginPage() {
     },
   });
 
-  function getRedirectPath(role: string): string {
-    switch (role) {
-      case "ADMIN":
-        return "/admin";
-      case "CUSTOMER":
-      default:
-        return "/app";
-    }
-  }
-
   async function onSubmit(data: LoginInput) {
     setIsLoading(true);
     try {
       const loggedInUser = await login(data.email, data.password);
-      const redirectPath = getRedirectPath(loggedInUser.role);
-      
+      const site = getSite();
+      const targetSite = loggedInUser.role === "ADMIN" ? "admin" : "app";
+
       toast({
         title: "Welkom terug!",
         description: "U bent succesvol ingelogd.",
       });
-      pendingRedirect.current = redirectPath;
+      if (site !== targetSite) {
+        // Verkeerde site voor deze rol → hard redirect naar het juiste subdomein.
+        goToSite(targetSite, "/");
+        return;
+      }
+      pendingRedirect.current = "/";
     } catch (error) {
       toast({
         title: "Inloggen mislukt",

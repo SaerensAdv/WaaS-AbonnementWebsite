@@ -1,5 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
+import { subdomainMiddleware } from "./subdomain";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import { runMigrations } from 'stripe-replit-sync';
@@ -389,6 +390,8 @@ async function initStripe() {
 
     next();
   });
+
+  app.use(subdomainMiddleware);
 
   await registerRoutes(httpServer, app);
 

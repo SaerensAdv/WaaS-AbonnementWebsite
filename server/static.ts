@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { injectRouteMetadata } from "./seo-prerender";
 import { isKnownRoute } from "./known-routes";
+import { getSubdomain } from "./subdomain";
 
 export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "public");
@@ -30,10 +31,16 @@ export function serveStatic(app: Express) {
 
   app.use("*", (req, res) => {
     const pathname = req.originalUrl.split("?")[0].replace(/\/$/, "") || "/";
-    const status = isKnownRoute(pathname) ? 200 : 404;
+    const subdomain = getSubdomain(req as any);
+    const status = isKnownRoute(pathname, subdomain) ? 200 : 404;
     const indexPath = path.resolve(distPath, "index.html");
-    const html = fs.readFileSync(indexPath, "utf-8");
-    const injected = injectRouteMetadata(html, pathname);
-    res.status(status).set("Content-Type", "text/html").end(injected);
+    let html = fs.readFileSync(indexPath, "utf-8");
+    // SEO prerender alleen voor de publieke site; app/admin zijn noindex SPA's.
+    if (!subdomain) {
+      html = injectRouteMetadata(html, pathname);
+    } else {
+      html = html.replace("</head>", `<meta name="robots" content="noindex, nofollow" /></head>`);
+    }
+    res.status(status).set("Content-Type", "text/html").end(html);
   });
 }

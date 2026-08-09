@@ -123,7 +123,7 @@ export default function SupportPage() {
   return (
     <AppLayout
       title="Support"
-      breadcrumbs={[{ label: "Dashboard", href: "/app" }, { label: "Support" }]}
+      breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "Support" }]}
     >
       <div className="space-y-6">
         <div className="flex items-center justify-between">

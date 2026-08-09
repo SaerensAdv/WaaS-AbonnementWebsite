@@ -109,7 +109,7 @@ export default function SignupPage() {
         title: "Account aangemaakt!",
         description: "Welkom bij WebsiteAbonnementen!",
       });
-      pendingRedirect.current = "/app";
+      pendingRedirect.current = "/";
     } catch (error) {
       toast({
         title: "Registratie mislukt",

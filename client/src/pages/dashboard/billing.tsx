@@ -84,7 +84,7 @@ export default function BillingPage() {
   return (
     <AppLayout
       title="Facturatie"
-      breadcrumbs={[{ label: "Dashboard", href: "/app" }, { label: "Facturatie" }]}
+      breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "Facturatie" }]}
     >
       <div className="space-y-6">
         <div>

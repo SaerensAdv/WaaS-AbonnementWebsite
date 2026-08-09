@@ -62,7 +62,7 @@ function formatDate(value: string | Date | null) {
 }
 
 export default function AdminClientDetailPage() {
-  const [, params] = useRoute("/admin/clients/:id");
+  const [, params] = useRoute("/clients/:id");
   const clientId = params?.id;
   const { toast } = useToast();
   const [notes, setNotes] = useState("");
@@ -97,7 +97,7 @@ export default function AdminClientDetailPage() {
 
   if (isLoading || !data) {
     return (
-      <AppLayout title="Klant" breadcrumbs={[{ label: "Admin", href: "/admin" }, { label: "Klanten", href: "/admin/customers" }, { label: "Detail" }]}>
+      <AppLayout title="Klant" breadcrumbs={[{ label: "Admin", href: "/" }, { label: "Klanten", href: "/customers" }, { label: "Detail" }]}>
         <div className="flex items-center justify-center py-16 text-muted-foreground gap-2">
           <Loader2 className="h-5 w-5 animate-spin" /> Laden…
         </div>
@@ -111,10 +111,10 @@ export default function AdminClientDetailPage() {
   return (
     <AppLayout
       title={user.name}
-      breadcrumbs={[{ label: "Admin", href: "/admin" }, { label: "Klanten", href: "/admin/customers" }, { label: user.name }]}
+      breadcrumbs={[{ label: "Admin", href: "/" }, { label: "Klanten", href: "/customers" }, { label: user.name }]}
     >
       <div className="space-y-6">
-        <Link href="/admin/customers" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+        <Link href="/customers" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Terug naar klanten
         </Link>
 
@@ -264,7 +264,7 @@ export default function AdminClientDetailPage() {
         <Card className="border">
           <CardHeader className="flex flex-row items-center justify-between gap-2">
             <CardTitle className="text-base">Wijzigingsgeschiedenis</CardTitle>
-            <Link href="/admin/changes" className="text-sm text-primary hover:underline">Volledige lijst</Link>
+            <Link href="/changes" className="text-sm text-primary hover:underline">Volledige lijst</Link>
           </CardHeader>
           <CardContent>
             {changeRequests.length === 0 ? (

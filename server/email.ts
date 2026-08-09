@@ -183,7 +183,7 @@ export async function sendWelcomeEmail(to: string, name: string): Promise<void> 
       U kunt nu inloggen op uw persoonlijke dashboard om uw website-abonnement te beheren, de voortgang van uw project te volgen en support aan te vragen.
     </p>
     <div style="text-align:center;margin:0 0 24px;">
-      <a href="https://abonnement.website/app" style="display:inline-block;background:#18181b;color:#ffffff;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:500;font-size:14px;">
+      <a href="https://app.abonnement.website" style="display:inline-block;background:#18181b;color:#ffffff;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:500;font-size:14px;">
         Naar mijn dashboard
       </a>
     </div>
