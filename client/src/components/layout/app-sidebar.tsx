@@ -1,4 +1,5 @@
 import { Link, useLocation } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import {
   Sidebar,
   SidebarContent,
@@ -33,6 +34,7 @@ import {
   ClipboardList,
   BarChart3,
   PencilLine,
+  FileText,
 } from "lucide-react";
 import logoImage from "@assets/logo-abonnement-website.webp";
 
@@ -48,13 +50,26 @@ const customerMenuItems = [
 
 const adminMenuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
+  { title: "Wijzigingen", url: "/admin/changes", icon: PencilLine },
   { title: "Klanten", url: "/admin/customers", icon: Users },
+  { title: "Offertes", url: "/admin/quotes", icon: FileText },
   { title: "Projectbeheer", url: "/admin/clickup", icon: ClipboardList },
 ];
 
 export function AppSidebar() {
   const [location] = useLocation();
   const { user, logout } = useAuth();
+  const isAdmin = user?.role === "ADMIN";
+
+  const { data: adminStats } = useQuery<{ pendingChanges?: number; newQuotes?: number }>({
+    queryKey: ["/api/admin/stats"],
+    enabled: isAdmin,
+  });
+
+  const badgeCounts: Record<string, number | undefined> = {
+    "/admin/changes": adminStats?.pendingChanges,
+    "/admin/quotes": adminStats?.newQuotes,
+  };
 
   const menuItems = user?.role === "ADMIN" ? adminMenuItems : customerMenuItems;
   const roleLabel = user?.role === "ADMIN" ? "Admin" : "Klant";
@@ -94,6 +109,11 @@ export function AppSidebar() {
                     <Link href={item.url} data-testid={`sidebar-${item.title.toLowerCase().replace(/\s+/g, "-")}`}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
+                      {(badgeCounts[item.url] ?? 0) > 0 && (
+                        <span className="ml-auto rounded-full bg-primary px-1.5 py-0.5 text-[10px] font-medium leading-none text-primary-foreground">
+                          {badgeCounts[item.url]}
+                        </span>
+                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

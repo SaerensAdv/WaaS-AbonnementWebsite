@@ -89,6 +89,12 @@ export interface IStorage {
   countUsedCredits(allocationId: string): Promise<number>;
   createChangeRequest(request: InsertChangeRequest): Promise<ChangeRequest>;
   createChangeRequestWithCredit(request: InsertChangeRequest & { allocationId: string }, creditLimit: number): Promise<ChangeRequest | null>;
+  getAllChangeRequests(status?: string): Promise<{ request: ChangeRequest; customer: Pick<User, "id" | "name" | "email"> }[]>;
+  getCreditAllocationsForPeriod(periodStart: Date, periodEnd: Date): Promise<CreditAllocation[]>;
+  getCreditUsageByUserForPeriod(periodStart: Date, periodEnd: Date): Promise<Map<string, number>>;
+  getAddOnCountsBySubscription(): Promise<Map<string, number>>;
+  addBonusCredit(allocationId: string): Promise<CreditAllocation | undefined>;
+  updateCustomerProfileNotes(userId: string, adminNotes: string): Promise<void>;
   updateChangeRequest(id: string, data: Partial<ChangeRequest>): Promise<ChangeRequest | undefined>;
 
   createPasswordResetToken(userId: string): Promise<string>;
@@ -377,6 +383,73 @@ export class DatabaseStorage implements IStorage {
   async createChangeRequest(request: InsertChangeRequest): Promise<ChangeRequest> {
     const [result] = await db.insert(changeRequests).values(request).returning();
     return result;
+  }
+
+  async getAllChangeRequests(status?: string): Promise<{ request: ChangeRequest; customer: Pick<User, "id" | "name" | "email"> }[]> {
+    const rows = await db
+      .select({ request: changeRequests, customer: { id: users.id, name: users.name, email: users.email } })
+      .from(changeRequests)
+      .innerJoin(users, eq(changeRequests.userId, users.id))
+      .where(status ? eq(changeRequests.status, status as any) : undefined)
+      .orderBy(desc(changeRequests.createdAt));
+    return rows;
+  }
+
+  async getCreditAllocationsForPeriod(periodStart: Date, periodEnd: Date): Promise<CreditAllocation[]> {
+    return db
+      .select()
+      .from(creditAllocations)
+      .where(and(
+        gte(creditAllocations.periodEnd, periodStart),
+        lte(creditAllocations.periodStart, periodEnd),
+      ));
+  }
+
+  async getCreditUsageByUserForPeriod(periodStart: Date, periodEnd: Date): Promise<Map<string, number>> {
+    const rows = await db
+      .select({
+        userId: changeRequests.userId,
+        used: sql<number>`coalesce(sum(${changeRequests.creditsUsed}), 0)`,
+      })
+      .from(changeRequests)
+      .innerJoin(creditAllocations, eq(changeRequests.allocationId, creditAllocations.id))
+      .where(and(
+        gte(creditAllocations.periodEnd, periodStart),
+        lte(creditAllocations.periodStart, periodEnd),
+        ne(changeRequests.status, "rejected"),
+        eq(changeRequests.isPaidExtra, false),
+      ))
+      .groupBy(changeRequests.userId);
+    return new Map(rows.map((r) => [r.userId, Number(r.used)]));
+  }
+
+  async getAddOnCountsBySubscription(): Promise<Map<string, number>> {
+    const rows = await db
+      .select({
+        subscriptionId: addOnSelections.subscriptionId,
+        count: sql<number>`count(*)`,
+      })
+      .from(addOnSelections)
+      .groupBy(addOnSelections.subscriptionId);
+    return new Map(rows.map((r) => [r.subscriptionId, Number(r.count)]));
+  }
+
+  async addBonusCredit(allocationId: string): Promise<CreditAllocation | undefined> {
+    const [result] = await db
+      .update(creditAllocations)
+      .set({ bonusCredits: sql`${creditAllocations.bonusCredits} + 1` })
+      .where(eq(creditAllocations.id, allocationId))
+      .returning();
+    return result || undefined;
+  }
+
+  async updateCustomerProfileNotes(userId: string, adminNotes: string): Promise<void> {
+    const existing = await this.getCustomerProfile(userId);
+    if (existing) {
+      await db.update(customerProfiles).set({ adminNotes }).where(eq(customerProfiles.userId, userId));
+    } else {
+      await db.insert(customerProfiles).values({ userId, adminNotes });
+    }
   }
 
   async createChangeRequestWithCredit(

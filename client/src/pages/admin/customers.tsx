@@ -29,12 +29,15 @@ import {
   FolderKanban,
   Users,
 } from "lucide-react";
+import { Link, useLocation } from "wouter";
 import type { User, CustomerProfile, Project } from "@shared/schema";
 
 interface CustomerData {
   user: User;
   profile: CustomerProfile | null;
   project: Project | null;
+  credits?: { used: number; total: number };
+  addOnCount?: number;
 }
 
 interface CustomersResponse {
@@ -67,6 +70,7 @@ function getInitials(name: string): string {
 
 export default function AdminCustomersPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [, setLocation] = useLocation();
 
   const { data, isLoading } = useQuery<CustomersResponse>({
     queryKey: ["/api/admin/customers"],
@@ -138,6 +142,8 @@ export default function AdminCustomersPage() {
                     <TableHead>Bedrijf</TableHead>
                     <TableHead>Project</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>Credits</TableHead>
+                    <TableHead>Add-ons</TableHead>
                     <TableHead>Onboarding</TableHead>
                     <TableHead className="text-right">Acties</TableHead>
                   </TableRow>
@@ -153,7 +159,13 @@ export default function AdminCustomersPage() {
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <div className="font-medium">{customer.user.name}</div>
+                            <Link
+                              href={`/admin/clients/${customer.user.id}`}
+                              className="font-medium hover:underline"
+                              data-testid={`link-client-${customer.user.id}`}
+                            >
+                              {customer.user.name}
+                            </Link>
                             <div className="text-sm text-muted-foreground">
                               {customer.user.email}
                             </div>
@@ -196,6 +208,14 @@ export default function AdminCustomersPage() {
                         )}
                       </TableCell>
                       <TableCell>
+                        <span className="text-sm">
+                          {customer.credits ? `${customer.credits.used}/${customer.credits.total}` : "—"}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-sm">{customer.addOnCount ?? 0}</span>
+                      </TableCell>
+                      <TableCell>
                         {customer.project ? (
                           customer.project.onboardingCompleted ? (
                             <Badge variant="secondary" className="bg-chart-2/20 text-chart-2">
@@ -222,7 +242,7 @@ export default function AdminCustomersPage() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setLocation(`/admin/clients/${customer.user.id}`)}>
                               <Eye className="h-4 w-4 mr-2" />
                               Bekijk details
                             </DropdownMenuItem>

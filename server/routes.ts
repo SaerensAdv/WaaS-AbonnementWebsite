@@ -636,11 +636,54 @@ export async function registerRoutes(
   });
 
   app.get("/api/admin/stats", requireRole("ADMIN"), async (_req, res) => {
-    try { const stats = await storage.getAdminStats(); res.json(stats); } catch (error) { console.error("Get admin stats error:", error); res.status(500).json({ message: "Failed to fetch admin stats" }); }
+    try {
+      const [stats, allChanges, quotes] = await Promise.all([
+        storage.getAdminStats(),
+        storage.getAllChangeRequests(),
+        storage.getQuoteRequests(),
+      ]);
+      const now = new Date();
+      const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      const pendingChanges = allChanges.filter((c) => c.request.status === "pending").length;
+      const inProgressChanges = allChanges.filter((c) => c.request.status === "in_progress").length;
+      const newQuotes = quotes.filter((q) => q.status === "NEW").length;
+      res.json({
+        ...stats,
+        pendingChanges,
+        inProgressChanges,
+        newQuotes,
+        completedChangesThisMonth: allChanges.filter((c) => c.request.status === "completed" && c.request.completedAt && new Date(c.request.completedAt) >= monthStart).length,
+        creditsUsedThisMonth: allChanges
+          .filter((c) => c.request.status !== "rejected" && c.request.createdAt && new Date(c.request.createdAt) >= monthStart)
+          .reduce((sum, c) => sum + (c.request.creditsUsed ?? 1), 0),
+        recentChanges: allChanges.slice(0, 5),
+        recentQuotes: quotes.slice(0, 3),
+      });
+    } catch (error) { console.error("Get admin stats error:", error); res.status(500).json({ message: "Failed to fetch admin stats" }); }
   });
 
   app.get("/api/admin/customers", requireRole("ADMIN"), async (_req, res) => {
-    try { const customers = await storage.getAllCustomers(); res.json({ customers, total: customers.length }); } catch (error) { console.error("Get customers error:", error); res.status(500).json({ message: "Failed to fetch customers" }); }
+    try {
+      const customers = await storage.getAllCustomers();
+      const { start, end } = currentPeriod();
+      // Batched: één query voor alle allocaties, één voor verbruik, één voor add-on counts.
+      const [allocations, usage, addOnCounts] = await Promise.all([
+        storage.getCreditAllocationsForPeriod(start, end),
+        storage.getCreditUsageByUserForPeriod(start, end),
+        storage.getAddOnCountsBySubscription(),
+      ]);
+      const allocByUser = new Map(allocations.map((a) => [a.userId, a]));
+      const enriched = customers.map((c) => {
+        const allocation = allocByUser.get(c.user.id);
+        const total = allocation ? allocation.includedCredits + (allocation.bonusCredits ?? 0) : 2;
+        return {
+          ...c,
+          credits: { used: usage.get(c.user.id) ?? 0, total },
+          addOnCount: c.subscription ? (addOnCounts.get(c.subscription.id) ?? 0) : 0,
+        };
+      });
+      res.json({ customers: enriched, total: enriched.length });
+    } catch (error) { console.error("Get customers error:", error); res.status(500).json({ message: "Failed to fetch customers" }); }
   });
 
   app.get("/api/admin/projects", requireRole("ADMIN"), async (_req, res) => {
@@ -800,6 +843,154 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Update change request error:", error);
       res.status(500).json({ message: "Kon wijzigingsverzoek niet bijwerken" });
+    }
+  });
+
+  // ── Admin: wijzigingsbeheer ───────────────────────────────────────
+  const changeRequestStatusUpdateSchema = z.object({
+    status: z.enum(["pending", "in_progress", "completed", "rejected"]).optional(),
+    adminNotes: z.string().max(5000).optional(),
+  });
+
+  app.get("/api/admin/changes", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const status = typeof req.query.status === "string" ? req.query.status : undefined;
+      const validStatuses = ["pending", "in_progress", "completed", "rejected"];
+      if (status && !validStatuses.includes(status)) {
+        return res.status(400).json({ message: "Ongeldige status" });
+      }
+      const changes = await storage.getAllChangeRequests(status);
+      res.json({ changes });
+    } catch (error) {
+      console.error("Get admin changes error:", error);
+      res.status(500).json({ message: "Kon wijzigingsverzoeken niet ophalen" });
+    }
+  });
+
+  app.patch("/api/admin/changes/:id", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const parsed = changeRequestStatusUpdateSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ message: "Ongeldige invoer", errors: parsed.error.flatten().fieldErrors });
+      const existing = await storage.getChangeRequest(req.params.id);
+      if (!existing) return res.status(404).json({ message: "Wijzigingsverzoek niet gevonden" });
+      const updated = await storage.updateChangeRequest(req.params.id, {
+        ...(parsed.data.status ? { status: parsed.data.status } : {}),
+        ...(parsed.data.adminNotes !== undefined ? { adminNotes: parsed.data.adminNotes } : {}),
+        ...(parsed.data.status === "completed" ? { completedAt: new Date() } : {}),
+      });
+      res.json(updated);
+    } catch (error) {
+      console.error("Update admin change error:", error);
+      res.status(500).json({ message: "Kon wijzigingsverzoek niet bijwerken" });
+    }
+  });
+
+  // ── Admin: klantdetail ────────────────────────────────────────────
+  app.get("/api/admin/clients/:id", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const user = await storage.getUser(req.params.id);
+      if (!user || user.role !== "CUSTOMER") return res.status(404).json({ message: "Klant niet gevonden" });
+      const [profile, subscription, project] = await Promise.all([
+        storage.getCustomerProfile(user.id),
+        storage.getSubscriptionWithPlan(user.id),
+        storage.getProject(user.id),
+      ]);
+      const addOnSelections = subscription ? await storage.getAddOnSelections(subscription.id) : [];
+      const { summary } = await getCreditStatus(user.id);
+      const requests = await storage.getChangeRequests(user.id);
+      res.json({
+        user: { id: user.id, name: user.name, email: user.email, createdAt: user.createdAt },
+        profile: profile || null,
+        subscription: subscription || null,
+        project: project || null,
+        addOnSelections,
+        credits: summary,
+        changeRequests: requests.slice(0, 10),
+        totalChangeRequests: requests.length,
+      });
+    } catch (error) {
+      console.error("Get client detail error:", error);
+      res.status(500).json({ message: "Kon klantgegevens niet ophalen" });
+    }
+  });
+
+  app.post("/api/admin/clients/:id/bonus-credit", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const user = await storage.getUser(req.params.id);
+      if (!user || user.role !== "CUSTOMER") return res.status(404).json({ message: "Klant niet gevonden" });
+      const allocation = await getOrCreateAllocation(user.id);
+      const updated = await storage.addBonusCredit(allocation.id);
+      const { summary } = await getCreditStatus(user.id);
+      res.json({ allocation: updated, credits: summary });
+    } catch (error) {
+      console.error("Add bonus credit error:", error);
+      res.status(500).json({ message: "Kon bonus credit niet toekennen" });
+    }
+  });
+
+  app.patch("/api/admin/clients/:id/notes", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const parsed = z.object({ adminNotes: z.string().max(10000) }).safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ message: "Ongeldige invoer", errors: parsed.error.flatten().fieldErrors });
+      const user = await storage.getUser(req.params.id);
+      if (!user || user.role !== "CUSTOMER") return res.status(404).json({ message: "Klant niet gevonden" });
+      await storage.updateCustomerProfileNotes(user.id, parsed.data.adminNotes);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Update client notes error:", error);
+      res.status(500).json({ message: "Kon notities niet opslaan" });
+    }
+  });
+
+  // ── Admin: offertes ───────────────────────────────────────────────
+  app.get("/api/admin/quotes", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const status = typeof req.query.status === "string" ? req.query.status : undefined;
+      let quotes = await storage.getQuoteRequests();
+      if (status) quotes = quotes.filter((q) => q.status === status);
+      res.json({ quotes });
+    } catch (error) {
+      console.error("Get admin quotes error:", error);
+      res.status(500).json({ message: "Kon offertes niet ophalen" });
+    }
+  });
+
+  app.patch("/api/admin/quotes/:id", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const parsed = z.object({
+        status: z.enum(["NEW", "CONTACTED", "QUOTED", "ACCEPTED", "DECLINED"]).optional(),
+        adminNotes: z.string().max(10000).optional(),
+      }).safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ message: "Ongeldige invoer", errors: parsed.error.flatten().fieldErrors });
+      const updated = await storage.updateQuoteRequest(req.params.id, {
+        ...(parsed.data.status ? { status: parsed.data.status } : {}),
+        ...(parsed.data.adminNotes !== undefined ? { adminNotes: parsed.data.adminNotes } : {}),
+      });
+      if (!updated) return res.status(404).json({ message: "Offerte niet gevonden" });
+      res.json(updated);
+    } catch (error) {
+      console.error("Update quote error:", error);
+      res.status(500).json({ message: "Kon offerte niet bijwerken" });
+    }
+  });
+
+  app.post("/api/admin/quotes/:id/clickup", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const quotes = await storage.getQuoteRequests();
+      const quote = quotes.find((q) => q.id === req.params.id);
+      if (!quote) return res.status(404).json({ message: "Offerte niet gevonden" });
+      if (quote.clickupTaskId) return res.status(409).json({ message: "Er bestaat al een ClickUp taak voor deze offerte" });
+      if (!isClickUpConfigured()) return res.status(503).json({ message: "ClickUp is niet geconfigureerd" });
+      const task = await createMaatwerkQuoteTask(
+        quote.companyName, quote.contactName, quote.email, quote.phone,
+        quote.projectType, quote.budgetRange, quote.description, quote.currentWebsite,
+        quote.details as Record<string, any> | null,
+      );
+      const updated = await storage.updateQuoteRequest(quote.id, { clickupTaskId: task.id });
+      res.json(updated);
+    } catch (error) {
+      console.error("Create quote ClickUp task error:", error);
+      res.status(500).json({ message: "Kon ClickUp taak niet aanmaken" });
     }
   });
 

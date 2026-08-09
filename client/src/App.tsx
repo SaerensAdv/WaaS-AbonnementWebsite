@@ -46,6 +46,9 @@ const ChangesPage = lazy(() => import("@/pages/dashboard/changes"));
 const AdminDashboard = lazy(() => import("@/pages/admin/admin-dashboard"));
 const AdminCustomersPage = lazy(() => import("@/pages/admin/customers"));
 const AdminClickUpPage = lazy(() => import("@/pages/admin/clickup"));
+const AdminChangesPage = lazy(() => import("@/pages/admin/changes"));
+const AdminClientDetailPage = lazy(() => import("@/pages/admin/client-detail"));
+const AdminQuotesPage = lazy(() => import("@/pages/admin/quotes"));
 
 // ---------- Suspense fallback ----------
 function LazyFallback() {
@@ -161,6 +164,15 @@ function Router() {
         </Route>
         <Route path="/admin/customers">
           <ProtectedRoute component={AdminCustomersPage} roles={["ADMIN"]} />
+        </Route>
+        <Route path="/admin/changes">
+          <ProtectedRoute component={AdminChangesPage} roles={["ADMIN"]} />
+        </Route>
+        <Route path="/admin/clients/:id">
+          <ProtectedRoute component={AdminClientDetailPage} roles={["ADMIN"]} />
+        </Route>
+        <Route path="/admin/quotes">
+          <ProtectedRoute component={AdminQuotesPage} roles={["ADMIN"]} />
         </Route>
         <Route path="/admin/clickup">
           <ProtectedRoute component={AdminClickUpPage} roles={["ADMIN"]} />

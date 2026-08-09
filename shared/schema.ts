@@ -27,6 +27,7 @@ export const customerProfiles = pgTable("customer_profiles", {
   address: text("address"),
   phone: text("phone"),
   stripeCustomerId: text("stripe_customer_id"),
+  adminNotes: text("admin_notes"),
 });
 
 export const plans = pgTable("plans", {
@@ -112,6 +113,7 @@ export const quoteRequests = pgTable("quote_requests", {
   details: jsonb("details"),
   status: quoteRequestStatusEnum("status").default("NEW"),
   clickupTaskId: text("clickup_task_id"),
+  adminNotes: text("admin_notes"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -268,6 +270,7 @@ export const insertQuoteRequestSchema = createInsertSchema(quoteRequests).omit({
   createdAt: true,
   status: true,
   clickupTaskId: true,
+  adminNotes: true,
 });
 
 export type User = typeof users.$inferSelect;
