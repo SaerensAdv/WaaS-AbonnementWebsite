@@ -11,6 +11,7 @@ const PUBLIC_ROUTES = new Set<string>([
   "/werkwijze",
   "/blog",
   "/checkout-success",
+  "/signup",
 ]);
 
 const APP_ROUTES = new Set<string>([

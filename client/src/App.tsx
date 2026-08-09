@@ -120,6 +120,7 @@ function PublicRouter() {
       <Route path="/werkwijze" component={WerkwijzePage} />
       <Route path="/checkout-success" component={CheckoutSuccessPage} />
       <Route path="/offerte" component={OffertePage} />
+      <Route path="/signup" component={SignupPage} />
       <Route path="/blog" component={BlogIndexPage} />
       <Route path="/blog/:slug" component={BlogArticlePage} />
       <Route component={NotFound} />

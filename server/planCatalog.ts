@@ -7,10 +7,10 @@ import { eq, ne } from "drizzle-orm";
  * system. The old tiered plans (Starter/Professional/Business) are
  * deactivated, never deleted (subscriptions/projects keep their planId FK).
  *
- * Stripe price IDs are test-mode only for now; live prices are created at
- * manual live activation. When the quarterly price ID is null (live mode),
- * the checkout route falls back to inline quarterly price_data
- * (monthlyPriceCents * 3), which yields the correct €207/kwartaal.
+ * Stripe price IDs exist per mode: test (sandbox account) and live
+ * (production account, product prod_V2fhnUu2k9bO1Y, €69/mnd + €207/kwartaal,
+ * tax exclusive). When a quarterly price ID would be null, the checkout route
+ * falls back to inline quarterly price_data (monthlyPriceCents * 3).
  */
 const PLAN = {
   name: "Website-abonnement",
@@ -26,7 +26,7 @@ const PLAN = {
     "Support via e-mail",
   ],
   test: { monthly: "price_1U2YNkEyM9IEHbH5lAKtj7eW", quarterly: "price_1U2YNkEyM9IEHbH5LmpOfwDl" },
-  live: { monthly: null as string | null, quarterly: null as string | null }, // TODO: create at live activation
+  live: { monthly: "price_1U2aMqAc0256vmxDkDMJsJLC", quarterly: "price_1U2aMsAc0256vmxDhncyesKJ" },
 };
 
 export async function syncPlanCatalog(log: (msg: string, tag?: string) => void = console.log) {

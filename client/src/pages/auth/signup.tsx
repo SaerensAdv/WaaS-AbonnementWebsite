@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useSearch } from "wouter";
+import { siteUrl } from "@/lib/site";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -244,9 +245,9 @@ export default function SignupPage() {
 
               <div className="mt-6 text-center text-sm">
                 <span className="text-muted-foreground">Al een account? </span>
-                <Link href="/login" className="text-primary hover:underline font-medium" data-testid="link-login">
+                <a href={siteUrl("app", "/login")} className="text-primary hover:underline font-medium" data-testid="link-login">
                   Inloggen
-                </Link>
+                </a>
               </div>
 
               <p className="mt-4 text-xs text-center text-muted-foreground">

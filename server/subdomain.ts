@@ -78,8 +78,9 @@ export function subdomainMiddleware(req: Request, res: Response, next: NextFunct
       const rest = req.path.slice("/admin".length) || "/";
       return res.redirect(301, isProd ? `${siteOrigin("admin")}${rest}` : `${rest}?subdomain=admin`);
     }
-    // Auth hoort bij het app-subdomein.
-    if (["/login", "/signup", "/forgot-password", "/reset-password"].includes(req.path)) {
+    // Auth hoort bij het app-subdomein. Uitzondering: /signup blijft op de
+    // publieke site beschikbaar (marketing-funnel → checkout).
+    if (["/login", "/forgot-password", "/reset-password"].includes(req.path)) {
       const qs = req.url.slice(req.path.length);
       return res.redirect(301, isProd ? `${siteOrigin("app")}${req.path}${qs}` : `${req.path}${qs}${qs.includes("?") ? "&" : "?"}subdomain=app`);
     }

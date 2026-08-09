@@ -1,176 +1,149 @@
 # WebsiteAbonnementen Platform
-
 ## Overview
-
-WebsiteAbonnementen (abonnement.website) is a B2B SaaS platform providing professional website subscription services. The "McDonald's Strategy" approach: one strong landing page, 3 clear pricing tiers (Starter €49/mo, Professional €99/mo, Business €199/mo), instant Stripe checkout, a simple customer dashboard, and a basic admin panel. Designed to be scalable toward a future freelancer marketplace.
-
+[abonnement.website](http://abonnement.website) is a B2B SaaS platform providing professional website subscription services for Belgian and Dutch SMEs and freelancers. One plan (€69/mo), credit-based content changes, modular add-ons. Quarterly billing, 6-month minimum commitment. Designed to scale via referral partners and a future freelancer marketplace for marketing add-on delivery.
 ## User Preferences
+Preferred communication style: Simple, everyday language. Dutch (NL) as primary language, English as secondary.
+## Pricing Model (updated 9 Aug 2026)
+**Single plan: Website-abonnement**
+*   Price: €69/month, billed quarterly upfront (€207/quarter)
+*   Minimum: 6 months (2 quarters), then quarterly cancellable
+*   Scope: custom responsive website (up to 5 pages), hosting, SSL, maintenance, ConsentEase included
+*   Credits: 2 modification credits/month included (1 credit = 1 change request: text, image, small layout update)
+*   Extra credits: €29/each
+*   Support: via email
 
-Preferred communication style: Simple, everyday language.
+**Add-ons (monthly, activatable/cancellable anytime):**
 
+| Slug | Name | Price (cents) | Scope |
+| ---| ---| ---| --- |
+| google-ads | Google Ads Beheer | 34900 | 3h/month, min €349 or 12% of ad spend |
+| google-ads-ecommerce | Google Ads + Shopping | 44900 | 4h/month, min €449 or 12% of ad spend |
+| meta-ads | Meta Ads Beheer | 34900 | 3h/month, min €349 or 12% of ad spend |
+| seo | SEO Optimalisatie | 34900 | 2h/month on-page + technical + quarterly report |
+| local-seo | Lokale SEO | 19900 | 1h/month GBP + review monitoring |
+| social-media | Social Media Beheer | 39900 | 6 posts/month, 2 channels, 4h/month |
+| ecommerce | E-commerce Module | 9900 | Webshop up to 50 products + €199 one-time setup |
+| booking | Booking / Reserveringssysteem | 4900 | Calendar widget, max 3 services + €99 one-time setup |
+| extra-pages | Extra Pagina's | 1500 | Per additional page above 5, €149 one-time build |
+
+**Removed:** extra-content-bundle (replaced by credit system)
+
+**Cookie Banner:** ConsentEase included in ALL plans at no extra cost (agency account).
 ## System Architecture
-
 ### Frontend Architecture
-
 **Framework**: React with TypeScript, using Vite for development and builds
-
-**Routing**: Client-side routing via Wouter
-
+**Routing**: Client-side routing via Wouter, host-based for subdomain detection
 **UI Component System**: Shadcn/ui (Radix UI primitives) with TailwindCSS
-- Light/dark mode support via ThemeProvider
-- DM Serif Display for display headings (font-display), DM Sans for body text (font-sans), JetBrains Mono for numbers
-- Warm off-white/navy color palette (not pure white/black)
-- Phosphor Icons (duotone weight) for marketing pages (homepage, header, footer); Lucide React for shadcn UI components and dashboard
-- framer-motion for scroll-triggered reveal animations, FAQ accordion, hero entrance, sticky mobile CTA, lead popup
-- CRO lead popup (`client/src/components/lead-popup.tsx`): exit-intent (desktop), scroll depth (65%), time delay (20s) triggers. 3 fields (naam, email, optioneel vraag). Cookie suppression (7d dismiss, 90d submit). FAQ "Stel uw vraag" button also opens popup via `open-lead-popup` custom event. Fully accessible: focus trap, Escape close, aria-modal, aria-invalid.
-- Mobile optimizations: `dvh` viewport units, horizontal stat scroll-strip (lg:hidden), `whileTap` touch feedback on cards, sticky "Bekijk prijzen" CTA bar (md:hidden, appears after hero, hides at pricing), auto-close mobile menu on scroll, safe-area-inset-bottom padding, `scrollbar-hide` utility in CSS
-- Professional loading: Shimmer/wave skeleton animation (`skeleton-shimmer` CSS class) replaces `animate-pulse`. Content-aware skeleton compositions in `client/src/components/skeletons.tsx` (StatCardSkeleton, CustomerRowSkeleton, BillingCardSkeleton, AddOnCardSkeleton, SettingsFormSkeleton, ClickUpStatsSkeleton, SupportTicketSkeleton, DashboardStatsSkeleton).
+*   Light/dark mode support via ThemeProvider
+*   DM Serif Display for display headings, DM Sans for body text, JetBrains Mono for numbers
+*   Warm off-white/navy color palette
+*   Phosphor Icons (duotone weight) for marketing pages; Lucide React for shadcn UI components and dashboard
+*   framer-motion for scroll-triggered reveal animations, FAQ accordion, hero entrance, sticky mobile CTA, lead popup
+*   CRO lead popup: exit-intent (desktop), scroll depth (65%), time delay (20s). Cookie suppression (7d dismiss, 90d submit).
+*   Professional loading: Shimmer/wave skeleton animations
 
-**State Management**: 
-- TanStack Query v5 for server state and API data caching
-- React Context for authentication state and i18n
-- Session-based authentication with HttpOnly cookies
+**State Management**:
+*   TanStack Query v5 for server state
+*   React Context for authentication state and i18n
+*   Session-based authentication with HttpOnly cookies
 
-**Internationalization (i18n)**:
-- Custom React Context-based i18n (client/src/lib/i18n-context.tsx)
-- Dutch (nl) and English (en) languages
-- Translation files: client/src/lib/translations/nl.ts and en.ts
+**Internationalization**: Dutch (nl) and English (en) via custom React Context i18n.
 
-**Key Pages**:
-- `/` — Landing page with hero, pricing, add-ons, FAQ sections
-- `/login`, `/signup` — Authentication pages
-- `/privacy`, `/terms` — Legal pages
-- `/checkout-success` — Post-payment confirmation
-- `/offerte` — Quote request form for maatwerk/custom projects (submits to quote_requests DB + ClickUp task in AANVRAGEN list)
-- `/app` — Customer dashboard (status, subscription, add-ons)
-- `/app/onboarding` — 5-step onboarding intake wizard
-- `/app/analytics` — Analytics dashboard (Search Console, GA4, PageSpeed) — frontend only, mock data, ready for API integration
-- `/app/addons` — Add-on management
-- `/app/billing` — Billing & subscription
-- `/app/settings` — Profile settings
-- `/admin` — Admin dashboard (MRR, stats, customer count)
-- `/admin/customers` — Customer management with onboarding status
+**Subdomain-based routing:**
+*   `abonnement.website` — Public marketing site
+*   `app.abonnement.website` — Customer dashboard
+*   `admin.abonnement.website` — Admin panel
 
-**Layout Patterns**:
-- MarketingLayout: header (anchor nav: Pricing, Add-ons, FAQ) + footer
-- AppLayout: sidebar navigation for authenticated users
-- Roles: ADMIN (admin sidebar) and CUSTOMER (customer sidebar)
+**Public pages (**[**abonnement.website**](http://abonnement.website)**):**
+*   `/` — Landing page (single plan, credits explainer, add-ons, how it works, FAQ)
+*   `/werkwijze` — 6-step delivery process timeline
+*   `/consentease` — Co-branded ConsentEase partnership page
+*   `/offerte` — 4-step quote request wizard for custom projects
+*   `/blog/*` — Blog/news
+*   `/privacy`, `/terms` — Legal pages
+*   `/betaalbare-website` — SEO landing page
+*   `/checkout-success` — Post-payment redirect to app.\*
 
+**Customer dashboard (**[**app.abonnement.website**](http://app.abonnement.website)**):**
+*   `/` — Dashboard home (status, plan, credits widget, add-ons, billing)
+*   `/changes` — Credit usage: request changes, view history, buy extra credits
+*   `/analytics` — GA4 + Search Console + PageSpeed data
+*   `/add-ons` — Add-on management (activate/pause)
+*   `/support` — Support tickets
+*   `/facturatie` — Billing, Stripe portal, FAQ
+*   `/instellingen` — Profile settings
+
+**Admin panel (**[**admin.abonnement.website**](http://admin.abonnement.website)**):**
+*   `/` — Admin dashboard (MRR, clients, open requests, new quotes)
+*   `/changes` — All change requests from all clients (inbox, status management)
+*   `/klanten` — Client list with credits, add-ons, status
+*   `/klanten/:id` — Client detail (plan, credits, requests, add-ons, notes)
+*   `/offertes` — Quote request inbox
+*   `/projectbeheer` — ClickUp integration (Roadmap, Delivery, Support, Growth)
 ### Backend Architecture
-
 **Framework**: Express.js with TypeScript
+**API Design**: RESTful endpoints, session-based auth, role-based access control
 
-**API Design**: RESTful endpoints
-- Session-based auth via express-session
-- Role-based access control (requireAuth, requireRole middlewares)
-- Password hashing with bcryptjs (12 salt rounds)
-- Rate limiting on auth routes (express-rate-limit): login/signup 10 req/15min, forgot-password 5 req/hr
-- Security headers via helmet (HSTS, X-Content-Type-Options, X-Frame-Options, etc.)
-- Password requirements: min 8 chars, 1 uppercase, 1 digit
-- React ErrorBoundary wraps entire app (client/src/components/error-boundary.tsx)
-
-**Database Layer**: 
-- Drizzle ORM with PostgreSQL
-- Schema-first approach with drizzle-zod validation
-- Storage abstraction pattern (IStorage interface)
-- One-time schema cleanup migration runs on startup (tracked in `_schema_migrations` table, skips if already applied)
-- Enums: `user_role` (ADMIN, CUSTOMER), `subscription_status` (ACTIVE, PAST_DUE, CANCELED, INCOMPLETE), `plan_tier` (LOW, MEDIUM, HIGH), `project_status` (ONBOARDING, PRODUCTION, LIVE, MAINTENANCE), `addon_status` (REQUESTED, ACTIVE, PAUSED)
+**Database Layer**: Drizzle ORM with PostgreSQL (Neon)
 
 **Data Model**:
-- `users` — ADMIN or CUSTOMER roles
-- `customer_profiles` — Company info, Stripe customer ID
-- `plans` — 3 tiers (LOW=Starter €49, MEDIUM=Professional €99, HIGH=Business €199)
-- `subscriptions` — Links user to plan, tracks Stripe subscription ID and `currentPeriodEnd` (populated by webhook handlers, verify-checkout, and Stripe subscription sync)
-- `projects` — Website project with status tracking (ONBOARDING → PRODUCTION → LIVE → MAINTENANCE), includes `onboardingData` (jsonb) and `onboardingCompleted` (boolean)
-- `add_ons` — Google Ads Beheer €249, Meta Ads Beheer €249, Extra Content Wijzigingen €29, E-commerce Module €79, Social Media Beheer €199, Booking/Reserveringssysteem €39
-- `add_on_selections` — Links add-on to subscription
-- `password_reset_tokens` — Password reset flow
-- `processed_webhook_events` — Idempotency tracking for Stripe webhook events (prevents duplicate processing)
-
-**Cookie Banner**: ConsentEase cookie banner is included in ALL plans at no extra cost (agency account). No separate add-on.
-
-**Plan Differentiation**:
-- Starter: 5 pages, 1 content change/mnd, email support (24h), basis SEO
-- Professional: 10 pages, 3 content changes/mnd, priority support (8h), geavanceerde SEO, Google Analytics, Google Maps, beeldbank
-- Business: 20 pages, 5 content changes/mnd, dedicated accountmanager (4h), blog, meertalig, geavanceerde formulieren, maandelijks rapport
-
-**SEO & Schema Markup**:
-- `client/index.html` — Static OG tags, canonical, and consolidated `@graph` JSON-LD (Organization, WebSite, ProfessionalService with all 3 pricing tiers)
-- `client/src/hooks/use-seo.ts` — Dynamic per-page SEO (title, description, canonical, OG, Twitter, hreflang, structured data injection)
-- Homepage injects FAQPage schema (6 Q&A pairs) via `useSEO({ structuredData })`
-- Auth pages (login, signup, forgot-password, reset-password) and 404 set `noIndex: true`
-- `GET /robots.txt` — Allows `/`, disallows `/app/`, `/admin/`, `/api/`, auth pages
-- `GET /sitemap.xml` — Lists `/`, `/privacy`, `/terms`
+*   `users` — ADMIN or CUSTOMER roles
+*   `customer_profiles` — Company info, Stripe customer ID, admin notes
+*   `plans` — Single active plan: Website-abonnement €69/mo (old plans deactivated, not deleted)
+*   `subscriptions` — Links user to plan, Stripe subscription ID, currentPeriodEnd
+*   `projects` — Website project with status tracking (ONBOARDING → PRODUCTION → LIVE → MAINTENANCE)
+*   `add_ons` — Catalog of available add-ons (synced at startup via addonCatalog.ts)
+*   `add_on_selections` — Links add-on to subscription
+*   `credit_allocations` — Monthly credit budgets per user (2 included + bonus)
+*   `change_requests` — Modification requests (pending/in\_progress/completed/rejected)
+*   `quote_requests` — Custom project inquiries from /offerte form
+*   `password_reset_tokens` — Password reset flow
+*   `processed_webhook_events` — Stripe webhook idempotency
 
 **Key API Routes**:
-- `POST /api/auth/signup`, `POST /api/auth/login`, `POST /api/auth/logout`
-- `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`
-- `GET /api/me` — Current user
-- `GET /api/plans`, `GET /api/addons` — Public plan/addon listing
-- `POST /api/popup-lead` — Lead capture popup submission (rate-limited, stores in DB + ClickUp AANVRAGEN list)
-- `POST /api/checkout` — Creates Stripe Checkout session (requires authentication)
-- `POST /api/verify-checkout` — Verifies checkout and creates subscription
-- `GET /api/dashboard` — Customer dashboard data
-- `GET /api/onboarding`, `POST /api/onboarding` — Onboarding intake form
-- `GET /api/addons/my`, `POST /api/addons/select` — Customer add-on management
-- `GET /api/profile`, `PATCH /api/profile` — Customer profile
-- `GET /api/billing` — Billing data with upcoming Stripe invoice (amount + due date)
-- `POST /api/billing/portal` — Creates Stripe Customer Portal session
-- `GET /api/admin/stats`, `GET /api/admin/customers` — Admin endpoints
-- `GET /api/admin/projects`, `PUT /api/admin/projects/:id/status` — Project management
-
+*   Auth: signup, login, logout, forgot/reset-password
+*   Plans/Addons: GET /api/plans, GET /api/addons (public)
+*   Checkout: POST /api/checkout, POST /api/verify-checkout
+*   Credits: GET /api/credits, GET /api/credits/history, POST /api/credits/request, POST /api/credits/request-extra
+*   Dashboard: GET /api/dashboard, GET /api/billing
+*   Onboarding: GET/POST /api/onboarding
+*   Profile: GET/PATCH /api/profile
+*   Admin: /api/admin/stats, /api/admin/customers, /api/admin/changes, /api/admin/quotes, /api/admin/clients/:id
+*   Lead popup: POST /api/popup-lead
+*   Quote requests: POST /api/quote-requests
 ### External Dependencies
+**Stripe**: Checkout Sessions, Customer Portal, webhooks (checkout.session.completed, subscription.updated/deleted, invoice.payment\_failed). Quarterly billing as default.
 
-**Payment Processing**: Stripe
-- Checkout Sessions for new subscriptions
-- Customer Portal for subscription management
-- Webhook handler for checkout.session.completed, subscription.updated/deleted, invoice.payment_failed
-- Idempotency guard on webhook processing (tracks event IDs in `processed_webhook_events` table)
-- stripe-replit-sync for data mirroring
+**ClickUp API v2**: Auto-creates tasks on signup, checkout, onboarding. Support tickets. Admin overview.
 
-**Project Management**: ClickUp API v2
-- API Token: `CLICKUP_API_TOKEN` environment variable
-- Space ID: `901510164504`, Team ID: `9015913612`
-- Auto-creates tasks in ClickUp on: signup (Aanvragen list), checkout (Klanten list), onboarding complete (Sprint list)
-- Customer support tickets: creates/reads tasks in Support Tickets list
-- Admin overview: reads Sprint, Bugs, Support, Backlog lists
-- Service module: `server/clickup.ts`
-- Documentation: `docs/clickup-integratie.md`
-
-**Database**: PostgreSQL (Neon-backed via Replit)
-
-**Admin Credentials**: admin@websiteabonnementen.nl — password is set via the `ADMIN_PASSWORD` secret (seed script reads `process.env.ADMIN_PASSWORD`; falls back to an insecure dev default with a warning if unset). Run `npx tsx server/seed.ts` after changing `ADMIN_PASSWORD` to apply it.
-
+**ConsentEase**: Cookie banner via agency account, included in all plans. Policy generator available for client self-service (future dashboard integration).
 ### Build and Deployment
-
-**Development**: `npm run dev` — runs Express server + Vite dev server on port 5000
-**Production**: Vite builds to `dist/public`, ESBuild bundles server to `dist/index.cjs`
-**Database Operations**: `npm run db:push` to sync schema, `npx tsx server/seed.ts` to seed
-
-### Security & Reliability
-- helmet (HSTS, X-Frame-Options, X-Content-Type-Options)
-- Rate limiting on auth routes (login/signup 10/15min, forgot/reset-password 5–10/hr)
-- Password requirements: min 8 chars + 1 uppercase + 1 digit
-- Webhook idempotency via `processed_webhook_events` table (atomic claim/unclaim)
-- `invoice.payment_failed` handler sets subscription to PAST_DUE
-- DB indexes on subscriptions.userId, subscriptions.stripeSubscriptionId, projects.userId, addOnSelections.subscriptionId, passwordResetTokens.userId
-
-### Navigation & Auth Redirect
-- Login/signup use `pendingRedirect` ref + `useEffect` keyed on `user` for deterministic navigation after auth state update
-- ScrollToTop is hash-aware: scrolls to anchor element if URL has hash, otherwise scrolls to top
-- Header nav links use `/#section` format (not `#section`) so they work from subpages like /privacy and /terms
-
+**Development**: `npm run dev` (Express + Vite dev server on port 5000). Subdomain detection via ?subdomain= query param in dev.
+**Production**: Vite builds to `dist/public`, ESBuild bundles server to `dist/index.cjs`. Deployed on Replit with custom domains.
+**Database**: `npm run db:push` to sync schema, `npx tsx server/seed.ts` to seed.
+### Security
+*   helmet (HSTS, X-Frame-Options, X-Content-Type-Options)
+*   Rate limiting on auth routes
+*   Password requirements: min 8 chars + 1 uppercase + 1 digit
+*   Webhook idempotency via processed\_webhook\_events table
+*   Cookie domain set to `.abonnement.website` for cross-subdomain sessions
+*   Admin routes require ADMIN role check
 ### Important Files
-
-- `shared/schema.ts` — Database schema + types (source of truth)
-- `server/storage.ts` — Data access layer (IStorage interface)
-- `server/routes.ts` — All API endpoints
-- `server/clickup.ts` — ClickUp API service module
-- `server/seed.ts` — Seed data (plans, add-ons, admin user)
-- `client/src/App.tsx` — Frontend routing
-- `client/src/pages/home.tsx` — Landing page
-- `client/src/pages/dashboard/onboarding.tsx` — 5-step onboarding wizard
-- `client/src/pages/dashboard/support.tsx` — Customer support tickets (ClickUp)
-- `client/src/pages/admin/clickup.tsx` — Admin ClickUp projectbeheer
-- `client/src/components/layout/` — Marketing header/footer, app sidebar/layout
-- `client/src/lib/translations/` — i18n translation files (nl.ts, en.ts)
+*   `shared/schema.ts` — Database schema + types (source of truth)
+*   `server/addonCatalog.ts` — Add-on catalog with Stripe Price IDs (test + live)
+*   `server/routes.ts` — All API endpoints
+*   `server/credit-routes.ts` — Credit system endpoints
+*   `server/storage.ts` — Data access layer
+*   `server/clickup.ts` — ClickUp API service
+*   `server/seed.ts` — Seed data (plan, add-ons, admin user)
+*   `client/src/App.tsx` — Frontend routing with subdomain detection
+*   `client/src/pages/home.tsx` — Landing page (single plan, credits, add-ons)
+*   `client/src/pages/werkwijze.tsx` — Delivery process page
+*   `client/src/pages/consentease.tsx` — ConsentEase co-branded page
+*   `client/src/pages/offerte.tsx` — Quote request wizard
+*   `client/src/pages/dashboard/changes.tsx` — Credit usage + change requests
+*   `client/src/pages/admin/changes.tsx` — Admin change request inbox
+*   `client/src/pages/admin/client-detail.tsx` — Client detail view
+*   `client/src/pages/admin/quotes.tsx` — Quote request management
+*   `client/src/components/layout/` — Marketing header/footer, app sidebar, admin sidebar
+*   `client/src/lib/translations/` — i18n translation files (nl.ts, en.ts)

@@ -8,11 +8,9 @@ import { notInArray } from "drizzle-orm";
  * - live: created in the production (live-mode) Stripe account
  * The sync picks the right set based on REPLIT_DEPLOYMENT.
  *
- * NOTE: live price IDs still reflect the OLD prices and stay unchanged until
- * manual live activation of the new pricing. "extra-pages" has no live prices
- * yet (null) — the add-on purchase route treats a missing quarterly price ID
- * as "not yet available for purchase", which is the intended behavior in prod
- * until live activation.
+ * Live prices (Aug 2026 activation) match the new amounts; the old live
+ * prices are deactivated in Stripe. A missing quarterly price ID makes an
+ * add-on "not yet available for purchase" in that mode.
  */
 type PricePair = { monthly: string | null; quarterly: string | null };
 
@@ -32,7 +30,7 @@ const CATALOG: {
     monthlyPriceCents: 34900,
     icon: "megaphone",
     test: { monthly: "price_1U2YNlEyM9IEHbH5EJKUibSi", quarterly: "price_1U2YNlEyM9IEHbH5VTgweFk9" },
-    live: { monthly: "price_1U0iCoAc0256vmxDNVFhUgRX", quarterly: "price_1U0iCoAc0256vmxDKuDy1uGA" },
+    live: { monthly: "price_1U2aMuAc0256vmxD4w6JWp54", quarterly: "price_1U2aMwAc0256vmxD3jMVB87f" },
   },
   {
     slug: "google-ads-ecommerce",
@@ -41,7 +39,7 @@ const CATALOG: {
     monthlyPriceCents: 44900,
     icon: "shopping-bag",
     test: { monthly: "price_1U2YNlEyM9IEHbH5nzxFJYG8", quarterly: "price_1U2YNlEyM9IEHbH5GkYWQrxz" },
-    live: { monthly: "price_1U0iCoAc0256vmxDRUITjBli", quarterly: "price_1U0iCoAc0256vmxDmPBBTeuD" },
+    live: { monthly: "price_1U2aMzAc0256vmxDKcXDTEx1", quarterly: "price_1U2aN1Ac0256vmxDoAWTJRhF" },
   },
   {
     slug: "meta-ads",
@@ -50,7 +48,7 @@ const CATALOG: {
     monthlyPriceCents: 34900,
     icon: "share-2",
     test: { monthly: "price_1U2YNmEyM9IEHbH5hLRxlWAt", quarterly: "price_1U2YNmEyM9IEHbH5MCbuxqu7" },
-    live: { monthly: "price_1U0iCpAc0256vmxDLVNUhZIU", quarterly: "price_1U0iCpAc0256vmxDvnpajlDL" },
+    live: { monthly: "price_1U2aN3Ac0256vmxDDCdr7pi5", quarterly: "price_1U2aN6Ac0256vmxDBoGyUcUE" },
   },
   {
     slug: "seo",
@@ -59,7 +57,7 @@ const CATALOG: {
     monthlyPriceCents: 34900,
     icon: "search",
     test: { monthly: "price_1U2YNmEyM9IEHbH5ATwSkjR7", quarterly: "price_1U2YNmEyM9IEHbH5u1zkhqLE" },
-    live: { monthly: "price_1U0iCpAc0256vmxDaDVoNymu", quarterly: "price_1U0iCpAc0256vmxDVa5JaCcF" },
+    live: { monthly: "price_1U2aN8Ac0256vmxDsMPUlncO", quarterly: "price_1U2aNAAc0256vmxDf3ejc3Ah" },
   },
   {
     slug: "local-seo",
@@ -68,7 +66,7 @@ const CATALOG: {
     monthlyPriceCents: 19900,
     icon: "map-pin",
     test: { monthly: "price_1U2YNnEyM9IEHbH5mVO4afd7", quarterly: "price_1U2YNnEyM9IEHbH5JVIgfDGT" },
-    live: { monthly: "price_1U0iCqAc0256vmxDcL7SBO6m", quarterly: "price_1U0iCqAc0256vmxD6ezyb0p2" },
+    live: { monthly: "price_1U2aNCAc0256vmxDOaIG96EK", quarterly: "price_1U2aNEAc0256vmxDxOX94mvb" },
   },
   {
     slug: "social-media",
@@ -77,7 +75,7 @@ const CATALOG: {
     monthlyPriceCents: 39900,
     icon: "users",
     test: { monthly: "price_1U2YNnEyM9IEHbH50hUYoksc", quarterly: "price_1U2YNnEyM9IEHbH5e0B6YrCP" },
-    live: { monthly: "price_1U0iCqAc0256vmxDoaZPgnXs", quarterly: "price_1U0iCqAc0256vmxDiSzZKqWV" },
+    live: { monthly: "price_1U2aNGAc0256vmxDN6bE396N", quarterly: "price_1U2aNIAc0256vmxDrWh5Sc0Z" },
   },
   {
     slug: "ecommerce",
@@ -86,7 +84,7 @@ const CATALOG: {
     monthlyPriceCents: 9900,
     icon: "shopping-cart",
     test: { monthly: "price_1U2YNoEyM9IEHbH5eaK3N5X2", quarterly: "price_1U2YNoEyM9IEHbH5EsoPdxnY" },
-    live: { monthly: "price_1U0iCrAc0256vmxDpWpnRa6z", quarterly: "price_1U0iCrAc0256vmxD656C9BBu" },
+    live: { monthly: "price_1U2aNKAc0256vmxDWV8g5yac", quarterly: "price_1U2aNMAc0256vmxDKUx2L3y7" },
   },
   {
     slug: "booking",
@@ -95,7 +93,7 @@ const CATALOG: {
     monthlyPriceCents: 4900,
     icon: "calendar",
     test: { monthly: "price_1U2YNoEyM9IEHbH5WJqdESdk", quarterly: "price_1U2YNoEyM9IEHbH56OcL9Sun" },
-    live: { monthly: "price_1U0iCrAc0256vmxDVhjDT3KY", quarterly: "price_1U0iCrAc0256vmxD7MwS0v9w" },
+    live: { monthly: "price_1U2aNQAc0256vmxDqQjQIoiN", quarterly: "price_1U2aNUAc0256vmxD84L8gPZ1" },
   },
   {
     slug: "extra-pages",
@@ -104,7 +102,7 @@ const CATALOG: {
     monthlyPriceCents: 1500,
     icon: "file-plus",
     test: { monthly: "price_1U2YNpEyM9IEHbH59Tpq2dqi", quarterly: "price_1U2YNpEyM9IEHbH5NfAeOPox" },
-    live: { monthly: null, quarterly: null }, // TODO: create live prices at live activation
+    live: { monthly: "price_1U2aNWAc0256vmxDG0MAebQs", quarterly: "price_1U2aNXAc0256vmxDhYFofXx9" },
   },
 ];
 
