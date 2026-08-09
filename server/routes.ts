@@ -655,6 +655,154 @@ export async function registerRoutes(
     try { const { id } = req.params; const { status } = req.body; const updated = await storage.updateProject(id, { status }); if (!updated) return res.status(404).json({ message: "Project not found" }); res.json(updated); } catch (error) { console.error("Update project status error:", error); res.status(500).json({ message: "Failed to update project" }); }
   });
 
+  // ── Wijzigingscredits ─────────────────────────────────────────────
+  const EXTRA_CREDIT_PRICE_CENTS = 2900;
+
+  function currentPeriod() {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+    const end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+    return { start, end };
+  }
+
+  async function getOrCreateAllocation(userId: string) {
+    const { start, end } = currentPeriod();
+    let allocation = await storage.getCreditAllocation(userId, start, end);
+    if (!allocation) {
+      allocation = await storage.createCreditAllocation({
+        userId,
+        periodStart: start,
+        periodEnd: end,
+        includedCredits: 2,
+        bonusCredits: 0,
+      });
+    }
+    return allocation;
+  }
+
+  async function getCreditStatus(userId: string) {
+    const allocation = await getOrCreateAllocation(userId);
+    // Productafspraak: betaalde extra credits (isPaidExtra) tellen NIET mee
+    // in het inbegrepen maandverbruik — die worden apart gefactureerd (€29).
+    const used = await storage.countUsedCredits(allocation.id);
+    const included = allocation.includedCredits;
+    const bonus = allocation.bonusCredits ?? 0;
+    return {
+      allocation,
+      summary: {
+        period: {
+          start: allocation.periodStart.toISOString().slice(0, 10),
+          end: allocation.periodEnd.toISOString().slice(0, 10),
+        },
+        included,
+        bonus,
+        used,
+        remaining: Math.max(0, included + bonus - used),
+        extraCreditPrice: EXTRA_CREDIT_PRICE_CENTS,
+      },
+    };
+  }
+
+  app.get("/api/credits", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const { summary } = await getCreditStatus(userId);
+      res.json(summary);
+    } catch (error) {
+      console.error("Get credits error:", error);
+      res.status(500).json({ message: "Kon creditstatus niet ophalen" });
+    }
+  });
+
+  app.get("/api/credits/history", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const requests = await storage.getChangeRequests(req.session.userId!);
+      res.json({ requests });
+    } catch (error) {
+      console.error("Get credit history error:", error);
+      res.status(500).json({ message: "Kon wijzigingsgeschiedenis niet ophalen" });
+    }
+  });
+
+  const changeRequestInputSchema = z.object({
+    title: z.string().min(3, "Titel is te kort").max(200),
+    description: z.string().max(5000).optional(),
+  });
+
+  app.post("/api/credits/request", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const parsed = changeRequestInputSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ message: "Ongeldige invoer", errors: parsed.error.flatten().fieldErrors });
+      const allocation = await getOrCreateAllocation(userId);
+      const creditLimit = allocation.includedCredits + (allocation.bonusCredits ?? 0);
+      // Atomaire check-en-insert (rij-lock op de allocatie) zodat twee
+      // gelijktijdige aanvragen nooit samen over het creditlimiet gaan.
+      const request = await storage.createChangeRequestWithCredit({
+        userId,
+        allocationId: allocation.id,
+        title: parsed.data.title,
+        description: parsed.data.description || null,
+        creditsUsed: 1,
+        isPaidExtra: false,
+        status: "pending",
+      }, creditLimit);
+      if (!request) {
+        return res.status(402).json({ message: "Geen credits meer deze maand. Extra credits kosten €29/stuk.", code: "NO_CREDITS" });
+      }
+      res.json(request);
+    } catch (error) {
+      console.error("Create change request error:", error);
+      res.status(500).json({ message: "Kon wijzigingsverzoek niet aanmaken" });
+    }
+  });
+
+  app.post("/api/credits/request-extra", requireRole("CUSTOMER"), async (req, res) => {
+    try {
+      const userId = req.session.userId!;
+      const parsed = changeRequestInputSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ message: "Ongeldige invoer", errors: parsed.error.flatten().fieldErrors });
+      const allocation = await getOrCreateAllocation(userId);
+      // Facturatie van de extra credit (€29) verloopt voorlopig handmatig via de admin.
+      const request = await storage.createChangeRequest({
+        userId,
+        allocationId: allocation.id,
+        title: parsed.data.title,
+        description: parsed.data.description || null,
+        creditsUsed: 1,
+        isPaidExtra: true,
+        status: "pending",
+      });
+      res.json(request);
+    } catch (error) {
+      console.error("Create extra change request error:", error);
+      res.status(500).json({ message: "Kon wijzigingsverzoek niet aanmaken" });
+    }
+  });
+
+  const changeRequestStatusSchema = z.object({
+    status: z.enum(["pending", "in_progress", "completed", "rejected"]),
+    adminNotes: z.string().max(5000).optional(),
+  });
+
+  app.patch("/api/credits/request/:id", requireRole("ADMIN"), async (req, res) => {
+    try {
+      const parsed = changeRequestStatusSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ message: "Ongeldige invoer", errors: parsed.error.flatten().fieldErrors });
+      const existing = await storage.getChangeRequest(req.params.id);
+      if (!existing) return res.status(404).json({ message: "Wijzigingsverzoek niet gevonden" });
+      const updated = await storage.updateChangeRequest(req.params.id, {
+        status: parsed.data.status,
+        ...(parsed.data.adminNotes !== undefined ? { adminNotes: parsed.data.adminNotes } : {}),
+        ...(parsed.data.status === "completed" ? { completedAt: new Date() } : {}),
+      });
+      res.json(updated);
+    } catch (error) {
+      console.error("Update change request error:", error);
+      res.status(500).json({ message: "Kon wijzigingsverzoek niet bijwerken" });
+    }
+  });
+
   const supportTicketSchema = z.object({
     subject: z.string().min(3).max(200),
     message: z.string().min(10).max(5000),

@@ -32,6 +32,7 @@ import {
   MessageSquare,
   ClipboardList,
   BarChart3,
+  PencilLine,
 } from "lucide-react";
 import logoImage from "@assets/logo-abonnement-website.webp";
 
@@ -39,6 +40,7 @@ const customerMenuItems = [
   { title: "Dashboard", url: "/app", icon: LayoutDashboard },
   { title: "Analytics", url: "/app/analytics", icon: BarChart3 },
   { title: "Add-ons", url: "/app/addons", icon: Puzzle },
+  { title: "Wijzigingen", url: "/app/changes", icon: PencilLine },
   { title: "Support", url: "/app/support", icon: MessageSquare },
   { title: "Facturatie", url: "/app/billing", icon: CreditCard },
   { title: "Instellingen", url: "/app/settings", icon: Settings },

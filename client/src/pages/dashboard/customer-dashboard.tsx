@@ -17,6 +17,7 @@ import {
   Zap,
   ExternalLink,
   ClipboardList,
+  PencilLine,
 } from "lucide-react";
 import type { Project, Subscription, Plan, AddOnSelection, AddOn } from "@shared/schema";
 
@@ -33,11 +34,24 @@ interface DashboardData {
   addOnSelections: (AddOnSelection & { addOn: AddOn })[];
 }
 
+interface CreditSummary {
+  period: { start: string; end: string };
+  included: number;
+  bonus: number;
+  used: number;
+  remaining: number;
+  extraCreditPrice: number;
+}
+
 export default function CustomerDashboard() {
   const { user } = useAuth();
 
   const { data, isLoading } = useQuery<DashboardData>({
     queryKey: ["/api/dashboard"],
+  });
+
+  const { data: credits } = useQuery<CreditSummary>({
+    queryKey: ["/api/credits"],
   });
 
   const project = data?.project;
@@ -63,7 +77,7 @@ export default function CustomerDashboard() {
         {isLoading ? (
           <DashboardStatsSkeleton />
         ) : (
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card className="border">
             <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
               <CardTitle className="text-sm font-medium">Website Status</CardTitle>
@@ -107,6 +121,22 @@ export default function CustomerDashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-semibold" data-testid="text-addon-count">{addOnCount}</div>
+            </CardContent>
+          </Card>
+
+          <Card className="border">
+            <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
+              <CardTitle className="text-sm font-medium">Credits</CardTitle>
+              <PencilLine className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="font-semibold" data-testid="text-credit-count">
+                {credits ? `${credits.remaining}/${credits.included + credits.bonus} beschikbaar` : "—"}
+              </div>
+              <Link href="/app/changes" className="mt-1 inline-flex items-center gap-1 text-sm text-primary hover:underline" data-testid="link-request-change">
+                Wijziging aanvragen
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </CardContent>
           </Card>
         </div>

@@ -1,4 +1,5 @@
 - [Vite dev malformed-URI crash](vite-dev-malformed-uri.md) — `/x/%E0%A4%A` kills the dev server via Vite's decodeURI middleware (before app code); not an app bug, prod is fine.
 - [SEO prerender invariants](seo-prerender.md) — server static HTML + client React from one `shared/*` source; keep block parity, dedupe JSON-LD, use `isKnownRoute` registry.
 - [Single-plan pricing model](single-plan-pricing.md) — one plan €69 + credits + add-ons; old tiers deactivated not deleted; add-on live Stripe IDs still old amounts until manual live activation.
+- [db:push & server reload quirks](db-push-and-server-reload.md) — drizzle push hangs on new-table prompt (use psql DDL); tsx dev needs workflow restart for server code.
 - [stripe-replit-sync migration quirks](stripe-sync-migrations.md) — non-idempotent 0039 enum migration needs the guarded repair in initStripe; v1.0.0 API breaks; live keys go via Publish pane, not integration panel.

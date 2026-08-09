@@ -40,6 +40,7 @@ const AnalyticsPage = lazy(() => import("@/pages/dashboard/analytics"));
 const BillingPage = lazy(() => import("@/pages/dashboard/billing"));
 const SettingsPage = lazy(() => import("@/pages/dashboard/settings"));
 const SupportPage = lazy(() => import("@/pages/dashboard/support"));
+const ChangesPage = lazy(() => import("@/pages/dashboard/changes"));
 
 // ---------- Lazy: admin ----------
 const AdminDashboard = lazy(() => import("@/pages/admin/admin-dashboard"));
@@ -143,6 +144,9 @@ function Router() {
         </Route>
         <Route path="/app/billing">
           <ProtectedRoute component={BillingPage} roles={["CUSTOMER"]} />
+        </Route>
+        <Route path="/app/changes">
+          <ProtectedRoute component={ChangesPage} roles={["CUSTOMER"]} />
         </Route>
         <Route path="/app/support">
           <ProtectedRoute component={SupportPage} roles={["CUSTOMER"]} />

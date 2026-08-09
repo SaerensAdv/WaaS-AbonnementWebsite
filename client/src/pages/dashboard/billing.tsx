@@ -216,9 +216,9 @@ export default function BillingPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="border-b pb-4">
-              <h4 className="font-medium mb-1">Hoe kan ik mijn abonnement upgraden?</h4>
+              <h4 className="font-medium mb-1">Hoe kan ik add-ons toevoegen?</h4>
               <p className="text-sm text-muted-foreground">
-                Klik op "Abonnement beheren" om uw plan te wijzigen. Het prijsverschil wordt pro-rata berekend.
+                Ga naar Add-ons in het menu en klik op Toevoegen bij de dienst die u wilt activeren.
               </p>
             </div>
             <div className="border-b pb-4">

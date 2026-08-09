@@ -1,5 +1,5 @@
 import { sql, relations } from "drizzle-orm";
-import { pgTable, text, varchar, integer, boolean, timestamp, jsonb, pgEnum, index } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, boolean, timestamp, jsonb, pgEnum, index, uniqueIndex } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -124,6 +124,40 @@ export const passwordResetTokens = pgTable("password_reset_tokens", {
   createdAt: timestamp("created_at").defaultNow(),
 }, (table) => [
   index("idx_password_reset_tokens_user_id").on(table.userId),
+]);
+
+export const changeRequestStatusEnum = pgEnum("change_request_status", ["pending", "in_progress", "completed", "rejected"]);
+
+// Wijzigingscredits: maandelijkse allocatie per klant
+export const creditAllocations = pgTable("credit_allocations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  periodStart: timestamp("period_start").notNull(),
+  periodEnd: timestamp("period_end").notNull(),
+  includedCredits: integer("included_credits").notNull().default(2),
+  bonusCredits: integer("bonus_credits").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+  index("idx_credit_allocations_user_id").on(table.userId),
+  uniqueIndex("uq_credit_allocations_user_period").on(table.userId, table.periodStart),
+]);
+
+// Wijzigingsverzoeken (credit usage)
+export const changeRequests = pgTable("change_requests", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  allocationId: varchar("allocation_id").references(() => creditAllocations.id),
+  title: text("title").notNull(),
+  description: text("description"),
+  creditsUsed: integer("credits_used").notNull().default(1),
+  isPaidExtra: boolean("is_paid_extra").default(false),
+  status: changeRequestStatusEnum("status").notNull().default("pending"),
+  adminNotes: text("admin_notes"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+  index("idx_change_requests_user_id").on(table.userId),
+  index("idx_change_requests_allocation_id").on(table.allocationId),
 ]);
 
 export const processedWebhookEvents = pgTable("processed_webhook_events", {
@@ -252,6 +286,22 @@ export type AddOnSelection = typeof addOnSelections.$inferSelect;
 export type InsertAddOnSelection = z.infer<typeof insertAddOnSelectionSchema>;
 export type QuoteRequest = typeof quoteRequests.$inferSelect;
 export type InsertQuoteRequest = z.infer<typeof insertQuoteRequestSchema>;
+
+export const insertCreditAllocationSchema = createInsertSchema(creditAllocations).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertChangeRequestSchema = createInsertSchema(changeRequests).omit({
+  id: true,
+  createdAt: true,
+  completedAt: true,
+});
+
+export type CreditAllocation = typeof creditAllocations.$inferSelect;
+export type InsertCreditAllocation = z.infer<typeof insertCreditAllocationSchema>;
+export type ChangeRequest = typeof changeRequests.$inferSelect;
+export type InsertChangeRequest = z.infer<typeof insertChangeRequestSchema>;
 
 export const loginSchema = z.object({
   email: z.string().email("Invalid email address"),

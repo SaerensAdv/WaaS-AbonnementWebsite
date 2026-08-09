@@ -1,4 +1,4 @@
-import { eq, ne, and, or, desc, isNull } from "drizzle-orm";
+import { eq, ne, and, or, desc, isNull, gte, lte, sql } from "drizzle-orm";
 import { db } from "./db";
 import {
   users,
@@ -10,6 +10,8 @@ import {
   addOnSelections,
   passwordResetTokens,
   quoteRequests,
+  creditAllocations,
+  changeRequests,
   type User,
   type InsertUser,
   type CustomerProfile,
@@ -26,6 +28,10 @@ import {
   type InsertAddOnSelection,
   type QuoteRequest,
   type InsertQuoteRequest,
+  type CreditAllocation,
+  type InsertCreditAllocation,
+  type ChangeRequest,
+  type InsertChangeRequest,
 } from "@shared/schema";
 import { randomBytes } from "crypto";
 
@@ -75,6 +81,15 @@ export interface IStorage {
   createQuoteRequest(request: InsertQuoteRequest): Promise<QuoteRequest>;
   getQuoteRequests(): Promise<QuoteRequest[]>;
   updateQuoteRequest(id: string, data: Partial<QuoteRequest>): Promise<QuoteRequest | undefined>;
+
+  getCreditAllocation(userId: string, periodStart: Date, periodEnd: Date): Promise<CreditAllocation | undefined>;
+  createCreditAllocation(allocation: InsertCreditAllocation): Promise<CreditAllocation>;
+  getChangeRequests(userId: string): Promise<ChangeRequest[]>;
+  getChangeRequest(id: string): Promise<ChangeRequest | undefined>;
+  countUsedCredits(allocationId: string): Promise<number>;
+  createChangeRequest(request: InsertChangeRequest): Promise<ChangeRequest>;
+  createChangeRequestWithCredit(request: InsertChangeRequest & { allocationId: string }, creditLimit: number): Promise<ChangeRequest | null>;
+  updateChangeRequest(id: string, data: Partial<ChangeRequest>): Promise<ChangeRequest | undefined>;
 
   createPasswordResetToken(userId: string): Promise<string>;
   getValidPasswordResetToken(token: string): Promise<{ userId: string } | null>;
@@ -300,6 +315,97 @@ export class DatabaseStorage implements IStorage {
 
   async updateQuoteRequest(id: string, data: Partial<QuoteRequest>): Promise<QuoteRequest | undefined> {
     const [result] = await db.update(quoteRequests).set(data).where(eq(quoteRequests.id, id)).returning();
+    return result || undefined;
+  }
+
+  async getCreditAllocation(userId: string, periodStart: Date, periodEnd: Date): Promise<CreditAllocation | undefined> {
+    const [allocation] = await db
+      .select()
+      .from(creditAllocations)
+      .where(and(
+        eq(creditAllocations.userId, userId),
+        gte(creditAllocations.periodEnd, periodStart),
+        lte(creditAllocations.periodStart, periodEnd),
+      ))
+      .limit(1);
+    return allocation || undefined;
+  }
+
+  async createCreditAllocation(allocation: InsertCreditAllocation): Promise<CreditAllocation> {
+    // Uniek op (user_id, period_start): bij een gelijktijdige eerste aanvraag
+    // wint er precies één insert; de verliezer leest de bestaande rij terug.
+    const [result] = await db
+      .insert(creditAllocations)
+      .values(allocation)
+      .onConflictDoNothing()
+      .returning();
+    if (result) return result;
+    const existing = await this.getCreditAllocation(
+      allocation.userId,
+      allocation.periodStart,
+      allocation.periodEnd,
+    );
+    if (!existing) throw new Error("Credit allocation kon niet worden aangemaakt");
+    return existing;
+  }
+
+  async getChangeRequests(userId: string): Promise<ChangeRequest[]> {
+    return db
+      .select()
+      .from(changeRequests)
+      .where(eq(changeRequests.userId, userId))
+      .orderBy(desc(changeRequests.createdAt));
+  }
+
+  async getChangeRequest(id: string): Promise<ChangeRequest | undefined> {
+    const [request] = await db.select().from(changeRequests).where(eq(changeRequests.id, id));
+    return request || undefined;
+  }
+
+  async countUsedCredits(allocationId: string): Promise<number> {
+    const rows = await db
+      .select({ creditsUsed: changeRequests.creditsUsed })
+      .from(changeRequests)
+      .where(and(
+        eq(changeRequests.allocationId, allocationId),
+        ne(changeRequests.status, "rejected"),
+        eq(changeRequests.isPaidExtra, false),
+      ));
+    return rows.reduce((sum, r) => sum + (r.creditsUsed ?? 1), 0);
+  }
+
+  async createChangeRequest(request: InsertChangeRequest): Promise<ChangeRequest> {
+    const [result] = await db.insert(changeRequests).values(request).returning();
+    return result;
+  }
+
+  async createChangeRequestWithCredit(
+    request: InsertChangeRequest & { allocationId: string },
+    creditLimit: number,
+  ): Promise<ChangeRequest | null> {
+    // Atomair: lock de allocatie-rij, hertel het verbruik binnen dezelfde
+    // transactie en insert alleen als er nog een credit beschikbaar is.
+    return db.transaction(async (tx) => {
+      await tx.execute(
+        sql`SELECT id FROM credit_allocations WHERE id = ${request.allocationId} FOR UPDATE`,
+      );
+      const rows = await tx
+        .select({ creditsUsed: changeRequests.creditsUsed })
+        .from(changeRequests)
+        .where(and(
+          eq(changeRequests.allocationId, request.allocationId),
+          ne(changeRequests.status, "rejected"),
+          eq(changeRequests.isPaidExtra, false),
+        ));
+      const used = rows.reduce((sum, r) => sum + (r.creditsUsed ?? 1), 0);
+      if (used + (request.creditsUsed ?? 1) > creditLimit) return null;
+      const [result] = await tx.insert(changeRequests).values(request).returning();
+      return result;
+    });
+  }
+
+  async updateChangeRequest(id: string, data: Partial<ChangeRequest>): Promise<ChangeRequest | undefined> {
+    const [result] = await db.update(changeRequests).set(data).where(eq(changeRequests.id, id)).returning();
     return result || undefined;
   }
 
