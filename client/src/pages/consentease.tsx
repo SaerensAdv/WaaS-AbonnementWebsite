@@ -10,8 +10,9 @@ import {
   CheckCircle,
 } from "@phosphor-icons/react";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import logoImage from "@assets/logo-abonnement-website.webp";
+import consentEaseLogo from "@assets/consentease-logo.webp";
 
 const ICON_WEIGHT = "duotone" as const;
 
@@ -19,9 +20,9 @@ const ICON_WEIGHT = "duotone" as const;
  * Co-branding concept: "De gradient-handdruk"
  * abonnement.website (donker, blauw/primary) en ConsentEase.io
  * (paars → magenta → oranje gradient op licht) vloeien in elkaar over.
- * De pagina blijft in het dark theme, maar de ConsentEase-gradient
- * stroomt als een rode draad door de secties: van blauw (links/boven)
- * via paars en magenta naar oranje (rechts/onder).
+ * De pagina is bewust altijd licht/wit — zoals consentease.io zelf — en de
+ * ConsentEase-gradient stroomt als een rode draad door de secties: van
+ * blauw (links/boven) via paars en magenta naar oranje (rechts/onder).
  */
 
 // ConsentEase brand gradient (paars → magenta → oranje)
@@ -48,30 +49,31 @@ function GradientText({ children, className }: { children: React.ReactNode; clas
   );
 }
 
-/** ConsentEase "C" merkteken zoals op consentease.io: gradient-ring */
+/** Het echte ConsentEase-logo (consentease.io) */
 function ConsentEaseMark({ size = 28 }: { size?: number }) {
   return (
-    <span
-      className="inline-flex items-center justify-center rounded-full shrink-0"
-      style={{ width: size, height: size, background: CE_GRADIENT, padding: 2 }}
+    <img
+      src={consentEaseLogo}
+      alt=""
+      className="shrink-0 rounded-full object-contain"
+      style={{ width: size, height: size }}
       aria-hidden
-    >
-      <span className="flex h-full w-full items-center justify-center rounded-full bg-background">
-        <span
-          className="font-display font-bold leading-none"
-          style={{
-            fontSize: size * 0.55,
-            backgroundImage: CE_GRADIENT,
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: "transparent",
-          }}
-        >
-          C
-        </span>
-      </span>
-    </span>
+    />
   );
+}
+
+/** Deze pagina is bewust altijd licht/wit — passend bij de ConsentEase-branding. */
+function useForceLightTheme() {
+  useEffect(() => {
+    const root = document.documentElement;
+    const wasDark = root.classList.contains("dark");
+    root.classList.remove("dark");
+    root.classList.add("light");
+    return () => {
+      root.classList.remove("light");
+      if (wasDark) root.classList.add("dark");
+    };
+  }, []);
 }
 
 function ScrollReveal({
@@ -161,6 +163,7 @@ const stats = [
 ];
 
 export default function ConsentEasePage() {
+  useForceLightTheme();
   useSEO({
     title: "ConsentEase Inbegrepen | Cookie Compliance Zonder Extra Kosten",
     description:
