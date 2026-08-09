@@ -11,8 +11,68 @@ import {
 } from "@phosphor-icons/react";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import logoImage from "@assets/logo-abonnement-website.webp";
 
 const ICON_WEIGHT = "duotone" as const;
+
+/*
+ * Co-branding concept: "De gradient-handdruk"
+ * abonnement.website (donker, blauw/primary) en ConsentEase.io
+ * (paars → magenta → oranje gradient op licht) vloeien in elkaar over.
+ * De pagina blijft in het dark theme, maar de ConsentEase-gradient
+ * stroomt als een rode draad door de secties: van blauw (links/boven)
+ * via paars en magenta naar oranje (rechts/onder).
+ */
+
+// ConsentEase brand gradient (paars → magenta → oranje)
+const CE_GRADIENT = "linear-gradient(100deg, #8B5CF6 0%, #D946EF 50%, #F97316 100%)";
+const CE_GRADIENT_SOFT =
+  "linear-gradient(100deg, rgba(139,92,246,0.16) 0%, rgba(217,70,239,0.12) 50%, rgba(249,115,22,0.14) 100%)";
+// De fusie: abo.web-blauw dat overloopt in de ConsentEase-gradient
+const FUSION_GRADIENT =
+  "linear-gradient(100deg, hsl(var(--primary)) 0%, #8B5CF6 40%, #D946EF 70%, #F97316 100%)";
+
+function GradientText({ children, className }: { children: React.ReactNode; className?: string }) {
+  return (
+    <span
+      className={className}
+      style={{
+        backgroundImage: CE_GRADIENT,
+        WebkitBackgroundClip: "text",
+        backgroundClip: "text",
+        color: "transparent",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+/** ConsentEase "C" merkteken zoals op consentease.io: gradient-ring */
+function ConsentEaseMark({ size = 28 }: { size?: number }) {
+  return (
+    <span
+      className="inline-flex items-center justify-center rounded-full shrink-0"
+      style={{ width: size, height: size, background: CE_GRADIENT, padding: 2 }}
+      aria-hidden
+    >
+      <span className="flex h-full w-full items-center justify-center rounded-full bg-background">
+        <span
+          className="font-display font-bold leading-none"
+          style={{
+            fontSize: size * 0.55,
+            backgroundImage: CE_GRADIENT,
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent",
+          }}
+        >
+          C
+        </span>
+      </span>
+    </span>
+  );
+}
 
 function ScrollReveal({
   children,
@@ -42,24 +102,28 @@ function ScrollReveal({
 const features = [
   {
     icon: PaintBrush,
+    color: "#8B5CF6",
     title: "Cookiebanner op maat",
     description:
       "Past zich aan het design van je website aan. Geen lelijke standaardbanner, maar iets dat er hoort.",
   },
   {
     icon: MagnifyingGlass,
+    color: "#A855F7",
     title: "Automatische cookie scan",
     description:
       "Detecteert welke cookies je website plaatst en categoriseert ze automatisch. Geen handmatig uitzoekwerk.",
   },
   {
     icon: ChartBar,
+    color: "#D946EF",
     title: "Google Consent Mode v2",
     description:
       "Je Google Ads en Analytics blijven correct meten, ook als bezoekers cookies weigeren. Geen dataverlies.",
   },
   {
     icon: FileText,
+    color: "#F97316",
     title: "Privacy & cookie policy",
     description:
       "Genereer een privacy- en cookiebeleid in je eigen taal. Altijd actueel, altijd beschikbaar op je website.",
@@ -69,18 +133,21 @@ const features = [
 const steps = [
   {
     number: "01",
+    color: "#8B5CF6",
     title: "Wij installeren alles",
     description:
       "Bij het bouwen van je website configureren wij ConsentEase. Banner, scan, consent mode: alles staat klaar bij livegang.",
   },
   {
     number: "02",
+    color: "#D946EF",
     title: "Jij vult je bedrijfsgegevens aan",
     description:
       "In je dashboard vul je kort in welke data je verzamelt. Wij genereren je privacy- en cookiebeleid.",
   },
   {
     number: "03",
+    color: "#F97316",
     title: "Het blijft automatisch actueel",
     description:
       "Bij elke wijziging scant ConsentEase opnieuw. Nieuwe cookies? Je wordt genotificeerd.",
@@ -88,9 +155,9 @@ const steps = [
 ];
 
 const stats = [
-  { value: "€0", label: "Extra kosten" },
-  { value: "0 min", label: "Jouw tijd" },
-  { value: "100%", label: "Geconfigureerd" },
+  { value: "€0", label: "Extra kosten", color: "#8B5CF6" },
+  { value: "0 min", label: "Jouw tijd", color: "#D946EF" },
+  { value: "100%", label: "Geconfigureerd", color: "#F97316" },
 ];
 
 export default function ConsentEasePage() {
@@ -105,70 +172,93 @@ export default function ConsentEasePage() {
     <MarketingLayout>
       {/* ── HERO ────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-background pt-20 pb-24 sm:pt-28 sm:pb-32">
-        {/* subtle green glow */}
+        {/* Twee brand-glows die in elkaar overvloeien: blauw (abo.web) links, CE-gradient rechts */}
         <div
-          className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full opacity-10"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, #2D6A4F 0%, transparent 70%)",
-          }}
+          className="pointer-events-none absolute -top-40 left-[10%] h-[420px] w-[420px] rounded-full opacity-[0.14] blur-3xl"
+          style={{ background: "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)" }}
+        />
+        <div
+          className="pointer-events-none absolute -top-32 right-[8%] h-[440px] w-[440px] rounded-full opacity-[0.12] blur-3xl"
+          style={{ background: "radial-gradient(circle, #D946EF 0%, #F97316 55%, transparent 75%)" }}
         />
 
-        <div className="mx-auto max-w-3xl px-6 text-center relative">
-          {/* Co-brand row */}
+        <div className="relative mx-auto max-w-3xl px-6 text-center">
+          {/* Co-brand lockup: beide merken met hun eigen identiteit, verbonden door de fusie-gradient */}
           <ScrollReveal>
-            <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-border/50 bg-muted/40 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-              <span className="text-foreground/80">abonnement.website</span>
-              <span className="text-muted-foreground/50">×</span>
-              <span style={{ color: "#52b788" }}>ConsentEase</span>
+            <div className="mx-auto mb-9 inline-flex max-w-full flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-full border border-border/50 bg-muted/40 py-2.5 pl-4 pr-5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-2">
+                <img src={logoImage} alt="" className="h-6 w-6 rounded-md object-contain" />
+                <span className="text-sm font-semibold tracking-tight text-foreground">
+                  abonnement.website
+                </span>
+              </span>
+              <span
+                className="hidden h-px w-10 sm:block"
+                style={{ background: FUSION_GRADIENT }}
+                aria-hidden
+              />
+              <span className="text-muted-foreground/60 sm:hidden">×</span>
+              <span className="inline-flex items-center gap-2">
+                <ConsentEaseMark size={24} />
+                <GradientText className="text-sm font-semibold tracking-tight">
+                  ConsentEase
+                </GradientText>
+              </span>
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={0.05}>
             <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-              Cookie compliance?{" "}
-              <span style={{ color: "#52b788" }}>Geregeld.</span>
+              Cookie compliance?
+              <br />
+              <GradientText>Geregeld.</GradientText>
             </h1>
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
-            <p className="mt-5 text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto">
-              Bij elk abonnement.website-plan zit ConsentEase inbegrepen. Geen
-              extra kosten, geen extra gedoe. Jouw website is privacyproof vanaf
-              dag één.
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Bij elk abonnement.website-plan zit ConsentEase inbegrepen. Geen extra kosten, geen
+              extra gedoe. Jouw website is privacyproof vanaf dag één.
             </p>
           </ScrollReveal>
 
           <ScrollReveal delay={0.15}>
-            {/* Included badge */}
-            <div className="mt-8 inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-medium border"
-              style={{
-                background: "rgba(45, 106, 79, 0.12)",
-                borderColor: "rgba(82, 183, 136, 0.3)",
-                color: "#52b788",
-              }}>
-              <span className="relative flex h-2.5 w-2.5">
-                <span
-                  className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                  style={{ backgroundColor: "#52b788" }}
-                />
-                <span
-                  className="relative inline-flex rounded-full h-2.5 w-2.5"
-                  style={{ backgroundColor: "#52b788" }}
-                />
+            {/* Badge met gradient-rand + pulserende dot */}
+            <span
+              className="mt-8 inline-flex rounded-full p-px"
+              style={{ background: FUSION_GRADIENT }}
+            >
+              <span className="inline-flex items-center gap-2.5 rounded-full bg-background/90 px-4 py-2 text-sm font-medium text-foreground backdrop-blur-sm">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span
+                    className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70"
+                    style={{ backgroundColor: "#D946EF" }}
+                  />
+                  <span
+                    className="relative inline-flex h-2.5 w-2.5 rounded-full"
+                    style={{ background: CE_GRADIENT }}
+                  />
+                </span>
+                Inbegrepen bij je abonnement
               </span>
-              Inbegrepen bij je abonnement
-            </div>
+            </span>
           </ScrollReveal>
         </div>
+
+        {/* De fusie-lijn: abo.web-blauw stroomt over in de ConsentEase-gradient */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-px opacity-70"
+          style={{ background: FUSION_GRADIENT }}
+          aria-hidden
+        />
       </section>
 
       {/* ── FEATURES 2×2 ───────────────────────────────── */}
       <section className="bg-muted/20 py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <ScrollReveal className="text-center mb-12">
+          <ScrollReveal className="mb-12 text-center">
             <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
-              Alles wat je nodig hebt, klaar bij livegang
+              Alles wat je nodig hebt, <GradientText>klaar bij livegang</GradientText>
             </h2>
             <p className="mt-3 text-muted-foreground">
               Vier onderdelen, volledig geconfigureerd, gratis bij je website.
@@ -178,23 +268,25 @@ export default function ConsentEasePage() {
           <div className="grid gap-5 sm:grid-cols-2">
             {features.map((f, i) => (
               <ScrollReveal key={f.title} delay={i * 0.07}>
-                <div className="group relative rounded-2xl border border-border/50 bg-card p-7 h-full transition-all duration-300 hover:border-[#52b788]/40 hover:shadow-lg hover:shadow-[#2D6A4F]/5">
+                <div
+                  className="group relative h-full rounded-2xl border border-border/50 bg-card p-7 transition-all duration-300 hover:shadow-lg"
+                  style={{ boxShadow: "0 0 0 0 transparent" }}
+                >
+                  {/* gradient accent die per kaart een stukje verder in het CE-spectrum zit */}
+                  <div
+                    className="pointer-events-none absolute inset-x-0 top-0 h-[3px] rounded-t-2xl opacity-60 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${f.color}, transparent)`,
+                    }}
+                  />
                   <div
                     className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
-                    style={{
-                      background: "rgba(45, 106, 79, 0.15)",
-                    }}
+                    style={{ background: `${f.color}1f` }}
                   >
-                    <f.icon
-                      size={22}
-                      weight={ICON_WEIGHT}
-                      style={{ color: "#52b788" }}
-                    />
+                    <f.icon size={22} weight={ICON_WEIGHT} style={{ color: f.color }} />
                   </div>
                   <h3 className="mb-2 text-base font-semibold">{f.title}</h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {f.description}
-                  </p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{f.description}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -206,14 +298,11 @@ export default function ConsentEasePage() {
       <section className="bg-background py-20 sm:py-24">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <ScrollReveal>
-            <p className="text-xl leading-relaxed text-muted-foreground max-w-2xl mx-auto">
-              Zonder correcte consent verlies je meetdata, riskeer je boetes
-              tot{" "}
-              <span className="text-foreground font-semibold">€20 miljoen</span>
-              , en kom je onprofessioneel over bij bezoekers.{" "}
-              <span className="text-foreground">
-                Wij regelen dit voor je, standaard.
-              </span>
+            <p className="mx-auto max-w-2xl text-xl leading-relaxed text-muted-foreground">
+              Zonder correcte consent verlies je meetdata, riskeer je boetes tot{" "}
+              <span className="font-semibold text-foreground">€20 miljoen</span>, en kom je
+              onprofessioneel over bij bezoekers.{" "}
+              <span className="text-foreground">Wij regelen dit voor je, standaard.</span>
             </p>
           </ScrollReveal>
 
@@ -221,15 +310,10 @@ export default function ConsentEasePage() {
             {stats.map((stat, i) => (
               <ScrollReveal key={stat.label} delay={i * 0.08}>
                 <div className="rounded-2xl border border-border/40 bg-muted/30 px-6 py-8">
-                  <p
-                    className="font-display text-4xl font-bold"
-                    style={{ color: "#52b788" }}
-                  >
+                  <p className="font-display text-4xl font-bold" style={{ color: stat.color }}>
                     {stat.value}
                   </p>
-                  <p className="mt-1.5 text-sm text-muted-foreground">
-                    {stat.label}
-                  </p>
+                  <p className="mt-1.5 text-sm text-muted-foreground">{stat.label}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -240,34 +324,30 @@ export default function ConsentEasePage() {
       {/* ── HOW IT WORKS ───────────────────────────────── */}
       <section className="bg-muted/20 py-20 sm:py-24">
         <div className="mx-auto max-w-3xl px-6">
-          <ScrollReveal className="text-center mb-14">
+          <ScrollReveal className="mb-14 text-center">
             <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
               Hoe het werkt
             </h2>
           </ScrollReveal>
 
-          <div className="relative space-y-0">
-            {/* vertical connector line */}
-            <div className="absolute left-[1.375rem] top-10 bottom-10 w-px bg-gradient-to-b from-[#52b788]/30 via-[#52b788]/20 to-transparent hidden sm:block" />
+          <div className="relative">
+            {/* verticale lijn die het volledige CE-spectrum doorloopt */}
+            <div
+              className="absolute bottom-10 left-[1.375rem] top-10 hidden w-px opacity-50 sm:block"
+              style={{ background: "linear-gradient(180deg, #8B5CF6, #D946EF, #F97316)" }}
+            />
 
             {steps.map((step, i) => (
               <ScrollReveal key={step.number} delay={i * 0.1}>
                 <div className="relative flex gap-6 pb-10 last:pb-0">
-                  {/* number bubble */}
                   <div
-                    className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border text-xs font-bold"
-                    style={{
-                      background: "rgba(45, 106, 79, 0.15)",
-                      borderColor: "rgba(82, 183, 136, 0.4)",
-                      color: "#52b788",
-                    }}
+                    className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border bg-background text-xs font-bold"
+                    style={{ borderColor: `${step.color}66`, color: step.color }}
                   >
                     {step.number}
                   </div>
                   <div className="pt-1.5">
-                    <h3 className="font-semibold text-base mb-1.5">
-                      {step.title}
-                    </h3>
+                    <h3 className="mb-1.5 text-base font-semibold">{step.title}</h3>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       {step.description}
                     </p>
@@ -283,51 +363,48 @@ export default function ConsentEasePage() {
       <section className="bg-background py-20 sm:py-24">
         <div className="mx-auto max-w-2xl px-6">
           <ScrollReveal>
-            <div
-              className="relative overflow-hidden rounded-3xl p-10 sm:p-14 text-center"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(45,106,79,0.25) 0%, rgba(45,106,79,0.08) 50%, rgba(30,30,35,0.6) 100%)",
-                border: "1px solid rgba(82,183,136,0.2)",
-              }}
-            >
-              {/* decorative glow */}
-              <div
-                className="pointer-events-none absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-20"
-                style={{
-                  background:
-                    "radial-gradient(circle, #2D6A4F 0%, transparent 70%)",
-                }}
-              />
+            {/* Gradient-rand als fusie van beide merken, donkere kern */}
+            <div className="rounded-3xl p-px" style={{ background: FUSION_GRADIENT }}>
+              <div className="relative overflow-hidden rounded-[calc(1.5rem-1px)] bg-card p-10 text-center sm:p-14">
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-80"
+                  style={{ background: CE_GRADIENT_SOFT }}
+                />
+                <div
+                  className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full opacity-25 blur-2xl"
+                  style={{ background: "radial-gradient(circle, #F97316 0%, transparent 70%)" }}
+                />
+                <div
+                  className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full opacity-25 blur-2xl"
+                  style={{
+                    background: "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)",
+                  }}
+                />
 
-              <div className="relative">
-                <div className="mb-5 inline-flex items-center gap-2 text-sm"
-                  style={{ color: "#52b788" }}>
-                  <CheckCircle size={16} weight="fill" />
-                  <span className="font-medium">Inbegrepen bij elk plan</span>
-                </div>
+                <div className="relative">
+                  <div className="mb-5 inline-flex items-center gap-2 text-sm font-medium">
+                    <CheckCircle size={16} weight="fill" style={{ color: "#D946EF" }} />
+                    <GradientText>Inbegrepen bij elk plan</GradientText>
+                  </div>
 
-                <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
-                  Zit bij elk plan.
-                  <br />
-                  Geen extra stappen.
-                </h2>
+                  <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+                    Zit bij elk plan.
+                    <br />
+                    Geen extra stappen.
+                  </h2>
 
-                <p className="mt-4 text-muted-foreground text-base">
-                  Start je website-abonnement en ConsentEase is er gewoon.
-                </p>
+                  <p className="mt-4 text-base text-muted-foreground">
+                    Start je website-abonnement en ConsentEase is er gewoon.
+                  </p>
 
-                <div className="mt-8">
-                  <Button
-                    size="lg"
-                    className="gap-2 rounded-xl px-7"
-                    asChild
-                  >
-                    <a href="/#pricing">
-                      Bekijk het abonnement
-                      <ArrowRight size={16} weight="bold" />
-                    </a>
-                  </Button>
+                  <div className="mt-8">
+                    <Button size="lg" className="gap-2 rounded-xl px-7" asChild>
+                      <a href="/#pricing">
+                        Bekijk het abonnement
+                        <ArrowRight size={16} weight="bold" />
+                      </a>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
