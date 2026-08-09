@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import logoImage from "@assets/logo-abonnement-website.webp";
-import logoGif from "@assets/logo-animated.webp";
 
 const ICON_WEIGHT = "duotone" as const;
 
@@ -17,16 +16,8 @@ export function MarketingHeader() {
   const { user } = useAuth();
   const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showStaticLogo, setShowStaticLogo] = useState(false);
   const { scrollY } = useScroll();
   const headerBg = useTransform(scrollY, [0, 100], [0.7, 0.95]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowStaticLogo(true);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -50,7 +41,7 @@ export function MarketingHeader() {
             data-testid="link-logo"
           >
             <img
-              src={showStaticLogo ? logoImage : logoGif}
+              src={logoImage}
               alt="WebsiteAbonnementen"
               className="h-10 w-10 rounded-lg transition-transform duration-200 group-hover:scale-105 object-contain"
             />
