@@ -67,9 +67,22 @@ function useForceLightTheme() {
   useEffect(() => {
     const root = document.documentElement;
     const wasDark = root.classList.contains("dark");
-    root.classList.remove("dark");
-    root.classList.add("light");
+
+    const forceLight = () => {
+      if (root.classList.contains("dark") || !root.classList.contains("light")) {
+        root.classList.remove("dark");
+        root.classList.add("light");
+      }
+    };
+    forceLight();
+
+    // De ThemeProvider (of de theme-toggle in de header) kan de klassen
+    // opnieuw zetten; blijf licht afdwingen zolang deze pagina open staat.
+    const observer = new MutationObserver(forceLight);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+
     return () => {
+      observer.disconnect();
       root.classList.remove("light");
       if (wasDark) root.classList.add("dark");
     };

@@ -18,6 +18,7 @@ import BetaalbareWebsitePage from "@/pages/betaalbare-website";
 import PrivacyPage from "@/pages/privacy";
 import TermsPage from "@/pages/terms";
 import ConsentEasePage from "@/pages/consentease";
+import WerkwijzePage from "@/pages/werkwijze";
 
 // ---------- Lazy: auth pages ----------
 const LoginPage = lazy(() => import("@/pages/auth/login"));
@@ -115,6 +116,7 @@ function Router() {
         <Route path="/privacy" component={PrivacyPage} />
         <Route path="/terms" component={TermsPage} />
         <Route path="/consentease" component={ConsentEasePage} />
+        <Route path="/werkwijze" component={WerkwijzePage} />
 
         {/* Lazy public routes */}
         <Route path="/login" component={LoginPage} />
