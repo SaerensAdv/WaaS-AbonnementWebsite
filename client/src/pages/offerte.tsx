@@ -116,30 +116,47 @@ const projectTypes = [
 ];
 
 const budgetRanges = [
-  { value: "1000-2500", label: "€1.000 – €2.500" },
-  { value: "2500-5000", label: "€2.500 – €5.000" },
-  { value: "5000-10000", label: "€5.000 – €10.000" },
-  { value: "10000+", label: "€10.000+" },
+  { value: "standard", label: "Standaard abonnement (€69/maand)" },
+  { value: "standard-addons", label: "Standaard + add-ons" },
+  { value: "1000-2500", label: "Maatwerk: €1.000 – €2.500" },
+  { value: "2500-5000", label: "Maatwerk: €2.500 – €5.000" },
+  { value: "5000-10000", label: "Maatwerk: €5.000 – €10.000" },
+  { value: "10000+", label: "Maatwerk: €10.000+" },
   { value: "unknown", label: "Nog geen idee" },
 ];
 
-const featureOptions = [
-  { value: "contact-form", label: "Contactformulier" },
-  { value: "blog", label: "Blog / nieuwssectie" },
-  { value: "webshop", label: "Webshop / producten" },
-  { value: "booking-system", label: "Boekingssysteem" },
-  { value: "user-accounts", label: "Gebruikersaccounts / login" },
-  { value: "multilingual", label: "Meertalig" },
-  { value: "seo", label: "SEO optimalisatie" },
-  { value: "analytics", label: "Google Analytics" },
-  { value: "newsletter", label: "Nieuwsbrief integratie" },
-  { value: "social-media", label: "Social media integratie" },
-  { value: "chat", label: "Live chat / chatbot" },
-  { value: "maps", label: "Google Maps" },
-  { value: "gallery", label: "Foto- / videogalerij" },
-  { value: "reviews", label: "Reviews / testimonials" },
-  { value: "payment", label: "Online betalingen (iDEAL, Bancontact)" },
-  { value: "crm", label: "CRM integratie" },
+const featureGroups: { label: string; features: { value: string; label: string }[] }[] = [
+  {
+    label: "Website functies",
+    features: [
+      { value: "contact-form", label: "Contactformulier" },
+      { value: "blog", label: "Blog / nieuwssectie" },
+      { value: "gallery", label: "Foto- / videogalerij" },
+      { value: "reviews", label: "Reviews / testimonials" },
+      { value: "maps", label: "Google Maps" },
+      { value: "multilingual", label: "Meertalig" },
+    ],
+  },
+  {
+    label: "Uitbreidingen & integraties",
+    features: [
+      { value: "webshop", label: "Webshop / producten" },
+      { value: "booking-system", label: "Boekingssysteem" },
+      { value: "payment", label: "Online betalingen (iDEAL, Bancontact)" },
+      { value: "user-accounts", label: "Gebruikersaccounts / login" },
+      { value: "crm", label: "CRM integratie" },
+      { value: "newsletter", label: "Nieuwsbrief integratie" },
+      { value: "chat", label: "Live chat / chatbot" },
+      { value: "social-media", label: "Social media integratie" },
+    ],
+  },
+  {
+    label: "Marketing (beschikbaar als add-on)",
+    features: [
+      { value: "seo", label: "SEO optimalisatie" },
+      { value: "analytics", label: "Google Analytics" },
+    ],
+  },
 ];
 
 const companySizes = [
@@ -193,10 +210,10 @@ const languageOptions = [
   { value: "de", label: "Duits" },
 ];
 
-const maintenanceOptions = [
-  { value: "yes-full", label: "Ja, volledige onderhoud & updates" },
-  { value: "yes-basic", label: "Ja, alleen hosting & beveiliging" },
-  { value: "no", label: "Nee, ik beheer het zelf" },
+const postLaunchOptions = [
+  { value: "standard", label: "Onderhoud en hosting (standaard inbegrepen)" },
+  { value: "credits", label: "Regelmatige updates via wijzigingscredits" },
+  { value: "addons", label: "Actieve groei (SEO, Ads, Social als add-on)" },
   { value: "unsure", label: "Weet ik nog niet" },
 ];
 
@@ -516,7 +533,7 @@ export default function OffertePage() {
                     { icon: Clock, text: "Reactie binnen 48 uur" },
                     { icon: CheckCircle, text: "Vrijblijvende offerte" },
                     { icon: ShieldCheck, text: "Geen verborgen kosten" },
-                    { icon: Star, text: "Dedicated projectmanager" },
+                    { icon: Star, text: "Persoonlijk aanspreekpunt" },
                   ].map((item) => (
                     <li key={item.text} className="flex items-start gap-3 text-sm">
                       <div className="h-7 w-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
@@ -573,7 +590,7 @@ function StepHelp({ step }: { step: number }) {
     4: {
       title: "Tips voor stap 4",
       items: [
-        "Een realistisch budget helpt bij een passend voorstel",
+        "Het standaard abonnement is €69/maand. Geef aan als u maatwerk verwacht.",
         "Beschrijf uw project zo uitgebreid mogelijk",
         "Extra opmerkingen? Alles is welkom!",
       ],
@@ -806,7 +823,7 @@ function Step2Project({ form }: { form: any }) {
           name="estimatedPages"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Geschat aantal pagina's</FormLabel>
+              <FormLabel>Hoeveel pagina's denkt u nodig te hebben?</FormLabel>
               <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger data-testid="select-pages">
@@ -814,10 +831,9 @@ function Step2Project({ form }: { form: any }) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="1-5">1 – 5 pagina's</SelectItem>
-                  <SelectItem value="5-10">5 – 10 pagina's</SelectItem>
-                  <SelectItem value="10-20">10 – 20 pagina's</SelectItem>
-                  <SelectItem value="20+">20+ pagina's</SelectItem>
+                  <SelectItem value="1-5">1 – 5 pagina's (standaard abonnement)</SelectItem>
+                  <SelectItem value="6-10">6 – 10 pagina's</SelectItem>
+                  <SelectItem value="10+">10+ pagina's</SelectItem>
                   <SelectItem value="unknown">Weet ik nog niet</SelectItem>
                 </SelectContent>
               </Select>
@@ -848,32 +864,41 @@ function Step2Project({ form }: { form: any }) {
           <FormItem>
             <FormLabel>Gewenste functies</FormLabel>
             <FormDescription className="text-xs mb-3">Selecteer alle functies die u nodig heeft</FormDescription>
-            <div className="grid grid-cols-2 gap-2.5">
-              {featureOptions.map((feature) => (
-                <FormField
-                  key={feature.value}
-                  control={form.control}
-                  name="desiredFeatures"
-                  render={({ field }) => (
-                    <FormItem className="flex items-center gap-2.5 space-y-0">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value?.includes(feature.value)}
-                          onCheckedChange={(checked) => {
-                            const current = field.value || [];
-                            field.onChange(
-                              checked
-                                ? [...current, feature.value]
-                                : current.filter((v: string) => v !== feature.value)
-                            );
-                          }}
-                          data-testid={`checkbox-feature-${feature.value}`}
-                        />
-                      </FormControl>
-                      <FormLabel className="text-sm font-normal cursor-pointer">{feature.label}</FormLabel>
-                    </FormItem>
-                  )}
-                />
+            <div className="space-y-4">
+              {featureGroups.map((group) => (
+                <div key={group.label}>
+                  <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    {group.label}
+                  </p>
+                  <div className="grid grid-cols-2 gap-2.5">
+                    {group.features.map((feature) => (
+                      <FormField
+                        key={feature.value}
+                        control={form.control}
+                        name="desiredFeatures"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center gap-2.5 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(feature.value)}
+                                onCheckedChange={(checked) => {
+                                  const current = field.value || [];
+                                  field.onChange(
+                                    checked
+                                      ? [...current, feature.value]
+                                      : current.filter((v: string) => v !== feature.value)
+                                  );
+                                }}
+                                data-testid={`checkbox-feature-${feature.value}`}
+                              />
+                            </FormControl>
+                            <FormLabel className="text-sm font-normal cursor-pointer">{feature.label}</FormLabel>
+                          </FormItem>
+                        )}
+                      />
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </FormItem>
@@ -1128,7 +1153,7 @@ function Step4Planning({ form }: { form: any }) {
           name="maintenancePlan"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Onderhoud na oplevering</FormLabel>
+              <FormLabel>Wat verwacht u na livegang?</FormLabel>
               <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger data-testid="select-maintenance">
@@ -1136,7 +1161,7 @@ function Step4Planning({ form }: { form: any }) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {maintenanceOptions.map((o) => (
+                  {postLaunchOptions.map((o) => (
                     <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
                   ))}
                 </SelectContent>

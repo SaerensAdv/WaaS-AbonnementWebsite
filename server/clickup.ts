@@ -196,11 +196,25 @@ export async function createMaatwerkQuoteTask(
   };
 
   const budgetLabels: Record<string, string> = {
-    "1000-2500": "\u20ac1.000 \u2013 \u20ac2.500",
-    "2500-5000": "\u20ac2.500 \u2013 \u20ac5.000",
-    "5000-10000": "\u20ac5.000 \u2013 \u20ac10.000",
-    "10000+": "\u20ac10.000+",
+    "standard": "Standaard abonnement (\u20ac69/maand)",
+    "standard-addons": "Standaard + add-ons",
+    "1000-2500": "Maatwerk: \u20ac1.000 \u2013 \u20ac2.500",
+    "2500-5000": "Maatwerk: \u20ac2.500 \u2013 \u20ac5.000",
+    "5000-10000": "Maatwerk: \u20ac5.000 \u2013 \u20ac10.000",
+    "10000+": "Maatwerk: \u20ac10.000+",
     "unknown": "Nog geen idee",
+  };
+
+  const postLaunchLabels: Record<string, string> = {
+    // Nieuwe waarden (sinds offerteformulier-alignment)
+    "standard": "Onderhoud en hosting (standaard inbegrepen)",
+    "credits": "Regelmatige updates via wijzigingscredits",
+    "addons": "Actieve groei (SEO, Ads, Social als add-on)",
+    "unsure": "Weet ik nog niet",
+    // Legacy waarden (historische aanvragen)
+    "yes-full": "Ja, volledige onderhoud & updates",
+    "yes-basic": "Ja, alleen hosting & beveiliging",
+    "no": "Nee, beheert het zelf",
   };
 
   const d = details || {};
@@ -235,7 +249,7 @@ export async function createMaatwerkQuoteTask(
     budgetRange ? `**Budget indicatie:** ${budgetLabels[budgetRange] || budgetRange}` : null,
     d.deadline ? `**Gewenste lanceerdatum:** ${d.deadline}` : null,
     d.urgency ? `**Urgentie:** ${d.urgency}` : null,
-    d.maintenancePlan ? `**Onderhoud gewenst:** ${d.maintenancePlan}` : null,
+    d.maintenancePlan ? `**Na livegang:** ${postLaunchLabels[d.maintenancePlan] || d.maintenancePlan}` : null,
     "",
     "---",
     "",
