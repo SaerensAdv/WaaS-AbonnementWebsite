@@ -56,6 +56,11 @@ export function MarketingFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/consentease" className="text-muted-foreground hover:text-foreground transition-colors duration-200" data-testid="link-footer-consentease">
+                  ConsentEase
+                </Link>
+              </li>
+              <li>
                 <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors duration-200" data-testid="link-footer-blog">
                   Blog
                 </Link>
