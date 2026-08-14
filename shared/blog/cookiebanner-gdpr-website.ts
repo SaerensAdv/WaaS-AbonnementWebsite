@@ -11,12 +11,20 @@ export const article: BlogArticle = {
   category: "Wetgeving & privacy",
   author: "Team Abonnement.Website",
   datePublished: "2026-06-16",
-  dateModified: "2026-06-16",
+  dateModified: "2026-08-14",
   readingTimeMinutes: 8,
   heroImagePath: "/blog/cookiebanner-gdpr-website.webp",
   heroAlt:
     "Een cookiebanner met toestemmingsknoppen op een website met een privacyschild",
   blocks: [
+    {
+      type: "callout",
+      variant: "info",
+      title: "TL;DR",
+      content: [
+        "Ja, een cookiebanner is wettelijk verplicht zodra je niet-noodzakelijke cookies plaatst. Weigeren moet even makkelijk zijn als accepteren. Je hebt daarnaast een privacyverklaring nodig. Boetes lopen op tot honderdduizenden euro's.",
+      ],
+    },
     {
       type: "paragraph",
       content: [
@@ -31,6 +39,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "AVG en GDPR zijn dezelfde Europese wet — AVG is simpelweg de Nederlandse naam. De cookiewet is een aparte regel die specifiek over cookies en tracking gaat. ",
         "De begrippen lopen door elkaar, maar het komt op het volgende neer: AVG is de Nederlandse naam voor de GDPR — dezelfde Europese wet. Daarnaast geldt de zogenoemde cookiewet (afkomstig uit de ePrivacy-richtlijn), die specifiek over cookies en tracking gaat. Samen bepalen ze dat je bezoekers vooraf moet informeren en, voor niet-noodzakelijke cookies, vooraf toestemming moet vragen.",
       ],
     },
@@ -42,6 +51,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een correcte banner vraagt vooraf toestemming, laat je even makkelijk weigeren als accepteren, biedt een keuze per categorie en is intrekbaar. Ook moet je kunnen aantonen dat toestemming is gegeven. ",
         "Een geldige cookiebanner is meer dan een mededeling 'wij gebruiken cookies'. Hij moet aan een aantal eisen voldoen:",
       ],
     },
@@ -71,6 +81,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Ja, naast de banner heb je een privacyverklaring nodig die uitlegt welke gegevens je verzamelt, waarom, hoe lang je ze bewaart en met wie je ze deelt. Die verklaring hoort altijd bereikbaar te zijn vanuit je footer. ",
         "Een cookiebanner alleen is niet genoeg. Je hebt ook een privacyverklaring (privacybeleid) nodig waarin je helder uitlegt welke gegevens je verzamelt, waarom, hoe lang je ze bewaart en met welke partijen je ze deelt. Vermeld ook de rechten van bezoekers: inzage, correctie en verwijdering van hun gegevens. Deze verklaring hoort vanuit je footer altijd bereikbaar te zijn.",
       ],
     },
@@ -109,6 +120,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Wij regelen het standaard: in elk all-in abonnement vanaf €69/maand zit een professionele cookiebanner, een privacyverklaring en analytics die pas na toestemming laden — zonder opstartkosten en live binnen twee weken. ",
         "Privacywetgeving is precies het soort gedoe waar ondernemers geen tijd voor hebben. Daarom regelen wij het standaard. In al onze pakketten zit een professionele cookiebanner via onze partner ConsentEase inbegrepen — zonder meerkosten. Daarnaast leveren we een nette privacyverklaring en zorgen we dat analytics pas na toestemming laden. Zo sta je niet alleen snel online, maar ook meteen volgens de regels.",
       ],
     },

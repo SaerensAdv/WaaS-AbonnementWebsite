@@ -11,12 +11,20 @@ export const article: BlogArticle = {
   category: "Kosten & prijzen",
   author: "Team Abonnement.Website",
   datePublished: "2026-06-20",
-  dateModified: "2026-06-20",
+  dateModified: "2026-08-14",
   readingTimeMinutes: 7,
   heroImagePath: "/blog/wat-kost-een-website-per-maand.webp",
   heroAlt:
     "Een kalender met een vast maandbedrag naast een laptop met een website",
   blocks: [
+    {
+      type: "callout",
+      variant: "info",
+      title: "TL;DR",
+      content: [
+        "Een website-abonnement kost voor kleine ondernemers €40–€200/maand. Bij ons €69/maand all-in: design, hosting, onderhoud, 2 wijzigingscredits per maand en support. Geen opstartkosten, facturatie per kwartaal.",
+      ],
+    },
     {
       type: "paragraph",
       content: [
@@ -31,6 +39,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "In een website-abonnement zit alles gebundeld in één vast bedrag: ontwerp en bouw (zonder opstartkosten), hosting, SSL, technisch onderhoud, 2 wijzigingscredits per maand en persoonlijke support. ",
         "Bij een eenmalige website betaal je voor de bouw, en daarna krijg je losse rekeningen voor domein, hosting, SSL, updates en aanpassingen. Een abonnement bundelt dat allemaal in één vast bedrag. Een volwaardig website-abonnement bevat doorgaans:",
       ],
     },
@@ -61,6 +70,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Voor kleine ondernemers kost een website-abonnement doorgaans €40–€200 per maand; bij ons betaal je €69/maand all-in, zonder opstartkosten en met facturatie per kwartaal. ",
         "Website-abonnementen voor kleine ondernemers liggen meestal tussen €40 en €200 per maand, afhankelijk van het aantal pagina's, de functionaliteiten en de hoeveelheid support. Bij ons ziet dat er zo uit:",
       ],
     },
@@ -88,6 +98,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Over twee jaar valt een abonnement meestal voordeliger uit: je betaalt geen groot bedrag vooraf en €69/maand houdt hosting, onderhoud en support inbegrepen, terwijl je bij eenmalig laten maken die kosten er los bovenop krijgt. ",
         "Laten we de twee modellen naast elkaar zetten over een periode van twee jaar, uitgaande van realistische cijfers uit Nederland en België.",
       ],
     },
@@ -120,6 +131,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een abonnement is de beste keuze voor starters, zzp'ers en zelfstandigen die professioneel online willen zonder grote investering vooraf en zonder technisch gedoe. ",
         "Een website-abonnement past het best bij starters, zzp'ers en zelfstandigen die professioneel online willen zonder grote investering en zonder technisch gedoe. Je hoeft niet zelf je hosting te regelen, geen updates bij te houden en geen losse facturen te jongleren. Twijfel je of je beter zelf kunt bouwen? Lees dan ",
         {
           text: "website laten maken of zelf doen",

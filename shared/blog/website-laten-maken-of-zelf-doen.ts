@@ -12,12 +12,20 @@ export const article: BlogArticle = {
   category: "Aan de slag",
   author: "Team Abonnement.Website",
   datePublished: "2026-06-23",
-  dateModified: "2026-06-23",
+  dateModified: "2026-08-14",
   readingTimeMinutes: 6,
   heroImagePath: "/blog/website-laten-maken-of-zelf-doen.webp",
   heroAlt:
     "Een weegschaal die zelf bouwen afweegt tegen professioneel laten maken",
   blocks: [
+    {
+      type: "callout",
+      variant: "info",
+      title: "TL;DR",
+      content: [
+        "Zelf bouwen is goedkoop in euro's maar duur in tijd (40+ uur). Een freelancer of bureau kost €1.500+ vooraf. Een abonnement (€69/maand) geeft professionele kwaliteit zonder grote investering of technisch gedoe.",
+      ],
+    },
     {
       type: "paragraph",
       content: [
@@ -32,6 +40,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Zelf bouwen met een website builder kan, maar je doet dan alles zelf en bent al gauw tientallen uren kwijt. ",
         "Met platforms als Wix, Squarespace of WordPress.com bouw je zelf een website door blokken te slepen. Wix kost in 2026 vanaf $17/maand (Light) tot $39/maand (Business); Squarespace zit tussen $16 en $99 per maand. Dat is goedkoop in euro's en je hebt volledige vrijheid om op elk moment iets aan te passen.",
       ],
     },
@@ -49,6 +58,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een freelancer of bureau inhuren levert maatwerk en expertise op, maar kost je eenmalig al snel €1.500 of meer vooraf. ",
         "Je kunt het ook helemaal uit handen geven. Een freelancer of webbureau bouwt een website op maat. In Nederland en België betaal je daarvoor eenmalig al snel €1.500 tot €5.000, en voor uitgebreidere projecten flink meer. Je krijgt maatwerk en expertise, maar de drempel is hoog: een groot bedrag vooraf, en hosting en onderhoud komen er vaak nog apart bij. Een volledig overzicht vind je in ",
         {
           text: "wat kost een professionele website",
@@ -65,6 +75,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een website-abonnement is de middenweg: professionele kwaliteit voor een vast maandbedrag (bij ons €69/maand), zonder opstartkosten en zonder technisch gedoe. ",
         "De middenweg: het professioneel laten maken, maar betalen als abonnement. Je krijgt een vakkundig gebouwde website plus hosting, onderhoud, updates en support in één vast maandbedrag (bij ons €69/maand), zonder groot bedrag vooraf. Je hebt de expertise van optie 2, met de lage instapdrempel van optie 1.",
       ],
     },
@@ -97,6 +108,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Onze visie: ga snel live en verbeter je website daarna stap voor stap, in plaats van te wachten tot alles perfect is. ",
         "Welke optie je ook kiest, de grootste fout is wachten tot alles perfect is. Wij geloven in snel live gaan en daarna optimaliseren. Hoe eerder je website online staat, hoe sneller je echte bezoekers krijgt en ziet wat werkt. Met de tools van vandaag — inclusief AI — test je razendsnel nieuwe teksten, indelingen en aanbiedingen. Een website die er staat en elke maand iets beter wordt, verslaat een 'perfecte' website die er nooit komt.",
       ],
     },

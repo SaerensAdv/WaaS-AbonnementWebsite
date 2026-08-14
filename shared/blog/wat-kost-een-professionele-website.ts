@@ -12,12 +12,20 @@ export const article: BlogArticle = {
   category: "Kosten & prijzen",
   author: "Team Abonnement.Website",
   datePublished: "2026-06-24",
-  dateModified: "2026-06-24",
+  dateModified: "2026-08-14",
   readingTimeMinutes: 7,
   heroImagePath: "/blog/wat-kost-een-professionele-website.webp",
   heroAlt:
     "Illustratie van een prijskaartje aan een laptop met een professionele website",
   blocks: [
+    {
+      type: "callout",
+      variant: "info",
+      title: "TL;DR",
+      content: [
+        "Een professionele website kost in 2026 eenmalig €1.500–€5.000 voor een site van 5–10 pagina's, plus €50–€180/maand aan hosting en onderhoud. Een website-abonnement bundelt alles vanaf €69/maand zonder opstartkosten.",
+      ],
+    },
     {
       type: "paragraph",
       content: [
@@ -32,6 +40,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een website laten maken kost eenmalig gemiddeld €1.500 tot €5.000 voor een professionele site van 5 tot 10 pagina's; eenvoudige onepagers starten rond €500 en uitgebreid maatwerk loopt op tot €15.000 of meer. ",
         "De eenmalige prijs hangt vooral af van wie je website bouwt en hoe complex hij is. In Nederland liggen de kosten voor een professionele website gemiddeld tussen de €1.500 en €15.000, afhankelijk van de complexiteit. Een eenvoudige website via een freelancer kost doorgaans €750 tot €2.500, terwijl maatwerk door een bureau kan oplopen tot ver boven de €40.000.",
       ],
     },
@@ -61,6 +70,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Naast de bouwprijs betaal je terugkerend voor domeinnaam, hosting, SSL en onderhoud met updates en back-ups — samen al snel €50 tot €180 per maand. ",
         "Hier gaat het bij veel starters mis: de bouwprijs is maar het begin. Een website is geen eenmalig product, maar iets dat blijft draaien en onderhoud nodig heeft. Reken na de oplevering op deze terugkerende kosten:",
       ],
     },
@@ -92,6 +102,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "In euro's is zelf bouwen met Wix of Squarespace goedkoper (enkele tientjes per maand), maar je betaalt vooral met je tijd: je doet design, teksten, SEO en onderhoud zelf en hebt geen vast aanspreekpunt. ",
         "Een website builder lijkt de goedkoopste optie. Wix kost in 2026 vanaf $17/maand (Light) tot $39/maand (Business), en je hebt minstens het Core-abonnement ($29/maand) nodig om iets te verkopen. Squarespace zit tussen $16 en $99 per maand. Op papier dus enkele tientjes per maand.",
       ],
     },
@@ -114,6 +125,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Bij een website-abonnement betaal je één vast bedrag per maand zonder opstartkosten — bij ons €69/maand inclusief design, hosting, onderhoud, updates, 2 wijzigingscredits per maand en persoonlijke support. ",
         "Er is een derde weg die de laatste jaren sterk groeit: de website als abonnement. In plaats van een groot bedrag vooraf plus losse kosten voor hosting en onderhoud, betaal je één vast bedrag per maand waarin alles zit. Bij ons kost dat €69 per maand, inclusief design, hosting, onderhoud, updates, 2 wijzigingscredits per maand en persoonlijke support — zonder opstartkosten.",
       ],
     },
@@ -150,6 +162,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Wij zetten je website gemiddeld binnen 10 werkdagen live en optimaliseren daarna stap voor stap op basis van echte bezoekersdata, in plaats van maanden te wachten tot alles in één keer perfect is. ",
         "Veel ondernemers stellen hun website maanden uit omdat alles in één keer perfect moet zijn. Wij geloven in het tegenovergestelde. Hoe vroeger je online staat, hoe sneller je kunt leren wat werkt. Daarom zetten wij een website gemiddeld binnen 10 werkdagen live en optimaliseren we daarna stap voor stap op basis van echte bezoekersdata. Een website is nooit af — en dat is juist goed nieuws, want het betekent dat hij blijft meegroeien met je bedrijf.",
       ],
     },
@@ -161,6 +174,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Wat jij betaalt hangt af van je keuze: reken op €1.500–€5.000 eenmalig plus €50–€180/maand bij eenmalig laten maken, enkele tientjes per maand plus veel eigen tijd bij een builder, of één vast bedrag vanaf €69/maand bij een abonnement. ",
         "Een professionele website laten maken kost in 2026 al snel €1.500 tot €5.000 eenmalig, plus €50 tot €180 per maand aan hosting en onderhoud. Een website builder is goedkoper in euro's maar duur in tijd. En een abonnement spreidt de kosten en houdt alles inbegrepen en up-to-date. De beste keuze hangt af van je budget, je tijd en hoe belangrijk een vast aanspreekpunt voor je is.",
       ],
     },

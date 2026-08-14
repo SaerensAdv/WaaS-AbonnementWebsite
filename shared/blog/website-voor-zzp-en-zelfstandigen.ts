@@ -12,12 +12,20 @@ export const article: BlogArticle = {
   category: "Voor ondernemers",
   author: "Team Abonnement.Website",
   datePublished: "2026-06-22",
-  dateModified: "2026-06-22",
+  dateModified: "2026-08-14",
   readingTimeMinutes: 7,
   heroImagePath: "/blog/website-voor-zzp-en-zelfstandigen.webp",
   heroAlt:
     "Een zelfstandige ondernemer aan het werk met een laptop en een eigen website",
   blocks: [
+    {
+      type: "callout",
+      variant: "info",
+      title: "TL;DR",
+      content: [
+        "Ja, als zzp'er of zelfstandige heb je een eigen website nodig. Het is het enige stukje internet dat volledig van jou is, waarmee je vindbaar bent in Google en vertrouwen wekt. Vijf pagina's zijn genoeg.",
+      ],
+    },
     {
       type: "paragraph",
       content: [
@@ -32,7 +40,8 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
-        "Social media is huren, een eigen website is bezitten. Op een platform kun je vandaag duizenden volgers hebben en morgen onvindbaar zijn na een update. Een eigen website geeft je drie dingen die geen enkel platform bied:",
+        "Een eigen website is onmisbaar omdat het het enige online kanaal is dat volledig van jou is: hij maakt je vindbaar in Google, wekt vertrouwen en geeft je controle, onafhankelijk van welk platform dan ook. ",
+        "Social media is huren, een eigen website is bezitten. Op een platform kun je vandaag duizenden volgers hebben en morgen onvindbaar zijn na een update. Een eigen website geeft je drie dingen die geen enkel platform biedt:",
       ],
     },
     {
@@ -65,6 +74,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Minimaal heb je vijf pagina's nodig: een homepage, een dienstenpagina, een over-mij-pagina, een contactpagina en bewijs van je kwaliteit zoals reviews of cases. ",
         "Een goede website voor zelfstandigen hoeft niet groot te zijn. Vijf pagina's zijn vaak genoeg, zolang ze de juiste vragen beantwoorden. Zorg in elk geval voor:",
       ],
     },
@@ -98,6 +108,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Zelfstandigen verliezen vooral klanten op mobiel: ruim 60% van het verkeer komt van een smartphone, en een trage of onhandige site jaagt bezoekers meteen weg. Zorg dus dat je website mobielvriendelijk en snel is. ",
         "In Nederland komt inmiddels ruim 60% van het websiteverkeer van een smartphone. Toch zien we nog veel sites die op mobiel slecht werken: te kleine knoppen, trage laadtijden of teksten die je moet inzoomen. Dat kost je direct klanten. Google rapporteert dat 53% van de mobiele bezoekers een pagina verlaat die langer dan 3 seconden laadt. Een mobiel-vriendelijke, snelle website is dus geen extraatje maar een vereiste.",
       ],
     },
@@ -109,6 +120,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een website voor een zelfstandige kost bij eenmalige bouw al snel €1.500 tot €5.000 plus terugkerende kosten, terwijl je bij ons een complete site op abonnement krijgt voor €69 per maand, zonder opstartkosten en met 2 wijzigingscredits per maand. ",
         "De prijzen lopen sterk uiteen. Laat je hem eenmalig bouwen, dan betaal je in Nederland en België al snel €1.500 tot €5.000, plus terugkerende kosten voor hosting (€10-50/maand) en onderhoud (€40-150/maand). Bouw je hem zelf met Wix of Squarespace, dan kost dat enkele tientjes per maand, maar betaal je vooral met je tijd. Een uitgebreide vergelijking vind je in ",
         {
           text: "wat kost een professionele website",
@@ -133,6 +145,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Wacht niet tot je site perfect is: wij zetten je website gemiddeld binnen 10 werkdagen live en verbeteren hem daarna op basis van wat echte bezoekers doen. ",
         "De grootste fout die we zien? Maandenlang wachten omdat de website 'eerst perfect' moet zijn. Als zelfstandige heb je die luxe niet — je wilt nu gevonden worden. Daarom zetten wij een site gemiddeld binnen 10 werkdagen live en verbeteren we hem daarna op basis van wat echte bezoekers doen. Online staan en leren is altijd beter dan eindeloos uitstellen.",
       ],
     },

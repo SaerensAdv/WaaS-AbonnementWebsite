@@ -11,12 +11,20 @@ export const article: BlogArticle = {
   category: "Tips & checklists",
   author: "Team Abonnement.Website",
   datePublished: "2026-06-18",
-  dateModified: "2026-06-18",
+  dateModified: "2026-08-14",
   readingTimeMinutes: 8,
   heroImagePath: "/blog/checklist-goede-bedrijfswebsite.webp",
   heroAlt:
     "Een checklist met afgevinkte punten naast een professioneel websiteontwerp",
   blocks: [
+    {
+      type: "callout",
+      variant: "info",
+      title: "TL;DR",
+      content: [
+        "Een goede bedrijfswebsite heeft minimaal: een heldere boodschap, mobielvriendelijk ontwerp, snelle laadtijd, duidelijke call-to-action, vindbare contactgegevens, vertrouwensbewijs, basis-SEO, SSL, cookiebanner en structureel onderhoud.",
+      ],
+    },
     {
       type: "paragraph",
       content: [
@@ -31,6 +39,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een glasheldere boodschap boven de vouw vertelt in één oogopslag wat je doet, voor wie en waarom een bezoeker bij jou moet zijn. ",
         "Binnen vijf seconden moet een bezoeker begrijpen wát je doet, vóór wie en waarom hij bij jou moet zijn. Zet die boodschap bovenaan, in gewone taal, zonder vakjargon. Een bezoeker die moet zoeken naar wat je aanbiedt, is al weg.",
       ],
     },
@@ -42,6 +51,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een mobielvriendelijk ontwerp past zich automatisch aan elk schermformaat aan, zodat je site op een smartphone net zo goed werkt als op een laptop. ",
         "In Nederland komt ruim 60% van het websiteverkeer van een smartphone. Je site moet dus op een klein scherm net zo goed werken als op een laptop: leesbare tekst zonder inzoomen, knoppen die groot genoeg zijn en menu's die met de duim te bedienen zijn. Test je site altijd eerst op je telefoon.",
       ],
     },
@@ -53,6 +63,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een snelle laadtijd betekent dat je pagina bij voorkeur binnen 2 seconden zichtbaar is, want elke extra seconde jaagt bezoekers weg. ",
         "Snelheid is geen detail. Onderzoek van Google laat zien dat de kans dat iemand wegklikt met 32% stijgt als de laadtijd oploopt van 1 naar 3 seconden. En 53% van de mobiele bezoekers verlaat een pagina die langer dan 3 seconden laadt. Comprimeer afbeeldingen, kies goede hosting en houd je site licht.",
       ],
     },
@@ -72,6 +83,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een duidelijke call-to-action is één opvallende knop die de bezoeker precies vertelt welke volgende stap hij moet zetten. ",
         "Wat moet een bezoeker doen? Bellen, een offerte aanvragen, een afspraak boeken of zich inschrijven? Maak die volgende stap onmogelijk te missen met een opvallende knop op elke belangrijke pagina. Eén heldere actie werkt beter dan vijf opties die allemaal om aandacht schreeuwen.",
       ],
     },
@@ -83,6 +95,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Zet je contactgegevens — een formulier, e-mailadres en het liefst een telefoonnummer — op een goed vindbare plek, zodat klanten je moeiteloos kunnen bereiken. ",
         "Niets is frustrerender dan een bedrijf dat je niet kunt bereiken. Zet een contactformulier, je e-mailadres en bij voorkeur een telefoonnummer op een goed vindbare plek. Voor lokale bedrijven horen ook je adres en openingstijden erop — dat helpt meteen je vindbaarheid in Google Maps.",
       ],
     },
@@ -94,6 +107,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Bewijs dat je te vertrouwen bent lever je met echte reviews, klantlogo's, cases of certificeringen die je geloofwaardigheid onderbouwen. ",
         "Mensen kopen van bedrijven die ze vertrouwen. Toon echte reviews, klantlogo's, cases of certificeringen. Belangrijk: gebruik alleen echt bewijs. Verzonnen testimonials vallen snel door de mand en schaden je geloofwaardigheid meer dan dat ze helpen.",
       ],
     },
@@ -105,6 +119,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Basis-SEO op orde betekent unieke paginatitels, heldere beschrijvingen, logische kopjes en teksten met de woorden waar je klanten op zoeken. ",
         "Zonder vindbaarheid blijft je website een digitale folder in een la. Zorg voor unieke paginatitels, heldere beschrijvingen, logische kopjes en teksten die de woorden gebruiken waar je klanten op zoeken. Dat is de basis waarop je later kunt doorbouwen.",
       ],
     },
@@ -116,6 +131,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Een geldig SSL-certificaat zorgt voor het slotje (https) in de browser en is verplichte kost; zonder toont de browser een waarschuwing 'niet veilig'. ",
         "Het slotje in de browser (https) is verplichte kost. Zonder SSL geeft de browser een waarschuwing 'niet veilig' en haken bezoekers af. Bovendien is het een rankingfactor. Bij goede hosting is een SSL-certificaat tegenwoordig gratis inbegrepen.",
       ],
     },
@@ -127,6 +143,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Verwerk je persoonsgegevens of gebruik je analytics met cookies, dan zijn een correcte cookiebanner en een privacybeleid conform de AVG/GDPR wettelijk verplicht. ",
         "Verwerk je persoonsgegevens of gebruik je analytics, dan ben je wettelijk verplicht tot een correcte cookiebanner en een privacyverklaring conform de AVG/GDPR. Dit wordt in Nederland en België actief gehandhaafd. Hoe je dit goed regelt, lees je in ",
         {
           text: "cookiebanner en GDPR op je website",
@@ -143,6 +160,7 @@ export const article: BlogArticle = {
     {
       type: "paragraph",
       content: [
+        "Onderhoud en updates houden je site veilig en up-to-date; plan dit structureel in of kies een oplossing waarbij het al geregeld is. ",
         "Een website is geen eenmalig project maar iets dat blijft draaien. Zonder updates en back-ups loop je veiligheidsrisico's en veroudert je site. Plan structureel onderhoud in — of kies een oplossing waarbij dat al geregeld is, zodat je er nooit aan hoeft te denken.",
       ],
     },
