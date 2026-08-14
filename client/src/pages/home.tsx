@@ -209,9 +209,9 @@ export default function HomePage() {
   const [, setLocation] = useLocation();
 
   useSEO({
-    title: "Website Abonnement €69/maand | Professionele Websites op Abonnement",
+    title: "Website op Abonnement | Vanaf €69/maand",
     absoluteTitle: true,
-    description: "Professionele website als maandabonnement: €69/maand inclusief design, hosting, onderhoud en 2 wijzigingscredits. Voor starters en zelfstandigen in België en Nederland.",
+    description: "Professionele website voor €69/maand: design, hosting, onderhoud en 2 wijzigingscredits inbegrepen. Voor starters en zelfstandigen in NL en België.",
     canonical: "/",
     structuredData: homeFaqSchema,
   });
@@ -295,9 +295,9 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.9 }}
               data-testid="text-hero-title"
             >
-              <span className="block font-sans font-light text-slate-200 mb-2 text-[0.65em]">Professionele website</span>
+              <span className="block font-sans font-light text-slate-200 mb-2 text-[0.65em]">Professionele website </span>
               <span className="relative inline-block">
-                op abonnement.
+                op abonnement
                 <span className="absolute bottom-2 left-0 w-full h-3 bg-[hsl(var(--primary)/0.2)] -z-10 blur-sm" />
               </span>
             </motion.h1>

@@ -119,7 +119,7 @@ export default function BetaalbareWebsitePage() {
   useSEO({
     title: "Betaalbare professionele website voor starters en zelfstandigen",
     description:
-      "Een betaalbare professionele website vanaf €69 per maand. Voor starters, zzp'ers en zelfstandigen in Nederland en België. Geen opstartkosten, binnen 10 werkdagen live.",
+      "Betaalbare professionele website vanaf €69 per maand. Voor starters en zelfstandigen in NL en België. Geen opstartkosten, binnen 10 werkdagen live.",
     canonical: "/betaalbare-professionele-website",
     structuredData: {
       "@context": "https://schema.org",

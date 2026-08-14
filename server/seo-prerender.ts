@@ -46,9 +46,9 @@ const betaalbareWebsiteFaqs = [
 
 const ROUTE_METADATA: Record<string, RouteMetadata> = {
   "/": {
-    title: "Website Abonnement \u20ac69/maand | Professionele Websites op Abonnement",
+    title: "Website op Abonnement | Vanaf \u20ac69/maand",
     description:
-      "Professionele website als maandabonnement: \u20ac69/maand inclusief design, hosting, onderhoud en 2 wijzigingscredits. Voor starters en zelfstandigen in Belgi\u00eb en Nederland.",
+      "Professionele website voor \u20ac69/maand: design, hosting, onderhoud en 2 wijzigingscredits inbegrepen. Voor starters en zelfstandigen in NL en Belgi\u00eb.",
     canonical: `${BASE_URL}/`,
     ogImage: DEFAULT_OG_IMAGE,
     staticHtml: `
@@ -66,7 +66,7 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
   </header>
   <main>
     <section>
-      <h1>Professionele website op abonnement.</h1>
+      <h1>Professionele website op abonnement</h1>
       <p>Vanaf \u20ac69 per maand. Voor starters en zelfstandigen in Nederland en Belgi\u00eb: design, hosting, onderhoud, support en 2 wijzigingscredits in \u00e9\u00e9n vast maandbedrag. Binnen 2 weken live, per kwartaal vooruit afgerekend.</p>
       <a href="/signup">Direct starten</a>
       <a href="/#pricing">Bekijk abonnementen</a>
@@ -219,14 +219,103 @@ const ROUTE_METADATA: Record<string, RouteMetadata> = {
 </div>`,
   },
 
-  "/betaalbare-professionele-website": {
-    title: `Betaalbare professionele website voor starters en zelfstandigen | ${SITE_NAME}`,
+  "/werkwijze": {
+    title: "Werkwijze | Van Bestelling tot Live in 10 Dagen",
     description:
-      "Een betaalbare professionele website vanaf \u20ac69 per maand. Voor starters, zzp\u2019ers en zelfstandigen in Nederland en Belgi\u00eb. Geen opstartkosten, binnen 10 werkdagen live.",
+      "Zo werkt abonnement.website: bestel, vul de intake in, wij bouwen en binnen 10 werkdagen is je professionele website live. Geen technische kennis nodig.",
+    canonical: `${BASE_URL}/werkwijze`,
+    ogImage: DEFAULT_OG_IMAGE,
+    staticHtml: `
+<div id="root">
+  <header>
+    <nav>
+      <a href="/">Abonnement.Website</a>
+      <a href="/#pricing">Prijzen</a>
+      <a href="/werkwijze">Werkwijze</a>
+      <a href="/blog">Blog</a>
+      <a href="/login">Inloggen</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h1>Van bestelling tot live in 10 dagen</h1>
+      <p>Zo werkt abonnement.website: je bestelt online, vult de intake in, wij ontwerpen en bouwen je website, en binnen 10 werkdagen sta je live. Geen technische kennis nodig.</p>
+      <a href="/signup">Direct starten</a>
+    </section>
+    <section>
+      <h2>Zo verloopt het proces</h2>
+      <ol>
+        <li><strong>Bestel je abonnement:</strong> kies je add-ons en rond de betaling af. Geen opstartkosten.</li>
+        <li><strong>Vul de intake in:</strong> vertel over je bedrijf, huisstijl en wensen via een korte online vragenlijst.</li>
+        <li><strong>Wij bouwen je website:</strong> design, teksten structureren, hosting en SSL \u2014 alles wordt voor je geregeld.</li>
+        <li><strong>Feedback en livegang:</strong> je bekijkt het voorstel, geeft feedback en binnen 10 werkdagen staat je site live.</li>
+      </ol>
+    </section>
+    <section>
+      <h2>Veelgestelde vragen</h2>
+      <dl>
+        <dt>Heb ik technische kennis nodig?</dt>
+        <dd>Nee. Wij regelen design, bouw, hosting, onderhoud en updates. Jij levert alleen input over je bedrijf.</dd>
+        <dt>Wat als ik langer nodig heb voor de intake of feedback?</dt>
+        <dd>De doorlooptijd van 10 dagen geldt bij tijdige reactie. Heb je meer tijd nodig, dan schuift de planning gewoon mee.</dd>
+      </dl>
+    </section>
+  </main>
+  <footer>
+    <p>Abonnement.Website</p>
+    <a href="/">Home</a> | <a href="/#pricing">Prijzen</a> | <a href="/offerte">Offerte aanvragen</a> | <a href="/privacy">Privacy</a>
+  </footer>
+</div>`,
+  },
+
+  "/consentease": {
+    title: "ConsentEase: Cookiebanner & Compliance Inbegrepen",
+    description:
+      "Bij elk abonnement.website-plan zit ConsentEase inbegrepen: cookiebanner, automatische scan, Google Consent Mode v2 en policy generator. Geen extra kosten.",
+    canonical: `${BASE_URL}/consentease`,
+    ogImage: DEFAULT_OG_IMAGE,
+    staticHtml: `
+<div id="root">
+  <header>
+    <nav>
+      <a href="/">Abonnement.Website</a>
+      <a href="/#pricing">Prijzen</a>
+      <a href="/consentease">ConsentEase</a>
+      <a href="/blog">Blog</a>
+      <a href="/login">Inloggen</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h1>Cookie compliance? Geregeld.</h1>
+      <p>Bij elk abonnement.website-plan zit ConsentEase inbegrepen: een complete cookie-compliance-oplossing met cookiebanner, automatische scan, Google Consent Mode v2 en policy generator. Zonder extra kosten.</p>
+      <a href="/signup">Direct starten</a>
+    </section>
+    <section>
+      <h2>Wat zit erin?</h2>
+      <ul>
+        <li><strong>Cookiebanner op maat:</strong> in de stijl van je website, AVG/GDPR-conform voor Nederland en Belgi\u00eb.</li>
+        <li><strong>Automatische cookiescan:</strong> je site wordt periodiek gescand zodat je cookieverklaring actueel blijft.</li>
+        <li><strong>Google Consent Mode v2:</strong> correcte doorgifte van toestemming aan Google Analytics en Ads.</li>
+        <li><strong>Policy generator:</strong> automatisch gegenereerde cookie- en privacyverklaring.</li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <p>Abonnement.Website</p>
+    <a href="/">Home</a> | <a href="/#pricing">Prijzen</a> | <a href="/offerte">Offerte aanvragen</a> | <a href="/privacy">Privacy</a>
+  </footer>
+</div>`,
+  },
+
+  "/betaalbare-professionele-website": {
+    title: "Betaalbare professionele website voor starters en zelfstandigen",
+    description:
+      "Betaalbare professionele website vanaf \u20ac69 per maand. Voor starters en zelfstandigen in NL en Belgi\u00eb. Geen opstartkosten, binnen 10 werkdagen live.",
     canonical: `${BASE_URL}/betaalbare-professionele-website`,
-    ogTitle: `Betaalbare professionele website voor starters en zelfstandigen | ${SITE_NAME}`,
+    ogTitle: "Betaalbare professionele website voor starters en zelfstandigen",
     ogDescription:
-      "Een betaalbare professionele website vanaf \u20ac69 per maand. Voor starters, zzp\u2019ers en zelfstandigen in Nederland en Belgi\u00eb. Geen opstartkosten, binnen 10 werkdagen live.",
+      "Betaalbare professionele website vanaf \u20ac69 per maand. Voor starters en zelfstandigen in NL en Belgi\u00eb. Geen opstartkosten, binnen 10 werkdagen live.",
     structuredData: {
       "@context": "https://schema.org",
       "@graph": [

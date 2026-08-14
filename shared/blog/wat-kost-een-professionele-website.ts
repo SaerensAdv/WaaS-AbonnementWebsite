@@ -6,7 +6,7 @@ export const article: BlogArticle = {
   metaTitle:
     "Wat kost een professionele website in 2026? Prijzen NL & België",
   metaDescription:
-    "Wat kost een professionele website in 2026? Eerlijke prijzen voor Nederland en België: eenmalig laten maken, hosting, onderhoud én het abonnementsmodel vergeleken.",
+    "Wat kost een professionele website in 2026? Eerlijke prijzen voor NL en België: eenmalig laten maken, hosting, onderhoud en het abonnementsmodel.",
   excerpt:
     "Een eerlijk en compleet overzicht van wat een professionele website écht kost in 2026 — eenmalige bouwkosten, hosting, onderhoud en het abonnementsmodel, met actuele cijfers uit Nederland en België.",
   category: "Kosten & prijzen",

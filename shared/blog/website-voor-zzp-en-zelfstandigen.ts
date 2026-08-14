@@ -4,9 +4,9 @@ export const article: BlogArticle = {
   slug: "website-voor-zzp-en-zelfstandigen",
   title: "Een website voor zzp'ers en zelfstandigen: waarom en hoe",
   metaTitle:
-    "Website voor zzp'ers en zelfstandigen: waarom je er een nodig hebt",
+    "Website voor zzp'ers: waarom je er een nodig hebt",
   metaDescription:
-    "Heb je als zzp'er of zelfstandige echt een website nodig? Wat moet erop, wat kost het, en hoe begin je? Een praktische gids voor ondernemers in Nederland en België.",
+    "Heb je als zzp'er echt een website nodig? Wat moet erop, wat kost het en hoe begin je? Een praktische gids voor ondernemers in Nederland en België.",
   excerpt:
     "Een eigen website is voor zzp'ers en zelfstandigen geen luxe meer maar een basisvoorziening. We leggen uit waarom, wat er minimaal op moet, en hoe je zonder gedoe online komt.",
   category: "Voor ondernemers",

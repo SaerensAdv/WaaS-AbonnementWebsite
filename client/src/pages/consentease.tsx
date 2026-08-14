@@ -178,7 +178,7 @@ const stats = [
 export default function ConsentEasePage() {
   useForceLightTheme();
   useSEO({
-    title: "ConsentEase Inbegrepen | Cookie Compliance Zonder Extra Kosten",
+    title: "ConsentEase: Cookiebanner & Compliance Inbegrepen",
     description:
       "Bij elk abonnement.website-plan zit ConsentEase inbegrepen: cookiebanner, automatische scan, Google Consent Mode v2 en policy generator. Geen extra kosten.",
     canonical: "/consentease",

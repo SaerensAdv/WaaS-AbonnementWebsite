@@ -4,9 +4,9 @@ export const article: BlogArticle = {
   slug: "website-laten-maken-of-zelf-doen",
   title: "Website laten maken of zelf doen? (Wix/Squarespace vs. professioneel)",
   metaTitle:
-    "Website laten maken of zelf doen? Wix/Squarespace vs. professioneel",
+    "Website laten maken of zelf doen? De vergelijking",
   metaDescription:
-    "Zelf een website bouwen met Wix of Squarespace, of professioneel laten maken? Een eerlijke vergelijking van kosten, tijd, support en controle voor starters en zelfstandigen.",
+    "Zelf bouwen met Wix of Squarespace, of professioneel laten maken? Een eerlijke vergelijking van kosten, tijd, support en controle voor starters.",
   excerpt:
     "Zelf bouwen met een website builder of het professioneel laten maken? We vergelijken de drie opties op kosten, tijd, support en controle — zodat je de keuze maakt die bij jouw situatie past.",
   category: "Aan de slag",

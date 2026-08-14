@@ -16,3 +16,5 @@ Marketing/blog pages are crawlable because the Express catch-all injects route-s
 - **Discovery surfaces:** when adding routes, also update the sitemap in `server/routes.ts`, `llms.txt`, and header/footer nav.
 
 **Why:** the whole point is cold organic traffic — the raw HTML (no JS) must contain H1, body, and JSON-LD. Verify with `curl` of the raw HTML, not just the browser.
+
+**Title-suffix parity:** `use-seo.ts` appends `| Abonnement.Website` only when total ≤60 chars; server `ROUTE_METADATA` titles must be written as the exact final string the client will render (add or omit the suffix accordingly). Every public marketing route (incl. lazy-loaded ones) needs its own `ROUTE_METADATA` entry — a missing entry silently serves the generic SPA shell to crawlers (happened with /werkwijze and /consentease).

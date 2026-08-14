@@ -13,13 +13,13 @@ import { lazy, Suspense, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { getSite, goToSite } from "@/lib/site";
 
-// ---------- Eager: critical public marketing pages ----------
-import HomePage from "@/pages/home";
-import BetaalbareWebsitePage from "@/pages/betaalbare-website";
-import PrivacyPage from "@/pages/privacy";
-import TermsPage from "@/pages/terms";
-import ConsentEasePage from "@/pages/consentease";
-import WerkwijzePage from "@/pages/werkwijze";
+// ---------- Lazy: public marketing pages (code-split per route) ----------
+const HomePage = lazy(() => import("@/pages/home"));
+const BetaalbareWebsitePage = lazy(() => import("@/pages/betaalbare-website"));
+const PrivacyPage = lazy(() => import("@/pages/privacy"));
+const TermsPage = lazy(() => import("@/pages/terms"));
+const ConsentEasePage = lazy(() => import("@/pages/consentease"));
+const WerkwijzePage = lazy(() => import("@/pages/werkwijze"));
 
 // ---------- Lazy: auth pages ----------
 const LoginPage = lazy(() => import("@/pages/auth/login"));
